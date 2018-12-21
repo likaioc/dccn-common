@@ -23,6 +23,4 @@ const DataCenterTaskCancelled = "Cancelled"
 const CliReplyStatusSuccess = "Success"
 const CliReplyStatusFailure = "Failure"
 
-const DataCenterName = "datacenter_1"
-const port = ":50051"
-const address  = "localhost:50051"
+const DefaultPort = 50051
