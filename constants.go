@@ -41,3 +41,7 @@ const CliErrorReasonUpdateFailed = "Task can not be updated"
 
 
 const DefaultPort = "50051"
+
+const DefaultUserToken = "ed1605e17374bde6c68864d072c9f5c9"
+
+const HeartBeatTimeOut = 30
