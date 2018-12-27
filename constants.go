@@ -40,4 +40,4 @@ const CliErrorReasonUserNotOwn = "User does not own this task"
 const CliErrorReasonUpdateFailed = "Task can not be updated"
 
 
-const DefaultPort = 50051
+const DefaultPort = "50051"
