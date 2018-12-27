@@ -1,7 +1,5 @@
 package ankr_const
 
-package ankr_const
-
 const TaskManagerQueueName = "task_manager"
 const NewTaskEvent = "New"
 const UpdateTaskEvent = "Update"
