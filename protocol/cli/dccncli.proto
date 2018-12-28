@@ -128,6 +128,6 @@ message TaskDetailRequest{
 
 message TaskDetailResponse{
      string body = 1;
-     TaskInfo tasksinfo = 2;
+     TaskInfo taskinfo = 2;
      string reason = 3;
 }
