@@ -34,7 +34,7 @@ service dccncli {
 message AddTaskRequest {
   string name = 1; // name of the task/image to run
   string type = 2; // default or "web" as website
-  int64 datacenterid = 3; // datacenter id if value = 0 or default hub will pickup by random 
+  int64 datacenterid = 3; // datacenter id if value = 0 or default hub will pickup by random
   string usertoken = 4; //user account, alphanumeric chars, may not be used now for authentication
   int64 replica = 5;   // how many replica of docker instance
 }
@@ -122,11 +122,12 @@ message UpdateTaskResponse{
 
 
 message TaskDetailRequest{
-     int64 taskid = 2;
-     string usertoken = 1;
+     int64 taskid = 1;
+     string usertoken = 2;
 }
 
 message TaskDetailResponse{
      string body = 1;
-     string reason = 2;
+     TaskInfo tasksinfo = 2;
+     string reason = 3;
 }
