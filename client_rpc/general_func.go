@@ -7,23 +7,27 @@ import (
 		"time"
 	    "google.golang.org/grpc"
 	    "golang.org/x/net/context"
-	    pb "github.com/Ankr-network/dccn-common/protocol"
+	    pb "github.com/Ankr-network/dccn-common/protocol/cli"
 )
 
-func Connect(address_1 string)(*grpc.ClientConn, error){
+func Connect(address_1 string) (*grpc.ClientConn, error) {
 	return grpc.Dial(address_1, grpc.WithInsecure())
 }
-func AddTaskRequest_util(Usertoken1 string, Name1 string, Region1 string, Zone1 string)(pb.AddTaskRequest){
-	return pb.AddTaskRequest{Name: Name1, Region: Region1, Zone: Zone1, Usertoken: Usertoken1}
-} 
+func AddTaskRequest_util(Usertoken1 string, Name1 string, Type1 string, Datacenter1 string) pb.AddTaskRequest {
+	datacenter, err := strconv.ParseInt(Datacenter1, 10, 64)
+	if err != nil {
+		log.Fatalf("Client: cannot cover %v", err)
+		}
+	return pb.AddTaskRequest{Name: Name1, Type: Type1, Datacenterid: int64(datacenter), Usertoken: Usertoken1}
+}
 
-func TaskListRequest_util(Usertoken1 string)(pb.TaskListRequest){
+func TaskListRequest_util(Usertoken1 string) pb.TaskListRequest {
 	return pb.TaskListRequest{Usertoken: Usertoken1}
-} 
+}
 
-func CancelTaskRequest_util(Usertoken1 string, Taskid1 int64)(pb.CancelTaskRequest){
+func CancelTaskRequest_util(Usertoken1 string, Taskid1 int64) pb.CancelTaskRequest {
 	return pb.CancelTaskRequest{Usertoken: Usertoken1, Taskid: Taskid1}
-} 
+}
 
 func CreateRequest(Whichrequest string, Message... string)(interface{}){
 	fmt.Printf("received request : %d \n", Whichrequest)
@@ -40,29 +44,26 @@ func CreateRequest(Whichrequest string, Message... string)(interface{}){
 	//if(Whichrequest == 3){
 	case "CancelTaskRequest":
 		Taskid, err := strconv.ParseInt(Message[1], 10, 64)
-		if (err != nil){
+		if err != nil {
 			return nil
 		}
 		return CancelTaskRequest_util(Message[0], Taskid)
-}
+	}
 	return nil
 }
 
-func AddTask_util(address string, request interface{})(string) {
+func AddTask_util(address string, request interface{}) string {
 	var request1 pb.AddTaskRequest
-	request1 =request.(pb.AddTaskRequest)
+	request1 = request.(pb.AddTaskRequest)
 	conn, err := Connect(address)
-	//conn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
 	c := pb.NewDccncliClient(conn)
 
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30 * time.Second )
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
-	//r, err := c.AddTask(ctx, &pb.AddTaskRequest{Name:"docker_image_name", Region:"us_west", Zone:"ca", Usertoken:"ed1605e17374bde6c68864d072c9f5c9" })
 	r, err := c.AddTask(ctx, &request1)
 	if err != nil {
 		log.Fatalf("Client: could not send: %v", err)
@@ -74,20 +75,17 @@ func AddTask_util(address string, request interface{})(string) {
 
 }
 
-
-func Task_list_util(address string, request interface{})([]*pb.TaskInfo) {
+func Task_list_util(address string, request interface{}) []*pb.TaskInfo {
 	var request1 pb.TaskListRequest
-	request1 =request.(pb.TaskListRequest)
+	request1 = request.(pb.TaskListRequest)
 	conn, err := Connect(address)
-	//conn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
 	c := pb.NewDccncliClient(conn)
 
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30 * time.Second )
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	r, err := c.TaskList(ctx, &request1)
 	if err != nil {
@@ -95,22 +93,20 @@ func Task_list_util(address string, request interface{})([]*pb.TaskInfo) {
 	}
 
 	return r.Tasksinfo
- // todo when have new proto
+	// todo when have new proto
 }
 
-func CancelTask_util(address string, request interface{})(string) {
+func CancelTask_util(address string, request interface{}) string {
 	var request1 pb.CancelTaskRequest
-	request1 =request.(pb.CancelTaskRequest)
+	request1 = request.(pb.CancelTaskRequest)
 	conn, err := Connect(address)
-	//conn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
 	c := pb.NewDccncliClient(conn)
 
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30 * time.Second )
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	r, err := c.CancelTask(ctx, &request1)
 	if err != nil {
