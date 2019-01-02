@@ -7,7 +7,7 @@ import (
 		"time"
 	    "google.golang.org/grpc"
 	    "golang.org/x/net/context"
-	    pb "github.com/Ankr-network/dccn-rpc/protocol"
+	    pb "github.com/Ankr-network/dccn-common/protocol"
 )
 
 func Connect(address_1 string)(*grpc.ClientConn, error){
@@ -25,20 +25,20 @@ func CancelTaskRequest_util(Usertoken1 string, Taskid1 int64)(pb.CancelTaskReque
 	return pb.CancelTaskRequest{Usertoken: Usertoken1, Taskid: Taskid1}
 } 
 
-func CreateRequest(Whichrequest int, Message... string)(interface{}){
+func CreateRequest(Whichrequest string, Message... string)(interface{}){
 	fmt.Printf("received request : %d \n", Whichrequest)
 	switch Whichrequest {
-	case 1:
+	case "AddTaskRequest":
 		return AddTaskRequest_util(Message[0], Message[1], Message[2], Message[3])
 //	}
 //	if(Whichrequest == 2)
 //	{
-	case 2:
+	case "TaskListRequest":
 		return TaskListRequest_util(Message[0])
 
 //	}
 	//if(Whichrequest == 3){
-	case 3:
+	case "CancelTaskRequest":
 		Taskid, err := strconv.ParseInt(Message[1], 10, 64)
 		if (err != nil){
 			return nil
