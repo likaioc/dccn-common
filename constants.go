@@ -2,6 +2,7 @@ package ankr_const
 
 // RabbitQ name
 const TaskManagerQueueName = "task_manager"
+const K8sAdopterQueueName = "k8s_adopter"
 
 // Task Events
 const NewTaskEvent = "New"
@@ -40,13 +41,10 @@ const CliErrorReasonTaskNotExist = "Task does not exist"
 const CliErrorReasonUserNotOwn = "User does not own this task"
 const CliErrorReasonUpdateFailed = "Task can not be updated"
 
-// To do: Remove this line to generate data center name automatically
-const DataCenterName = "datacenter_1"
-
 // To do: Remove this line when usrmgr is ready
 const DefaultUserToken = "ed1605e17374bde6c68864d072c9f5c9"
 
-const TaskHidden = "hidden"
 const DefaultPort = 50051      // Default port for gRPC connection
-const ClientTimeOut = 30       // Default timeout for client connection
+const HeartBeatInterval = 30   // Default interval for heartbeating
+const ClientTimeOut = 60       // Default timeout for client connection
 const MicroServiceTimeOut = 10 // Default timeout for internal micro service connection
