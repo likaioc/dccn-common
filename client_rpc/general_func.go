@@ -1,13 +1,15 @@
 package client_rpc
 
 import (
-		"strconv"
-		"log"
-		"fmt"
-		"time"
-	    "google.golang.org/grpc"
-	    "golang.org/x/net/context"
-	    pb "github.com/Ankr-network/dccn-common/protocol/cli"
+	"fmt"
+	"log"
+	"strconv"
+	"time"
+
+	ankr_const "github.com/Ankr-network/dccn-common"
+	pb "github.com/Ankr-network/dccn-common/protocol/cli"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 func Connect(address_1 string) (*grpc.ClientConn, error) {
@@ -17,7 +19,7 @@ func AddTaskRequest_util(Usertoken1 string, Name1 string, Type1 string, Datacent
 	datacenter, err := strconv.ParseInt(Datacenter1, 10, 64)
 	if err != nil {
 		log.Fatalf("Client: cannot cover %v", err)
-		}
+	}
 	return pb.AddTaskRequest{Name: Name1, Type: Type1, Datacenterid: int64(datacenter), Usertoken: Usertoken1}
 }
 
@@ -29,20 +31,14 @@ func CancelTaskRequest_util(Usertoken1 string, Taskid1 int64) pb.CancelTaskReque
 	return pb.CancelTaskRequest{Usertoken: Usertoken1, Taskid: Taskid1}
 }
 
-func CreateRequest(Whichrequest string, Message... string)(interface{}){
-	fmt.Printf("received request : %d \n", Whichrequest)
+func CreateRequest(Whichrequest string, Message ...string) interface{} {
+	fmt.Printf("received request : %s \n", Whichrequest)
 	switch Whichrequest {
-	case "AddTaskRequest":
+	case ankr_const.RequestTypeAddTask:
 		return AddTaskRequest_util(Message[0], Message[1], Message[2], Message[3])
-//	}
-//	if(Whichrequest == 2)
-//	{
-	case "TaskListRequest":
+	case ankr_const.RequestTypeTaskList:
 		return TaskListRequest_util(Message[0])
-
-//	}
-	//if(Whichrequest == 3){
-	case "CancelTaskRequest":
+	case ankr_const.RequestTypeCancelTask:
 		Taskid, err := strconv.ParseInt(Message[1], 10, 64)
 		if err != nil {
 			return nil

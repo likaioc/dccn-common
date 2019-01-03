@@ -4,6 +4,11 @@ package ankr_const
 const TaskManagerQueueName = "task_manager"
 const K8sAdopterQueueName = "k8s_adopter"
 
+// Request Types
+const RequestTypeAddTask = "AddTask"
+const RequestTypeTaskList = "TaskListRequest"
+const RequestTypeCancelTask = "CancelTaskRequest"
+
 // Task Events
 const NewTaskEvent = "New"
 const UpdateTaskEvent = "Update"
