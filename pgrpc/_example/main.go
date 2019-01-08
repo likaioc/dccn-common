@@ -45,33 +45,34 @@ func client(serverCount int) {
 	log.Println("Client started")
 
 	clientKey := ""
-	for range time.Tick(time.Second) {
-		log.Println("loop")
-		count := 0
-		pgrpc.Each(func(key string, conn *grpc.ClientConn, err error) bool {
-			if err != nil {
-				log.Println(err)
-				return true
-			}
+	time.Sleep(time.Second) // a rough way to wait server connecting.
 
-			out, err := api.NewPingClient(conn).
-				SayHello(context.Background(), &api.PingMessage{strconv.Itoa(count)})
-			if err != nil {
-				log.Println("FAIL:", conn.Target(), err)
-				return true
-			}
-
-			log.Println("SUCC:", conn.Target(), *out)
-			clientKey = key // get a key, not care which picked
-			count++
+	// Test: loop all server
+	count := 0
+	pgrpc.Each(func(key string, conn *grpc.ClientConn, err error) bool {
+		if err != nil {
+			log.Println(err)
 			return true
-		})
-
-		if count == serverCount {
-			break
 		}
+
+		out, err := api.NewPingClient(conn).
+			SayHello(context.Background(), &api.PingMessage{strconv.Itoa(count)})
+		if err != nil {
+			log.Println("FAIL:", conn.Target(), err)
+			return true
+		}
+
+		log.Println("SUCC:", conn.Target(), *out)
+		clientKey = key // get a key, not care which picked
+		count++
+		return true
+	})
+
+	if count != serverCount {
+		log.Fatalf("FAIL: %d servers fail.", serverCount-count)
 	}
 
+	// Test: dial specified server
 	conn, err := pgrpc.Dial(clientKey)
 	if err != nil {
 		log.Fatalln("FAIL:", err)

@@ -15,9 +15,10 @@ import (
 )
 
 type Client struct {
-	port   string
-	config *yamux.Config
-	conns  *sync.Map
+	port        string
+	config      *yamux.Config
+	grpcOptions []grpc.DialOption
+	conns       *sync.Map
 }
 
 var DefaultClient *Client
@@ -84,7 +85,15 @@ func NewClient(port string, KeepAliveInterval time.Duration, logger *log.Logger)
 	return &Client{
 		port:   port,
 		config: config,
-		conns:  conns,
+		grpcOptions: []grpc.DialOption{
+			grpc.WithInsecure(),
+			grpc.WithKeepaliveParams(keepalive.ClientParameters{
+				Time:                config.KeepAliveInterval,
+				Timeout:             config.ConnectionWriteTimeout,
+				PermitWithoutStream: true,
+			}),
+		},
+		conns: conns,
 	}, nil
 }
 
@@ -98,10 +107,11 @@ func (c *Client) Dial(key string) (*grpc.ClientConn, error) {
 		return nil, errors.New("no pgrpc connection target to " + key)
 	}
 
-	return grpc.DialContext(context.Background(), key, grpc.WithInsecure(),
+	grpcOptions := append(c.grpcOptions,
 		grpc.WithDialer(func(string, time.Duration) (net.Conn, error) {
 			return conn.(*yamux.Session).Open()
 		}))
+	return grpc.DialContext(context.Background(), key, grpcOptions...)
 }
 
 func Each(fn func(key string, conn *grpc.ClientConn, err error) (stop bool)) {
@@ -110,15 +120,11 @@ func Each(fn func(key string, conn *grpc.ClientConn, err error) (stop bool)) {
 
 func (c *Client) Each(fn func(key string, conn *grpc.ClientConn, err error) bool) {
 	c.conns.Range(func(key, val interface{}) bool {
-		conn, err := grpc.DialContext(context.Background(), key.(string), grpc.WithInsecure(),
-			grpc.WithKeepaliveParams(keepalive.ClientParameters{
-				Time:                c.config.KeepAliveInterval,
-				Timeout:             c.config.ConnectionWriteTimeout,
-				PermitWithoutStream: true,
-			}),
+		grpcOptions := append(c.grpcOptions,
 			grpc.WithDialer(func(string, time.Duration) (net.Conn, error) {
 				return val.(*yamux.Session).Open()
 			}))
+		conn, err := grpc.DialContext(context.Background(), key.(string), grpcOptions...)
 
 		return fn(key.(string), conn, errors.Wrapf(err, "pgrpc dial (%s)", key))
 	})
