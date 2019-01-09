@@ -75,7 +75,9 @@ message DataCenterListRequest {
 message DataCenterInfo {
   int64  id = 1;  // datacenter id
   string name = 2; // datacenter name
-  string status =3;
+  string lat = 3;
+  string lng = 4;
+  string status =5; 
 }
 
 message DataCenterListResponse {
