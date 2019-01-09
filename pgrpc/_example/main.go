@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/Ankr-network/dccn-common/pgrpc"
@@ -32,7 +33,7 @@ func server() {
 
 	server := grpc.NewServer()
 	api.RegisterPingServer(server, &api.Server{})
-	if err := server.Serve(conn.Session()); err != nil {
+	if err := server.Serve(conn); err != nil {
 		log.Fatalln("FAIL:", err)
 	}
 }
@@ -43,9 +44,8 @@ func client(serverCount int) {
 	}
 
 	log.Println("Client started")
-
-	clientKey := ""
 	time.Sleep(time.Second) // a rough way to wait server connecting.
+	clientKey := ""
 
 	// Test: loop all server
 	count := 0
@@ -55,10 +55,10 @@ func client(serverCount int) {
 			return true
 		}
 
-		out, err := api.NewPingClient(conn).
-			SayHello(context.Background(), &api.PingMessage{strconv.Itoa(count)})
+		out, err := api.NewPingClient(conn).SayHello(context.Background(),
+			&api.PingMessage{Greeting: strconv.Itoa(count)})
 		if err != nil {
-			log.Println("FAIL:", conn.Target(), err)
+			log.Fatalln("FAIL:", conn.Target(), err)
 			return true
 		}
 
@@ -72,16 +72,23 @@ func client(serverCount int) {
 		log.Fatalf("FAIL: %d servers fail.", serverCount-count)
 	}
 
-	// Test: dial specified server
-	conn, err := pgrpc.Dial(clientKey)
-	if err != nil {
-		log.Fatalln("FAIL:", err)
+	// Test: parallel dial specified server
+	wg := sync.WaitGroup{}
+	wg.Add(10)
+	for i := 0; i < 10; i++ {
+		go func() {
+			conn, err := pgrpc.Dial(clientKey)
+			if err != nil {
+				log.Fatalln("FAIL:", err)
+			}
+			_, err = api.NewPingClient(conn).SayHello(context.Background(),
+				&api.PingMessage{Greeting: "Dial"})
+			if err != nil {
+				log.Fatalln("FAIL:", err)
+			}
+			wg.Done()
+		}()
 	}
-	out, err := api.NewPingClient(conn).
-		SayHello(context.Background(), &api.PingMessage{"Dial"})
-	if err != nil {
-		log.Fatalln("FAIL:", err)
-	}
-
-	log.Println("SUCC:", conn.Target(), *out)
+	wg.Wait()
+	log.Println("SUCC")
 }

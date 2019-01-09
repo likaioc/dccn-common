@@ -3,7 +3,7 @@ package api
 import (
 	"log"
 
-	"golang.org/x/net/context"
+	"context"
 )
 
 // Server represents the gRPC server

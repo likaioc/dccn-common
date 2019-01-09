@@ -10,9 +10,9 @@ import (
 )
 
 type Server struct {
-	addr    string
-	config  *yamux.Config
-	session *yamux.Session
+	addr   string
+	config *yamux.Config
+	*yamux.Session
 }
 
 func NewServer(addr string, KeepAliveInterval time.Duration, logger *log.Logger) (*Server, error) {
@@ -38,10 +38,6 @@ func NewServer(addr string, KeepAliveInterval time.Duration, logger *log.Logger)
 	return &Server{
 		addr:    addr,
 		config:  config,
-		session: session,
+		Session: session,
 	}, nil
-}
-
-func (s *Server) Session() net.Listener {
-	return s.session
 }
