@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"time"
 
 	"github.com/Ankr-network/dccn-common/pgrpc"
@@ -12,11 +13,15 @@ import (
 func main() {
 	log.SetFlags(log.Ltime | log.Lshortfile)
 
-	server()
+	ip := os.Getenv("IP")
+	if ip == "" {
+		log.Fatalln("env IP must set")
+	}
+	server(ip)
 }
 
-func server() {
-	conn, err := pgrpc.NewServer("127.0.0.1:8899", 20*time.Second, nil)
+func server(ip string) {
+	conn, err := pgrpc.NewServer(ip+":8899", 20*time.Second, nil)
 	if err != nil {
 		log.Fatalln("FAIL:", err)
 	}
