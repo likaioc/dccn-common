@@ -26,6 +26,9 @@ service dccncli {
   rpc PurgeTask (PurgeTaskRequest) returns (PurgeTaskResponse) {}
   rpc UpdateTask (UpdateTaskRequest) returns (UpdateTaskResponse) {}
   rpc TaskDetail (TaskDetailRequest) returns (TaskDetailResponse) {}
+  rpc Login (LoginRequest) returns (LoginResponse) {}
+  rpc Logout (LogoutRequest) returns (LogoutResponse) {}
+  rpc Register (RegisterRequest) returns (RegisterResponse) {}
 }
 
 
@@ -77,7 +80,7 @@ message DataCenterInfo {
   string name = 2; // datacenter name
   string lat = 3;
   string lng = 4;
-  string status =5; 
+  string status =5;
 }
 
 message DataCenterListResponse {
@@ -132,4 +135,38 @@ message TaskDetailResponse{
      string body = 1;
      TaskInfo taskinfo = 2;
      string reason = 3;
+}
+
+
+message LoginRequest{
+     string name = 1;  //email
+     string password =2;
+}
+
+message LoginResponse{
+     string token = 1;
+     string status = 2;
+     string reason = 3;
+}
+
+
+message LogoutRequest{
+     string usertoken = 1;
+}
+
+message LogoutResponse{
+     string status = 1;
+     string reason = 2;
+}
+
+
+message RegisterRequest{
+     string name = 1;    // email
+     string password = 2;
+     string Erc20address = 3;  //optional
+}
+
+message RegisterResponse{
+     string status = 1;
+     string reason = 2;
 }
