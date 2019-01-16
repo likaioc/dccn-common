@@ -41,10 +41,14 @@ const CliReplyStatusFailure = "Failure"
 
 // CLI errors
 const CliErrorReasonDataCenterNotExist = "DataCenter does not exist"
-const CliErrorReasonUserNotExist = "User does not exist"
+const CliErrorReasonUserNotExist = "Token error, can not find user"
 const CliErrorReasonTaskNotExist = "Task does not exist"
 const CliErrorReasonUserNotOwn = "User does not own this task"
 const CliErrorReasonUpdateFailed = "Task can not be updated"
+
+const CliErrorReasonUserExit= "User already existed"
+const CliErrorReasonPasswordError = "Password does not match"
+const CliErrorReasonNamePasswordEmpty = "Name or Password is empty"
 
 // To do: Remove this line when usrmgr is ready
 const DefaultUserToken = "ed1605e17374bde6c68864d072c9f5c9"
