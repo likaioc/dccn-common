@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+import "common/code.proto";
+
+package srv.v1.taskmgr;
+
+service TaskMgr {
+    // Sends request to start a task and list task
+  rpc AddTask (AddTaskRequest) returns (AddTaskResponse) {}
+  rpc TaskList (ID) returns (TaskListResponse) {}
+  rpc CancelTask (Request) returns (Response) {}
+  rpc UpdateTask (UpdateInfo) returns (Response) {}
+  rpc TaskDetail (Request) returns (TaskInfo) {}
+}
+
+// The dccn client request message containing the user's token
+message AddTaskRequest {
+    int64 user_id = 1;
+    string name = 2; // name of the task/image to run
+    string type = 3; // default or "web" as website
+    int64 data_center_id = 4; // data center id if value = 0 or default hub will pickup by random
+    int64 replica = 5;   // how many replica of docker instance
+  }
+  
+// The Ankr Hub response message containing the success or failure
+message AddTaskResponse {
+    string status = 1; // Success or Failure
+    int64 task_id = 2; //  id of task if success, in case of failure return -1
+    string reason = 3;
+  }
+
+message Request {
+    int64 user_id = 1;
+    int64 task_id = 2;
+}
+
+message Response{
+    int64 status = 1;
+    string reason = 2;
+}
+
+message ID {
+    int64 user_id = 1;
+}
+
+message TaskListResponse {
+    repeated Task tasks = 1;
+}
+
+message UpdateInfo {
+    int64 user_id = 1;
+    int64  task_id = 2;
+    string name = 3;
+    int64 replica = 4;
+
+}
+
+// TODO: dcmgr.email seperate data and interface.
+message TaskInfo {
+    Task task = 1;
+    string data_center_name = 2;
+    int32 data_center_status = 3; // 1: online, 2: offline
+    int32 data_center_last_report_time = 4;
+    string data_center_report = 5; // ??????
+}
+
+message Task  {
+    int64 id = 1;
+    int64 user_id = 2;
+    string name = 3;
+    string type = 4;
+    int32 replica = 5;
+    string data_center = 6;
+    int64 data_center_id = 7;
+    common.proto.TaskStatus status = 8;
+    string unique_name = 9;
+    string url = 10;
+    bool hidden = 11;
+}

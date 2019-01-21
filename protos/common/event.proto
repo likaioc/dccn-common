@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package common.proto;
+
+import "common/code.proto";
+
+message TaskEvent {
+    TaskOperation type = 1;  //"NewTask"  "CancelTask"  "UpdateTask"
+    int64 task_id = 2;  //id of task
+    string task_type = 3; // default or "web"
+    string name = 4;  // UniqueName of the task as task id
+    string image = 5; // name of docker image
+    int64 replica = 6;
+    string extra = 7; //extra for other arguments
+}
+
+message K8SMessage {
+    string type = 1;  //"HeartBeat"  "Task"
+    int64 task_id = 2;  // id of task
+    string task_name = 3;  // UniqueName of task
+    string status = 4; // StartSuccess or StartFailure  JobDone Cancelled  Running  Other
+    string data_center = 5; // name of data center
+    string url = 6;  // url of web application
+    string report = 7;
+}
