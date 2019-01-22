@@ -6,6 +6,7 @@ package common_proto
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
+import common "github.com/Ankr-network/dccn-common/protos/common"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -19,16 +20,16 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 type TaskEvent struct {
-	Type                 TaskOperation `protobuf:"varint,1,opt,name=type,proto3,enum=common.proto.TaskOperation" json:"type,omitempty"`
-	TaskId               int64         `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
-	TaskType             string        `protobuf:"bytes,3,opt,name=task_type,json=taskType,proto3" json:"task_type,omitempty"`
-	Name                 string        `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
-	Image                string        `protobuf:"bytes,5,opt,name=image,proto3" json:"image,omitempty"`
-	Replica              int64         `protobuf:"varint,6,opt,name=replica,proto3" json:"replica,omitempty"`
-	Extra                string        `protobuf:"bytes,7,opt,name=extra,proto3" json:"extra,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
+	Type                 common.TaskOperation `protobuf:"varint,1,opt,name=type,proto3,enum=common.proto.TaskOperation" json:"type,omitempty"`
+	TaskId               int64                `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	TaskType             string               `protobuf:"bytes,3,opt,name=task_type,json=taskType,proto3" json:"task_type,omitempty"`
+	Name                 string               `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
+	Image                string               `protobuf:"bytes,5,opt,name=image,proto3" json:"image,omitempty"`
+	Replica              int64                `protobuf:"varint,6,opt,name=replica,proto3" json:"replica,omitempty"`
+	Extra                string               `protobuf:"bytes,7,opt,name=extra,proto3" json:"extra,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
 func (m *TaskEvent) Reset()         { *m = TaskEvent{} }
@@ -55,11 +56,11 @@ func (m *TaskEvent) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_TaskEvent proto.InternalMessageInfo
 
-func (m *TaskEvent) GetType() TaskOperation {
+func (m *TaskEvent) GetType() common.TaskOperation {
 	if m != nil {
 		return m.Type
 	}
-	return TaskOperation_CREATE
+	return common.TaskOperation_CREATE
 }
 
 func (m *TaskEvent) GetTaskId() int64 {

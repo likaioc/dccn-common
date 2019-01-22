@@ -16,11 +16,9 @@ syntax = "proto3";
 
 import "common/event.proto";
 
-package k8s;
+package dcmgr;
 
 // The k8s service definition.
-service dcmgr {
-//    rpc Add()returns () {} // k8s task stream
-//    rpc Remove()returns () {} // k8s task stream
-    rpc K8Task(stream common.proto.K8SMessage)returns (stream common.proto.TaskEvent) {} // k8s task stream
+service Dccnk8s {
+    rpc K8Task(stream common.proto.K8SMessage) returns (stream common.proto.TaskEvent) {} // k8s task stream
 }

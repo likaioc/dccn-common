@@ -7,10 +7,7 @@ const MQFeedbackTask = "topic.feedback.task"
 // To do: Remove this line when usr mgr is ready
 const Secret = "ed1605e17374bde6c68864d072c9f5c9"
 
-const ServiceTaskMgrPort = 50051 // Default port for gRPC connection
-const ServiceUserMgrPort = 50052 // Default port for gRPC connection
-const ServiceEmailPort = 50053   // Default port for gRPC connection
-const ServiceDcMgrPort = 50054   // Default port for gRPC connection
+const APIPort = 50051 // Default port for gRPC request
 
 // Registry server name
 const (

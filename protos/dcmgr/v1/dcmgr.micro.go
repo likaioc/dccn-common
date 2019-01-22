@@ -2,19 +2,19 @@
 // source: dcmgr/v1/dcmgr.proto
 
 /*
-Package k8s is a generated protocol buffer package.
+Package dcmgr is a generated protocol buffer package.
 
 It is generated from these files:
 	dcmgr/v1/dcmgr.proto
 
 It has these top-level messages:
 */
-package k8s
+package dcmgr
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import common_proto1 "common"
+import common_proto1 "github.com/Ankr-network/dccn-common/protos/common"
 
 import (
 	context "context"
@@ -39,42 +39,40 @@ var _ context.Context
 var _ client.Option
 var _ server.Option
 
-// Client API for Dcmgr service
+// Client API for Dccnk8S service
 
-type DcmgrService interface {
-	//    rpc Add()returns () {} // k8s task stream
-	//    rpc Remove()returns () {} // k8s task stream
-	K8Task(ctx context.Context, opts ...client.CallOption) (Dcmgr_K8TaskService, error)
+type Dccnk8SService interface {
+	K8Task(ctx context.Context, opts ...client.CallOption) (Dccnk8S_K8TaskService, error)
 }
 
-type dcmgrService struct {
+type dccnk8SService struct {
 	c    client.Client
 	name string
 }
 
-func NewDcmgrService(name string, c client.Client) DcmgrService {
+func NewDccnk8SService(name string, c client.Client) Dccnk8SService {
 	if c == nil {
 		c = client.NewClient()
 	}
 	if len(name) == 0 {
-		name = "k8s"
+		name = "dcmgr"
 	}
-	return &dcmgrService{
+	return &dccnk8SService{
 		c:    c,
 		name: name,
 	}
 }
 
-func (c *dcmgrService) K8Task(ctx context.Context, opts ...client.CallOption) (Dcmgr_K8TaskService, error) {
-	req := c.c.NewRequest(c.name, "Dcmgr.K8Task", &common_proto1.K8SMessage{})
+func (c *dccnk8SService) K8Task(ctx context.Context, opts ...client.CallOption) (Dccnk8S_K8TaskService, error) {
+	req := c.c.NewRequest(c.name, "Dccnk8S.K8Task", &common_proto1.K8SMessage{})
 	stream, err := c.c.Stream(ctx, req, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return &dcmgrServiceK8Task{stream}, nil
+	return &dccnk8SServiceK8Task{stream}, nil
 }
 
-type Dcmgr_K8TaskService interface {
+type Dccnk8S_K8TaskService interface {
 	SendMsg(interface{}) error
 	RecvMsg(interface{}) error
 	Close() error
@@ -82,27 +80,27 @@ type Dcmgr_K8TaskService interface {
 	Recv() (*common_proto1.TaskEvent, error)
 }
 
-type dcmgrServiceK8Task struct {
+type dccnk8SServiceK8Task struct {
 	stream client.Stream
 }
 
-func (x *dcmgrServiceK8Task) Close() error {
+func (x *dccnk8SServiceK8Task) Close() error {
 	return x.stream.Close()
 }
 
-func (x *dcmgrServiceK8Task) SendMsg(m interface{}) error {
+func (x *dccnk8SServiceK8Task) SendMsg(m interface{}) error {
 	return x.stream.Send(m)
 }
 
-func (x *dcmgrServiceK8Task) RecvMsg(m interface{}) error {
+func (x *dccnk8SServiceK8Task) RecvMsg(m interface{}) error {
 	return x.stream.Recv(m)
 }
 
-func (x *dcmgrServiceK8Task) Send(m *common_proto1.K8SMessage) error {
+func (x *dccnk8SServiceK8Task) Send(m *common_proto1.K8SMessage) error {
 	return x.stream.Send(m)
 }
 
-func (x *dcmgrServiceK8Task) Recv() (*common_proto1.TaskEvent, error) {
+func (x *dccnk8SServiceK8Task) Recv() (*common_proto1.TaskEvent, error) {
 	m := new(common_proto1.TaskEvent)
 	err := x.stream.Recv(m)
 	if err != nil {
@@ -111,34 +109,32 @@ func (x *dcmgrServiceK8Task) Recv() (*common_proto1.TaskEvent, error) {
 	return m, nil
 }
 
-// Server API for Dcmgr service
+// Server API for Dccnk8S service
 
-type DcmgrHandler interface {
-	//    rpc Add()returns () {} // k8s task stream
-	//    rpc Remove()returns () {} // k8s task stream
-	K8Task(context.Context, Dcmgr_K8TaskStream) error
+type Dccnk8SHandler interface {
+	K8Task(context.Context, Dccnk8S_K8TaskStream) error
 }
 
-func RegisterDcmgrHandler(s server.Server, hdlr DcmgrHandler, opts ...server.HandlerOption) error {
-	type dcmgr interface {
+func RegisterDccnk8SHandler(s server.Server, hdlr Dccnk8SHandler, opts ...server.HandlerOption) error {
+	type dccnk8S interface {
 		K8Task(ctx context.Context, stream server.Stream) error
 	}
-	type Dcmgr struct {
-		dcmgr
+	type Dccnk8S struct {
+		dccnk8S
 	}
-	h := &dcmgrHandler{hdlr}
-	return s.Handle(s.NewHandler(&Dcmgr{h}, opts...))
+	h := &dccnk8SHandler{hdlr}
+	return s.Handle(s.NewHandler(&Dccnk8S{h}, opts...))
 }
 
-type dcmgrHandler struct {
-	DcmgrHandler
+type dccnk8SHandler struct {
+	Dccnk8SHandler
 }
 
-func (h *dcmgrHandler) K8Task(ctx context.Context, stream server.Stream) error {
-	return h.DcmgrHandler.K8Task(ctx, &dcmgrK8TaskStream{stream})
+func (h *dccnk8SHandler) K8Task(ctx context.Context, stream server.Stream) error {
+	return h.Dccnk8SHandler.K8Task(ctx, &dccnk8SK8TaskStream{stream})
 }
 
-type Dcmgr_K8TaskStream interface {
+type Dccnk8S_K8TaskStream interface {
 	SendMsg(interface{}) error
 	RecvMsg(interface{}) error
 	Close() error
@@ -146,27 +142,27 @@ type Dcmgr_K8TaskStream interface {
 	Recv() (*common_proto1.K8SMessage, error)
 }
 
-type dcmgrK8TaskStream struct {
+type dccnk8SK8TaskStream struct {
 	stream server.Stream
 }
 
-func (x *dcmgrK8TaskStream) Close() error {
+func (x *dccnk8SK8TaskStream) Close() error {
 	return x.stream.Close()
 }
 
-func (x *dcmgrK8TaskStream) SendMsg(m interface{}) error {
+func (x *dccnk8SK8TaskStream) SendMsg(m interface{}) error {
 	return x.stream.Send(m)
 }
 
-func (x *dcmgrK8TaskStream) RecvMsg(m interface{}) error {
+func (x *dccnk8SK8TaskStream) RecvMsg(m interface{}) error {
 	return x.stream.Recv(m)
 }
 
-func (x *dcmgrK8TaskStream) Send(m *common_proto1.TaskEvent) error {
+func (x *dccnk8SK8TaskStream) Send(m *common_proto1.TaskEvent) error {
 	return x.stream.Send(m)
 }
 
-func (x *dcmgrK8TaskStream) Recv() (*common_proto1.K8SMessage, error) {
+func (x *dccnk8SK8TaskStream) Recv() (*common_proto1.K8SMessage, error) {
 	m := new(common_proto1.K8SMessage)
 	if err := x.stream.Recv(m); err != nil {
 		return nil, err

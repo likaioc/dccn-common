@@ -2,7 +2,7 @@
 // source: usermgr/v1/usermgr.proto
 
 /*
-Package srv_v1_usermgr is a generated protocol buffer package.
+Package usermgr is a generated protocol buffer package.
 
 It is generated from these files:
 	usermgr/v1/usermgr.proto
@@ -14,7 +14,7 @@ It has these top-level messages:
 	Response
 	Token
 */
-package srv_v1_usermgr
+package usermgr
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
@@ -67,7 +67,7 @@ func NewUserMgrService(name string, c client.Client) UserMgrService {
 		c = client.NewClient()
 	}
 	if len(name) == 0 {
-		name = "srv.v1.usermgr"
+		name = "usermgr"
 	}
 	return &userMgrService{
 		c:    c,

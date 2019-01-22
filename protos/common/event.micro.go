@@ -16,7 +16,7 @@ package common_proto
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import _ "common"
+import _ "github.com/Ankr-network/dccn-common/protos/common"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal

@@ -20,8 +20,8 @@ proto:
 	common/code.proto;
 
 	protoc -I. \
-	--micro_out=. \
-	--go_out=. \
+	--micro_out=Mcommon/code.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	--go_out=Mcommon/code.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	common/event.proto;
 
 	protoc -I. \
@@ -42,7 +42,7 @@ proto:
 
 	protoc -I. \
 	-Icommon \
-	--micro_out=Mcommon/code.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	--go_out=Mcommon/code.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	--micro_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	dcmgr/v1/dcmgr.proto
 
