@@ -4,9 +4,16 @@ import "errors"
 
 // List execution errors
 var (
-	ErrDataCenterNotExist = errors.New("DataCenter does not exist")
-	ErrUserNotExist       = errors.New("User does not exist")
-	ErrTaskNotExist       = errors.New("Task does not exist")
-	ErrUserNotOwn         = errors.New("User does not own this task")
-	ErrUpdateFailed       = errors.New("Task can not be updated")
+	ErrDataCenterNotExist        = errors.New("dataCenter does not exist")
+	ErrUserNotExist              = errors.New("token error, can not find user")
+	ErrTaskNotExist              = errors.New("task does not exist")
+	ErrUserNotOwn                = errors.New("user does not own this task")
+	ErrUpdateFailed              = errors.New("task can not be updated")
+	ErrUserAlreadyExist          = errors.New("user already existed")
+	ErrPasswordError             = errors.New("password does not match")
+	ErrNamePasswordEmpty         = errors.New("name or Password is empty")
+	ErrStatusNotSupportOperation = errors.New("current status not support operation")
+	ErrReplicaTooMany            = errors.New("replica too many")
+	ErrUnknown                   = errors.New("unknown operation or code")
+	ErrSyncTaskInfo              = errors.New("sync task info error")
 )

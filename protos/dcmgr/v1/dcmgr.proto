@@ -19,6 +19,6 @@ import "common/event.proto";
 package dcmgr;
 
 // The k8s service definition.
-service Dccnk8s {
-    rpc K8Task(stream common.proto.K8SMessage) returns (stream common.proto.TaskEvent) {} // k8s task stream
+service DCStreamer {
+    rpc ServerStream(stream common.proto.Event) returns (stream common.proto.Event) {} // k8s task stream
 }

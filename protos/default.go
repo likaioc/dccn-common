@@ -3,11 +3,14 @@ package ankr_default
 // RabbitQ name
 const MQDeployTask = "topic.deploy.task"
 const MQFeedbackTask = "topic.feedback.task"
+const MQMail = "topic.mail.handler"
 
 // To do: Remove this line when usr mgr is ready
 const Secret = "ed1605e17374bde6c68864d072c9f5c9"
 
-const APIPort = 50051 // Default port for gRPC request
+const APIPort = 50051 // Default port for all gRPC request traffic
+
+const HeartBeatInterval = 30 // Default interval for heartbeat
 
 // Registry server name
 const (

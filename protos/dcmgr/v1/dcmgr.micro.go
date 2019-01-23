@@ -26,7 +26,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = common_proto1.TaskEvent{}
+var _ = common_proto1.Event{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -39,69 +39,69 @@ var _ context.Context
 var _ client.Option
 var _ server.Option
 
-// Client API for Dccnk8S service
+// Client API for DCStreamer service
 
-type Dccnk8SService interface {
-	K8Task(ctx context.Context, opts ...client.CallOption) (Dccnk8S_K8TaskService, error)
+type DCStreamerService interface {
+	ServerStream(ctx context.Context, opts ...client.CallOption) (DCStreamer_ServerStreamService, error)
 }
 
-type dccnk8SService struct {
+type dCStreamerService struct {
 	c    client.Client
 	name string
 }
 
-func NewDccnk8SService(name string, c client.Client) Dccnk8SService {
+func NewDCStreamerService(name string, c client.Client) DCStreamerService {
 	if c == nil {
 		c = client.NewClient()
 	}
 	if len(name) == 0 {
 		name = "dcmgr"
 	}
-	return &dccnk8SService{
+	return &dCStreamerService{
 		c:    c,
 		name: name,
 	}
 }
 
-func (c *dccnk8SService) K8Task(ctx context.Context, opts ...client.CallOption) (Dccnk8S_K8TaskService, error) {
-	req := c.c.NewRequest(c.name, "Dccnk8S.K8Task", &common_proto1.K8SMessage{})
+func (c *dCStreamerService) ServerStream(ctx context.Context, opts ...client.CallOption) (DCStreamer_ServerStreamService, error) {
+	req := c.c.NewRequest(c.name, "DCStreamer.ServerStream", &common_proto1.Event{})
 	stream, err := c.c.Stream(ctx, req, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return &dccnk8SServiceK8Task{stream}, nil
+	return &dCStreamerServiceServerStream{stream}, nil
 }
 
-type Dccnk8S_K8TaskService interface {
+type DCStreamer_ServerStreamService interface {
 	SendMsg(interface{}) error
 	RecvMsg(interface{}) error
 	Close() error
-	Send(*common_proto1.K8SMessage) error
-	Recv() (*common_proto1.TaskEvent, error)
+	Send(*common_proto1.Event) error
+	Recv() (*common_proto1.Event, error)
 }
 
-type dccnk8SServiceK8Task struct {
+type dCStreamerServiceServerStream struct {
 	stream client.Stream
 }
 
-func (x *dccnk8SServiceK8Task) Close() error {
+func (x *dCStreamerServiceServerStream) Close() error {
 	return x.stream.Close()
 }
 
-func (x *dccnk8SServiceK8Task) SendMsg(m interface{}) error {
+func (x *dCStreamerServiceServerStream) SendMsg(m interface{}) error {
 	return x.stream.Send(m)
 }
 
-func (x *dccnk8SServiceK8Task) RecvMsg(m interface{}) error {
+func (x *dCStreamerServiceServerStream) RecvMsg(m interface{}) error {
 	return x.stream.Recv(m)
 }
 
-func (x *dccnk8SServiceK8Task) Send(m *common_proto1.K8SMessage) error {
+func (x *dCStreamerServiceServerStream) Send(m *common_proto1.Event) error {
 	return x.stream.Send(m)
 }
 
-func (x *dccnk8SServiceK8Task) Recv() (*common_proto1.TaskEvent, error) {
-	m := new(common_proto1.TaskEvent)
+func (x *dCStreamerServiceServerStream) Recv() (*common_proto1.Event, error) {
+	m := new(common_proto1.Event)
 	err := x.stream.Recv(m)
 	if err != nil {
 		return nil, err
@@ -109,61 +109,61 @@ func (x *dccnk8SServiceK8Task) Recv() (*common_proto1.TaskEvent, error) {
 	return m, nil
 }
 
-// Server API for Dccnk8S service
+// Server API for DCStreamer service
 
-type Dccnk8SHandler interface {
-	K8Task(context.Context, Dccnk8S_K8TaskStream) error
+type DCStreamerHandler interface {
+	ServerStream(context.Context, DCStreamer_ServerStreamStream) error
 }
 
-func RegisterDccnk8SHandler(s server.Server, hdlr Dccnk8SHandler, opts ...server.HandlerOption) error {
-	type dccnk8S interface {
-		K8Task(ctx context.Context, stream server.Stream) error
+func RegisterDCStreamerHandler(s server.Server, hdlr DCStreamerHandler, opts ...server.HandlerOption) error {
+	type dCStreamer interface {
+		ServerStream(ctx context.Context, stream server.Stream) error
 	}
-	type Dccnk8S struct {
-		dccnk8S
+	type DCStreamer struct {
+		dCStreamer
 	}
-	h := &dccnk8SHandler{hdlr}
-	return s.Handle(s.NewHandler(&Dccnk8S{h}, opts...))
+	h := &dCStreamerHandler{hdlr}
+	return s.Handle(s.NewHandler(&DCStreamer{h}, opts...))
 }
 
-type dccnk8SHandler struct {
-	Dccnk8SHandler
+type dCStreamerHandler struct {
+	DCStreamerHandler
 }
 
-func (h *dccnk8SHandler) K8Task(ctx context.Context, stream server.Stream) error {
-	return h.Dccnk8SHandler.K8Task(ctx, &dccnk8SK8TaskStream{stream})
+func (h *dCStreamerHandler) ServerStream(ctx context.Context, stream server.Stream) error {
+	return h.DCStreamerHandler.ServerStream(ctx, &dCStreamerServerStreamStream{stream})
 }
 
-type Dccnk8S_K8TaskStream interface {
+type DCStreamer_ServerStreamStream interface {
 	SendMsg(interface{}) error
 	RecvMsg(interface{}) error
 	Close() error
-	Send(*common_proto1.TaskEvent) error
-	Recv() (*common_proto1.K8SMessage, error)
+	Send(*common_proto1.Event) error
+	Recv() (*common_proto1.Event, error)
 }
 
-type dccnk8SK8TaskStream struct {
+type dCStreamerServerStreamStream struct {
 	stream server.Stream
 }
 
-func (x *dccnk8SK8TaskStream) Close() error {
+func (x *dCStreamerServerStreamStream) Close() error {
 	return x.stream.Close()
 }
 
-func (x *dccnk8SK8TaskStream) SendMsg(m interface{}) error {
+func (x *dCStreamerServerStreamStream) SendMsg(m interface{}) error {
 	return x.stream.Send(m)
 }
 
-func (x *dccnk8SK8TaskStream) RecvMsg(m interface{}) error {
+func (x *dCStreamerServerStreamStream) RecvMsg(m interface{}) error {
 	return x.stream.Recv(m)
 }
 
-func (x *dccnk8SK8TaskStream) Send(m *common_proto1.TaskEvent) error {
+func (x *dCStreamerServerStreamStream) Send(m *common_proto1.Event) error {
 	return x.stream.Send(m)
 }
 
-func (x *dccnk8SK8TaskStream) Recv() (*common_proto1.K8SMessage, error) {
-	m := new(common_proto1.K8SMessage)
+func (x *dCStreamerServerStreamStream) Recv() (*common_proto1.Event, error) {
+	m := new(common_proto1.Event)
 	if err := x.stream.Recv(m); err != nil {
 		return nil, err
 	}

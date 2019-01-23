@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package common.proto;
+
+message Error {
+    int32 code = 1;
+    string details = 2;
+}
+
