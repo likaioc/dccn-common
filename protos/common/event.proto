@@ -3,17 +3,9 @@ syntax = "proto3";
 package common.proto;
 
 import "common/code.proto";
+import "common/common.proto";
 
-//task manager service and dc manager service
-message TaskEvent {
-    string task_id = 1;  //id of task
-    string task_type = 2; // default or "web"
-    string name = 3;  // UniqueName of the task as task id
-    string image = 4; // name of docker image
-    int32 replica = 5;
-    bytes extra = 6; //extra for other arguments
-}
-
+// data center returns msg with task status
 message TaskFeedback {
     string task_id = 1;
     string url = 2;  // url of web application
@@ -21,29 +13,15 @@ message TaskFeedback {
     common.proto.TaskStatus status = 4; // StartSuccess or StartFailure JobDone Cancelled  Running  Other
 }
 
-message DataCenter {
-    string  id = 1;  //data center id
-    string name = 2; // data center name
-    string lat = 3; // latitude of data center
-    string lng = 4; // longitude of data center
-    string status = 5; // data center status // 1. online 2. offline
-    string metrics = 6; //json string for Metrics structure which defined in constants
-    string extra = 7;
-    string report = 8;
-    string last_report_time = 9;
-}
-
-message HeartBeatInfo {
-}
-
 // data center communicate with dc manager
 message Event {
     Operation event_type = 1; // HeartBeat or task operation
+    string report = 2;
 
     oneof op_message {
-        TaskEvent task_event = 2;
-        TaskFeedback task_feedback = 3;
-        DataCenter data_center = 4;
-        HeartBeatInfo heart_beat_info = 5;
+        Task task = 3; // Deploy task action
+        TaskFeedback task_feedback = 4; // Return task status
+        DataCenter data_center = 5; // HearBeat Info with DataCenter message
     }
+    
 }

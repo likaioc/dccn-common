@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "common/code.proto";
+import "common/common.proto";
 import "common/error.proto";
 
 package taskmgr;
@@ -18,8 +18,8 @@ service TaskMgr {
 // The dccn client request message containing the user's token
 message AddTaskRequest {
     int64 user_id = 1;
-    Task task = 2;
-  }
+    common.proto.Task task = 2;
+}
 
 message AddTaskResponse {
     string task_id = 1;
@@ -36,34 +36,17 @@ message Request {
 }
 
 message TaskListResponse {
-    repeated Task tasks = 1;
+    repeated common.proto.Task tasks = 1;
     common.proto.Error error = 3;
 }
 
 message UpdateTaskRequest{
     int64 user_id = 1;
-    Task task = 2;
+    common.proto.Task task = 2;
 }
 
 message TaskDetailResponse{
-    Task task = 1;
+    common.proto.Task task = 1;
     common.proto.Error error = 2;
 }
 
-message Task  {
-    string id = 1;
-    int64 user_id = 2;
-    string name = 3;// name of the task/image to run
-    string type = 4; // default or "web" as website
-    string image = 5; // template
-    int32 replica = 6; // how many replica of docker instance
-    string data_center = 7;
-    int64 data_center_id = 8;// data center id if value = 0 or default hub will pickup by random
-    common.proto.TaskStatus status = 9;
-    string unique_name = 10;
-    string url = 11;
-    bool hidden = 12;
-    uint32 uptime = 13; // uptime of the task
-    uint64 creation_date = 14; //task creation date
-    bytes extra = 15;
-}

@@ -17,22 +17,22 @@ proto:
 	@protoc -I. \
 	--micro_out=. \
 	--go_out=. \
-	email/v1/email.proto;
+	email/v1/micro/email.proto;
 
 	@protoc -I. \
 	--micro_out=. \
 	--go_out=. \
-	usermgr/v1/usermgr.proto;
+	usermgr/v1/micro/usermgr.proto;
 
 	@protoc -I. \
 	-Icommon \
-	--micro_out=Mcommon/code.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	--go_out=Mcommon/code.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	taskmgr/v1/taskmgr.proto
+	--micro_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	--go_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	taskmgr/v1/micro/taskmgr.proto
 
 	@protoc -I. \
 	-Icommon \
 	--micro_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	dcmgr/v1/dcmgr.proto
+	dcmgr/v1/micro/dcmgr.proto
 

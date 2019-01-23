@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package go.micro.srv.v1.mail;
+package grpc.mail;
 
 service Mail {
 	rpc Send(MailEvent) returns (Response) {}
