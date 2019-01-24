@@ -29,11 +29,7 @@ enum TaskStatus {
 enum Status {
     AVALIABLE = 0;
     UNAVALIABLE = 1;
-    UNKNOWN = 2;
-}
-
-// CLI reply status
-enum ReplyCode {
-    SUCCESS = 0;
-    FAILURE = 1;
+    SUCCESS = 2;
+    FAILURE = 3;
+    UNKNOWN = 4;
 }

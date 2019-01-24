@@ -16,7 +16,7 @@ syntax = "proto3";
 
 import "common/event.proto";
 
-package grpc.dcmgr;
+package dcmgr;
 
 // The k8s service definition.
 service DCStreamer {

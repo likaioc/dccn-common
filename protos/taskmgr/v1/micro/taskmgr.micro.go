@@ -51,7 +51,7 @@ var _ server.Option
 
 type TaskMgrService interface {
 	// Sends request to start a task and list task
-	AddTask(ctx context.Context, in *AddTaskRequest, opts ...client.CallOption) (*AddTaskResponse, error)
+	CreateTask(ctx context.Context, in *AddTaskRequest, opts ...client.CallOption) (*AddTaskResponse, error)
 	TaskList(ctx context.Context, in *ID, opts ...client.CallOption) (*TaskListResponse, error)
 	CancelTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto2.Error, error)
 	PurgeTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto2.Error, error)
@@ -77,8 +77,8 @@ func NewTaskMgrService(name string, c client.Client) TaskMgrService {
 	}
 }
 
-func (c *taskMgrService) AddTask(ctx context.Context, in *AddTaskRequest, opts ...client.CallOption) (*AddTaskResponse, error) {
-	req := c.c.NewRequest(c.name, "TaskMgr.AddTask", in)
+func (c *taskMgrService) CreateTask(ctx context.Context, in *AddTaskRequest, opts ...client.CallOption) (*AddTaskResponse, error) {
+	req := c.c.NewRequest(c.name, "TaskMgr.CreateTask", in)
 	out := new(AddTaskResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -141,7 +141,7 @@ func (c *taskMgrService) UpdateTask(ctx context.Context, in *UpdateTaskRequest, 
 
 type TaskMgrHandler interface {
 	// Sends request to start a task and list task
-	AddTask(context.Context, *AddTaskRequest, *AddTaskResponse) error
+	CreateTask(context.Context, *AddTaskRequest, *AddTaskResponse) error
 	TaskList(context.Context, *ID, *TaskListResponse) error
 	CancelTask(context.Context, *Request, *common_proto2.Error) error
 	PurgeTask(context.Context, *Request, *common_proto2.Error) error
@@ -151,7 +151,7 @@ type TaskMgrHandler interface {
 
 func RegisterTaskMgrHandler(s server.Server, hdlr TaskMgrHandler, opts ...server.HandlerOption) error {
 	type taskMgr interface {
-		AddTask(ctx context.Context, in *AddTaskRequest, out *AddTaskResponse) error
+		CreateTask(ctx context.Context, in *AddTaskRequest, out *AddTaskResponse) error
 		TaskList(ctx context.Context, in *ID, out *TaskListResponse) error
 		CancelTask(ctx context.Context, in *Request, out *common_proto2.Error) error
 		PurgeTask(ctx context.Context, in *Request, out *common_proto2.Error) error
@@ -169,8 +169,8 @@ type taskMgrHandler struct {
 	TaskMgrHandler
 }
 
-func (h *taskMgrHandler) AddTask(ctx context.Context, in *AddTaskRequest, out *AddTaskResponse) error {
-	return h.TaskMgrHandler.AddTask(ctx, in, out)
+func (h *taskMgrHandler) CreateTask(ctx context.Context, in *AddTaskRequest, out *AddTaskResponse) error {
+	return h.TaskMgrHandler.CreateTask(ctx, in, out)
 }
 
 func (h *taskMgrHandler) TaskList(ctx context.Context, in *ID, out *TaskListResponse) error {

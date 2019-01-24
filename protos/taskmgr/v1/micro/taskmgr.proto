@@ -7,7 +7,7 @@ package taskmgr;
 
 service TaskMgr {
     // Sends request to start a task and list task
-    rpc AddTask (AddTaskRequest) returns (AddTaskResponse) {}
+    rpc CreateTask (AddTaskRequest) returns (AddTaskResponse) {}
     rpc TaskList (ID) returns (TaskListResponse) {}
     rpc CancelTask (Request) returns (common.proto.Error) {}
     rpc PurgeTask (Request) returns (common.proto.Error) {}

@@ -1,9 +1,9 @@
 syntax = "proto3";
 
 package common.proto;
+import "common/code.proto";
 
 message Error {
-    int32 code = 1;
+    common.proto.Status status = 1;
     string details = 2;
 }
-

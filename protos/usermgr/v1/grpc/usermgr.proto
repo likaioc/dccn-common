@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package grpc.usermgr;
+package usermgr;
 
 // TODO: supports filter
 service UserMgr {

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package grpc.mail;
+package mail;
 
 service Mail {
 	rpc Send(MailEvent) returns (Response) {}
