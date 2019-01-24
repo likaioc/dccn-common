@@ -14,12 +14,12 @@ enum Operation {
 enum TaskStatus {
     START  = 0;
     START_SUCCESS = 1;
-    START_FAILURE = 2;
-    START_FAILED = 3;
-    RUNNING = 4;
-    UPDATING = 5;
-    UPDATE_SUCCESS = 6;
-    UPDATE_FAILED = 7;
+    START_FAILED = 2;
+    RUNNING = 3;
+    UPDATING = 4;
+    UPDATE_SUCCESS = 5;
+    UPDATE_FAILED = 6;
+    CANCELL = 7;
     CANCELLED = 8;
     CANCELL_FAILED = 9;
     DONE = 10;

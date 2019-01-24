@@ -8,8 +8,8 @@ It is generated from these files:
 	taskmgr/v1/micro/taskmgr.proto
 
 It has these top-level messages:
-	AddTaskRequest
-	AddTaskResponse
+	CreateTaskRequest
+	CreateTaskResponse
 	ID
 	Request
 	TaskListResponse
@@ -51,7 +51,7 @@ var _ server.Option
 
 type TaskMgrService interface {
 	// Sends request to start a task and list task
-	CreateTask(ctx context.Context, in *AddTaskRequest, opts ...client.CallOption) (*AddTaskResponse, error)
+	CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...client.CallOption) (*CreateTaskResponse, error)
 	TaskList(ctx context.Context, in *ID, opts ...client.CallOption) (*TaskListResponse, error)
 	CancelTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto2.Error, error)
 	PurgeTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto2.Error, error)
@@ -77,9 +77,9 @@ func NewTaskMgrService(name string, c client.Client) TaskMgrService {
 	}
 }
 
-func (c *taskMgrService) CreateTask(ctx context.Context, in *AddTaskRequest, opts ...client.CallOption) (*AddTaskResponse, error) {
+func (c *taskMgrService) CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...client.CallOption) (*CreateTaskResponse, error) {
 	req := c.c.NewRequest(c.name, "TaskMgr.CreateTask", in)
-	out := new(AddTaskResponse)
+	out := new(CreateTaskResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -141,7 +141,7 @@ func (c *taskMgrService) UpdateTask(ctx context.Context, in *UpdateTaskRequest, 
 
 type TaskMgrHandler interface {
 	// Sends request to start a task and list task
-	CreateTask(context.Context, *AddTaskRequest, *AddTaskResponse) error
+	CreateTask(context.Context, *CreateTaskRequest, *CreateTaskResponse) error
 	TaskList(context.Context, *ID, *TaskListResponse) error
 	CancelTask(context.Context, *Request, *common_proto2.Error) error
 	PurgeTask(context.Context, *Request, *common_proto2.Error) error
@@ -151,7 +151,7 @@ type TaskMgrHandler interface {
 
 func RegisterTaskMgrHandler(s server.Server, hdlr TaskMgrHandler, opts ...server.HandlerOption) error {
 	type taskMgr interface {
-		CreateTask(ctx context.Context, in *AddTaskRequest, out *AddTaskResponse) error
+		CreateTask(ctx context.Context, in *CreateTaskRequest, out *CreateTaskResponse) error
 		TaskList(ctx context.Context, in *ID, out *TaskListResponse) error
 		CancelTask(ctx context.Context, in *Request, out *common_proto2.Error) error
 		PurgeTask(ctx context.Context, in *Request, out *common_proto2.Error) error
@@ -169,7 +169,7 @@ type taskMgrHandler struct {
 	TaskMgrHandler
 }
 
-func (h *taskMgrHandler) CreateTask(ctx context.Context, in *AddTaskRequest, out *AddTaskResponse) error {
+func (h *taskMgrHandler) CreateTask(ctx context.Context, in *CreateTaskRequest, out *CreateTaskResponse) error {
 	return h.TaskMgrHandler.CreateTask(ctx, in, out)
 }
 
