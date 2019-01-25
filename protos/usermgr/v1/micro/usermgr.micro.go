@@ -8,17 +8,19 @@ It is generated from these files:
 	usermgr/v1/micro/usermgr.proto
 
 It has these top-level messages:
-	LoginRequest
-	Email
 	User
-	Response
+	LoginRequest
+	LoginResponse
+	LogoutRequest
 	Token
+	NewTokenResponse
 */
 package usermgr
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
+import common_proto1 "github.com/Ankr-network/dccn-common/protos/common"
 
 import (
 	context "context"
@@ -30,6 +32,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = common_proto1.Error{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -45,16 +48,16 @@ var _ server.Option
 // Client API for UserMgr service
 
 type UserMgrService interface {
+	// Register Create a new user
+	Register(ctx context.Context, in *User, opts ...client.CallOption) (*common_proto1.Error, error)
 	// Login login
-	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*User, error)
-	// Create Create a new user
-	Create(ctx context.Context, in *User, opts ...client.CallOption) (*Response, error)
-	// Gets the specified user by email
-	Get(ctx context.Context, in *Email, opts ...client.CallOption) (*User, error)
+	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*LoginResponse, error)
+	// Logout need verify permission
+	Logout(ctx context.Context, in *LogoutRequest, opts ...client.CallOption) (*common_proto1.Error, error)
 	// Auth  validates user
-	NewToken(ctx context.Context, in *User, opts ...client.CallOption) (*Token, error)
+	NewToken(ctx context.Context, in *User, opts ...client.CallOption) (*NewTokenResponse, error)
 	// VerifyToken Validated Token
-	VerifyToken(ctx context.Context, in *Token, opts ...client.CallOption) (*Response, error)
+	VerifyToken(ctx context.Context, in *Token, opts ...client.CallOption) (*common_proto1.Error, error)
 }
 
 type userMgrService struct {
@@ -75,9 +78,19 @@ func NewUserMgrService(name string, c client.Client) UserMgrService {
 	}
 }
 
-func (c *userMgrService) Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*User, error) {
+func (c *userMgrService) Register(ctx context.Context, in *User, opts ...client.CallOption) (*common_proto1.Error, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.Register", in)
+	out := new(common_proto1.Error)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*LoginResponse, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.Login", in)
-	out := new(User)
+	out := new(LoginResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -85,9 +98,9 @@ func (c *userMgrService) Login(ctx context.Context, in *LoginRequest, opts ...cl
 	return out, nil
 }
 
-func (c *userMgrService) Create(ctx context.Context, in *User, opts ...client.CallOption) (*Response, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.Create", in)
-	out := new(Response)
+func (c *userMgrService) Logout(ctx context.Context, in *LogoutRequest, opts ...client.CallOption) (*common_proto1.Error, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.Logout", in)
+	out := new(common_proto1.Error)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -95,19 +108,9 @@ func (c *userMgrService) Create(ctx context.Context, in *User, opts ...client.Ca
 	return out, nil
 }
 
-func (c *userMgrService) Get(ctx context.Context, in *Email, opts ...client.CallOption) (*User, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.Get", in)
-	out := new(User)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userMgrService) NewToken(ctx context.Context, in *User, opts ...client.CallOption) (*Token, error) {
+func (c *userMgrService) NewToken(ctx context.Context, in *User, opts ...client.CallOption) (*NewTokenResponse, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.NewToken", in)
-	out := new(Token)
+	out := new(NewTokenResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -115,9 +118,9 @@ func (c *userMgrService) NewToken(ctx context.Context, in *User, opts ...client.
 	return out, nil
 }
 
-func (c *userMgrService) VerifyToken(ctx context.Context, in *Token, opts ...client.CallOption) (*Response, error) {
+func (c *userMgrService) VerifyToken(ctx context.Context, in *Token, opts ...client.CallOption) (*common_proto1.Error, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.VerifyToken", in)
-	out := new(Response)
+	out := new(common_proto1.Error)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -128,25 +131,25 @@ func (c *userMgrService) VerifyToken(ctx context.Context, in *Token, opts ...cli
 // Server API for UserMgr service
 
 type UserMgrHandler interface {
+	// Register Create a new user
+	Register(context.Context, *User, *common_proto1.Error) error
 	// Login login
-	Login(context.Context, *LoginRequest, *User) error
-	// Create Create a new user
-	Create(context.Context, *User, *Response) error
-	// Gets the specified user by email
-	Get(context.Context, *Email, *User) error
+	Login(context.Context, *LoginRequest, *LoginResponse) error
+	// Logout need verify permission
+	Logout(context.Context, *LogoutRequest, *common_proto1.Error) error
 	// Auth  validates user
-	NewToken(context.Context, *User, *Token) error
+	NewToken(context.Context, *User, *NewTokenResponse) error
 	// VerifyToken Validated Token
-	VerifyToken(context.Context, *Token, *Response) error
+	VerifyToken(context.Context, *Token, *common_proto1.Error) error
 }
 
 func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server.HandlerOption) error {
 	type userMgr interface {
-		Login(ctx context.Context, in *LoginRequest, out *User) error
-		Create(ctx context.Context, in *User, out *Response) error
-		Get(ctx context.Context, in *Email, out *User) error
-		NewToken(ctx context.Context, in *User, out *Token) error
-		VerifyToken(ctx context.Context, in *Token, out *Response) error
+		Register(ctx context.Context, in *User, out *common_proto1.Error) error
+		Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error
+		Logout(ctx context.Context, in *LogoutRequest, out *common_proto1.Error) error
+		NewToken(ctx context.Context, in *User, out *NewTokenResponse) error
+		VerifyToken(ctx context.Context, in *Token, out *common_proto1.Error) error
 	}
 	type UserMgr struct {
 		userMgr
@@ -159,22 +162,22 @@ type userMgrHandler struct {
 	UserMgrHandler
 }
 
-func (h *userMgrHandler) Login(ctx context.Context, in *LoginRequest, out *User) error {
+func (h *userMgrHandler) Register(ctx context.Context, in *User, out *common_proto1.Error) error {
+	return h.UserMgrHandler.Register(ctx, in, out)
+}
+
+func (h *userMgrHandler) Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error {
 	return h.UserMgrHandler.Login(ctx, in, out)
 }
 
-func (h *userMgrHandler) Create(ctx context.Context, in *User, out *Response) error {
-	return h.UserMgrHandler.Create(ctx, in, out)
+func (h *userMgrHandler) Logout(ctx context.Context, in *LogoutRequest, out *common_proto1.Error) error {
+	return h.UserMgrHandler.Logout(ctx, in, out)
 }
 
-func (h *userMgrHandler) Get(ctx context.Context, in *Email, out *User) error {
-	return h.UserMgrHandler.Get(ctx, in, out)
-}
-
-func (h *userMgrHandler) NewToken(ctx context.Context, in *User, out *Token) error {
+func (h *userMgrHandler) NewToken(ctx context.Context, in *User, out *NewTokenResponse) error {
 	return h.UserMgrHandler.NewToken(ctx, in, out)
 }
 
-func (h *userMgrHandler) VerifyToken(ctx context.Context, in *Token, out *Response) error {
+func (h *userMgrHandler) VerifyToken(ctx context.Context, in *Token, out *common_proto1.Error) error {
 	return h.UserMgrHandler.VerifyToken(ctx, in, out)
 }

@@ -17,4 +17,5 @@ var (
 	ErrUnknown                   = errors.New("unknown operation or code")
 	ErrSyncTaskInfo              = errors.New("sync task info error")
 	ErrPublish                   = errors.New("mq publish message error")
+	ErrConnection                = errors.New("connection error")
 )

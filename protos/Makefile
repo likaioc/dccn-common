@@ -20,8 +20,8 @@ proto:
 	email/v1/micro/email.proto;
 
 	@protoc -I. \
-	--micro_out=. \
-	--go_out=. \
+	--micro_out=Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	--go_out=Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	usermgr/v1/micro/usermgr.proto;
 
 	@protoc -I. \
@@ -44,7 +44,7 @@ grpc:
 
 	@cp usermgr/v1/micro/usermgr.proto usermgr/v1/grpc
 	@protoc -I. \
-	--go_out=plugins=grpc:. \
+	--go_out=plugins=grpc,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	usermgr/v1/grpc/usermgr.proto;
 
 	@cp taskmgr/v1/micro/taskmgr.proto taskmgr/v1/grpc
