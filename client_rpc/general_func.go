@@ -89,7 +89,7 @@ func Task_list_util(address string, request interface{}) []*pb.TaskInfo {
 	}
 
 	return r.Tasksinfo
-	// todo when have new proto
+	// todo when have new email
 }
 
 func CancelTask_util(address string, request interface{}) string {
