@@ -20,7 +20,7 @@ enum TaskStatus {
     UPDATE_SUCCESS = 5;
     UPDATE_FAILED = 6;
     CANCEL = 7;
-    CANCELED = 8;
+    CANCELLED = 8;
     CANCEL_FAILED = 9;
     DONE = 10;
 }
