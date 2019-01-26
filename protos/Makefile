@@ -15,8 +15,8 @@ RECURSIVE_PROTO = for app in $(APPS); do \
 
 proto:
 	@protoc -I. \
-	--micro_out=. \
-	--go_out=. \
+	--micro_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	email/v1/micro/email.proto;
 
 	@protoc -I. \
@@ -39,7 +39,7 @@ proto:
 grpc:
 	@cp email/v1/micro/email.proto email/v1/grpc
 	@protoc -I. \
-	--go_out=plugins=grpc:. \
+	--go_out=plugins=grpc,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	email/v1/grpc/email.proto;
 
 	@cp usermgr/v1/micro/usermgr.proto usermgr/v1/grpc

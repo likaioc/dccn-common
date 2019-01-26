@@ -8,14 +8,14 @@ It is generated from these files:
 	email/v1/micro/email.proto
 
 It has these top-level messages:
-	MailEvent
-	Response
 */
 package mail
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
+import common_proto2 "github.com/Ankr-network/dccn-common/protos/common"
+import common_proto3 "github.com/Ankr-network/dccn-common/protos/common"
 
 import (
 	context "context"
@@ -27,6 +27,8 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = common_proto2.MailEvent{}
+var _ = common_proto3.Error{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -42,7 +44,7 @@ var _ server.Option
 // Client API for Mail service
 
 type MailService interface {
-	Send(ctx context.Context, in *MailEvent, opts ...client.CallOption) (*Response, error)
+	Send(ctx context.Context, in *common_proto2.MailEvent, opts ...client.CallOption) (*common_proto3.Error, error)
 }
 
 type mailService struct {
@@ -63,9 +65,9 @@ func NewMailService(name string, c client.Client) MailService {
 	}
 }
 
-func (c *mailService) Send(ctx context.Context, in *MailEvent, opts ...client.CallOption) (*Response, error) {
+func (c *mailService) Send(ctx context.Context, in *common_proto2.MailEvent, opts ...client.CallOption) (*common_proto3.Error, error) {
 	req := c.c.NewRequest(c.name, "Mail.Send", in)
-	out := new(Response)
+	out := new(common_proto3.Error)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -76,12 +78,12 @@ func (c *mailService) Send(ctx context.Context, in *MailEvent, opts ...client.Ca
 // Server API for Mail service
 
 type MailHandler interface {
-	Send(context.Context, *MailEvent, *Response) error
+	Send(context.Context, *common_proto2.MailEvent, *common_proto3.Error) error
 }
 
 func RegisterMailHandler(s server.Server, hdlr MailHandler, opts ...server.HandlerOption) error {
 	type mail interface {
-		Send(ctx context.Context, in *MailEvent, out *Response) error
+		Send(ctx context.Context, in *common_proto2.MailEvent, out *common_proto3.Error) error
 	}
 	type Mail struct {
 		mail
@@ -94,6 +96,6 @@ type mailHandler struct {
 	MailHandler
 }
 
-func (h *mailHandler) Send(ctx context.Context, in *MailEvent, out *Response) error {
+func (h *mailHandler) Send(ctx context.Context, in *common_proto2.MailEvent, out *common_proto3.Error) error {
 	return h.MailHandler.Send(ctx, in, out)
 }
