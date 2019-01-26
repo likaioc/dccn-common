@@ -17,7 +17,7 @@ service TaskMgr {
 
 // The dccn client request message containing the user's token
 message CreateTaskRequest {
-    int64 user_id = 1;
+    string user_id = 1;
     common.proto.Task task = 2;
 }
 
@@ -27,11 +27,11 @@ message CreateTaskResponse {
 }
 
 message ID {
-    int64 user_id = 1;
+    string user_id = 1;
 }
 
 message Request {
-    int64 user_id = 1;
+    string user_id = 1;
     string task_id = 2;
 }
 
@@ -41,7 +41,7 @@ message TaskListResponse {
 }
 
 message UpdateTaskRequest{
-    int64 user_id = 1;
+    string user_id = 1;
     common.proto.Task task = 2;
 }
 

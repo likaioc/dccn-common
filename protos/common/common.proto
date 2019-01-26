@@ -6,7 +6,7 @@ import "common/code.proto";
 
 message Task  {
     string id = 1;
-    int64 user_id = 2;
+    string user_id = 2;
     string name = 3;// name of the task/image to run
     string type = 4; // default or "web" as website
     string image = 5; // template
