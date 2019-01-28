@@ -54,7 +54,7 @@ func (m *Error) GetStatus() Status {
 	if m != nil {
 		return m.Status
 	}
-	return Status_AVALIABLE
+	return Status_AVAILABLE
 }
 
 func (m *Error) GetDetails() string {

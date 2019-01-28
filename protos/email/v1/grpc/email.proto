@@ -2,16 +2,9 @@ syntax = "proto3";
 
 package mail;
 
+import "common/event.proto";
+import "common/error.proto";
+
 service Mail {
-	rpc Send(MailEvent) returns (Response) {}
-}
-
-message MailEvent {
-	string name = 1;
-	string address = 2;
-	string message = 3;
-}
-
-
-message Response {
+	rpc Send(common.proto.MailEvent) returns (common.proto.Error) {}
 }
