@@ -10,7 +10,8 @@ message TaskFeedback {
     string task_id = 1;
     string url = 2;  // url of web application
     string data_center = 3; // name of data center
-    common.proto.TaskStatus status = 4; // StartSuccess or StartFailure JobDone Cancelled  Running  Other
+    string report = 4; // detail message
+    common.proto.TaskStatus status = 5; // StartSuccess or StartFailure JobDone Cancelled  Running  Other
 }
 
 // data center communicate with dc manager
