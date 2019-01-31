@@ -12,7 +12,7 @@ message Task  {
     string image = 5; // template
     int32 replica = 6; // how many replica of docker instance
     string data_center = 7;
-    int64 data_center_id = 8;// data center id if value = 0 or default hub will pickup by random
+    string data_center_id = 8;// data center id if value = 0 or default hub will pickup by random
     common.proto.TaskStatus status = 9;
     string unique_name = 10;
     string url = 11;
