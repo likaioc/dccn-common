@@ -22,5 +22,4 @@ const (
 	UserMgrRegistryServerName = "go.micro.srv.v1.user"
 	EmailRegistryServerName   = "go.micro.srv.v1.email"
 	DcMgrRegistryServerName   = "go.micro.srv.v1.data.center"
-	DCApiRegistryServerName   = "go.micro.srv.v1.app-dccn-api"
 )
