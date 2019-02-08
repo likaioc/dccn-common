@@ -22,7 +22,10 @@ service UserMgr {
     rpc VerifyToken(Token) returns (common.proto.Error) {
     }
     // VerifyToken validated token and refresh token, return new token
-    rpc VerifyAndRefreshToken(Token) returns (NewTokenResponse) {
+    rpc VerifyAndRefreshToken(Token) returns (common.proto.Error) {
+    }
+    // RefreshToken reset token last access token
+    rpc RefreshToken(Token) returns (common.proto.Error) {
     }
 }
 
