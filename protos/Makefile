@@ -1,4 +1,4 @@
-.PHONY: proto build test run deploy local clean echo grpc
+.PHONY: common proto grpc build test run deploy local clean echo
 
 GOPATH:=$(shell go env GOPATH)
 
@@ -15,7 +15,12 @@ RECURSIVE_PROTO = for app in $(APPS); do \
 
 # To do: there should be a script to loop through all the micro services.
 # To do: there should be only one copy of each proto file.
-proto:
+common:
+	@cd common && protoc \
+	--go_out=. \
+	*.proto
+
+proto: common
 	@protoc -I. \
 	--micro_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
@@ -38,7 +43,7 @@ proto:
 	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	dcmgr/v1/micro/dcmgr.proto
 
-grpc:
+grpc: common
 	@cp email/v1/micro/email.proto email/v1/grpc
 	@protoc -I. \
 	--go_out=plugins=grpc,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \

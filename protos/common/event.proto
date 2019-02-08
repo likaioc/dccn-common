@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package common.proto;
 
-import "common/code.proto";
-import "common/common.proto";
+import "code.proto";
+import "common.proto";
 
 // data center returns msg with task status
 message TaskFeedback {
