@@ -14,11 +14,30 @@
 
 syntax = "proto3";
 
+
 import "common/event.proto";
+import "common/common.proto";
+import "common/error.proto";
+
+
 
 package dcmgr;
 
 // The k8s service definition.
 service DCStreamer {
     rpc ServerStream(stream common.proto.Event) returns (stream common.proto.Event) {} // k8s task stream
+}
+
+// The dclist service definition.
+service DCAPI {
+      rpc DataCenterList (DataCenterListRequest) returns (DataCenterListResponse) {}
+}
+
+message DataCenterListRequest{
+       string user_id = 1;
+}
+
+message DataCenterListResponse {
+  repeated common.proto.DataCenter dcList= 1; // repeated groups of DataCenterInfo list
+  common.proto.Error error = 3;
 }

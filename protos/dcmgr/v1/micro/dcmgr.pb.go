@@ -19,9 +19,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-func init() { proto.RegisterFile("dcmgr/v1/micro/dcmgr.proto", fileDescriptor_dcmgr_d08b332b5dae373f) }
+func init() { proto.RegisterFile("dcmgr/v1/micro/dcmgr.proto", fileDescriptor_dcmgr_9ff13ecb62ea047c) }
 
-var fileDescriptor_dcmgr_d08b332b5dae373f = []byte{
+var fileDescriptor_dcmgr_9ff13ecb62ea047c = []byte{
 	// 119 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x4a, 0x49, 0xce, 0x4d,
 	0x2f, 0xd2, 0x2f, 0x33, 0xd4, 0xcf, 0xcd, 0x4c, 0x2e, 0xca, 0xd7, 0x07, 0x73, 0xf5, 0x0a, 0x8a,

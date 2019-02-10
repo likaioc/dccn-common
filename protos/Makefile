@@ -32,16 +32,21 @@ proto: common
 	usermgr/v1/micro/usermgr.proto;
 
 	@protoc -I. -Icommon \
-	-Icommon \
 	--micro_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	--go_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	taskmgr/v1/micro/taskmgr.proto
 
 	@protoc -I. -Icommon \
-	-Icommon \
-	--micro_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	--micro_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	   --go_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	dcmgr/v1/micro/dcmgr.proto
+
+
+
+		@protoc -I. -Icommon \
+		--micro_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+		   --go_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+		dcmgr/v1/micro/api.proto
 
 grpc: common
 	@cp email/v1/micro/email.proto email/v1/grpc
@@ -55,13 +60,14 @@ grpc: common
 	usermgr/v1/grpc/usermgr.proto;
 
 	@cp taskmgr/v1/micro/taskmgr.proto taskmgr/v1/grpc
-	@protoc -I. \
-	-Icommon \
+	@protoc -I. -Icommon \
 	--go_out=plugins=grpc,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	taskmgr/v1/grpc/taskmgr.proto
 
 	@cp dcmgr/v1/micro/dcmgr.proto dcmgr/v1/grpc/
-	@protoc -I. \
-	-Icommon \
-	--go_out=plugins=grpc,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	@protoc -I. -Icommon \
+	--go_out=plugins=grpc,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	dcmgr/v1/grpc/dcmgr.proto
+	@protoc -I. -Icommon \
+	--go_out=plugins=grpc,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+	dcmgr/v1/grpc/api.proto

@@ -128,9 +128,9 @@ var _DCStreamer_serviceDesc = grpc.ServiceDesc{
 	Metadata: "dcmgr/v1/grpc/dcmgr.proto",
 }
 
-func init() { proto.RegisterFile("dcmgr/v1/grpc/dcmgr.proto", fileDescriptor_dcmgr_8c3c3761483a905f) }
+func init() { proto.RegisterFile("dcmgr/v1/grpc/dcmgr.proto", fileDescriptor_dcmgr_e00aefa7a15dca49) }
 
-var fileDescriptor_dcmgr_8c3c3761483a905f = []byte{
+var fileDescriptor_dcmgr_e00aefa7a15dca49 = []byte{
 	// 118 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x4c, 0x49, 0xce, 0x4d,
 	0x2f, 0xd2, 0x2f, 0x33, 0xd4, 0x4f, 0x2f, 0x2a, 0x48, 0xd6, 0x07, 0xf3, 0xf4, 0x0a, 0x8a, 0xf2,
