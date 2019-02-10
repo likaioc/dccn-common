@@ -2,8 +2,45 @@ syntax = "proto3";
 
 package common.proto;
 
-import "code.proto";
+// Task Events operation code
+enum Operation {
+    TASK_CREATE = 0;
+    TASK_CANCEL = 1;
+    TASK_UPDATE = 2;
+    HEARTBEAT = 3;
+}
 
+// Hub task status
+enum TaskStatus {
+    START  = 0;
+    START_SUCCESS = 1;
+    START_FAILED = 2;
+    RUNNING = 3;
+    UPDATING = 4;
+    UPDATE_SUCCESS = 5;
+    UPDATE_FAILED = 6;
+    CANCEL = 7;
+    CANCELLED = 8;
+    CANCEL_FAILED = 9;
+    DONE = 10;
+}
+
+// Data center status
+enum Status {
+    AVAILABLE = 0;
+    UNAVAILABLE = 1;
+    SUCCESS = 2;
+    FAILURE = 3;
+    UNKNOWN = 4;
+}
+
+// Error Message 
+message Error {
+    common.proto.Status status = 1;
+    string details = 2;
+}
+
+// Task Data structure
 message Task  {
     string id = 1;
     string user_id = 2;
@@ -23,6 +60,7 @@ message Task  {
     bytes extra = 16;
 }
 
+// Data Center structure
 message DataCenter {
     string  id = 1;  //data center id
     string name = 2; // data center name
@@ -33,4 +71,32 @@ message DataCenter {
     string extra = 7;
     string report = 8;
     string last_report_time = 9;
+}
+
+// data center returns msg with task status
+message TaskFeedback {
+    string task_id = 1;
+    string url = 2;  // url of web application
+    string data_center = 3; // name of data center
+    string report = 4; // detail message
+    common.proto.TaskStatus status = 5; // StartSuccess or StartFailure JobDone Cancelled  Running  Other
+}
+
+// data center communicate with dc manager
+message Event {
+    Operation event_type = 1; // HeartBeat or task operation
+    string report = 2;
+
+    oneof op_message {
+        Task task = 3; // Deploy task action
+        TaskFeedback task_feedback = 4; // Return task status
+        DataCenter data_center = 5; // HearBeat Info with DataCenter message
+    }
+}
+
+// Mail Event For the future
+message MailEvent {
+    string name = 1;
+    string address = 2;
+    string message = 3;
 }

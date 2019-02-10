@@ -1,67 +1,33 @@
-.PHONY: common proto grpc build test run deploy local clean echo
+.PHONY: all common micro grpc build test run deploy local clean echo
 
 GOPATH:=$(shell go env GOPATH)
 
-
-APPS=$(wildcard */v1/*.proto)
-RECURSIVE_PROTO = for app in $(APPS); do \
-        @protoc -I. \
-	    -I$(GOPATH)/src/github.com/Ankr-network/dccn-common/protos \
-	    --micro_out=Mtask.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	    --go_out=Mevent.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	    $(subdir); \
-        done
-
-
+all: micro grpc
 # To do: there should be a script to loop through all the micro services.
 # To do: there should be only one copy of each proto file.
 common:
+	@echo "Generating common proto"
 	@cd common && protoc \
 	--go_out=. \
 	*.proto
 
-proto: common
-	@protoc -I. \
-	--micro_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	email/v1/micro/email.proto;
-
-	@protoc -I. \
-	--micro_out=Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	--go_out=Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	usermgr/v1/micro/usermgr.proto;
-
-	@protoc -I. \
-	-Icommon \
-	--micro_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	--go_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	taskmgr/v1/micro/taskmgr.proto
-
-	@protoc -I. \
-	-Icommon \
-	--micro_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	dcmgr/v1/micro/dcmgr.proto
+micro: common
+	@echo "Generating micro proto"
+	@for type in email usermgr taskmgr dcmgr; do \
+		cp $$type/v1/*.proto $$type/v1/micro/; \
+		protoc -I. -Icommon \
+			--micro_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+			--go_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+			$$type/v1/micro/*.proto; \
+		rm $$type/v1/micro/*.proto; \
+	done
 
 grpc: common
-	@cp email/v1/micro/email.proto email/v1/grpc
-	@protoc -I. \
-	--go_out=plugins=grpc,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	email/v1/grpc/email.proto;
-
-	@cp usermgr/v1/micro/usermgr.proto usermgr/v1/grpc
-	@protoc -I. \
-	--go_out=plugins=grpc,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	usermgr/v1/grpc/usermgr.proto;
-
-	@cp taskmgr/v1/micro/taskmgr.proto taskmgr/v1/grpc
-	@protoc -I. \
-	-Icommon \
-	--go_out=plugins=grpc,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	taskmgr/v1/grpc/taskmgr.proto
-
-	@cp dcmgr/v1/micro/dcmgr.proto dcmgr/v1/grpc/
-	@protoc -I. \
-	-Icommon \
-	--go_out=plugins=grpc,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-	dcmgr/v1/grpc/dcmgr.proto
+	@echo "Generating gPRC proto"
+	@for type in email usermgr taskmgr dcmgr; do \
+		cp $$type/v1/*.proto $$type/v1/grpc/; \
+		protoc -I. -Icommon \
+			--go_out=plugins=grpc,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+			$$type/v1/grpc/*.proto; \
+		rm $$type/v1/grpc/*.proto; \
+	done

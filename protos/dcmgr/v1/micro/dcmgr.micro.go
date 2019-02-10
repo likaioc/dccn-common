@@ -8,13 +8,15 @@ It is generated from these files:
 	dcmgr/v1/micro/dcmgr.proto
 
 It has these top-level messages:
+	DataCenterListRequest
+	DataCenterListResponse
 */
 package dcmgr
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import common_proto2 "github.com/Ankr-network/dccn-common/protos/common"
+import common_proto "github.com/Ankr-network/dccn-common/protos/common"
 
 import (
 	context "context"
@@ -26,7 +28,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = common_proto2.Event{}
+var _ = common_proto.Event{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -64,7 +66,7 @@ func NewDCStreamerService(name string, c client.Client) DCStreamerService {
 }
 
 func (c *dCStreamerService) ServerStream(ctx context.Context, opts ...client.CallOption) (DCStreamer_ServerStreamService, error) {
-	req := c.c.NewRequest(c.name, "DCStreamer.ServerStream", &common_proto2.Event{})
+	req := c.c.NewRequest(c.name, "DCStreamer.ServerStream", &common_proto.Event{})
 	stream, err := c.c.Stream(ctx, req, opts...)
 	if err != nil {
 		return nil, err
@@ -76,8 +78,8 @@ type DCStreamer_ServerStreamService interface {
 	SendMsg(interface{}) error
 	RecvMsg(interface{}) error
 	Close() error
-	Send(*common_proto2.Event) error
-	Recv() (*common_proto2.Event, error)
+	Send(*common_proto.Event) error
+	Recv() (*common_proto.Event, error)
 }
 
 type dCStreamerServiceServerStream struct {
@@ -96,12 +98,12 @@ func (x *dCStreamerServiceServerStream) RecvMsg(m interface{}) error {
 	return x.stream.Recv(m)
 }
 
-func (x *dCStreamerServiceServerStream) Send(m *common_proto2.Event) error {
+func (x *dCStreamerServiceServerStream) Send(m *common_proto.Event) error {
 	return x.stream.Send(m)
 }
 
-func (x *dCStreamerServiceServerStream) Recv() (*common_proto2.Event, error) {
-	m := new(common_proto2.Event)
+func (x *dCStreamerServiceServerStream) Recv() (*common_proto.Event, error) {
+	m := new(common_proto.Event)
 	err := x.stream.Recv(m)
 	if err != nil {
 		return nil, err
@@ -138,8 +140,8 @@ type DCStreamer_ServerStreamStream interface {
 	SendMsg(interface{}) error
 	RecvMsg(interface{}) error
 	Close() error
-	Send(*common_proto2.Event) error
-	Recv() (*common_proto2.Event, error)
+	Send(*common_proto.Event) error
+	Recv() (*common_proto.Event, error)
 }
 
 type dCStreamerServerStreamStream struct {
@@ -158,14 +160,73 @@ func (x *dCStreamerServerStreamStream) RecvMsg(m interface{}) error {
 	return x.stream.Recv(m)
 }
 
-func (x *dCStreamerServerStreamStream) Send(m *common_proto2.Event) error {
+func (x *dCStreamerServerStreamStream) Send(m *common_proto.Event) error {
 	return x.stream.Send(m)
 }
 
-func (x *dCStreamerServerStreamStream) Recv() (*common_proto2.Event, error) {
-	m := new(common_proto2.Event)
+func (x *dCStreamerServerStreamStream) Recv() (*common_proto.Event, error) {
+	m := new(common_proto.Event)
 	if err := x.stream.Recv(m); err != nil {
 		return nil, err
 	}
 	return m, nil
+}
+
+// Client API for DCAPI service
+
+type DCAPIService interface {
+	DataCenterList(ctx context.Context, in *DataCenterListRequest, opts ...client.CallOption) (*DataCenterListResponse, error)
+}
+
+type dCAPIService struct {
+	c    client.Client
+	name string
+}
+
+func NewDCAPIService(name string, c client.Client) DCAPIService {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(name) == 0 {
+		name = "dcmgr"
+	}
+	return &dCAPIService{
+		c:    c,
+		name: name,
+	}
+}
+
+func (c *dCAPIService) DataCenterList(ctx context.Context, in *DataCenterListRequest, opts ...client.CallOption) (*DataCenterListResponse, error) {
+	req := c.c.NewRequest(c.name, "DCAPI.DataCenterList", in)
+	out := new(DataCenterListResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for DCAPI service
+
+type DCAPIHandler interface {
+	DataCenterList(context.Context, *DataCenterListRequest, *DataCenterListResponse) error
+}
+
+func RegisterDCAPIHandler(s server.Server, hdlr DCAPIHandler, opts ...server.HandlerOption) error {
+	type dCAPI interface {
+		DataCenterList(ctx context.Context, in *DataCenterListRequest, out *DataCenterListResponse) error
+	}
+	type DCAPI struct {
+		dCAPI
+	}
+	h := &dCAPIHandler{hdlr}
+	return s.Handle(s.NewHandler(&DCAPI{h}, opts...))
+}
+
+type dCAPIHandler struct {
+	DCAPIHandler
+}
+
+func (h *dCAPIHandler) DataCenterList(ctx context.Context, in *DataCenterListRequest, out *DataCenterListResponse) error {
+	return h.DCAPIHandler.DataCenterList(ctx, in, out)
 }
