@@ -21,8 +21,7 @@ package taskmgr
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import _ "github.com/Ankr-network/dccn-common/protos/common"
-import common_proto2 "github.com/Ankr-network/dccn-common/protos/common"
+import common_proto "github.com/Ankr-network/dccn-common/protos/common"
 
 import (
 	context "context"
@@ -34,7 +33,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = common_proto2.Error{}
+var _ = common_proto.Error{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -53,10 +52,10 @@ type TaskMgrService interface {
 	// Sends request to start a task and list task
 	CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...client.CallOption) (*CreateTaskResponse, error)
 	TaskList(ctx context.Context, in *ID, opts ...client.CallOption) (*TaskListResponse, error)
-	CancelTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto2.Error, error)
-	PurgeTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto2.Error, error)
+	CancelTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto.Error, error)
+	PurgeTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto.Error, error)
 	TaskDetail(ctx context.Context, in *Request, opts ...client.CallOption) (*TaskDetailResponse, error)
-	UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...client.CallOption) (*common_proto2.Error, error)
+	UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...client.CallOption) (*common_proto.Error, error)
 }
 
 type taskMgrService struct {
@@ -97,9 +96,9 @@ func (c *taskMgrService) TaskList(ctx context.Context, in *ID, opts ...client.Ca
 	return out, nil
 }
 
-func (c *taskMgrService) CancelTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto2.Error, error) {
+func (c *taskMgrService) CancelTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto.Error, error) {
 	req := c.c.NewRequest(c.name, "TaskMgr.CancelTask", in)
-	out := new(common_proto2.Error)
+	out := new(common_proto.Error)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -107,9 +106,9 @@ func (c *taskMgrService) CancelTask(ctx context.Context, in *Request, opts ...cl
 	return out, nil
 }
 
-func (c *taskMgrService) PurgeTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto2.Error, error) {
+func (c *taskMgrService) PurgeTask(ctx context.Context, in *Request, opts ...client.CallOption) (*common_proto.Error, error) {
 	req := c.c.NewRequest(c.name, "TaskMgr.PurgeTask", in)
-	out := new(common_proto2.Error)
+	out := new(common_proto.Error)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -127,9 +126,9 @@ func (c *taskMgrService) TaskDetail(ctx context.Context, in *Request, opts ...cl
 	return out, nil
 }
 
-func (c *taskMgrService) UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...client.CallOption) (*common_proto2.Error, error) {
+func (c *taskMgrService) UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...client.CallOption) (*common_proto.Error, error) {
 	req := c.c.NewRequest(c.name, "TaskMgr.UpdateTask", in)
-	out := new(common_proto2.Error)
+	out := new(common_proto.Error)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -143,20 +142,20 @@ type TaskMgrHandler interface {
 	// Sends request to start a task and list task
 	CreateTask(context.Context, *CreateTaskRequest, *CreateTaskResponse) error
 	TaskList(context.Context, *ID, *TaskListResponse) error
-	CancelTask(context.Context, *Request, *common_proto2.Error) error
-	PurgeTask(context.Context, *Request, *common_proto2.Error) error
+	CancelTask(context.Context, *Request, *common_proto.Error) error
+	PurgeTask(context.Context, *Request, *common_proto.Error) error
 	TaskDetail(context.Context, *Request, *TaskDetailResponse) error
-	UpdateTask(context.Context, *UpdateTaskRequest, *common_proto2.Error) error
+	UpdateTask(context.Context, *UpdateTaskRequest, *common_proto.Error) error
 }
 
 func RegisterTaskMgrHandler(s server.Server, hdlr TaskMgrHandler, opts ...server.HandlerOption) error {
 	type taskMgr interface {
 		CreateTask(ctx context.Context, in *CreateTaskRequest, out *CreateTaskResponse) error
 		TaskList(ctx context.Context, in *ID, out *TaskListResponse) error
-		CancelTask(ctx context.Context, in *Request, out *common_proto2.Error) error
-		PurgeTask(ctx context.Context, in *Request, out *common_proto2.Error) error
+		CancelTask(ctx context.Context, in *Request, out *common_proto.Error) error
+		PurgeTask(ctx context.Context, in *Request, out *common_proto.Error) error
 		TaskDetail(ctx context.Context, in *Request, out *TaskDetailResponse) error
-		UpdateTask(ctx context.Context, in *UpdateTaskRequest, out *common_proto2.Error) error
+		UpdateTask(ctx context.Context, in *UpdateTaskRequest, out *common_proto.Error) error
 	}
 	type TaskMgr struct {
 		taskMgr
@@ -177,11 +176,11 @@ func (h *taskMgrHandler) TaskList(ctx context.Context, in *ID, out *TaskListResp
 	return h.TaskMgrHandler.TaskList(ctx, in, out)
 }
 
-func (h *taskMgrHandler) CancelTask(ctx context.Context, in *Request, out *common_proto2.Error) error {
+func (h *taskMgrHandler) CancelTask(ctx context.Context, in *Request, out *common_proto.Error) error {
 	return h.TaskMgrHandler.CancelTask(ctx, in, out)
 }
 
-func (h *taskMgrHandler) PurgeTask(ctx context.Context, in *Request, out *common_proto2.Error) error {
+func (h *taskMgrHandler) PurgeTask(ctx context.Context, in *Request, out *common_proto.Error) error {
 	return h.TaskMgrHandler.PurgeTask(ctx, in, out)
 }
 
@@ -189,6 +188,6 @@ func (h *taskMgrHandler) TaskDetail(ctx context.Context, in *Request, out *TaskD
 	return h.TaskMgrHandler.TaskDetail(ctx, in, out)
 }
 
-func (h *taskMgrHandler) UpdateTask(ctx context.Context, in *UpdateTaskRequest, out *common_proto2.Error) error {
+func (h *taskMgrHandler) UpdateTask(ctx context.Context, in *UpdateTaskRequest, out *common_proto.Error) error {
 	return h.TaskMgrHandler.UpdateTask(ctx, in, out)
 }

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "common/error.proto";
+import "common/common.proto";
 
 package usermgr;
 
