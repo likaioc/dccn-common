@@ -21,23 +21,23 @@ common:
 	*.proto
 
 proto: common
-	@protoc -I. \
+	@protoc -I. -Icommon \
 	--micro_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	email/v1/micro/email.proto;
 
-	@protoc -I. \
+	@protoc -I. -Icommon \
 	--micro_out=Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	--go_out=Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	usermgr/v1/micro/usermgr.proto;
 
-	@protoc -I. \
+	@protoc -I. -Icommon \
 	-Icommon \
 	--micro_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	--go_out=Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	taskmgr/v1/micro/taskmgr.proto
 
-	@protoc -I. \
+	@protoc -I. -Icommon \
 	-Icommon \
 	--micro_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	--go_out=Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common:. \
@@ -45,12 +45,12 @@ proto: common
 
 grpc: common
 	@cp email/v1/micro/email.proto email/v1/grpc
-	@protoc -I. \
+	@protoc -I. -Icommon \
 	--go_out=plugins=grpc,Mcommon/event.proto=github.com/Ankr-network/dccn-common/protos/common,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	email/v1/grpc/email.proto;
 
 	@cp usermgr/v1/micro/usermgr.proto usermgr/v1/grpc
-	@protoc -I. \
+	@protoc -I. -Icommon \
 	--go_out=plugins=grpc,Mcommon/error.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 	usermgr/v1/grpc/usermgr.proto;
 
