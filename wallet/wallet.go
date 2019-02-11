@@ -42,3 +42,27 @@ func GenerateKeys() (priv_key_base64, pub_key_base64, address string) {
         address = fmt.Sprintf("%s", mykey.PubKey().Address())
         return
 }
+
+/*
+ do sha256 and sign
+ metering feature needs this.
+*/
+func doSha256Sign(input, priv_key string) (result string) {
+	//sum := sha256.Sum256([]byte(input))
+	//encrypted_result, _ := priv.Sign([]byte(string(sum[:32])))
+	//encrypted_result_b64 := base64.StdEncoding.EncodeToString([]byte(encrypted_result))
+	//result = encrypted_result_b64
+
+	result = ""
+	return
+}
+
+func QueryBalanceByAddress(address string) (balance int) {
+	return 0
+}
+
+func SendCoins(priv_key, from_address, to_address, amount, public_key string) (result int) {
+	return 0
+}
+
+
