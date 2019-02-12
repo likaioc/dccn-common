@@ -2,8 +2,10 @@ package wallet
 
 import (
     "fmt"
+    //"errors"
     "encoding/hex"
     "encoding/base64"
+    "crypto/sha256"
     "github.com/tendermint/tendermint/crypto/ed25519"
     _ "github.com/tendermint/tendermint/crypto"
     _ "encoding/json"
@@ -44,16 +46,26 @@ func GenerateKeys() (priv_key_base64, pub_key_base64, address string) {
 }
 
 /*
- do sha256 and sign
+ do sha256 and sign.
  metering feature needs this.
 */
-func doSha256Sign(input, priv_key string) (result string) {
-	//sum := sha256.Sum256([]byte(input))
-	//encrypted_result, _ := priv.Sign([]byte(string(sum[:32])))
-	//encrypted_result_b64 := base64.StdEncoding.EncodeToString([]byte(encrypted_result))
-	//result = encrypted_result_b64
+func Sha256Sign(input, priv_key string) (result string, err_ret error) {
+        privKeyObject, err := _deserilizePrivKey(priv_key)
+	if err != nil {
+		return "", err
+	}
 
-	result = ""
+	sum := sha256.Sum256([]byte(input))
+	encrypted_result, err := privKeyObject.Sign([]byte(string(sum[:32])))
+	if err != nil {
+		return "", err
+	}
+
+	encrypted_result_b64 := base64.StdEncoding.EncodeToString([]byte(encrypted_result))
+
+	result = encrypted_result_b64
+	err_ret = nil
+
 	return
 }
 
@@ -65,4 +77,17 @@ func SendCoins(priv_key, from_address, to_address, amount, public_key string) (r
 	return 0
 }
 
+/* helper functions */
+/*-------------------------------------------------------------------------------------------------*/
+func _deserilizePrivKey(priv_key_b64 string) (ed25519.PrivKeyEd25519, error){
+        kDec, err := base64.StdEncoding.DecodeString(priv_key_b64)
+	if err != nil {
+		return ed25519.PrivKeyEd25519{}, err
+	}
+
+        pp := []byte(kDec)
+        var keyObject ed25519.PrivKeyEd25519 = ed25519.PrivKeyEd25519{pp[0], pp[1], pp[2], pp[3], pp[4], pp[5], pp[6], pp[7], pp[8], pp[9], pp[10], pp[11], pp[12], pp[13], pp[14], pp[15], pp[16], pp[17], pp[18], pp[19], pp[20], pp[21], pp[22], pp[23], pp[24], pp[25], pp[26], pp[27], pp[28], pp[29], pp[30], pp[31], pp[32], pp[33], pp[34], pp[35], pp[36], pp[37], pp[38], pp[39], pp[40], pp[41], pp[42], pp[43], pp[44], pp[45], pp[46], pp[47], pp[48], pp[49], pp[50], pp[51], pp[52], pp[53], pp[54], pp[55], pp[56], pp[57], pp[58], pp[59], pp[60], pp[61], pp[62], pp[PrivKeyEd25519Size - 1]}
+
+        return keyObject, nil
+}
 
