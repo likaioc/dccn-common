@@ -27,7 +27,7 @@ enum TaskStatus {
 
 enum TaskType {
     DefaultTaskType = 0;
-    DeploymentTaskType = 1;
+    DeployTaskType = 1;
     JobTaskType = 2;
     CronjobTaskType = 3;
 }
@@ -52,7 +52,7 @@ message Task  {
     string id = 1;
     string user_id = 2;
     string name = 3;// name of the task/image to run
-    common.proto.TaskType type = 4; // 0  default 1 deployment 2 job 3 cronjob
+    common.proto.TaskType type = 4; // 0  default 1 deploy 2 job 3 cronjob
     string image = 5; // template
     int32 replica = 6; // how many replica of docker instance
     string data_center = 7;
