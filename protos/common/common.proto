@@ -73,7 +73,7 @@ message DataCenter {
     string name = 2; // data center name
     string lat = 3; // latitude of data center
     string lng = 4; // longitude of data center
-    string status = 5; // data center status // 1. online 2. offline
+    common.proto.Status status = 5; // data center status // 1. online 2. offline
     string metrics = 6; //json string for Metrics structure which defined in constants
     string extra = 7;
     string report = 8;
