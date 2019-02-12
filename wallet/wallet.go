@@ -2,11 +2,14 @@ package wallet
 
 import (
     "fmt"
-    //"errors"
+    "errors"
+    "strings"
     "encoding/hex"
     "encoding/base64"
     "crypto/sha256"
     "github.com/tendermint/tendermint/crypto/ed25519"
+    "github.com/tendermint/tendermint/rpc/client"
+    cmn "github.com/tendermint/tendermint/libs/common"
     _ "github.com/tendermint/tendermint/crypto"
     _ "encoding/json"
 )
@@ -69,8 +72,39 @@ func Sha256Sign(input, priv_key string) (result string, err_ret error) {
 	return
 }
 
-func QueryBalanceByAddress(address string) (balance int) {
-	return 0
+/*
+ query balance based on (ip, port, address).
+ ip: blockchain node ip or domain
+ port: blockchain node port, usually 26657
+ address: wallet address
+ return: balance or error
+*/
+func QueryBalanceByAddress(ip, port, address string) (balance string, err_ret error) {
+
+	cl := _getHTTPClient(ip, port)
+
+        _, err := cl.Status()
+        if err != nil {
+		return "", err
+	} else { 
+                //fmt.Println("LatestBlockHeight:", status.SyncInfo.LatestBlockHeight)
+        }
+
+        // curl  'localhost:26657/abci_query?data="bal:1234567890123456789012345678901234567890"'
+        res, err := cl.ABCIQuery("/websocket", cmn.HexBytes(fmt.Sprintf("%s:%s", "bal", address)))
+        qres := res.Response
+	if !qres.IsOK() {
+		return "", errors.New("Query balance failure, connect error.")
+        } else {
+		balanceNonceSlices := strings.Split(string(qres.Value), ":")
+		if len(balanceNonceSlices) == 2 {
+			balance = balanceNonceSlices[0]
+	        } else {
+			return "", errors.New("Query balance failure, balance format incorrect.")
+		}
+	}
+
+	return balance, nil
 }
 
 func SendCoins(priv_key, from_address, to_address, amount, public_key string) (result int) {
@@ -79,6 +113,10 @@ func SendCoins(priv_key, from_address, to_address, amount, public_key string) (r
 
 /* helper functions */
 /*-------------------------------------------------------------------------------------------------*/
+func _getHTTPClient(ip, port string) *client.HTTP {
+        return client.NewHTTP(ip + ":" + port, "/websocket")
+}
+
 func _deserilizePrivKey(priv_key_b64 string) (ed25519.PrivKeyEd25519, error){
         kDec, err := base64.StdEncoding.DecodeString(priv_key_b64)
 	if err != nil {
@@ -90,4 +128,4 @@ func _deserilizePrivKey(priv_key_b64 string) (ed25519.PrivKeyEd25519, error){
 
         return keyObject, nil
 }
-
+ 
