@@ -57,7 +57,7 @@ message Task  {
     int32 replica = 6; // how many replica of docker instance
     string data_center = 7;
     string data_center_id = 8;// data center id if value = 0 or default hub will pickup by random
-    common.proto.TaskStatus status = 9;
+    common.proto.TaskStatus status = 9;  // int type
     string url = 11;
     bool hidden = 12;
     uint32 uptime = 13; // uptime of the task

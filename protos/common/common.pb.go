@@ -45,7 +45,7 @@ func (x Operation) String() string {
 	return proto.EnumName(Operation_name, int32(x))
 }
 func (Operation) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{0}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{0}
 }
 
 // Hub task status
@@ -96,7 +96,7 @@ func (x TaskStatus) String() string {
 	return proto.EnumName(TaskStatus_name, int32(x))
 }
 func (TaskStatus) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{1}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{1}
 }
 
 type TaskType int32
@@ -125,7 +125,7 @@ func (x TaskType) String() string {
 	return proto.EnumName(TaskType_name, int32(x))
 }
 func (TaskType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{2}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{2}
 }
 
 // Data center status
@@ -158,7 +158,7 @@ func (x Status) String() string {
 	return proto.EnumName(Status_name, int32(x))
 }
 func (Status) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{3}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{3}
 }
 
 // Error Message
@@ -174,7 +174,7 @@ func (m *Error) Reset()         { *m = Error{} }
 func (m *Error) String() string { return proto.CompactTextString(m) }
 func (*Error) ProtoMessage()    {}
 func (*Error) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{0}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{0}
 }
 func (m *Error) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Error.Unmarshal(m, b)
@@ -235,7 +235,7 @@ func (m *Task) Reset()         { *m = Task{} }
 func (m *Task) String() string { return proto.CompactTextString(m) }
 func (*Task) ProtoMessage()    {}
 func (*Task) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{1}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{1}
 }
 func (m *Task) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Task.Unmarshal(m, b)
@@ -388,7 +388,7 @@ func (m *DataCenter) Reset()         { *m = DataCenter{} }
 func (m *DataCenter) String() string { return proto.CompactTextString(m) }
 func (*DataCenter) ProtoMessage()    {}
 func (*DataCenter) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{2}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{2}
 }
 func (m *DataCenter) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenter.Unmarshal(m, b)
@@ -494,7 +494,7 @@ func (m *TaskFeedback) Reset()         { *m = TaskFeedback{} }
 func (m *TaskFeedback) String() string { return proto.CompactTextString(m) }
 func (*TaskFeedback) ProtoMessage()    {}
 func (*TaskFeedback) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{3}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{3}
 }
 func (m *TaskFeedback) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaskFeedback.Unmarshal(m, b)
@@ -567,7 +567,7 @@ func (m *Event) Reset()         { *m = Event{} }
 func (m *Event) String() string { return proto.CompactTextString(m) }
 func (*Event) ProtoMessage()    {}
 func (*Event) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{4}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{4}
 }
 func (m *Event) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Event.Unmarshal(m, b)
@@ -758,7 +758,7 @@ func (m *MailEvent) Reset()         { *m = MailEvent{} }
 func (m *MailEvent) String() string { return proto.CompactTextString(m) }
 func (*MailEvent) ProtoMessage()    {}
 func (*MailEvent) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_a3a804b262982c04, []int{5}
+	return fileDescriptor_common_f1a1cafebfc419fb, []int{5}
 }
 func (m *MailEvent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_MailEvent.Unmarshal(m, b)
@@ -812,9 +812,9 @@ func init() {
 	proto.RegisterEnum("common.proto.Status", Status_name, Status_value)
 }
 
-func init() { proto.RegisterFile("common.proto", fileDescriptor_common_a3a804b262982c04) }
+func init() { proto.RegisterFile("common.proto", fileDescriptor_common_f1a1cafebfc419fb) }
 
-var fileDescriptor_common_a3a804b262982c04 = []byte{
+var fileDescriptor_common_f1a1cafebfc419fb = []byte{
 	// 875 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0xcb, 0x8e, 0xe3, 0x44,
 	0x14, 0x8d, 0x9f, 0x89, 0x6f, 0x9c, 0xb4, 0xa7, 0x18, 0xcd, 0x94, 0x66, 0x43, 0x14, 0x40, 0x8a,
