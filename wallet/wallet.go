@@ -4,11 +4,13 @@ import (
     "fmt"
     "errors"
     "strings"
+    "strconv"
     "encoding/hex"
     "encoding/base64"
     "crypto/sha256"
     "github.com/tendermint/tendermint/crypto/ed25519"
     "github.com/tendermint/tendermint/rpc/client"
+    "github.com/tendermint/tendermint/types"
     cmn "github.com/tendermint/tendermint/libs/common"
     _ "github.com/tendermint/tendermint/crypto"
     _ "encoding/json"
@@ -28,7 +30,9 @@ const PubkeyStart = "PubKeyEd25519{"
   0D9FE6A785C830D2BE66FE40E0E7FE3D9838456C
 */
 func GenerateKeys() (priv_key_base64, pub_key_base64, address string) {
-        mykey := ed25519.GenPrivKey()
+        //mykey := ed25519.GenPrivKey()
+	//mykey := [194 108 153 102 131 30 117 105 108 61 64 213 8 236 190 78 37 92 172 128 79 114 125 214 36 223 36 229 195 208 128 139 194 241 198 220 71 93 5 181 208 29 204 137 106 93 2 75 246 16 112 214 45 17 177 88 197 232 231 169 255 78 132 206]
+	mykey := ed25519.PrivKeyEd25519{194,108, 153, 102, 131, 30, 117, 105, 108, 61, 64, 213, 8, 236, 190, 78, 37, 92, 172, 128, 79, 114, 125, 214, 36, 223, 36, 229, 195, 208, 128, 139, 194, 241, 198, 220, 71, 93, 5, 181, 208, 29, 204, 137, 106, 93, 2, 75, 246, 16, 112, 214, 45, 17, 177, 88, 197, 232, 231, 169, 255, 78, 132, 206}
         privArray := [PrivKeyEd25519Size]byte(mykey)
         privBytes := privArray[:]
         privB64 := base64.StdEncoding.EncodeToString(privBytes)
@@ -107,8 +111,52 @@ func QueryBalanceByAddress(ip, port, address string) (balance string, err_ret er
 	return balance, nil
 }
 
-func SendCoins(priv_key, from_address, to_address, amount, public_key string) (result int) {
-	return 0
+func SendCoins(ip, port, priv_key, from_address, to_address, amount, public_key string) (error) {
+	var nonce string
+	cl := _getHTTPClient(ip, port)
+
+        _, err := cl.Status()
+        if err != nil {
+		return err
+	}
+
+        res, err := cl.ABCIQuery("/websocket", cmn.HexBytes(fmt.Sprintf("%s:%s", "bal", from_address)))
+        qres := res.Response
+	if !qres.IsOK() {
+		return errors.New("Query nonce failure, connect error.")
+        } else {
+		balanceNonceSlices := strings.Split(string(qres.Value), ":")
+		if len(balanceNonceSlices) == 2 {
+			nonce = balanceNonceSlices[1]
+	        } else {
+			return errors.New("Query nonce failure, balance format incorrect.")
+		}
+	}
+
+        nonceInt, err := strconv.ParseInt(string(nonce), 10, 64)
+        if err != nil {
+		return err
+        }
+
+	nonceInt++
+	nonce = fmt.Sprintf("%d", nonceInt)
+
+	sig, err := Sha256Sign(fmt.Sprintf("%s%s%s%s",from_address, to_address, amount, nonce), priv_key)
+        if err != nil {
+		return err
+        }
+
+
+	//fmt.Printf("%s=%s:%s:%s:%s:%s:%s", string("trx_send"), from_address, to_address, amount, nonce, public_key, sig)
+        btr, err := cl.BroadcastTxCommit(types.Tx(
+		fmt.Sprintf("%s=%s:%s:%s:%s:%s:%s", string("trx_send"), from_address, to_address, amount, nonce, public_key, sig)))
+
+        if err != nil {
+            return err
+        }
+	client.WaitForHeight(cl, btr.Height + 1, nil)
+
+	return nil
 }
 
 /* helper functions */
