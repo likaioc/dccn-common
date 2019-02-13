@@ -19,4 +19,7 @@ var (
 	ErrPublish                   = errors.New("mq publish message error")
 	ErrConnection                = errors.New("connection error")
 	ErrNoAvailableDataCenter     = errors.New("no available data center")
+	ErrEmailFormat               = errors.New("email invalid format")
+	ErrPasswordLength            = errors.New("no available data center")
+	ErrCronJobScheduleFormat     = errors.New("no available data center")
 )
