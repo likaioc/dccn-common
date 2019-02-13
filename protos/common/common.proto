@@ -12,24 +12,24 @@ enum Operation {
 
 // Hub task status
 enum TaskStatus {
-    START  = 0;
+    STARTING = 0;
     START_SUCCESS = 1;
     START_FAILED = 2;
     RUNNING = 3;
     UPDATING = 4;
     UPDATE_SUCCESS = 5;
     UPDATE_FAILED = 6;
-    CANCEL = 7;
+    CANCELLING = 7;
     CANCELLED = 8;
     CANCEL_FAILED = 9;
     DONE = 10;
 }
 
 enum TaskType {
-    DefaultTaskType = 0;
-    DeployTaskType = 1;
-    JobTaskType = 2;
-    CronjobTaskType = 3;
+    DEFAULT = 0;
+    DEPLOYMENT = 1;
+    JOB = 2;
+    CRONJOB = 3;
 }
 
 // Data center status
@@ -52,7 +52,7 @@ message Task  {
     string id = 1;
     string user_id = 2;
     string name = 3;// name of the task/image to run
-    common.proto.TaskType type = 4; // 0  default 1 deploy 2 job 3 cronjob
+    common.proto.TaskType type = 4; // 0  default 1 deployment 2 job 3 cronjob
     string image = 5; // template
     int32 replica = 6; // how many replica of docker instance
     string data_center = 7;
