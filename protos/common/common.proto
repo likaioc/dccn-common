@@ -12,24 +12,24 @@ enum Operation {
 
 // Hub task status
 enum TaskStatus {
-    START  = 0;
+    STARTING = 0;
     START_SUCCESS = 1;
     START_FAILED = 2;
     RUNNING = 3;
     UPDATING = 4;
     UPDATE_SUCCESS = 5;
     UPDATE_FAILED = 6;
-    CANCEL = 7;
+    CANCELLING = 7;
     CANCELLED = 8;
     CANCEL_FAILED = 9;
     DONE = 10;
 }
 
 enum TaskType {
-    DefaultTaskType = 0;
-    DeploymentTaskType = 1;
-    JobTaskType = 2;
-    CronjobTaskType = 3;
+    DEFAULT = 0;
+    DEPLOYMENT = 1;
+    JOB = 2;
+    CRONJOB = 3;
 }
 
 // Data center status
@@ -57,7 +57,7 @@ message Task  {
     int32 replica = 6; // how many replica of docker instance
     string data_center = 7;
     string data_center_id = 8;// data center id if value = 0 or default hub will pickup by random
-    common.proto.TaskStatus status = 9;
+    common.proto.TaskStatus status = 9;  // int type
     string url = 11;
     bool hidden = 12;
     uint32 uptime = 13; // uptime of the task
@@ -73,7 +73,7 @@ message DataCenter {
     string name = 2; // data center name
     string lat = 3; // latitude of data center
     string lng = 4; // longitude of data center
-    string status = 5; // data center status // 1. online 2. offline
+    common.proto.Status status = 5; // data center status // 1. online 2. offline
     string metrics = 6; //json string for Metrics structure which defined in constants
     string extra = 7;
     string report = 8;
