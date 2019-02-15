@@ -10,7 +10,7 @@
     * import "github.com/Ankr-network/dccn-common/wallet"
     * follow the sample code to call,
 
-- wallet.wallet.GenerateKeys(), 
-- wallet.QueryBalanceByAddress(), 
+- wallet.GenerateKeys(), 
+- wallet.GetBalance(), 
 - wallet.SendCoins(), 
-- wallet.Sha256Sign()
+- wallet.Sign()
