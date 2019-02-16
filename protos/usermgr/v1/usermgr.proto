@@ -7,45 +7,34 @@ package usermgr;
 // TODO: supports filter
 service UserMgr {
     // Register Create a new user
-    rpc Register(User) returns (common.proto.Error) {
+    rpc Register(User) returns (common.proto.Empty) {
     }
     // Login login
     rpc Login(LoginRequest) returns (LoginResponse) {
     }
     // Logout need verify permission
-    rpc Logout(LogoutRequest) returns (common.proto.Error) {
-    }
-    // Auth  validates user
-    rpc NewToken(User) returns (NewTokenResponse) {
-    }
-    // VerifyToken validated token
-    rpc VerifyToken(Token) returns (common.proto.Error) {
-    }
-    // VerifyToken validated token and refresh token, return new token
-    rpc VerifyAndRefreshToken(Token) returns (common.proto.Error) {
+    rpc Logout(common.proto.Empty) returns (common.proto.Empty) {
     }
     // RefreshToken reset token last access token
-    rpc RefreshToken(Token) returns (common.proto.Error) {
+    rpc RefreshSession(RefreshToken) returns (AuthenticationResult) {
     }
 }
 
 message User {
-    // id self-increase, de
+    // uuid
     string id = 1;
-    // name should be unique
-    string name = 2;
-    // nickname show on UI
-    string nickname = 4;
     // email user's email, unique.
-    string email = 5;
+    string email = 2;
     // password string
-    string password = 6;
-    // balance user's balance in account
-    int32 balance = 7;
-    // is_deleted user's status
-    bool is_deleted = 8;
-    // token jwt token string
-    string token = 9;
+    string password = 3;
+    UserAttributes attributes = 4;
+}
+
+message UserAttributes {
+    // name of a user
+    string name = 1;
+    // public key of tendermint wallet
+    string pub_key = 2;
 }
 
 message LoginRequest {
@@ -54,20 +43,17 @@ message LoginRequest {
 }
 
 message LoginResponse {
-    string token = 1;
-    string user_id = 2;
-    common.proto.Error error = 3;
+    AuthenticationResult authentication_result = 1;
+    User user = 2;
 }
 
-message LogoutRequest {
-    string user_id = 1;
+message AuthenticationResult {
+    uint64 expiration = 1;
+    uint64 issued_at = 2;
+    string access_token = 3;
+    string refresh_token = 4;
 }
 
-message Token {
-    string token = 1;
-}
-
-message NewTokenResponse {
-    string token = 1;
-    common.proto.Error error = 2;
+message RefreshToken {
+    string refresh_token = 1;
 }

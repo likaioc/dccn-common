@@ -33,52 +33,48 @@ enum TaskType {
 }
 
 // Data center status
-enum Status {
+enum DCStatus {
     AVAILABLE = 0;
     UNAVAILABLE = 1;
-    SUCCESS = 2;
-    FAILURE = 3;
-    UNKNOWN = 4;
 }
 
-// Error Message
-message Error {
-    common.proto.Status status = 1;
-    string details = 2;
-}
+// Emtpy Message
+message Empty {}
 
 // Task Data structure
 message Task  {
     string id = 1;
     string user_id = 2;
     string name = 3;// name of the task/image to run
-    common.proto.TaskType type = 4; // 0  default 1 deployment 2 job 3 cronjob
+    TaskType type = 4; // 0  default 1 deployment 2 job 3 cronjob
     string image = 5; // template
     int32 replica = 6; // how many replica of docker instance
-    string data_center = 7;
-    string data_center_id = 8;// data center id if value = 0 or default hub will pickup by random
-    common.proto.TaskStatus status = 9;  // int type
-    string url = 11;
-    bool hidden = 12;
-    uint32 uptime = 13; // uptime of the task
-    uint64 creation_date = 14; //task creation date
-    string report = 15; // detail for status
-    bytes extra = 16;
-    string schedule = 17;
+    DataCenter data_center = 7;
+    TaskStatus status = 8;  // int type
+    bool hidden = 9;
+    uint64 creation_date = 10; //task creation date
+    uint64 last_modified_date = 11; //task creation date
+    string report = 12; // detail for status
+    bytes extra = 13;
+    string schedule = 14;
+}
+
+message GeoLocation {
+    string lat = 3; // latitude 
+    string lng = 4; // longitude 
 }
 
 // Data Center structure
 message DataCenter {
-    string  id = 1;  //data center id
+    string id = 1;  //data center id
     string name = 2; // data center name
-    string lat = 3; // latitude of data center
-    string lng = 4; // longitude of data center
-    common.proto.Status status = 5; // data center status // 1. online 2. offline
-    string metrics = 6; //json string for Metrics structure which defined in constants
-    string extra = 7;
-    string report = 8;
-    string last_report_time = 9;
-    string wallet_address = 10;  //datacenter wallet address
+    GeoLocation geo_location = 3;
+    DCStatus status = 4; // data center status // 1. online 2. offline
+    string metrics = 5; //json string for Metrics structure which defined in constants
+    string extra = 6;
+    string report = 7;
+    string last_report_time = 8;
+    string wallet_address = 9;  //datacenter wallet address
 }
 
 // data center returns msg with task status
@@ -93,18 +89,18 @@ message TaskFeedback {
 // data center communicate with dc manager
 message Event {
     Operation event_type = 1; // HeartBeat or task operation
-    string report = 2;
 
     oneof op_message {
-        Task task = 3; // Deploy task action
-        TaskFeedback task_feedback = 4; // Return task status
-        DataCenter data_center = 5; // HearBeat Info with DataCenter message
+        Task task = 2; // Deploy task action
+        TaskFeedback task_feedback = 3; // Return task status
+        DataCenter data_center = 4; // HearBeat Info with DataCenter message
     }
 }
 
-// Mail Event For the future
-message MailEvent {
-    string name = 1;
-    string address = 2;
-    string message = 3;
+// Mail For the future
+message Mail {
+    string from = 1;
+    string to = 2;
+    string title = 3;
+    string body = 4;
 }

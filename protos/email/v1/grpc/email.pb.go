@@ -36,7 +36,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MailClient interface {
-	Send(ctx context.Context, in *common.MailEvent, opts ...grpc.CallOption) (*common.Error, error)
+	Send(ctx context.Context, in *common.Mail, opts ...grpc.CallOption) (*common.Empty, error)
 }
 
 type mailClient struct {
@@ -47,8 +47,8 @@ func NewMailClient(cc *grpc.ClientConn) MailClient {
 	return &mailClient{cc}
 }
 
-func (c *mailClient) Send(ctx context.Context, in *common.MailEvent, opts ...grpc.CallOption) (*common.Error, error) {
-	out := new(common.Error)
+func (c *mailClient) Send(ctx context.Context, in *common.Mail, opts ...grpc.CallOption) (*common.Empty, error) {
+	out := new(common.Empty)
 	err := c.cc.Invoke(ctx, "/mail.Mail/Send", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (c *mailClient) Send(ctx context.Context, in *common.MailEvent, opts ...grp
 
 // MailServer is the server API for Mail service.
 type MailServer interface {
-	Send(context.Context, *common.MailEvent) (*common.Error, error)
+	Send(context.Context, *common.Mail) (*common.Empty, error)
 }
 
 func RegisterMailServer(s *grpc.Server, srv MailServer) {
@@ -66,7 +66,7 @@ func RegisterMailServer(s *grpc.Server, srv MailServer) {
 }
 
 func _Mail_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(common.MailEvent)
+	in := new(common.Mail)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func _Mail_Send_Handler(srv interface{}, ctx context.Context, dec func(interface
 		FullMethod: "/mail.Mail/Send",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MailServer).Send(ctx, req.(*common.MailEvent))
+		return srv.(MailServer).Send(ctx, req.(*common.Mail))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -96,15 +96,15 @@ var _Mail_serviceDesc = grpc.ServiceDesc{
 	Metadata: "email/v1/grpc/email.proto",
 }
 
-func init() { proto.RegisterFile("email/v1/grpc/email.proto", fileDescriptor_email_120508c8e61ad991) }
+func init() { proto.RegisterFile("email/v1/grpc/email.proto", fileDescriptor_email_8c4a8e58d9e320d8) }
 
-var fileDescriptor_email_120508c8e61ad991 = []byte{
-	// 109 bytes of a gzipped FileDescriptorProto
+var fileDescriptor_email_8c4a8e58d9e320d8 = []byte{
+	// 103 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x4c, 0xcd, 0x4d, 0xcc,
 	0xcc, 0xd1, 0x2f, 0x33, 0xd4, 0x4f, 0x2f, 0x2a, 0x48, 0xd6, 0x07, 0xf3, 0xf4, 0x0a, 0x8a, 0xf2,
 	0x4b, 0xf2, 0x85, 0x58, 0x40, 0x6c, 0x29, 0xe1, 0xe4, 0xfc, 0xdc, 0xdc, 0xfc, 0x3c, 0x7d, 0x08,
-	0x05, 0x91, 0x32, 0xb2, 0xe3, 0x62, 0xf1, 0x4d, 0xcc, 0xcc, 0x11, 0x32, 0xe3, 0x62, 0x09, 0x4e,
-	0xcd, 0x4b, 0x11, 0x12, 0xd7, 0x43, 0x96, 0xd6, 0x03, 0xc9, 0xb9, 0x96, 0xa5, 0xe6, 0x95, 0x48,
-	0x09, 0xa3, 0x4a, 0xb8, 0x16, 0x15, 0xe5, 0x17, 0x29, 0x31, 0x24, 0xb1, 0x81, 0xb9, 0xc6, 0x80,
-	0x00, 0x00, 0x00, 0xff, 0xff, 0x01, 0x3e, 0xf5, 0xe9, 0x7e, 0x00, 0x00, 0x00,
+	0x05, 0x91, 0x32, 0xb2, 0xe4, 0x62, 0xf1, 0x4d, 0xcc, 0xcc, 0x11, 0x32, 0xe4, 0x62, 0x09, 0x4e,
+	0xcd, 0x4b, 0x11, 0x12, 0xd2, 0x43, 0x96, 0xd6, 0xf3, 0x05, 0x6b, 0x44, 0x15, 0x73, 0xcd, 0x2d,
+	0x28, 0xa9, 0x54, 0x62, 0x48, 0x62, 0x03, 0x73, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x76,
+	0x6b, 0xef, 0x47, 0x79, 0x00, 0x00, 0x00,
 }

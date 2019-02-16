@@ -12,6 +12,7 @@ require (
 	github.com/mattn/go-colorable v0.1.0 // indirect
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/micro/go-micro v0.26.1 // indirect
+	github.com/micro/protoc-gen-micro v0.6.0 // indirect
 	github.com/miekg/dns v1.1.4 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/posener/complete v1.2.1 // indirect
@@ -27,7 +28,6 @@ require (
 	golang.org/x/crypto v0.0.0-20190211182817-74369b46fc67 // indirect
 	golang.org/x/sys v0.0.0-20190214214411-e77772198cdc // indirect
 	google.golang.org/genproto v0.0.0-20190201180003-4b09977fb922 // indirect
-	google.golang.org/grpc v1.18.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce // indirect
 )

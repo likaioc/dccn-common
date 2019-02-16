@@ -5,5 +5,5 @@ package mail;
 import "common/common.proto";
 
 service Mail {
-	rpc Send(common.proto.MailEvent) returns (common.proto.Error) {}
+	rpc Send(common.proto.Mail) returns (common.proto.Empty) {}
 }
