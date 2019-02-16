@@ -9,11 +9,19 @@ It is generated from these files:
 
 It has these top-level messages:
 	User
+	UserAttribute
 	UserAttributes
 	LoginRequest
 	LoginResponse
 	AuthenticationResult
 	RefreshToken
+	ConfirmRegistrationRequst
+	ForgotPasswordRequst
+	ConfirmPasswordRequst
+	ChangePasswordRequst
+	ChangeEmailRequst
+	VerifyEmailRequst
+	UpdateAttributesRequest
 */
 package usermgr
 
@@ -56,6 +64,13 @@ type UserMgrService interface {
 	Logout(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*common_proto.Empty, error)
 	// RefreshToken reset token last access token
 	RefreshSession(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*AuthenticationResult, error)
+	ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, opts ...client.CallOption) (*common_proto.Empty, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error)
+	ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error)
+	ChangePasword(ctx context.Context, in *ChangePasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error)
+	UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*User, error)
+	ChangeEmail(ctx context.Context, in *ChangeEmailRequst, opts ...client.CallOption) (*common_proto.Empty, error)
+	VerifyEmail(ctx context.Context, in *VerifyEmailRequst, opts ...client.CallOption) (*User, error)
 }
 
 type userMgrService struct {
@@ -116,6 +131,76 @@ func (c *userMgrService) RefreshSession(ctx context.Context, in *RefreshToken, o
 	return out, nil
 }
 
+func (c *userMgrService) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.confirmRegistration", in)
+	out := new(common_proto.Empty)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.forgotPassword", in)
+	out := new(common_proto.Empty)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.confirmPassword", in)
+	out := new(common_proto.Empty)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) ChangePasword(ctx context.Context, in *ChangePasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.changePasword", in)
+	out := new(common_proto.Empty)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*User, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.updateAttributes", in)
+	out := new(User)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) ChangeEmail(ctx context.Context, in *ChangeEmailRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.changeEmail", in)
+	out := new(common_proto.Empty)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) VerifyEmail(ctx context.Context, in *VerifyEmailRequst, opts ...client.CallOption) (*User, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.verifyEmail", in)
+	out := new(User)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserMgr service
 
 type UserMgrHandler interface {
@@ -127,6 +212,13 @@ type UserMgrHandler interface {
 	Logout(context.Context, *common_proto.Empty, *common_proto.Empty) error
 	// RefreshToken reset token last access token
 	RefreshSession(context.Context, *RefreshToken, *AuthenticationResult) error
+	ConfirmRegistration(context.Context, *ConfirmRegistrationRequst, *common_proto.Empty) error
+	ForgotPassword(context.Context, *ForgotPasswordRequst, *common_proto.Empty) error
+	ConfirmPassword(context.Context, *ConfirmPasswordRequst, *common_proto.Empty) error
+	ChangePasword(context.Context, *ChangePasswordRequst, *common_proto.Empty) error
+	UpdateAttributes(context.Context, *UpdateAttributesRequest, *User) error
+	ChangeEmail(context.Context, *ChangeEmailRequst, *common_proto.Empty) error
+	VerifyEmail(context.Context, *VerifyEmailRequst, *User) error
 }
 
 func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server.HandlerOption) error {
@@ -135,6 +227,13 @@ func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server
 		Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error
 		Logout(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error
 		RefreshSession(ctx context.Context, in *RefreshToken, out *AuthenticationResult) error
+		ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, out *common_proto.Empty) error
+		ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, out *common_proto.Empty) error
+		ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequst, out *common_proto.Empty) error
+		ChangePasword(ctx context.Context, in *ChangePasswordRequst, out *common_proto.Empty) error
+		UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *User) error
+		ChangeEmail(ctx context.Context, in *ChangeEmailRequst, out *common_proto.Empty) error
+		VerifyEmail(ctx context.Context, in *VerifyEmailRequst, out *User) error
 	}
 	type UserMgr struct {
 		userMgr
@@ -161,4 +260,32 @@ func (h *userMgrHandler) Logout(ctx context.Context, in *common_proto.Empty, out
 
 func (h *userMgrHandler) RefreshSession(ctx context.Context, in *RefreshToken, out *AuthenticationResult) error {
 	return h.UserMgrHandler.RefreshSession(ctx, in, out)
+}
+
+func (h *userMgrHandler) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ConfirmRegistration(ctx, in, out)
+}
+
+func (h *userMgrHandler) ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ForgotPassword(ctx, in, out)
+}
+
+func (h *userMgrHandler) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequst, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ConfirmPassword(ctx, in, out)
+}
+
+func (h *userMgrHandler) ChangePasword(ctx context.Context, in *ChangePasswordRequst, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ChangePasword(ctx, in, out)
+}
+
+func (h *userMgrHandler) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *User) error {
+	return h.UserMgrHandler.UpdateAttributes(ctx, in, out)
+}
+
+func (h *userMgrHandler) ChangeEmail(ctx context.Context, in *ChangeEmailRequst, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ChangeEmail(ctx, in, out)
+}
+
+func (h *userMgrHandler) VerifyEmail(ctx context.Context, in *VerifyEmailRequst, out *User) error {
+	return h.UserMgrHandler.VerifyEmail(ctx, in, out)
 }

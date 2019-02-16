@@ -18,6 +18,27 @@ service UserMgr {
     // RefreshToken reset token last access token
     rpc RefreshSession(RefreshToken) returns (AuthenticationResult) {
     }
+    
+    rpc confirmRegistration(ConfirmRegistrationRequst) returns (common.proto.Empty) {
+    }
+
+    rpc forgotPassword(ForgotPasswordRequst) returns (common.proto.Empty) {
+    }
+
+    rpc confirmPassword(ConfirmPasswordRequst) returns (common.proto.Empty) {
+    }
+
+    rpc changePasword(ChangePasswordRequst) returns (common.proto.Empty) {
+    }
+
+    rpc updateAttributes(UpdateAttributesRequest) returns (User) {
+    }
+
+    rpc changeEmail(ChangeEmailRequst) returns (common.proto.Empty) {
+    }
+
+    rpc verifyEmail(VerifyEmailRequst) returns (User) {
+    }
 }
 
 message User {
@@ -25,9 +46,18 @@ message User {
     string id = 1;
     // email user's email, unique.
     string email = 2;
-    // password string
-    string password = 3;
-    UserAttributes attributes = 4;
+    UserAttributes attributes = 3;
+}
+
+message UserAttribute {
+    string key = 1;
+    oneof value {
+        int64 int_value = 2;
+        double double_value = 3;
+        string string_value = 4;
+        bool bool_value = 5;
+        // null null_value = 6;
+    }
 }
 
 message UserAttributes {
@@ -35,6 +65,8 @@ message UserAttributes {
     string name = 1;
     // public key of tendermint wallet
     string pub_key = 2;
+    uint64 creation_date = 3; //task creation date
+    uint64 last_modified_date = 4; //task creation date
 }
 
 message LoginRequest {
@@ -57,3 +89,36 @@ message AuthenticationResult {
 message RefreshToken {
     string refresh_token = 1;
 }
+
+message ConfirmRegistrationRequst {
+    string email = 1;
+    string confirmation_code = 2;
+}
+
+message ForgotPasswordRequst {
+    string email = 1;
+}
+
+message ConfirmPasswordRequst {
+    string email = 1;
+    string confirmation_code = 2;
+    string new_password = 3;
+}
+
+message ChangePasswordRequst {
+    string old_password = 1;
+    string new_password = 2;
+}
+
+message ChangeEmailRequst {
+    string email = 1;
+}
+
+message VerifyEmailRequst {
+    string confirmation_code = 1;
+}
+
+message UpdateAttributesRequest {
+    repeated UserAttribute user_attributes = 1;
+}
+
