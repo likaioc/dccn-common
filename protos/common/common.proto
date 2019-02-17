@@ -47,12 +47,12 @@ message Task  {
     string name = 2;// name of the task/image to run
     TaskType type = 3; // 0  default 1 deployment 2 job 3 cronjob
     oneof type_data {
-        TaskTypeDeployment type_deployment = 4; 
-        TaskTypeJob type_job = 5; 
+        TaskTypeDeployment type_deployment = 4;
+        TaskTypeJob type_job = 5;
         TaskTypeCronJob type_cron_job = 6;
     }
     string data_center_name = 7;
-    TaskStatus status = 8;  
+    TaskStatus status = 8;
     TaskAttributes attributes = 9;
     Environment environment = 10;
 }
@@ -70,7 +70,7 @@ message TaskTypeCronJob {
     string schedule = 2;
 }
 
-message TaskAttributes { 
+message TaskAttributes {
     int32 replica = 1; // how many replica of environment
     bool hidden = 2;
     uint64 creation_date = 3; //task creation date
@@ -84,8 +84,8 @@ message Environment {
 }
 
 message GeoLocation {
-    string lat = 1; // latitude 
-    string lng = 2; // longitude 
+    string lat = 1; // latitude
+    string lng = 2; // longitude
 }
 
 // Data Center structure
@@ -95,10 +95,10 @@ message DataCenter {
     GeoLocation geo_location = 3;
     DCStatus status = 4; // data center status // 1. online 2. offline
     DataCenterAttributes dc_attributes = 5;
-    DCHeartbeatReport dc_heartbeat_report = 6; 
+    DCHeartbeatReport dc_heartbeat_report = 6;
 }
 
-message DataCenterAttributes { 
+message DataCenterAttributes {
     string wallet_address = 1;  //datacenter wallet address
     uint64 creation_date = 2; //task creation date
     uint64 last_modified_date = 3; //task creation date

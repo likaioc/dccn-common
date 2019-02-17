@@ -132,7 +132,7 @@ func (c *userMgrService) RefreshSession(ctx context.Context, in *RefreshToken, o
 }
 
 func (c *userMgrService) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.confirmRegistration", in)
+	req := c.c.NewRequest(c.name, "UserMgr.ConfirmRegistration", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -142,7 +142,7 @@ func (c *userMgrService) ConfirmRegistration(ctx context.Context, in *ConfirmReg
 }
 
 func (c *userMgrService) ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.forgotPassword", in)
+	req := c.c.NewRequest(c.name, "UserMgr.ForgotPassword", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -152,7 +152,7 @@ func (c *userMgrService) ForgotPassword(ctx context.Context, in *ForgotPasswordR
 }
 
 func (c *userMgrService) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.confirmPassword", in)
+	req := c.c.NewRequest(c.name, "UserMgr.ConfirmPassword", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -162,7 +162,7 @@ func (c *userMgrService) ConfirmPassword(ctx context.Context, in *ConfirmPasswor
 }
 
 func (c *userMgrService) ChangePasword(ctx context.Context, in *ChangePasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.changePasword", in)
+	req := c.c.NewRequest(c.name, "UserMgr.ChangePasword", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -172,7 +172,7 @@ func (c *userMgrService) ChangePasword(ctx context.Context, in *ChangePasswordRe
 }
 
 func (c *userMgrService) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*User, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.updateAttributes", in)
+	req := c.c.NewRequest(c.name, "UserMgr.UpdateAttributes", in)
 	out := new(User)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -182,7 +182,7 @@ func (c *userMgrService) UpdateAttributes(ctx context.Context, in *UpdateAttribu
 }
 
 func (c *userMgrService) ChangeEmail(ctx context.Context, in *ChangeEmailRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.changeEmail", in)
+	req := c.c.NewRequest(c.name, "UserMgr.ChangeEmail", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -192,7 +192,7 @@ func (c *userMgrService) ChangeEmail(ctx context.Context, in *ChangeEmailRequst,
 }
 
 func (c *userMgrService) VerifyEmail(ctx context.Context, in *VerifyEmailRequst, opts ...client.CallOption) (*User, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.verifyEmail", in)
+	req := c.c.NewRequest(c.name, "UserMgr.VerifyEmail", in)
 	out := new(User)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {

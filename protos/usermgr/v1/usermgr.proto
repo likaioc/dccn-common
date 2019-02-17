@@ -18,26 +18,26 @@ service UserMgr {
     // RefreshToken reset token last access token
     rpc RefreshSession(RefreshToken) returns (AuthenticationResult) {
     }
-    
-    rpc confirmRegistration(ConfirmRegistrationRequst) returns (common.proto.Empty) {
+
+    rpc ConfirmRegistration(ConfirmRegistrationRequst) returns (common.proto.Empty) {
     }
 
-    rpc forgotPassword(ForgotPasswordRequst) returns (common.proto.Empty) {
+    rpc ForgotPassword(ForgotPasswordRequst) returns (common.proto.Empty) {
     }
 
-    rpc confirmPassword(ConfirmPasswordRequst) returns (common.proto.Empty) {
+    rpc ConfirmPassword(ConfirmPasswordRequst) returns (common.proto.Empty) {
     }
 
-    rpc changePasword(ChangePasswordRequst) returns (common.proto.Empty) {
+    rpc ChangePasword(ChangePasswordRequst) returns (common.proto.Empty) {
     }
 
-    rpc updateAttributes(UpdateAttributesRequest) returns (User) {
+    rpc UpdateAttributes(UpdateAttributesRequest) returns (User) {
     }
 
-    rpc changeEmail(ChangeEmailRequst) returns (common.proto.Empty) {
+    rpc ChangeEmail(ChangeEmailRequst) returns (common.proto.Empty) {
     }
 
-    rpc verifyEmail(VerifyEmailRequst) returns (User) {
+    rpc VerifyEmail(VerifyEmailRequst) returns (User) {
     }
 }
 
@@ -121,4 +121,3 @@ message VerifyEmailRequst {
 message UpdateAttributesRequest {
     repeated UserAttribute user_attributes = 1;
 }
-
