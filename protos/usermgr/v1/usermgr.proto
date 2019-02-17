@@ -40,8 +40,8 @@ service UserMgr {
     rpc VerifyEmail(VerifyEmailRequst) returns (User) {
     }
 
-    rpc VerifyAccessToken(AccessToken) returns (common.proto.Empty){
-      
+    rpc VerifyAccessToken(AccessToken) returns (User){
+
     }
 }
 
