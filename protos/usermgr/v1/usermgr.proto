@@ -39,6 +39,10 @@ service UserMgr {
 
     rpc VerifyEmail(VerifyEmailRequst) returns (User) {
     }
+
+    rpc VerifyAccessToken(AccessToken) returns (common.proto.Empty){
+      
+    }
 }
 
 message User {
@@ -93,6 +97,10 @@ message AuthenticationResult {
 
 message RefreshToken {
     string refresh_token = 1;
+}
+
+message AccessToken {
+    string access_token = 1;
 }
 
 message ConfirmRegistrationRequst {
