@@ -7,7 +7,7 @@ package usermgr;
 // TODO: supports filter
 service UserMgr {
     // Register Create a new user
-    rpc Register(User) returns (common.proto.Empty) {
+    rpc Register(RegisterRequest) returns (common.proto.Empty) {
     }
     // Login login
     rpc Login(LoginRequest) returns (LoginResponse) {
@@ -67,6 +67,11 @@ message UserAttributes {
     string pub_key = 2;
     uint64 creation_date = 3; //task creation date
     uint64 last_modified_date = 4; //task creation date
+}
+
+message RegisterRequest {
+  User user = 1;
+  string password = 2;
 }
 
 message LoginRequest {

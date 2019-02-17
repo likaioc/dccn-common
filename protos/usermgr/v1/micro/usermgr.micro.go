@@ -11,6 +11,7 @@ It has these top-level messages:
 	User
 	UserAttribute
 	UserAttributes
+	RegisterRequest
 	LoginRequest
 	LoginResponse
 	AuthenticationResult
@@ -57,7 +58,7 @@ var _ server.Option
 
 type UserMgrService interface {
 	// Register Create a new user
-	Register(ctx context.Context, in *User, opts ...client.CallOption) (*common_proto.Empty, error)
+	Register(ctx context.Context, in *RegisterRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	// Login login
 	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*LoginResponse, error)
 	// Logout need verify permission
@@ -91,7 +92,7 @@ func NewUserMgrService(name string, c client.Client) UserMgrService {
 	}
 }
 
-func (c *userMgrService) Register(ctx context.Context, in *User, opts ...client.CallOption) (*common_proto.Empty, error) {
+func (c *userMgrService) Register(ctx context.Context, in *RegisterRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.Register", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -205,7 +206,7 @@ func (c *userMgrService) VerifyEmail(ctx context.Context, in *VerifyEmailRequst,
 
 type UserMgrHandler interface {
 	// Register Create a new user
-	Register(context.Context, *User, *common_proto.Empty) error
+	Register(context.Context, *RegisterRequest, *common_proto.Empty) error
 	// Login login
 	Login(context.Context, *LoginRequest, *LoginResponse) error
 	// Logout need verify permission
@@ -223,7 +224,7 @@ type UserMgrHandler interface {
 
 func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server.HandlerOption) error {
 	type userMgr interface {
-		Register(ctx context.Context, in *User, out *common_proto.Empty) error
+		Register(ctx context.Context, in *RegisterRequest, out *common_proto.Empty) error
 		Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error
 		Logout(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error
 		RefreshSession(ctx context.Context, in *RefreshToken, out *AuthenticationResult) error
@@ -246,7 +247,7 @@ type userMgrHandler struct {
 	UserMgrHandler
 }
 
-func (h *userMgrHandler) Register(ctx context.Context, in *User, out *common_proto.Empty) error {
+func (h *userMgrHandler) Register(ctx context.Context, in *RegisterRequest, out *common_proto.Empty) error {
 	return h.UserMgrHandler.Register(ctx, in, out)
 }
 
