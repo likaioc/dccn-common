@@ -12,8 +12,8 @@ service UserMgr {
     // Login login
     rpc Login(LoginRequest) returns (LoginResponse) {
     }
-    // Logout need verify permission
-    rpc Logout(common.proto.Empty) returns (common.proto.Empty) {
+    // Logout need verify permission , disable RefreshToken , access_token still work for 2 hours.
+    rpc Logout(RefreshToken) returns (common.proto.Empty) {
     }
     // RefreshToken reset token last access token
     rpc RefreshSession(RefreshToken) returns (AuthenticationResult) {

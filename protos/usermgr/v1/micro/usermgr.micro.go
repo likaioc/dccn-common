@@ -61,8 +61,8 @@ type UserMgrService interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	// Login login
 	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*LoginResponse, error)
-	// Logout need verify permission
-	Logout(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*common_proto.Empty, error)
+	// Logout need verify permission , disable RefreshToken , access_token still work for 2 hours.
+	Logout(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*common_proto.Empty, error)
 	// RefreshToken reset token last access token
 	RefreshSession(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*AuthenticationResult, error)
 	ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, opts ...client.CallOption) (*common_proto.Empty, error)
@@ -112,7 +112,7 @@ func (c *userMgrService) Login(ctx context.Context, in *LoginRequest, opts ...cl
 	return out, nil
 }
 
-func (c *userMgrService) Logout(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*common_proto.Empty, error) {
+func (c *userMgrService) Logout(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*common_proto.Empty, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.Logout", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -209,8 +209,8 @@ type UserMgrHandler interface {
 	Register(context.Context, *RegisterRequest, *common_proto.Empty) error
 	// Login login
 	Login(context.Context, *LoginRequest, *LoginResponse) error
-	// Logout need verify permission
-	Logout(context.Context, *common_proto.Empty, *common_proto.Empty) error
+	// Logout need verify permission , disable RefreshToken , access_token still work for 2 hours.
+	Logout(context.Context, *RefreshToken, *common_proto.Empty) error
 	// RefreshToken reset token last access token
 	RefreshSession(context.Context, *RefreshToken, *AuthenticationResult) error
 	ConfirmRegistration(context.Context, *ConfirmRegistrationRequst, *common_proto.Empty) error
@@ -226,7 +226,7 @@ func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server
 	type userMgr interface {
 		Register(ctx context.Context, in *RegisterRequest, out *common_proto.Empty) error
 		Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error
-		Logout(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error
+		Logout(ctx context.Context, in *RefreshToken, out *common_proto.Empty) error
 		RefreshSession(ctx context.Context, in *RefreshToken, out *AuthenticationResult) error
 		ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, out *common_proto.Empty) error
 		ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, out *common_proto.Empty) error
@@ -255,7 +255,7 @@ func (h *userMgrHandler) Login(ctx context.Context, in *LoginRequest, out *Login
 	return h.UserMgrHandler.Login(ctx, in, out)
 }
 
-func (h *userMgrHandler) Logout(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error {
+func (h *userMgrHandler) Logout(ctx context.Context, in *RefreshToken, out *common_proto.Empty) error {
 	return h.UserMgrHandler.Logout(ctx, in, out)
 }
 
