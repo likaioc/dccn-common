@@ -169,9 +169,152 @@ func SendCoins(ip, port, priv_key, from_address, to_address, amount, public_key 
 		return err
 	}
 
-	//fmt.Printf("%s=%s:%s:%s:%s:%s:%s", string("trx_send"), from_address, to_address, amount, nonce, public_key, sig)
+	//fmt.Printf("%s=%s:%s:%s:%s:%s:%s\n", string("trx_send"), from_address, to_address, amount, nonce, public_key, sig)
 	btr, err := cl.BroadcastTxCommit(types.Tx(
 		fmt.Sprintf("%s=%s:%s:%s:%s:%s:%s", string("trx_send"), from_address, to_address, amount, nonce, public_key, sig)))
+
+	if err != nil {
+		return err
+	}
+	client.WaitForHeight(cl, btr.Height+1, nil)
+
+	return nil
+}
+
+/*
+query stake based on (ip, port)
+everyone can call this function, because it's read only.
+*/
+func GetStake(ip, port string) (stake string, err_ret error) {
+
+	cl := getHTTPClient(ip, port)
+
+	_, err := cl.Status()
+	if err != nil {
+		return "", err
+	}
+
+	// curl  'localhost:26657/abci_query?data="stk"'
+	res, err := cl.ABCIQuery("/websocket", cmn.HexBytes(fmt.Sprintf("%s", "stk")))
+	qres := res.Response
+	if !qres.IsOK() {
+		return "", errors.New("Query balance failure, connect error.")
+	} else {
+		stakeNonceSlices := strings.Split(string(qres.Value), ":")
+		if len(stakeNonceSlices) == 2 {
+			stake = stakeNonceSlices[0]
+		} else {
+			return "", errors.New("Query balance failure, balance format incorrect.")
+		}
+	}
+
+	return stake, nil
+}
+
+/*
+ADMIN API:
+set stake based on (ip, port, priv_key, amount, pub_key).
+ ip: blockchain node ip or domain
+ port: blockchain node port, usually 26657
+ priv_key: admin private key
+ amount: token amount
+ pub_key: admin pubic key
+*/
+func SetStake(ip, port, priv_key, amount, public_key string) error {
+	var nonce string
+	cl := getHTTPClient(ip, port)
+
+	_, err := cl.Status()
+	if err != nil {
+		return err
+	}
+
+	res, err := cl.ABCIQuery("/websocket", cmn.HexBytes(fmt.Sprintf("%s", "stk")))
+	qres := res.Response
+	if !qres.IsOK() {
+		return errors.New("Query nonce failure, connect error.")
+	} else {
+		balanceNonceSlices := strings.Split(string(qres.Value), ":")
+		if len(balanceNonceSlices) == 2 {
+			nonce = balanceNonceSlices[1]
+		} else {
+			return errors.New("Query nonce failure, balance format incorrect.")
+		}
+	}
+
+	nonceInt, err := strconv.ParseInt(string(nonce), 10, 64)
+	if err != nil {
+		return err
+	}
+
+	nonceInt++
+	nonce = fmt.Sprintf("%d", nonceInt)
+
+	sig, err := Sign(fmt.Sprintf("%s%s", amount, nonce), priv_key)
+	if err != nil {
+		return err
+	}
+
+	//fmt.Printf("%s=%s:%s:%s:%s\n", string("set_stk"), amount, nonce, public_key, sig)
+	btr, err := cl.BroadcastTxCommit(types.Tx(
+		fmt.Sprintf("%s=%s:%s:%s:%s", string("set_stk"), amount, nonce, public_key, sig)))
+
+	if err != nil {
+		return err
+	}
+	client.WaitForHeight(cl, btr.Height+1, nil)
+
+	return nil
+}
+
+/*
+ADMIN API:
+set balance based on (ip, port, priv_key, address, amount, public_key)
+priv_key: admin priv_key
+address: set amount to this address
+amount: token amount
+public_key: admin pubic_key
+*/
+func SetBalance(ip, port, priv_key, address, amount, public_key string) error {
+	var nonce string = "0"
+	cl := getHTTPClient(ip, port)
+
+	_, err := cl.Status()
+	if err != nil {
+		return err
+	}
+
+	res, err := cl.ABCIQuery("/websocket", cmn.HexBytes(fmt.Sprintf("%s:%s", "bal", address)))
+	qres := res.Response
+	if !qres.IsOK() {
+		return errors.New("Query nonce failure, connect error.")
+	} else {
+		if string(qres.Value) != "" {
+		balanceNonceSlices := strings.Split(string(qres.Value), ":")
+		if len(balanceNonceSlices) == 2 {
+			nonce = balanceNonceSlices[1]
+		} else {
+			return errors.New("Query nonce failure, balance format incorrect.")
+		}
+	}
+	}
+
+	nonceInt, err := strconv.ParseInt(string(nonce), 10, 64)
+	if err != nil {
+		return err
+	}
+
+	nonceInt++
+	nonce = fmt.Sprintf("%d", nonceInt)
+
+	sig, err := Sign(fmt.Sprintf("%s%s%s", address, amount, nonce), priv_key)
+	if err != nil {
+		return err
+	}
+
+	//fmt.Printf("%s=%s:%s:%s:%s:%s\n", string("set_bal"), address, amount, nonce, public_key, sig)
+	btr, err := cl.BroadcastTxCommit(types.Tx(
+		fmt.Sprintf("%s=%s:%s:%s:%s:%s", string("set_bal"), address, amount, nonce, public_key, sig)))
 
 	if err != nil {
 		return err
