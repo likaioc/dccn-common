@@ -1,4 +1,4 @@
-module ./
+module github.com/Ankr-network/dccn-common
 
 require (
 	github.com/Ankr-network/dccn-common v0.0.0-20190215013623-d3f0ba08d002 // indirect
