@@ -25,5 +25,6 @@ var (
 	ErrPassword                  = errors.New("invalid password")
 	ErrEmailExit                 = errors.New("email exist")
 	ErrTokenNeedRefresh          = errors.New("token is unavailable, need call refresh token")
-	ErrTokenPassedMax            = errors.New("tokens number reaches max limit(10)")   
+	ErrTokenPassedMax            = errors.New("tokens number reaches max limit(10)")
+	ErrTokenParseFailed          = errors.New("tokens parse failed")   
 )
