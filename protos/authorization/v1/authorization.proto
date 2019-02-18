@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package mail;
+
+import "common/common.proto";
+
+service Authorization {
+    // RefreshToken reset token last access token
+    rpc RefreshSession(RefreshToken) returns (AuthenticationResult) {
+    }
+    
+    rpc VerifyAccessToken(common.proto.Empty) returns (common.proto.Empty){
+    }
+}
+
+message RefreshToken {
+    string refresh_token = 1;
+}
+
+message AuthenticationResult {
+    uint64 expiration = 1;
+    uint64 issued_at = 2;
+    string access_token = 3;
+    string refresh_token = 4;
+}
+
