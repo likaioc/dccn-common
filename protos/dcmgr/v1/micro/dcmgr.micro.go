@@ -65,7 +65,7 @@ func NewDCStreamerService(name string, c client.Client) DCStreamerService {
 }
 
 func (c *dCStreamerService) ServerStream(ctx context.Context, opts ...client.CallOption) (DCStreamer_ServerStreamService, error) {
-	req := c.c.NewRequest(c.name, "DCStreamer.ServerStream", &common_proto.DCRequest{})
+	req := c.c.NewRequest(c.name, "DCStreamer.ServerStream", &common_proto.DCStream{})
 	stream, err := c.c.Stream(ctx, req, opts...)
 	if err != nil {
 		return nil, err
@@ -77,8 +77,8 @@ type DCStreamer_ServerStreamService interface {
 	SendMsg(interface{}) error
 	RecvMsg(interface{}) error
 	Close() error
-	Send(*common_proto.DCRequest) error
-	Recv() (*common_proto.DCResponse, error)
+	Send(*common_proto.DCStream) error
+	Recv() (*common_proto.DCStream, error)
 }
 
 type dCStreamerServiceServerStream struct {
@@ -97,12 +97,12 @@ func (x *dCStreamerServiceServerStream) RecvMsg(m interface{}) error {
 	return x.stream.Recv(m)
 }
 
-func (x *dCStreamerServiceServerStream) Send(m *common_proto.DCRequest) error {
+func (x *dCStreamerServiceServerStream) Send(m *common_proto.DCStream) error {
 	return x.stream.Send(m)
 }
 
-func (x *dCStreamerServiceServerStream) Recv() (*common_proto.DCResponse, error) {
-	m := new(common_proto.DCResponse)
+func (x *dCStreamerServiceServerStream) Recv() (*common_proto.DCStream, error) {
+	m := new(common_proto.DCStream)
 	err := x.stream.Recv(m)
 	if err != nil {
 		return nil, err
@@ -139,8 +139,8 @@ type DCStreamer_ServerStreamStream interface {
 	SendMsg(interface{}) error
 	RecvMsg(interface{}) error
 	Close() error
-	Send(*common_proto.DCResponse) error
-	Recv() (*common_proto.DCRequest, error)
+	Send(*common_proto.DCStream) error
+	Recv() (*common_proto.DCStream, error)
 }
 
 type dCStreamerServerStreamStream struct {
@@ -159,12 +159,12 @@ func (x *dCStreamerServerStreamStream) RecvMsg(m interface{}) error {
 	return x.stream.Recv(m)
 }
 
-func (x *dCStreamerServerStreamStream) Send(m *common_proto.DCResponse) error {
+func (x *dCStreamerServerStreamStream) Send(m *common_proto.DCStream) error {
 	return x.stream.Send(m)
 }
 
-func (x *dCStreamerServerStreamStream) Recv() (*common_proto.DCRequest, error) {
-	m := new(common_proto.DCRequest)
+func (x *dCStreamerServerStreamStream) Recv() (*common_proto.DCStream, error) {
+	m := new(common_proto.DCStream)
 	if err := x.stream.Recv(m); err != nil {
 		return nil, err
 	}

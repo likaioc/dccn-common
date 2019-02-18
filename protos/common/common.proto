@@ -111,20 +111,12 @@ message DCHeartbeatReport {
 }
 
 // data center communicate with dc manager
-message DCRequest {
+message DCStream {
     DCOperation op_type = 1; // HeartBeat or task operation
 
     oneof op_payload {
         Task task = 2; // Deploy task action
         DataCenter data_center = 3; // HearBeat Info with DataCenter message
-    }
-}
-
-message DCResponse {
-    DCOperation op_type = 1; // HeartBeat or task operation
-
-    oneof op_payload {
-        Task task = 2; // Deploy task action
     }
 }
 
