@@ -10,18 +10,17 @@ It is generated from these files:
 It has these top-level messages:
 	User
 	UserAttribute
-	UserAttributes
 	RegisterRequest
 	LoginRequest
 	LoginResponse
 	AuthenticationResult
 	RefreshToken
-	ConfirmRegistrationRequst
-	ForgotPasswordRequst
-	ConfirmPasswordRequst
-	ChangePasswordRequst
-	ChangeEmailRequst
-	VerifyEmailRequst
+	ConfirmRegistrationRequest
+	ForgotPasswordRequest
+	ConfirmPasswordRequest
+	ChangePasswordRequest
+	ChangeEmailRequest
+	VerifyEmailRequest
 	UpdateAttributesRequest
 */
 package usermgr
@@ -65,13 +64,13 @@ type UserMgrService interface {
 	Logout(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*common_proto.Empty, error)
 	// RefreshToken reset token last access token
 	RefreshSession(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*AuthenticationResult, error)
-	ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, opts ...client.CallOption) (*common_proto.Empty, error)
-	ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error)
-	ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error)
-	ChangePasword(ctx context.Context, in *ChangePasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error)
+	ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*User, error)
-	ChangeEmail(ctx context.Context, in *ChangeEmailRequst, opts ...client.CallOption) (*common_proto.Empty, error)
-	VerifyEmail(ctx context.Context, in *VerifyEmailRequst, opts ...client.CallOption) (*User, error)
+	ChangeEmail(ctx context.Context, in *ChangeEmailRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...client.CallOption) (*User, error)
 	VerifyAccessToken(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*common_proto.Empty, error)
 }
 
@@ -133,7 +132,7 @@ func (c *userMgrService) RefreshSession(ctx context.Context, in *RefreshToken, o
 	return out, nil
 }
 
-func (c *userMgrService) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
+func (c *userMgrService) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.ConfirmRegistration", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -143,7 +142,7 @@ func (c *userMgrService) ConfirmRegistration(ctx context.Context, in *ConfirmReg
 	return out, nil
 }
 
-func (c *userMgrService) ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
+func (c *userMgrService) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.ForgotPassword", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -153,7 +152,7 @@ func (c *userMgrService) ForgotPassword(ctx context.Context, in *ForgotPasswordR
 	return out, nil
 }
 
-func (c *userMgrService) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
+func (c *userMgrService) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.ConfirmPassword", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -163,8 +162,8 @@ func (c *userMgrService) ConfirmPassword(ctx context.Context, in *ConfirmPasswor
 	return out, nil
 }
 
-func (c *userMgrService) ChangePasword(ctx context.Context, in *ChangePasswordRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.ChangePasword", in)
+func (c *userMgrService) ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.ChangePassword", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -183,7 +182,7 @@ func (c *userMgrService) UpdateAttributes(ctx context.Context, in *UpdateAttribu
 	return out, nil
 }
 
-func (c *userMgrService) ChangeEmail(ctx context.Context, in *ChangeEmailRequst, opts ...client.CallOption) (*common_proto.Empty, error) {
+func (c *userMgrService) ChangeEmail(ctx context.Context, in *ChangeEmailRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.ChangeEmail", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -193,7 +192,7 @@ func (c *userMgrService) ChangeEmail(ctx context.Context, in *ChangeEmailRequst,
 	return out, nil
 }
 
-func (c *userMgrService) VerifyEmail(ctx context.Context, in *VerifyEmailRequst, opts ...client.CallOption) (*User, error) {
+func (c *userMgrService) VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...client.CallOption) (*User, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.VerifyEmail", in)
 	out := new(User)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -224,13 +223,13 @@ type UserMgrHandler interface {
 	Logout(context.Context, *RefreshToken, *common_proto.Empty) error
 	// RefreshToken reset token last access token
 	RefreshSession(context.Context, *RefreshToken, *AuthenticationResult) error
-	ConfirmRegistration(context.Context, *ConfirmRegistrationRequst, *common_proto.Empty) error
-	ForgotPassword(context.Context, *ForgotPasswordRequst, *common_proto.Empty) error
-	ConfirmPassword(context.Context, *ConfirmPasswordRequst, *common_proto.Empty) error
-	ChangePasword(context.Context, *ChangePasswordRequst, *common_proto.Empty) error
+	ConfirmRegistration(context.Context, *ConfirmRegistrationRequest, *common_proto.Empty) error
+	ForgotPassword(context.Context, *ForgotPasswordRequest, *common_proto.Empty) error
+	ConfirmPassword(context.Context, *ConfirmPasswordRequest, *common_proto.Empty) error
+	ChangePassword(context.Context, *ChangePasswordRequest, *common_proto.Empty) error
 	UpdateAttributes(context.Context, *UpdateAttributesRequest, *User) error
-	ChangeEmail(context.Context, *ChangeEmailRequst, *common_proto.Empty) error
-	VerifyEmail(context.Context, *VerifyEmailRequst, *User) error
+	ChangeEmail(context.Context, *ChangeEmailRequest, *common_proto.Empty) error
+	VerifyEmail(context.Context, *VerifyEmailRequest, *User) error
 	VerifyAccessToken(context.Context, *common_proto.Empty, *common_proto.Empty) error
 }
 
@@ -240,13 +239,13 @@ func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server
 		Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error
 		Logout(ctx context.Context, in *RefreshToken, out *common_proto.Empty) error
 		RefreshSession(ctx context.Context, in *RefreshToken, out *AuthenticationResult) error
-		ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, out *common_proto.Empty) error
-		ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, out *common_proto.Empty) error
-		ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequst, out *common_proto.Empty) error
-		ChangePasword(ctx context.Context, in *ChangePasswordRequst, out *common_proto.Empty) error
+		ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, out *common_proto.Empty) error
+		ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, out *common_proto.Empty) error
+		ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, out *common_proto.Empty) error
+		ChangePassword(ctx context.Context, in *ChangePasswordRequest, out *common_proto.Empty) error
 		UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *User) error
-		ChangeEmail(ctx context.Context, in *ChangeEmailRequst, out *common_proto.Empty) error
-		VerifyEmail(ctx context.Context, in *VerifyEmailRequst, out *User) error
+		ChangeEmail(ctx context.Context, in *ChangeEmailRequest, out *common_proto.Empty) error
+		VerifyEmail(ctx context.Context, in *VerifyEmailRequest, out *User) error
 		VerifyAccessToken(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error
 	}
 	type UserMgr struct {
@@ -276,31 +275,31 @@ func (h *userMgrHandler) RefreshSession(ctx context.Context, in *RefreshToken, o
 	return h.UserMgrHandler.RefreshSession(ctx, in, out)
 }
 
-func (h *userMgrHandler) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequst, out *common_proto.Empty) error {
+func (h *userMgrHandler) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, out *common_proto.Empty) error {
 	return h.UserMgrHandler.ConfirmRegistration(ctx, in, out)
 }
 
-func (h *userMgrHandler) ForgotPassword(ctx context.Context, in *ForgotPasswordRequst, out *common_proto.Empty) error {
+func (h *userMgrHandler) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, out *common_proto.Empty) error {
 	return h.UserMgrHandler.ForgotPassword(ctx, in, out)
 }
 
-func (h *userMgrHandler) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequst, out *common_proto.Empty) error {
+func (h *userMgrHandler) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, out *common_proto.Empty) error {
 	return h.UserMgrHandler.ConfirmPassword(ctx, in, out)
 }
 
-func (h *userMgrHandler) ChangePasword(ctx context.Context, in *ChangePasswordRequst, out *common_proto.Empty) error {
-	return h.UserMgrHandler.ChangePasword(ctx, in, out)
+func (h *userMgrHandler) ChangePassword(ctx context.Context, in *ChangePasswordRequest, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ChangePassword(ctx, in, out)
 }
 
 func (h *userMgrHandler) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *User) error {
 	return h.UserMgrHandler.UpdateAttributes(ctx, in, out)
 }
 
-func (h *userMgrHandler) ChangeEmail(ctx context.Context, in *ChangeEmailRequst, out *common_proto.Empty) error {
+func (h *userMgrHandler) ChangeEmail(ctx context.Context, in *ChangeEmailRequest, out *common_proto.Empty) error {
 	return h.UserMgrHandler.ChangeEmail(ctx, in, out)
 }
 
-func (h *userMgrHandler) VerifyEmail(ctx context.Context, in *VerifyEmailRequst, out *User) error {
+func (h *userMgrHandler) VerifyEmail(ctx context.Context, in *VerifyEmailRequest, out *User) error {
 	return h.UserMgrHandler.VerifyEmail(ctx, in, out)
 }
 

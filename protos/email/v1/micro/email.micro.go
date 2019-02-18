@@ -8,6 +8,11 @@ It is generated from these files:
 	email/v1/micro/email.proto
 
 It has these top-level messages:
+	ConfirmRegistration
+	ForgetPassword
+	ChangePassword
+	ChangeEmail
+	MailEvent
 */
 package mail
 
@@ -42,7 +47,7 @@ var _ server.Option
 // Client API for Mail service
 
 type MailService interface {
-	Send(ctx context.Context, in *common_proto.Mail, opts ...client.CallOption) (*common_proto.Empty, error)
+	Send(ctx context.Context, in *MailEvent, opts ...client.CallOption) (*common_proto.Empty, error)
 }
 
 type mailService struct {
@@ -63,7 +68,7 @@ func NewMailService(name string, c client.Client) MailService {
 	}
 }
 
-func (c *mailService) Send(ctx context.Context, in *common_proto.Mail, opts ...client.CallOption) (*common_proto.Empty, error) {
+func (c *mailService) Send(ctx context.Context, in *MailEvent, opts ...client.CallOption) (*common_proto.Empty, error) {
 	req := c.c.NewRequest(c.name, "Mail.Send", in)
 	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -76,12 +81,12 @@ func (c *mailService) Send(ctx context.Context, in *common_proto.Mail, opts ...c
 // Server API for Mail service
 
 type MailHandler interface {
-	Send(context.Context, *common_proto.Mail, *common_proto.Empty) error
+	Send(context.Context, *MailEvent, *common_proto.Empty) error
 }
 
 func RegisterMailHandler(s server.Server, hdlr MailHandler, opts ...server.HandlerOption) error {
 	type mail interface {
-		Send(ctx context.Context, in *common_proto.Mail, out *common_proto.Empty) error
+		Send(ctx context.Context, in *MailEvent, out *common_proto.Empty) error
 	}
 	type Mail struct {
 		mail
@@ -94,6 +99,6 @@ type mailHandler struct {
 	MailHandler
 }
 
-func (h *mailHandler) Send(ctx context.Context, in *common_proto.Mail, out *common_proto.Empty) error {
+func (h *mailHandler) Send(ctx context.Context, in *MailEvent, out *common_proto.Empty) error {
 	return h.MailHandler.Send(ctx, in, out)
 }

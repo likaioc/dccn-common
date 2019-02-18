@@ -19,25 +19,25 @@ service UserMgr {
     rpc RefreshSession(RefreshToken) returns (AuthenticationResult) {
     }
 
-    rpc ConfirmRegistration(ConfirmRegistrationRequst) returns (common.proto.Empty) {
+    rpc ConfirmRegistration(ConfirmRegistrationRequest) returns (common.proto.Empty) {
     }
 
-    rpc ForgotPassword(ForgotPasswordRequst) returns (common.proto.Empty) {
+    rpc ForgotPassword(ForgotPasswordRequest) returns (common.proto.Empty) {
     }
 
-    rpc ConfirmPassword(ConfirmPasswordRequst) returns (common.proto.Empty) {
+    rpc ConfirmPassword(ConfirmPasswordRequest) returns (common.proto.Empty) {
     }
 
-    rpc ChangePasword(ChangePasswordRequst) returns (common.proto.Empty) {
+    rpc ChangePassword(ChangePasswordRequest) returns (common.proto.Empty) {
     }
 
     rpc UpdateAttributes(UpdateAttributesRequest) returns (User) {
     }
 
-    rpc ChangeEmail(ChangeEmailRequst) returns (common.proto.Empty) {
+    rpc ChangeEmail(ChangeEmailRequest) returns (common.proto.Empty) {
     }
 
-    rpc VerifyEmail(VerifyEmailRequst) returns (User) {
+    rpc VerifyEmail(VerifyEmailRequest) returns (User) {
     }
 
     rpc VerifyAccessToken(common.proto.Empty) returns (common.proto.Empty){
@@ -50,27 +50,23 @@ message User {
     string id = 1;
     // email user's email, unique.
     string email = 2;
-    UserAttributes attributes = 3;
+    UserAttribute attribute = 3;
+}
+
+enum UserStatus {
+    WAIT_ACTIVATED = 0;
+    ACTIVATED = 1;
+    DELETED = 2;
 }
 
 message UserAttribute {
-    string key = 1;
-    oneof value {
-        int64 int_value = 2;
-        double double_value = 3;
-        string string_value = 4;
-        bool bool_value = 5;
-        // null null_value = 6;
-    }
-}
-
-message UserAttributes {
     // name of a user
     string name = 1;
     // public key of tendermint wallet
     string pub_key = 2;
     uint64 creation_date = 3; //task creation date
     uint64 last_modified_date = 4; //task creation date
+    UserStatus status = 5; // user's status in db
 }
 
 message RegisterRequest {
@@ -99,34 +95,40 @@ message RefreshToken {
     string refresh_token = 1;
 }
 
-message ConfirmRegistrationRequst {
+message ConfirmRegistrationRequest {
     string email = 1;
     string confirmation_code = 2;
 }
 
-message ForgotPasswordRequst {
+message ForgotPasswordRequest {
     string email = 1;
 }
 
-message ConfirmPasswordRequst {
+message ConfirmPasswordRequest {
     string email = 1;
     string confirmation_code = 2;
     string new_password = 3;
 }
 
-message ChangePasswordRequst {
-    string old_password = 1;
-    string new_password = 2;
+message ChangePasswordRequest {
+    string user_id = 1;
+    string change_password_code = 2;
+    string new_password = 3;
 }
 
-message ChangeEmailRequst {
-    string email = 1;
+message ChangeEmailRequest {
+    string user_id = 1;
+    string new_email = 2;
 }
 
-message VerifyEmailRequst {
-    string confirmation_code = 1;
+message VerifyEmailRequest {
+    string user_id = 1;
+    string new_email = 2;
+    string confirmation_code = 3;
 }
 
 message UpdateAttributesRequest {
-    repeated UserAttribute user_attributes = 1;
+    string user_id = 1;
+    string update_attributes_code = 2;
+    UserAttribute user_attribute = 3;
 }

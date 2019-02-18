@@ -8,6 +8,7 @@ const (
 	AccessTokenValidTime  = 15      // 15 minutes
 	RefreshTokenValidTime = 72 * 60 // 72 hours
 	CleanupInterval       = 20      // minute
+	AnkrEmailAddress      = "no-reply@ankr.network"
 )
 
 // To do: Remove this line when usr mgr is ready

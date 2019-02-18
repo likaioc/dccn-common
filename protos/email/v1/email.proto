@@ -5,5 +5,48 @@ package mail;
 import "common/common.proto";
 
 service Mail {
-	rpc Send(common.proto.Mail) returns (common.proto.Empty) {}
+	rpc Send(MailEvent) returns (common.proto.Empty) {}
+}
+
+enum EmailType {
+    CONFIRM_REGISTRATION = 0;
+	FORGET_PASSWORD = 1;
+	CHANGE_PASSWORD = 2;
+    CONFIRM_EMAIL = 3;
+}
+
+message ConfirmRegistration {
+    string user_name = 3;
+    string user_id = 4;
+    string code = 5;
+}
+
+message ForgetPassword {
+    string email = 1;
+    string code = 2;
+}
+
+message ChangePassword{
+    string user_name = 3;
+    string user_id = 4;
+    string code = 5;
+}
+
+message ChangeEmail {
+    string user_id = 1;
+    string new_email = 2;
+    string code = 3;
+}
+
+// MailEvent used to send email
+message MailEvent {
+    EmailType type = 1;
+    string from = 2;
+    repeated string to = 3;
+    oneof op_mail {
+        ConfirmRegistration confirm_registration = 4;
+        ForgetPassword forget_password = 5;
+        ChangePassword change_password = 6;
+        ChangeEmail change_email = 7;
+	}
 }
