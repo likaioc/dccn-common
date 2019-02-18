@@ -47,7 +47,7 @@ message User {
     // email user's email, unique.
     string email = 2;
     UserStatus status = 3;
-    UserAttributes attribute = 4;
+    UserAttributes attributes = 4;
 }
 
 enum UserStatus {
