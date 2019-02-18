@@ -6,7 +6,7 @@ package dcmgr;
 
 // The k8s service definition.
 service DCStreamer {
-    rpc ServerStream(stream common.proto.DCRequest) returns (stream common.proto.DCResponse) {} // k8s task stream
+    rpc ServerStream(stream common.proto.DCStream) returns (stream common.proto.DCStream) {} // k8s task stream
 }
 
 // The dclist service definition.

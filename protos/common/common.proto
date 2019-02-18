@@ -38,14 +38,14 @@ enum DCStatus {
     UNAVAILABLE = 1;
 }
 
-// Empty Message
+// Emtpy Message
 message Empty {}
 
 // Task Data structure
 message Task  {
     string id = 1;
     string name = 2;// name of the task/image to run
-    TaskType type = 3; // 0  default 1 deployment 2 job 3 cron job
+    TaskType type = 3; // 0  default 1 deployment 2 job 3 cronjob
     oneof type_data {
         TaskTypeDeployment type_deployment = 4;
         TaskTypeJob type_job = 5;
@@ -99,7 +99,7 @@ message DataCenter {
 }
 
 message DataCenterAttributes {
-    string wallet_address = 1;  //data center wallet address
+    string wallet_address = 1;  //datacenter wallet address
     uint64 creation_date = 2; //task creation date
     uint64 last_modified_date = 3; //task creation date
 }
@@ -111,7 +111,7 @@ message DCHeartbeatReport {
 }
 
 // data center communicate with dc manager
-message DCRequest {
+message DCStream {
     DCOperation op_type = 1; // HeartBeat or task operation
 
     oneof op_payload {
