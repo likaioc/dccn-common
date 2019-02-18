@@ -59,11 +59,14 @@ enum UserStatus {
 message UserAttribute {
     // name of a user
     string name = 1;
+    // password
+    string hash_password = 2;
+    string tokens = 3;
     // public key of tendermint wallet
-    string pub_key = 2;
-    uint64 creation_date = 3; //task creation date
-    uint64 last_modified_date = 4; //task creation date
-    UserStatus status = 5; // user's status in db
+    string pub_key = 4;
+    uint64 creation_date = 5; //task creation date
+    uint64 last_modified_date = 6; //task creation date
+    UserStatus status = 7; // user's status in db
 }
 
 message RegisterRequest {
