@@ -31,13 +31,13 @@ service UserMgr {
     rpc ChangePassword(ChangePasswordRequest) returns (common.proto.Empty) {
     }
 
-    rpc UpdateAttributes(UpdateAttributesRequest) returns (User) {
+    rpc UpdateAttributes(UpdateAttributesRequest) returns (common.proto.Empty) {
     }
 
     rpc ChangeEmail(ChangeEmailRequest) returns (common.proto.Empty) {
     }
 
-    rpc VerifyEmail(VerifyEmailRequest) returns (User) {
+    rpc VerifyEmail(VerifyEmailRequest) returns (common.proto.Empty) {
     }
 
     rpc VerifyAccessToken(common.proto.Empty) returns (common.proto.Empty){
