@@ -10,6 +10,7 @@ It is generated from these files:
 It has these top-level messages:
 	User
 	UserAttribute
+	UserAttributes
 	RegisterRequest
 	LoginRequest
 	LoginResponse
@@ -67,7 +68,7 @@ type UserMgrService interface {
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error)
-	UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*User, error)
 	ChangeEmail(ctx context.Context, in *ChangeEmailRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	VerifyAccessToken(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*common_proto.Empty, error)
 }
@@ -170,9 +171,9 @@ func (c *userMgrService) ChangePassword(ctx context.Context, in *ChangePasswordR
 	return out, nil
 }
 
-func (c *userMgrService) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
+func (c *userMgrService) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*User, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.UpdateAttributes", in)
-	out := new(common_proto.Empty)
+	out := new(User)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -215,7 +216,7 @@ type UserMgrHandler interface {
 	ForgotPassword(context.Context, *ForgotPasswordRequest, *common_proto.Empty) error
 	ConfirmPassword(context.Context, *ConfirmPasswordRequest, *common_proto.Empty) error
 	ChangePassword(context.Context, *ChangePasswordRequest, *common_proto.Empty) error
-	UpdateAttributes(context.Context, *UpdateAttributesRequest, *common_proto.Empty) error
+	UpdateAttributes(context.Context, *UpdateAttributesRequest, *User) error
 	ChangeEmail(context.Context, *ChangeEmailRequest, *common_proto.Empty) error
 	VerifyAccessToken(context.Context, *common_proto.Empty, *common_proto.Empty) error
 }
@@ -230,7 +231,7 @@ func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server
 		ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, out *common_proto.Empty) error
 		ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, out *common_proto.Empty) error
 		ChangePassword(ctx context.Context, in *ChangePasswordRequest, out *common_proto.Empty) error
-		UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *common_proto.Empty) error
+		UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *User) error
 		ChangeEmail(ctx context.Context, in *ChangeEmailRequest, out *common_proto.Empty) error
 		VerifyAccessToken(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error
 	}
@@ -277,7 +278,7 @@ func (h *userMgrHandler) ChangePassword(ctx context.Context, in *ChangePasswordR
 	return h.UserMgrHandler.ChangePassword(ctx, in, out)
 }
 
-func (h *userMgrHandler) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *common_proto.Empty) error {
+func (h *userMgrHandler) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *User) error {
 	return h.UserMgrHandler.UpdateAttributes(ctx, in, out)
 }
 

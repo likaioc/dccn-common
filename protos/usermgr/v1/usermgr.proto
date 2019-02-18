@@ -31,14 +31,13 @@ service UserMgr {
     rpc ChangePassword(ChangePasswordRequest) returns (common.proto.Empty) {
     }
 
-    rpc UpdateAttributes(UpdateAttributesRequest) returns (common.proto.Empty) {
+    rpc UpdateAttributes(UpdateAttributesRequest) returns (User) {
     }
 
     rpc ChangeEmail(ChangeEmailRequest) returns (common.proto.Empty) {
     }
 
     rpc VerifyAccessToken(common.proto.Empty) returns (common.proto.Empty){
-
     }
 }
 
@@ -47,26 +46,34 @@ message User {
     string id = 1;
     // email user's email, unique.
     string email = 2;
-    UserAttribute attribute = 3;
+    UserStatus status = 3;
+    UserAttributes attribute = 4;
 }
 
 enum UserStatus {
-    WAIT_ACTIVATED = 0;
-    ACTIVATED = 1;
-    DELETED = 2;
+    CONFIRMING = 0;
+    CONFIRMED = 1;
+    DEACTIVED = 2;
 }
 
 message UserAttribute {
+    string key = 1;
+    oneof value {
+        int64 int_value = 2;
+        double double_value = 3;
+        string string_value = 4;
+        bool bool_value = 5;
+        // null null_value = 6;
+    }
+}
+
+message UserAttributes {
     // name of a user
     string name = 1;
-    // password
-    string hash_password = 2;
-    string tokens = 3;
     // public key of tendermint wallet
-    string pub_key = 4;
-    uint64 creation_date = 5; //task creation date
-    uint64 last_modified_date = 6; //task creation date
-    UserStatus status = 7; // user's status in db
+    string pub_key = 2;
+    uint64 creation_date = 3; //task creation date
+    uint64 last_modified_date = 4; //task creation date
 }
 
 message RegisterRequest {
@@ -111,17 +118,14 @@ message ConfirmPasswordRequest {
 }
 
 message ChangePasswordRequest {
-    string user_id = 1;
+    string old_password = 1;
     string new_password = 2;
 }
 
 message ChangeEmailRequest {
-    string user_id = 1;
-    string new_email = 2;
+    string new_email = 1;
 }
 
 message UpdateAttributesRequest {
-    string user_id = 1;
-    string update_attributes_code = 2;
-    UserAttribute user_attribute = 3;
+    repeated UserAttribute user_attributes = 1;
 }
