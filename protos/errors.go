@@ -30,4 +30,6 @@ var (
 	ErrTokenParseFailed          = errors.New("tokens parse failed")
 	ErrRefreshToken              = errors.New("refresh_token error, need login")
 	ErrAccessTokenExpired        = errors.New("access_token expired")
+	ErrCanceledTwice             = errors.New("can not cancel twice")
+	ErrPurgedTwice               = errors.New("can not purge twice")
 )
