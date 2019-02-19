@@ -26,10 +26,9 @@ enum TaskStatus {
 }
 
 enum TaskType {
-    DEFAULT = 0;
-    DEPLOYMENT = 1;
-    JOB = 2;
-    CRONJOB = 3;
+    DEPLOYMENT = 0;
+    JOB = 1;
+    CRONJOB = 2;
 }
 
 // Data center status
@@ -45,7 +44,7 @@ message Empty {}
 message Task  {
     string id = 1;
     string name = 2;// name of the task/image to run
-    TaskType type = 3; // 0  default 1 deployment 2 job 3 cronjob
+    TaskType type = 3; //  0 deployment 1 job 2 cronjob
     oneof type_data {
         TaskTypeDeployment type_deployment = 4;
         TaskTypeJob type_job = 5;
