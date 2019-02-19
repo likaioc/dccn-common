@@ -51,9 +51,9 @@ message User {
 }
 
 enum UserStatus {
-    CONFIRMING = 0;
+    CONFIRMING = 0; // default while new user
     CONFIRMED = 1;
-    DEACTIVED = 2;
+    DEACTIVATED = 2;
 }
 
 message UserAttribute {
