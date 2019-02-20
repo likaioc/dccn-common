@@ -9,11 +9,19 @@ It is generated from these files:
 
 It has these top-level messages:
 	User
+	UserAttribute
+	UserAttributes
+	RegisterRequest
 	LoginRequest
 	LoginResponse
-	LogoutRequest
-	Token
-	NewTokenResponse
+	AuthenticationResult
+	RefreshToken
+	ConfirmRegistrationRequest
+	ForgotPasswordRequest
+	ConfirmPasswordRequest
+	ChangePasswordRequest
+	ChangeEmailRequest
+	UpdateAttributesRequest
 */
 package usermgr
 
@@ -32,7 +40,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = common_proto.Error{}
+var _ = common_proto.Empty{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -49,19 +57,20 @@ var _ server.Option
 
 type UserMgrService interface {
 	// Register Create a new user
-	Register(ctx context.Context, in *User, opts ...client.CallOption) (*common_proto.Error, error)
+	Register(ctx context.Context, in *RegisterRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	// Login login
 	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*LoginResponse, error)
-	// Logout need verify permission
-	Logout(ctx context.Context, in *LogoutRequest, opts ...client.CallOption) (*common_proto.Error, error)
-	// Auth  validates user
-	NewToken(ctx context.Context, in *User, opts ...client.CallOption) (*NewTokenResponse, error)
-	// VerifyToken validated token
-	VerifyToken(ctx context.Context, in *Token, opts ...client.CallOption) (*common_proto.Error, error)
-	// VerifyToken validated token and refresh token, return new token
-	VerifyAndRefreshToken(ctx context.Context, in *Token, opts ...client.CallOption) (*common_proto.Error, error)
+	// Logout need verify permission , disable RefreshToken , access_token still work for 2 hours.
+	Logout(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*common_proto.Empty, error)
 	// RefreshToken reset token last access token
-	RefreshToken(ctx context.Context, in *Token, opts ...client.CallOption) (*common_proto.Error, error)
+	RefreshSession(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*AuthenticationResult, error)
+	ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*User, error)
+	ChangeEmail(ctx context.Context, in *ChangeEmailRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	VerifyAccessToken(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*common_proto.Empty, error)
 }
 
 type userMgrService struct {
@@ -82,9 +91,9 @@ func NewUserMgrService(name string, c client.Client) UserMgrService {
 	}
 }
 
-func (c *userMgrService) Register(ctx context.Context, in *User, opts ...client.CallOption) (*common_proto.Error, error) {
+func (c *userMgrService) Register(ctx context.Context, in *RegisterRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.Register", in)
-	out := new(common_proto.Error)
+	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -102,9 +111,9 @@ func (c *userMgrService) Login(ctx context.Context, in *LoginRequest, opts ...cl
 	return out, nil
 }
 
-func (c *userMgrService) Logout(ctx context.Context, in *LogoutRequest, opts ...client.CallOption) (*common_proto.Error, error) {
+func (c *userMgrService) Logout(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*common_proto.Empty, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.Logout", in)
-	out := new(common_proto.Error)
+	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -112,9 +121,9 @@ func (c *userMgrService) Logout(ctx context.Context, in *LogoutRequest, opts ...
 	return out, nil
 }
 
-func (c *userMgrService) NewToken(ctx context.Context, in *User, opts ...client.CallOption) (*NewTokenResponse, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.NewToken", in)
-	out := new(NewTokenResponse)
+func (c *userMgrService) RefreshSession(ctx context.Context, in *RefreshToken, opts ...client.CallOption) (*AuthenticationResult, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.RefreshSession", in)
+	out := new(AuthenticationResult)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -122,9 +131,9 @@ func (c *userMgrService) NewToken(ctx context.Context, in *User, opts ...client.
 	return out, nil
 }
 
-func (c *userMgrService) VerifyToken(ctx context.Context, in *Token, opts ...client.CallOption) (*common_proto.Error, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.VerifyToken", in)
-	out := new(common_proto.Error)
+func (c *userMgrService) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.ConfirmRegistration", in)
+	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -132,9 +141,9 @@ func (c *userMgrService) VerifyToken(ctx context.Context, in *Token, opts ...cli
 	return out, nil
 }
 
-func (c *userMgrService) VerifyAndRefreshToken(ctx context.Context, in *Token, opts ...client.CallOption) (*common_proto.Error, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.VerifyAndRefreshToken", in)
-	out := new(common_proto.Error)
+func (c *userMgrService) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.ForgotPassword", in)
+	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -142,9 +151,49 @@ func (c *userMgrService) VerifyAndRefreshToken(ctx context.Context, in *Token, o
 	return out, nil
 }
 
-func (c *userMgrService) RefreshToken(ctx context.Context, in *Token, opts ...client.CallOption) (*common_proto.Error, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.RefreshToken", in)
-	out := new(common_proto.Error)
+func (c *userMgrService) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.ConfirmPassword", in)
+	out := new(common_proto.Empty)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.ChangePassword", in)
+	out := new(common_proto.Empty)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*User, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.UpdateAttributes", in)
+	out := new(User)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) ChangeEmail(ctx context.Context, in *ChangeEmailRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.ChangeEmail", in)
+	out := new(common_proto.Empty)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrService) VerifyAccessToken(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.VerifyAccessToken", in)
+	out := new(common_proto.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -156,30 +205,35 @@ func (c *userMgrService) RefreshToken(ctx context.Context, in *Token, opts ...cl
 
 type UserMgrHandler interface {
 	// Register Create a new user
-	Register(context.Context, *User, *common_proto.Error) error
+	Register(context.Context, *RegisterRequest, *common_proto.Empty) error
 	// Login login
 	Login(context.Context, *LoginRequest, *LoginResponse) error
-	// Logout need verify permission
-	Logout(context.Context, *LogoutRequest, *common_proto.Error) error
-	// Auth  validates user
-	NewToken(context.Context, *User, *NewTokenResponse) error
-	// VerifyToken validated token
-	VerifyToken(context.Context, *Token, *common_proto.Error) error
-	// VerifyToken validated token and refresh token, return new token
-	VerifyAndRefreshToken(context.Context, *Token, *common_proto.Error) error
+	// Logout need verify permission , disable RefreshToken , access_token still work for 2 hours.
+	Logout(context.Context, *RefreshToken, *common_proto.Empty) error
 	// RefreshToken reset token last access token
-	RefreshToken(context.Context, *Token, *common_proto.Error) error
+	RefreshSession(context.Context, *RefreshToken, *AuthenticationResult) error
+	ConfirmRegistration(context.Context, *ConfirmRegistrationRequest, *common_proto.Empty) error
+	ForgotPassword(context.Context, *ForgotPasswordRequest, *common_proto.Empty) error
+	ConfirmPassword(context.Context, *ConfirmPasswordRequest, *common_proto.Empty) error
+	ChangePassword(context.Context, *ChangePasswordRequest, *common_proto.Empty) error
+	UpdateAttributes(context.Context, *UpdateAttributesRequest, *User) error
+	ChangeEmail(context.Context, *ChangeEmailRequest, *common_proto.Empty) error
+	VerifyAccessToken(context.Context, *common_proto.Empty, *common_proto.Empty) error
 }
 
 func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server.HandlerOption) error {
 	type userMgr interface {
-		Register(ctx context.Context, in *User, out *common_proto.Error) error
+		Register(ctx context.Context, in *RegisterRequest, out *common_proto.Empty) error
 		Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error
-		Logout(ctx context.Context, in *LogoutRequest, out *common_proto.Error) error
-		NewToken(ctx context.Context, in *User, out *NewTokenResponse) error
-		VerifyToken(ctx context.Context, in *Token, out *common_proto.Error) error
-		VerifyAndRefreshToken(ctx context.Context, in *Token, out *common_proto.Error) error
-		RefreshToken(ctx context.Context, in *Token, out *common_proto.Error) error
+		Logout(ctx context.Context, in *RefreshToken, out *common_proto.Empty) error
+		RefreshSession(ctx context.Context, in *RefreshToken, out *AuthenticationResult) error
+		ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, out *common_proto.Empty) error
+		ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, out *common_proto.Empty) error
+		ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, out *common_proto.Empty) error
+		ChangePassword(ctx context.Context, in *ChangePasswordRequest, out *common_proto.Empty) error
+		UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *User) error
+		ChangeEmail(ctx context.Context, in *ChangeEmailRequest, out *common_proto.Empty) error
+		VerifyAccessToken(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error
 	}
 	type UserMgr struct {
 		userMgr
@@ -192,7 +246,7 @@ type userMgrHandler struct {
 	UserMgrHandler
 }
 
-func (h *userMgrHandler) Register(ctx context.Context, in *User, out *common_proto.Error) error {
+func (h *userMgrHandler) Register(ctx context.Context, in *RegisterRequest, out *common_proto.Empty) error {
 	return h.UserMgrHandler.Register(ctx, in, out)
 }
 
@@ -200,22 +254,38 @@ func (h *userMgrHandler) Login(ctx context.Context, in *LoginRequest, out *Login
 	return h.UserMgrHandler.Login(ctx, in, out)
 }
 
-func (h *userMgrHandler) Logout(ctx context.Context, in *LogoutRequest, out *common_proto.Error) error {
+func (h *userMgrHandler) Logout(ctx context.Context, in *RefreshToken, out *common_proto.Empty) error {
 	return h.UserMgrHandler.Logout(ctx, in, out)
 }
 
-func (h *userMgrHandler) NewToken(ctx context.Context, in *User, out *NewTokenResponse) error {
-	return h.UserMgrHandler.NewToken(ctx, in, out)
+func (h *userMgrHandler) RefreshSession(ctx context.Context, in *RefreshToken, out *AuthenticationResult) error {
+	return h.UserMgrHandler.RefreshSession(ctx, in, out)
 }
 
-func (h *userMgrHandler) VerifyToken(ctx context.Context, in *Token, out *common_proto.Error) error {
-	return h.UserMgrHandler.VerifyToken(ctx, in, out)
+func (h *userMgrHandler) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ConfirmRegistration(ctx, in, out)
 }
 
-func (h *userMgrHandler) VerifyAndRefreshToken(ctx context.Context, in *Token, out *common_proto.Error) error {
-	return h.UserMgrHandler.VerifyAndRefreshToken(ctx, in, out)
+func (h *userMgrHandler) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ForgotPassword(ctx, in, out)
 }
 
-func (h *userMgrHandler) RefreshToken(ctx context.Context, in *Token, out *common_proto.Error) error {
-	return h.UserMgrHandler.RefreshToken(ctx, in, out)
+func (h *userMgrHandler) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ConfirmPassword(ctx, in, out)
+}
+
+func (h *userMgrHandler) ChangePassword(ctx context.Context, in *ChangePasswordRequest, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ChangePassword(ctx, in, out)
+}
+
+func (h *userMgrHandler) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *User) error {
+	return h.UserMgrHandler.UpdateAttributes(ctx, in, out)
+}
+
+func (h *userMgrHandler) ChangeEmail(ctx context.Context, in *ChangeEmailRequest, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ChangeEmail(ctx, in, out)
+}
+
+func (h *userMgrHandler) VerifyAccessToken(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error {
+	return h.UserMgrHandler.VerifyAccessToken(ctx, in, out)
 }

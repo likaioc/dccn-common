@@ -7,45 +7,78 @@ package usermgr;
 // TODO: supports filter
 service UserMgr {
     // Register Create a new user
-    rpc Register(User) returns (common.proto.Error) {
+    rpc Register(RegisterRequest) returns (common.proto.Empty) {
     }
     // Login login
     rpc Login(LoginRequest) returns (LoginResponse) {
     }
-    // Logout need verify permission
-    rpc Logout(LogoutRequest) returns (common.proto.Error) {
-    }
-    // Auth  validates user
-    rpc NewToken(User) returns (NewTokenResponse) {
-    }
-    // VerifyToken validated token
-    rpc VerifyToken(Token) returns (common.proto.Error) {
-    }
-    // VerifyToken validated token and refresh token, return new token
-    rpc VerifyAndRefreshToken(Token) returns (common.proto.Error) {
+    // Logout need verify permission , disable RefreshToken , access_token still work for 2 hours.
+    rpc Logout(RefreshToken) returns (common.proto.Empty) {
     }
     // RefreshToken reset token last access token
-    rpc RefreshToken(Token) returns (common.proto.Error) {
+    rpc RefreshSession(RefreshToken) returns (AuthenticationResult) {
+    }
+
+    rpc ConfirmRegistration(ConfirmRegistrationRequest) returns (common.proto.Empty) {
+    }
+
+    rpc ForgotPassword(ForgotPasswordRequest) returns (common.proto.Empty) {
+    }
+
+    rpc ConfirmPassword(ConfirmPasswordRequest) returns (common.proto.Empty) {
+    }
+
+    rpc ChangePassword(ChangePasswordRequest) returns (common.proto.Empty) {
+    }
+
+    rpc UpdateAttributes(UpdateAttributesRequest) returns (User) {
+    }
+
+    rpc ChangeEmail(ChangeEmailRequest) returns (common.proto.Empty) {
+    }
+
+    rpc VerifyAccessToken(common.proto.Empty) returns (common.proto.Empty){
     }
 }
 
 message User {
-    // id self-increase, de
+    // uuid
     string id = 1;
-    // name should be unique
-    string name = 2;
-    // nickname show on UI
-    string nickname = 4;
     // email user's email, unique.
-    string email = 5;
-    // password string
-    string password = 6;
-    // balance user's balance in account
-    int32 balance = 7;
-    // is_deleted user's status
-    bool is_deleted = 8;
-    // token jwt token string
-    string token = 9;
+    string email = 2;
+    UserStatus status = 3;
+    UserAttributes attributes = 4;
+}
+
+enum UserStatus {
+    CONFIRMING = 0; // default while new user
+    CONFIRMED = 1;
+    DEACTIVATED = 2;
+}
+
+message UserAttribute {
+    string key = 1;
+    oneof value {
+        int64 int_value = 2;
+        double double_value = 3;
+        string string_value = 4;
+        bool bool_value = 5;
+        // null null_value = 6;
+    }
+}
+
+message UserAttributes {
+    // name of a user
+    string name = 1;
+    // public key of tendermint wallet
+    string pub_key = 2;
+    uint64 creation_date = 3; //task creation date
+    uint64 last_modified_date = 4; //task creation date
+}
+
+message RegisterRequest {
+  User user = 1;
+  string password = 2;
 }
 
 message LoginRequest {
@@ -54,20 +87,45 @@ message LoginRequest {
 }
 
 message LoginResponse {
-    string token = 1;
-    string user_id = 2;
-    common.proto.Error error = 3;
+    AuthenticationResult authentication_result = 1;
+    User user = 2;
 }
 
-message LogoutRequest {
-    string user_id = 1;
+message AuthenticationResult {
+    uint64 expiration = 1;
+    uint64 issued_at = 2;
+    string access_token = 3;
+    string refresh_token = 4;
 }
 
-message Token {
-    string token = 1;
+message RefreshToken {
+    string refresh_token = 1;
 }
 
-message NewTokenResponse {
-    string token = 1;
-    common.proto.Error error = 2;
+message ConfirmRegistrationRequest {
+    string email = 1;
+    string confirmation_code = 2;
+}
+
+message ForgotPasswordRequest {
+    string email = 1;
+}
+
+message ConfirmPasswordRequest {
+    string email = 1;
+    string confirmation_code = 2;
+    string new_password = 3;
+}
+
+message ChangePasswordRequest {
+    string old_password = 1;
+    string new_password = 2;
+}
+
+message ChangeEmailRequest {
+    string new_email = 1;
+}
+
+message UpdateAttributesRequest {
+    repeated UserAttribute user_attributes = 1;
 }

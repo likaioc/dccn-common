@@ -3,7 +3,7 @@ syntax = "proto3";
 package common.proto;
 
 // Task Events operation code
-enum Operation {
+enum DCOperation {
     TASK_CREATE = 0;
     TASK_CANCEL = 1;
     TASK_UPDATE = 2;
@@ -26,85 +26,101 @@ enum TaskStatus {
 }
 
 enum TaskType {
-    DEFAULT = 0;
-    DEPLOYMENT = 1;
-    JOB = 2;
-    CRONJOB = 3;
+    DEPLOYMENT = 0;
+    JOB = 1;
+    CRONJOB = 2;
 }
 
 // Data center status
-enum Status {
+enum DCStatus {
     AVAILABLE = 0;
     UNAVAILABLE = 1;
-    SUCCESS = 2;
-    FAILURE = 3;
-    UNKNOWN = 4;
 }
 
-// Error Message
-message Error {
-    common.proto.Status status = 1;
-    string details = 2;
-}
+// Emtpy Message
+message Empty {}
 
 // Task Data structure
 message Task  {
     string id = 1;
-    string user_id = 2;
-    string name = 3;// name of the task/image to run
-    common.proto.TaskType type = 4; // 0  default 1 deployment 2 job 3 cronjob
-    string image = 5; // template
-    int32 replica = 6; // how many replica of docker instance
-    string data_center = 7;
-    string data_center_id = 8;// data center id if value = 0 or default hub will pickup by random
-    common.proto.TaskStatus status = 9;  // int type
-    string url = 11;
-    bool hidden = 12;
-    uint32 uptime = 13; // uptime of the task
-    uint64 creation_date = 14; //task creation date
-    string report = 15; // detail for status
-    bytes extra = 16;
-    string schedule = 17;
+    string name = 2;// name of the task/image to run
+    TaskType type = 3; //  0 deployment 1 job 2 cronjob
+    oneof type_data {
+        TaskTypeDeployment type_deployment = 4;
+        TaskTypeJob type_job = 5;
+        TaskTypeCronJob type_cron_job = 6;
+    }
+    string data_center_name = 7;
+    TaskStatus status = 8;
+    TaskAttributes attributes = 9;
+    Environment environment = 10;
+}
+
+message TaskTypeDeployment {
+    string image = 1; // template
+}
+
+message TaskTypeJob {
+    string image = 1; // template
+}
+
+message TaskTypeCronJob {
+    string image = 1; // template
+    string schedule = 2;
+}
+
+message TaskAttributes {
+    int32 replica = 1; // how many replica of environment
+    bool hidden = 2;
+    uint64 creation_date = 3; //task creation date
+    uint64 last_modified_date = 4; //task creation date
+}
+
+message Environment {
+    int32 cpu = 1;
+    int32 memory = 2;
+    int32 disk = 3;
+}
+
+message GeoLocation {
+    string lat = 1; // latitude
+    string lng = 2; // longitude
 }
 
 // Data Center structure
 message DataCenter {
-    string  id = 1;  //data center id
+    string id = 1;  //data center id
     string name = 2; // data center name
-    string lat = 3; // latitude of data center
-    string lng = 4; // longitude of data center
-    common.proto.Status status = 5; // data center status // 1. online 2. offline
-    string metrics = 6; //json string for Metrics structure which defined in constants
-    string extra = 7;
-    string report = 8;
-    string last_report_time = 9;
-    string wallet_address = 10;  //datacenter wallet address
+    GeoLocation geo_location = 3;
+    DCStatus status = 4; // data center status // 1. online 2. offline
+    DataCenterAttributes dc_attributes = 5;
+    DCHeartbeatReport dc_heartbeat_report = 6;
 }
 
-// data center returns msg with task status
-message TaskFeedback {
-    string task_id = 1;
-    string url = 2;  // url of web application
-    string data_center = 3; // name of data center
-    string report = 4; // detail message
-    common.proto.TaskStatus status = 5; // StartSuccess or StartFailure JobDone Cancelled  Running  Other
+message DataCenterAttributes {
+    string wallet_address = 1;  //datacenter wallet address
+    uint64 creation_date = 2; //task creation date
+    uint64 last_modified_date = 3; //task creation date
+}
+
+message DCHeartbeatReport {
+    string metrics = 1; //json string for Metrics structure which defined in constants
+    string report = 2;
+    uint64 report_time = 3;
+}
+
+message TaskReport {
+    Task task = 1; //json string for Metrics structure which defined in constants
+    string report = 2;
 }
 
 // data center communicate with dc manager
-message Event {
-    Operation event_type = 1; // HeartBeat or task operation
-    string report = 2;
+message DCStream {
+    DCOperation op_type = 1; // HeartBeat or task operation
 
-    oneof op_message {
-        Task task = 3; // Deploy task action
-        TaskFeedback task_feedback = 4; // Return task status
-        DataCenter data_center = 5; // HearBeat Info with DataCenter message
+    oneof op_payload {
+        Task task = 2; // Deploy task action
+        TaskReport task_report = 3;
+        DataCenter data_center = 4; // HearBeat Info with DataCenter message
     }
-}
-
-// Mail Event For the future
-message MailEvent {
-    string name = 1;
-    string address = 2;
-    string message = 3;
 }

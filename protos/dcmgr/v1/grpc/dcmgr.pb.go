@@ -24,47 +24,8 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type DataCenterListRequest struct {
-	UserId               string   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *DataCenterListRequest) Reset()         { *m = DataCenterListRequest{} }
-func (m *DataCenterListRequest) String() string { return proto.CompactTextString(m) }
-func (*DataCenterListRequest) ProtoMessage()    {}
-func (*DataCenterListRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_7db43b74f88d34a0, []int{0}
-}
-func (m *DataCenterListRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DataCenterListRequest.Unmarshal(m, b)
-}
-func (m *DataCenterListRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DataCenterListRequest.Marshal(b, m, deterministic)
-}
-func (dst *DataCenterListRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterListRequest.Merge(dst, src)
-}
-func (m *DataCenterListRequest) XXX_Size() int {
-	return xxx_messageInfo_DataCenterListRequest.Size(m)
-}
-func (m *DataCenterListRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_DataCenterListRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DataCenterListRequest proto.InternalMessageInfo
-
-func (m *DataCenterListRequest) GetUserId() string {
-	if m != nil {
-		return m.UserId
-	}
-	return ""
-}
-
 type DataCenterListResponse struct {
 	DcList               []*common.DataCenter `protobuf:"bytes,1,rep,name=dcList,proto3" json:"dcList,omitempty"`
-	Error                *common.Error        `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
 	XXX_unrecognized     []byte               `json:"-"`
 	XXX_sizecache        int32                `json:"-"`
@@ -74,7 +35,7 @@ func (m *DataCenterListResponse) Reset()         { *m = DataCenterListResponse{}
 func (m *DataCenterListResponse) String() string { return proto.CompactTextString(m) }
 func (*DataCenterListResponse) ProtoMessage()    {}
 func (*DataCenterListResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_7db43b74f88d34a0, []int{1}
+	return fileDescriptor_dcmgr_9dae4ba37e24f16e, []int{0}
 }
 func (m *DataCenterListResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterListResponse.Unmarshal(m, b)
@@ -101,15 +62,7 @@ func (m *DataCenterListResponse) GetDcList() []*common.DataCenter {
 	return nil
 }
 
-func (m *DataCenterListResponse) GetError() *common.Error {
-	if m != nil {
-		return m.Error
-	}
-	return nil
-}
-
 func init() {
-	proto.RegisterType((*DataCenterListRequest)(nil), "dcmgr.DataCenterListRequest")
 	proto.RegisterType((*DataCenterListResponse)(nil), "dcmgr.DataCenterListResponse")
 }
 
@@ -146,8 +99,8 @@ func (c *dCStreamerClient) ServerStream(ctx context.Context, opts ...grpc.CallOp
 }
 
 type DCStreamer_ServerStreamClient interface {
-	Send(*common.Event) error
-	Recv() (*common.Event, error)
+	Send(*common.DCStream) error
+	Recv() (*common.DCStream, error)
 	grpc.ClientStream
 }
 
@@ -155,12 +108,12 @@ type dCStreamerServerStreamClient struct {
 	grpc.ClientStream
 }
 
-func (x *dCStreamerServerStreamClient) Send(m *common.Event) error {
+func (x *dCStreamerServerStreamClient) Send(m *common.DCStream) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *dCStreamerServerStreamClient) Recv() (*common.Event, error) {
-	m := new(common.Event)
+func (x *dCStreamerServerStreamClient) Recv() (*common.DCStream, error) {
+	m := new(common.DCStream)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -181,8 +134,8 @@ func _DCStreamer_ServerStream_Handler(srv interface{}, stream grpc.ServerStream)
 }
 
 type DCStreamer_ServerStreamServer interface {
-	Send(*common.Event) error
-	Recv() (*common.Event, error)
+	Send(*common.DCStream) error
+	Recv() (*common.DCStream, error)
 	grpc.ServerStream
 }
 
@@ -190,12 +143,12 @@ type dCStreamerServerStreamServer struct {
 	grpc.ServerStream
 }
 
-func (x *dCStreamerServerStreamServer) Send(m *common.Event) error {
+func (x *dCStreamerServerStreamServer) Send(m *common.DCStream) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *dCStreamerServerStreamServer) Recv() (*common.Event, error) {
-	m := new(common.Event)
+func (x *dCStreamerServerStreamServer) Recv() (*common.DCStream, error) {
+	m := new(common.DCStream)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -221,7 +174,7 @@ var _DCStreamer_serviceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DCAPIClient interface {
-	DataCenterList(ctx context.Context, in *DataCenterListRequest, opts ...grpc.CallOption) (*DataCenterListResponse, error)
+	DataCenterList(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*DataCenterListResponse, error)
 }
 
 type dCAPIClient struct {
@@ -232,7 +185,7 @@ func NewDCAPIClient(cc *grpc.ClientConn) DCAPIClient {
 	return &dCAPIClient{cc}
 }
 
-func (c *dCAPIClient) DataCenterList(ctx context.Context, in *DataCenterListRequest, opts ...grpc.CallOption) (*DataCenterListResponse, error) {
+func (c *dCAPIClient) DataCenterList(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*DataCenterListResponse, error) {
 	out := new(DataCenterListResponse)
 	err := c.cc.Invoke(ctx, "/dcmgr.DCAPI/DataCenterList", in, out, opts...)
 	if err != nil {
@@ -243,7 +196,7 @@ func (c *dCAPIClient) DataCenterList(ctx context.Context, in *DataCenterListRequ
 
 // DCAPIServer is the server API for DCAPI service.
 type DCAPIServer interface {
-	DataCenterList(context.Context, *DataCenterListRequest) (*DataCenterListResponse, error)
+	DataCenterList(context.Context, *common.Empty) (*DataCenterListResponse, error)
 }
 
 func RegisterDCAPIServer(s *grpc.Server, srv DCAPIServer) {
@@ -251,7 +204,7 @@ func RegisterDCAPIServer(s *grpc.Server, srv DCAPIServer) {
 }
 
 func _DCAPI_DataCenterList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DataCenterListRequest)
+	in := new(common.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -263,7 +216,7 @@ func _DCAPI_DataCenterList_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/dcmgr.DCAPI/DataCenterList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DCAPIServer).DataCenterList(ctx, req.(*DataCenterListRequest))
+		return srv.(DCAPIServer).DataCenterList(ctx, req.(*common.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -281,24 +234,21 @@ var _DCAPI_serviceDesc = grpc.ServiceDesc{
 	Metadata: "dcmgr/v1/grpc/dcmgr.proto",
 }
 
-func init() { proto.RegisterFile("dcmgr/v1/grpc/dcmgr.proto", fileDescriptor_dcmgr_7db43b74f88d34a0) }
+func init() { proto.RegisterFile("dcmgr/v1/grpc/dcmgr.proto", fileDescriptor_dcmgr_9dae4ba37e24f16e) }
 
-var fileDescriptor_dcmgr_7db43b74f88d34a0 = []byte{
-	// 248 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x90, 0x41, 0x4b, 0xc3, 0x40,
-	0x10, 0x85, 0xbb, 0x94, 0x44, 0x9c, 0x8a, 0x87, 0x29, 0x6a, 0x0c, 0x0a, 0x21, 0xa7, 0x78, 0x49,
-	0x62, 0xbc, 0x0b, 0x92, 0x78, 0x28, 0x14, 0x94, 0xf4, 0xe2, 0x4d, 0x62, 0x32, 0x94, 0x1e, 0xb2,
-	0x1b, 0x67, 0x37, 0xf9, 0xfd, 0x92, 0xac, 0xa0, 0x2d, 0xed, 0x69, 0x79, 0xef, 0xcd, 0xc7, 0x63,
-	0x1f, 0xdc, 0x36, 0x75, 0xbb, 0xe5, 0x64, 0x78, 0x4c, 0xb6, 0xdc, 0xd5, 0xc9, 0xa4, 0xe2, 0x8e,
-	0x95, 0x51, 0xe8, 0x4c, 0xc2, 0x5f, 0xd6, 0xaa, 0x6d, 0x95, 0x4c, 0xec, 0x63, 0xb3, 0x30, 0x85,
-	0xab, 0xa2, 0x32, 0x55, 0x4e, 0xd2, 0x10, 0xaf, 0x77, 0xda, 0x94, 0xf4, 0xdd, 0x93, 0x36, 0x78,
-	0x03, 0x67, 0xbd, 0x26, 0xfe, 0xdc, 0x35, 0x9e, 0x08, 0x44, 0x74, 0x5e, 0xba, 0xa3, 0x5c, 0x35,
-	0x61, 0x0f, 0xd7, 0x87, 0x84, 0xee, 0x94, 0xd4, 0x84, 0x29, 0xb8, 0x4d, 0x3d, 0x3a, 0x9e, 0x08,
-	0xe6, 0xd1, 0x22, 0xf3, 0xe2, 0xff, 0x55, 0xf1, 0x1f, 0x55, 0xfe, 0xde, 0xe1, 0x03, 0x38, 0xc4,
-	0xac, 0xd8, 0x9b, 0x07, 0x22, 0x5a, 0x64, 0xcb, 0x7d, 0xe0, 0x75, 0x8c, 0x4a, 0x7b, 0x91, 0xad,
-	0x01, 0x8a, 0x7c, 0x63, 0x98, 0xaa, 0x96, 0x18, 0x9f, 0xe1, 0x62, 0x43, 0x3c, 0x10, 0x5b, 0x07,
-	0x0f, 0xc9, 0x81, 0xa4, 0xf1, 0x8f, 0x99, 0xe1, 0x2c, 0x12, 0xa9, 0xc8, 0x3e, 0xc0, 0x29, 0xf2,
-	0x97, 0xf7, 0x15, 0xbe, 0xc1, 0xe5, 0xfe, 0x6f, 0xf0, 0x2e, 0xb6, 0xdb, 0x1d, 0x9d, 0xc5, 0xbf,
-	0x3f, 0x91, 0xda, 0x09, 0xc2, 0xd9, 0x97, 0x3b, 0x95, 0x3d, 0xfd, 0x04, 0x00, 0x00, 0xff, 0xff,
-	0xbb, 0x0e, 0xc8, 0x13, 0x90, 0x01, 0x00, 0x00,
+var fileDescriptor_dcmgr_9dae4ba37e24f16e = []byte{
+	// 195 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x4c, 0x49, 0xce, 0x4d,
+	0x2f, 0xd2, 0x2f, 0x33, 0xd4, 0x4f, 0x2f, 0x2a, 0x48, 0xd6, 0x07, 0xf3, 0xf4, 0x0a, 0x8a, 0xf2,
+	0x4b, 0xf2, 0x85, 0x58, 0xc1, 0x1c, 0x29, 0xe1, 0xe4, 0xfc, 0xdc, 0xdc, 0xfc, 0x3c, 0x7d, 0x08,
+	0x05, 0x91, 0x53, 0xf2, 0xe2, 0x12, 0x73, 0x49, 0x2c, 0x49, 0x74, 0x4e, 0xcd, 0x2b, 0x49, 0x2d,
+	0xf2, 0xc9, 0x2c, 0x2e, 0x09, 0x4a, 0x2d, 0x2e, 0xc8, 0xcf, 0x2b, 0x4e, 0x15, 0x32, 0xe0, 0x62,
+	0x4b, 0x49, 0x06, 0x89, 0x48, 0x30, 0x2a, 0x30, 0x6b, 0x70, 0x1b, 0x49, 0xe8, 0x21, 0x6b, 0xd4,
+	0x43, 0xe8, 0x0a, 0x82, 0xaa, 0x33, 0x0a, 0xe2, 0xe2, 0x72, 0x71, 0x0e, 0x2e, 0x29, 0x4a, 0x4d,
+	0xcc, 0x4d, 0x2d, 0x12, 0x72, 0xe1, 0xe2, 0x09, 0x4e, 0x2d, 0x2a, 0x4b, 0x2d, 0x82, 0x88, 0x08,
+	0x89, 0xa1, 0xe9, 0x87, 0xaa, 0x94, 0xc2, 0x21, 0xae, 0xc4, 0xa0, 0xc1, 0x68, 0xc0, 0x68, 0xe4,
+	0xcf, 0xc5, 0xea, 0xe2, 0xec, 0x18, 0xe0, 0x29, 0xe4, 0xc6, 0xc5, 0x87, 0xea, 0x50, 0x21, 0x61,
+	0x54, 0x8d, 0xae, 0xb9, 0x05, 0x25, 0x95, 0x52, 0xb2, 0x7a, 0x10, 0x9f, 0x63, 0xf7, 0x94, 0x12,
+	0x43, 0x12, 0x1b, 0x58, 0xb5, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x44, 0xd9, 0xd9, 0xb8, 0x30,
+	0x01, 0x00, 0x00,
 }

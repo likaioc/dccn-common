@@ -24,33 +24,49 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
+type UserStatus int32
+
+const (
+	UserStatus_CONFIRMING  UserStatus = 0
+	UserStatus_CONFIRMED   UserStatus = 1
+	UserStatus_DEACTIVATED UserStatus = 2
+)
+
+var UserStatus_name = map[int32]string{
+	0: "CONFIRMING",
+	1: "CONFIRMED",
+	2: "DEACTIVATED",
+}
+var UserStatus_value = map[string]int32{
+	"CONFIRMING":  0,
+	"CONFIRMED":   1,
+	"DEACTIVATED": 2,
+}
+
+func (x UserStatus) String() string {
+	return proto.EnumName(UserStatus_name, int32(x))
+}
+func (UserStatus) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{0}
+}
+
 type User struct {
-	// id self-increase, de
+	// uuid
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// name should be unique
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	// nickname show on UI
-	Nickname string `protobuf:"bytes,4,opt,name=nickname,proto3" json:"nickname,omitempty"`
 	// email user's email, unique.
-	Email string `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
-	// password string
-	Password string `protobuf:"bytes,6,opt,name=password,proto3" json:"password,omitempty"`
-	// balance user's balance in account
-	Balance int32 `protobuf:"varint,7,opt,name=balance,proto3" json:"balance,omitempty"`
-	// is_deleted user's status
-	IsDeleted bool `protobuf:"varint,8,opt,name=is_deleted,json=isDeleted,proto3" json:"is_deleted,omitempty"`
-	// token jwt token string
-	Token                string   `protobuf:"bytes,9,opt,name=token,proto3" json:"token,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Email                string          `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Status               UserStatus      `protobuf:"varint,3,opt,name=status,proto3,enum=usermgr.UserStatus" json:"status,omitempty"`
+	Attributes           *UserAttributes `protobuf:"bytes,4,opt,name=attributes,proto3" json:"attributes,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
 func (m *User) Reset()         { *m = User{} }
 func (m *User) String() string { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()    {}
 func (*User) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_db83212cd46ef427, []int{0}
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{0}
 }
 func (m *User) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_User.Unmarshal(m, b)
@@ -77,20 +93,6 @@ func (m *User) GetId() string {
 	return ""
 }
 
-func (m *User) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *User) GetNickname() string {
-	if m != nil {
-		return m.Nickname
-	}
-	return ""
-}
-
 func (m *User) GetEmail() string {
 	if m != nil {
 		return m.Email
@@ -98,30 +100,330 @@ func (m *User) GetEmail() string {
 	return ""
 }
 
-func (m *User) GetPassword() string {
+func (m *User) GetStatus() UserStatus {
 	if m != nil {
-		return m.Password
+		return m.Status
+	}
+	return UserStatus_CONFIRMING
+}
+
+func (m *User) GetAttributes() *UserAttributes {
+	if m != nil {
+		return m.Attributes
+	}
+	return nil
+}
+
+type UserAttribute struct {
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	// Types that are valid to be assigned to Value:
+	//	*UserAttribute_IntValue
+	//	*UserAttribute_DoubleValue
+	//	*UserAttribute_StringValue
+	//	*UserAttribute_BoolValue
+	Value                isUserAttribute_Value `protobuf_oneof:"value"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
+}
+
+func (m *UserAttribute) Reset()         { *m = UserAttribute{} }
+func (m *UserAttribute) String() string { return proto.CompactTextString(m) }
+func (*UserAttribute) ProtoMessage()    {}
+func (*UserAttribute) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{1}
+}
+func (m *UserAttribute) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UserAttribute.Unmarshal(m, b)
+}
+func (m *UserAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UserAttribute.Marshal(b, m, deterministic)
+}
+func (dst *UserAttribute) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserAttribute.Merge(dst, src)
+}
+func (m *UserAttribute) XXX_Size() int {
+	return xxx_messageInfo_UserAttribute.Size(m)
+}
+func (m *UserAttribute) XXX_DiscardUnknown() {
+	xxx_messageInfo_UserAttribute.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UserAttribute proto.InternalMessageInfo
+
+func (m *UserAttribute) GetKey() string {
+	if m != nil {
+		return m.Key
 	}
 	return ""
 }
 
-func (m *User) GetBalance() int32 {
+type isUserAttribute_Value interface {
+	isUserAttribute_Value()
+}
+
+type UserAttribute_IntValue struct {
+	IntValue int64 `protobuf:"varint,2,opt,name=int_value,json=intValue,proto3,oneof"`
+}
+
+type UserAttribute_DoubleValue struct {
+	DoubleValue float64 `protobuf:"fixed64,3,opt,name=double_value,json=doubleValue,proto3,oneof"`
+}
+
+type UserAttribute_StringValue struct {
+	StringValue string `protobuf:"bytes,4,opt,name=string_value,json=stringValue,proto3,oneof"`
+}
+
+type UserAttribute_BoolValue struct {
+	BoolValue bool `protobuf:"varint,5,opt,name=bool_value,json=boolValue,proto3,oneof"`
+}
+
+func (*UserAttribute_IntValue) isUserAttribute_Value() {}
+
+func (*UserAttribute_DoubleValue) isUserAttribute_Value() {}
+
+func (*UserAttribute_StringValue) isUserAttribute_Value() {}
+
+func (*UserAttribute_BoolValue) isUserAttribute_Value() {}
+
+func (m *UserAttribute) GetValue() isUserAttribute_Value {
 	if m != nil {
-		return m.Balance
+		return m.Value
+	}
+	return nil
+}
+
+func (m *UserAttribute) GetIntValue() int64 {
+	if x, ok := m.GetValue().(*UserAttribute_IntValue); ok {
+		return x.IntValue
 	}
 	return 0
 }
 
-func (m *User) GetIsDeleted() bool {
-	if m != nil {
-		return m.IsDeleted
+func (m *UserAttribute) GetDoubleValue() float64 {
+	if x, ok := m.GetValue().(*UserAttribute_DoubleValue); ok {
+		return x.DoubleValue
+	}
+	return 0
+}
+
+func (m *UserAttribute) GetStringValue() string {
+	if x, ok := m.GetValue().(*UserAttribute_StringValue); ok {
+		return x.StringValue
+	}
+	return ""
+}
+
+func (m *UserAttribute) GetBoolValue() bool {
+	if x, ok := m.GetValue().(*UserAttribute_BoolValue); ok {
+		return x.BoolValue
 	}
 	return false
 }
 
-func (m *User) GetToken() string {
+// XXX_OneofFuncs is for the internal use of the proto package.
+func (*UserAttribute) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _UserAttribute_OneofMarshaler, _UserAttribute_OneofUnmarshaler, _UserAttribute_OneofSizer, []interface{}{
+		(*UserAttribute_IntValue)(nil),
+		(*UserAttribute_DoubleValue)(nil),
+		(*UserAttribute_StringValue)(nil),
+		(*UserAttribute_BoolValue)(nil),
+	}
+}
+
+func _UserAttribute_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	m := msg.(*UserAttribute)
+	// value
+	switch x := m.Value.(type) {
+	case *UserAttribute_IntValue:
+		b.EncodeVarint(2<<3 | proto.WireVarint)
+		b.EncodeVarint(uint64(x.IntValue))
+	case *UserAttribute_DoubleValue:
+		b.EncodeVarint(3<<3 | proto.WireFixed64)
+		b.EncodeFixed64(math.Float64bits(x.DoubleValue))
+	case *UserAttribute_StringValue:
+		b.EncodeVarint(4<<3 | proto.WireBytes)
+		b.EncodeStringBytes(x.StringValue)
+	case *UserAttribute_BoolValue:
+		t := uint64(0)
+		if x.BoolValue {
+			t = 1
+		}
+		b.EncodeVarint(5<<3 | proto.WireVarint)
+		b.EncodeVarint(t)
+	case nil:
+	default:
+		return fmt.Errorf("UserAttribute.Value has unexpected type %T", x)
+	}
+	return nil
+}
+
+func _UserAttribute_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	m := msg.(*UserAttribute)
+	switch tag {
+	case 2: // value.int_value
+		if wire != proto.WireVarint {
+			return true, proto.ErrInternalBadWireType
+		}
+		x, err := b.DecodeVarint()
+		m.Value = &UserAttribute_IntValue{int64(x)}
+		return true, err
+	case 3: // value.double_value
+		if wire != proto.WireFixed64 {
+			return true, proto.ErrInternalBadWireType
+		}
+		x, err := b.DecodeFixed64()
+		m.Value = &UserAttribute_DoubleValue{math.Float64frombits(x)}
+		return true, err
+	case 4: // value.string_value
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		x, err := b.DecodeStringBytes()
+		m.Value = &UserAttribute_StringValue{x}
+		return true, err
+	case 5: // value.bool_value
+		if wire != proto.WireVarint {
+			return true, proto.ErrInternalBadWireType
+		}
+		x, err := b.DecodeVarint()
+		m.Value = &UserAttribute_BoolValue{x != 0}
+		return true, err
+	default:
+		return false, nil
+	}
+}
+
+func _UserAttribute_OneofSizer(msg proto.Message) (n int) {
+	m := msg.(*UserAttribute)
+	// value
+	switch x := m.Value.(type) {
+	case *UserAttribute_IntValue:
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(x.IntValue))
+	case *UserAttribute_DoubleValue:
+		n += 1 // tag and wire
+		n += 8
+	case *UserAttribute_StringValue:
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(len(x.StringValue)))
+		n += len(x.StringValue)
+	case *UserAttribute_BoolValue:
+		n += 1 // tag and wire
+		n += 1
+	case nil:
+	default:
+		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
+	}
+	return n
+}
+
+type UserAttributes struct {
+	// name of a user
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// public key of tendermint wallet
+	PubKey               string   `protobuf:"bytes,2,opt,name=pub_key,json=pubKey,proto3" json:"pub_key,omitempty"`
+	CreationDate         uint64   `protobuf:"varint,3,opt,name=creation_date,json=creationDate,proto3" json:"creation_date,omitempty"`
+	LastModifiedDate     uint64   `protobuf:"varint,4,opt,name=last_modified_date,json=lastModifiedDate,proto3" json:"last_modified_date,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UserAttributes) Reset()         { *m = UserAttributes{} }
+func (m *UserAttributes) String() string { return proto.CompactTextString(m) }
+func (*UserAttributes) ProtoMessage()    {}
+func (*UserAttributes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{2}
+}
+func (m *UserAttributes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UserAttributes.Unmarshal(m, b)
+}
+func (m *UserAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UserAttributes.Marshal(b, m, deterministic)
+}
+func (dst *UserAttributes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserAttributes.Merge(dst, src)
+}
+func (m *UserAttributes) XXX_Size() int {
+	return xxx_messageInfo_UserAttributes.Size(m)
+}
+func (m *UserAttributes) XXX_DiscardUnknown() {
+	xxx_messageInfo_UserAttributes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UserAttributes proto.InternalMessageInfo
+
+func (m *UserAttributes) GetName() string {
 	if m != nil {
-		return m.Token
+		return m.Name
+	}
+	return ""
+}
+
+func (m *UserAttributes) GetPubKey() string {
+	if m != nil {
+		return m.PubKey
+	}
+	return ""
+}
+
+func (m *UserAttributes) GetCreationDate() uint64 {
+	if m != nil {
+		return m.CreationDate
+	}
+	return 0
+}
+
+func (m *UserAttributes) GetLastModifiedDate() uint64 {
+	if m != nil {
+		return m.LastModifiedDate
+	}
+	return 0
+}
+
+type RegisterRequest struct {
+	User                 *User    `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Password             string   `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *RegisterRequest) Reset()         { *m = RegisterRequest{} }
+func (m *RegisterRequest) String() string { return proto.CompactTextString(m) }
+func (*RegisterRequest) ProtoMessage()    {}
+func (*RegisterRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{3}
+}
+func (m *RegisterRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RegisterRequest.Unmarshal(m, b)
+}
+func (m *RegisterRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RegisterRequest.Marshal(b, m, deterministic)
+}
+func (dst *RegisterRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RegisterRequest.Merge(dst, src)
+}
+func (m *RegisterRequest) XXX_Size() int {
+	return xxx_messageInfo_RegisterRequest.Size(m)
+}
+func (m *RegisterRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_RegisterRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RegisterRequest proto.InternalMessageInfo
+
+func (m *RegisterRequest) GetUser() *User {
+	if m != nil {
+		return m.User
+	}
+	return nil
+}
+
+func (m *RegisterRequest) GetPassword() string {
+	if m != nil {
+		return m.Password
 	}
 	return ""
 }
@@ -138,7 +440,7 @@ func (m *LoginRequest) Reset()         { *m = LoginRequest{} }
 func (m *LoginRequest) String() string { return proto.CompactTextString(m) }
 func (*LoginRequest) ProtoMessage()    {}
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_db83212cd46ef427, []int{1}
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{4}
 }
 func (m *LoginRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_LoginRequest.Unmarshal(m, b)
@@ -173,19 +475,18 @@ func (m *LoginRequest) GetPassword() string {
 }
 
 type LoginResponse struct {
-	Token                string        `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	UserId               string        `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Error                *common.Error `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
+	AuthenticationResult *AuthenticationResult `protobuf:"bytes,1,opt,name=authentication_result,json=authenticationResult,proto3" json:"authentication_result,omitempty"`
+	User                 *User                 `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
 func (m *LoginResponse) Reset()         { *m = LoginResponse{} }
 func (m *LoginResponse) String() string { return proto.CompactTextString(m) }
 func (*LoginResponse) ProtoMessage()    {}
 func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_db83212cd46ef427, []int{2}
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{5}
 }
 func (m *LoginResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_LoginResponse.Unmarshal(m, b)
@@ -205,156 +506,396 @@ func (m *LoginResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_LoginResponse proto.InternalMessageInfo
 
-func (m *LoginResponse) GetToken() string {
+func (m *LoginResponse) GetAuthenticationResult() *AuthenticationResult {
 	if m != nil {
-		return m.Token
-	}
-	return ""
-}
-
-func (m *LoginResponse) GetUserId() string {
-	if m != nil {
-		return m.UserId
-	}
-	return ""
-}
-
-func (m *LoginResponse) GetError() *common.Error {
-	if m != nil {
-		return m.Error
+		return m.AuthenticationResult
 	}
 	return nil
 }
 
-type LogoutRequest struct {
-	UserId               string   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+func (m *LoginResponse) GetUser() *User {
+	if m != nil {
+		return m.User
+	}
+	return nil
+}
+
+type AuthenticationResult struct {
+	Expiration           uint64   `protobuf:"varint,1,opt,name=expiration,proto3" json:"expiration,omitempty"`
+	IssuedAt             uint64   `protobuf:"varint,2,opt,name=issued_at,json=issuedAt,proto3" json:"issued_at,omitempty"`
+	AccessToken          string   `protobuf:"bytes,3,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	RefreshToken         string   `protobuf:"bytes,4,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *LogoutRequest) Reset()         { *m = LogoutRequest{} }
-func (m *LogoutRequest) String() string { return proto.CompactTextString(m) }
-func (*LogoutRequest) ProtoMessage()    {}
-func (*LogoutRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_db83212cd46ef427, []int{3}
+func (m *AuthenticationResult) Reset()         { *m = AuthenticationResult{} }
+func (m *AuthenticationResult) String() string { return proto.CompactTextString(m) }
+func (*AuthenticationResult) ProtoMessage()    {}
+func (*AuthenticationResult) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{6}
 }
-func (m *LogoutRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_LogoutRequest.Unmarshal(m, b)
+func (m *AuthenticationResult) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AuthenticationResult.Unmarshal(m, b)
 }
-func (m *LogoutRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_LogoutRequest.Marshal(b, m, deterministic)
+func (m *AuthenticationResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AuthenticationResult.Marshal(b, m, deterministic)
 }
-func (dst *LogoutRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_LogoutRequest.Merge(dst, src)
+func (dst *AuthenticationResult) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AuthenticationResult.Merge(dst, src)
 }
-func (m *LogoutRequest) XXX_Size() int {
-	return xxx_messageInfo_LogoutRequest.Size(m)
+func (m *AuthenticationResult) XXX_Size() int {
+	return xxx_messageInfo_AuthenticationResult.Size(m)
 }
-func (m *LogoutRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_LogoutRequest.DiscardUnknown(m)
+func (m *AuthenticationResult) XXX_DiscardUnknown() {
+	xxx_messageInfo_AuthenticationResult.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_LogoutRequest proto.InternalMessageInfo
+var xxx_messageInfo_AuthenticationResult proto.InternalMessageInfo
 
-func (m *LogoutRequest) GetUserId() string {
+func (m *AuthenticationResult) GetExpiration() uint64 {
 	if m != nil {
-		return m.UserId
+		return m.Expiration
+	}
+	return 0
+}
+
+func (m *AuthenticationResult) GetIssuedAt() uint64 {
+	if m != nil {
+		return m.IssuedAt
+	}
+	return 0
+}
+
+func (m *AuthenticationResult) GetAccessToken() string {
+	if m != nil {
+		return m.AccessToken
 	}
 	return ""
 }
 
-type Token struct {
-	Token                string   `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+func (m *AuthenticationResult) GetRefreshToken() string {
+	if m != nil {
+		return m.RefreshToken
+	}
+	return ""
+}
+
+type RefreshToken struct {
+	RefreshToken         string   `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Token) Reset()         { *m = Token{} }
-func (m *Token) String() string { return proto.CompactTextString(m) }
-func (*Token) ProtoMessage()    {}
-func (*Token) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_db83212cd46ef427, []int{4}
+func (m *RefreshToken) Reset()         { *m = RefreshToken{} }
+func (m *RefreshToken) String() string { return proto.CompactTextString(m) }
+func (*RefreshToken) ProtoMessage()    {}
+func (*RefreshToken) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{7}
 }
-func (m *Token) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Token.Unmarshal(m, b)
+func (m *RefreshToken) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RefreshToken.Unmarshal(m, b)
 }
-func (m *Token) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Token.Marshal(b, m, deterministic)
+func (m *RefreshToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RefreshToken.Marshal(b, m, deterministic)
 }
-func (dst *Token) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Token.Merge(dst, src)
+func (dst *RefreshToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RefreshToken.Merge(dst, src)
 }
-func (m *Token) XXX_Size() int {
-	return xxx_messageInfo_Token.Size(m)
+func (m *RefreshToken) XXX_Size() int {
+	return xxx_messageInfo_RefreshToken.Size(m)
 }
-func (m *Token) XXX_DiscardUnknown() {
-	xxx_messageInfo_Token.DiscardUnknown(m)
+func (m *RefreshToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_RefreshToken.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Token proto.InternalMessageInfo
+var xxx_messageInfo_RefreshToken proto.InternalMessageInfo
 
-func (m *Token) GetToken() string {
+func (m *RefreshToken) GetRefreshToken() string {
 	if m != nil {
-		return m.Token
+		return m.RefreshToken
 	}
 	return ""
 }
 
-type NewTokenResponse struct {
-	Token                string        `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	Error                *common.Error `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
+type ConfirmRegistrationRequest struct {
+	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	ConfirmationCode     string   `protobuf:"bytes,2,opt,name=confirmation_code,json=confirmationCode,proto3" json:"confirmation_code,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *NewTokenResponse) Reset()         { *m = NewTokenResponse{} }
-func (m *NewTokenResponse) String() string { return proto.CompactTextString(m) }
-func (*NewTokenResponse) ProtoMessage()    {}
-func (*NewTokenResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_db83212cd46ef427, []int{5}
+func (m *ConfirmRegistrationRequest) Reset()         { *m = ConfirmRegistrationRequest{} }
+func (m *ConfirmRegistrationRequest) String() string { return proto.CompactTextString(m) }
+func (*ConfirmRegistrationRequest) ProtoMessage()    {}
+func (*ConfirmRegistrationRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{8}
 }
-func (m *NewTokenResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_NewTokenResponse.Unmarshal(m, b)
+func (m *ConfirmRegistrationRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConfirmRegistrationRequest.Unmarshal(m, b)
 }
-func (m *NewTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_NewTokenResponse.Marshal(b, m, deterministic)
+func (m *ConfirmRegistrationRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConfirmRegistrationRequest.Marshal(b, m, deterministic)
 }
-func (dst *NewTokenResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_NewTokenResponse.Merge(dst, src)
+func (dst *ConfirmRegistrationRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfirmRegistrationRequest.Merge(dst, src)
 }
-func (m *NewTokenResponse) XXX_Size() int {
-	return xxx_messageInfo_NewTokenResponse.Size(m)
+func (m *ConfirmRegistrationRequest) XXX_Size() int {
+	return xxx_messageInfo_ConfirmRegistrationRequest.Size(m)
 }
-func (m *NewTokenResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_NewTokenResponse.DiscardUnknown(m)
+func (m *ConfirmRegistrationRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConfirmRegistrationRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_NewTokenResponse proto.InternalMessageInfo
+var xxx_messageInfo_ConfirmRegistrationRequest proto.InternalMessageInfo
 
-func (m *NewTokenResponse) GetToken() string {
+func (m *ConfirmRegistrationRequest) GetEmail() string {
 	if m != nil {
-		return m.Token
+		return m.Email
 	}
 	return ""
 }
 
-func (m *NewTokenResponse) GetError() *common.Error {
+func (m *ConfirmRegistrationRequest) GetConfirmationCode() string {
 	if m != nil {
-		return m.Error
+		return m.ConfirmationCode
+	}
+	return ""
+}
+
+type ForgotPasswordRequest struct {
+	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ForgotPasswordRequest) Reset()         { *m = ForgotPasswordRequest{} }
+func (m *ForgotPasswordRequest) String() string { return proto.CompactTextString(m) }
+func (*ForgotPasswordRequest) ProtoMessage()    {}
+func (*ForgotPasswordRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{9}
+}
+func (m *ForgotPasswordRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ForgotPasswordRequest.Unmarshal(m, b)
+}
+func (m *ForgotPasswordRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ForgotPasswordRequest.Marshal(b, m, deterministic)
+}
+func (dst *ForgotPasswordRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ForgotPasswordRequest.Merge(dst, src)
+}
+func (m *ForgotPasswordRequest) XXX_Size() int {
+	return xxx_messageInfo_ForgotPasswordRequest.Size(m)
+}
+func (m *ForgotPasswordRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ForgotPasswordRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ForgotPasswordRequest proto.InternalMessageInfo
+
+func (m *ForgotPasswordRequest) GetEmail() string {
+	if m != nil {
+		return m.Email
+	}
+	return ""
+}
+
+type ConfirmPasswordRequest struct {
+	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	ConfirmationCode     string   `protobuf:"bytes,2,opt,name=confirmation_code,json=confirmationCode,proto3" json:"confirmation_code,omitempty"`
+	NewPassword          string   `protobuf:"bytes,3,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ConfirmPasswordRequest) Reset()         { *m = ConfirmPasswordRequest{} }
+func (m *ConfirmPasswordRequest) String() string { return proto.CompactTextString(m) }
+func (*ConfirmPasswordRequest) ProtoMessage()    {}
+func (*ConfirmPasswordRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{10}
+}
+func (m *ConfirmPasswordRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConfirmPasswordRequest.Unmarshal(m, b)
+}
+func (m *ConfirmPasswordRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConfirmPasswordRequest.Marshal(b, m, deterministic)
+}
+func (dst *ConfirmPasswordRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfirmPasswordRequest.Merge(dst, src)
+}
+func (m *ConfirmPasswordRequest) XXX_Size() int {
+	return xxx_messageInfo_ConfirmPasswordRequest.Size(m)
+}
+func (m *ConfirmPasswordRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConfirmPasswordRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConfirmPasswordRequest proto.InternalMessageInfo
+
+func (m *ConfirmPasswordRequest) GetEmail() string {
+	if m != nil {
+		return m.Email
+	}
+	return ""
+}
+
+func (m *ConfirmPasswordRequest) GetConfirmationCode() string {
+	if m != nil {
+		return m.ConfirmationCode
+	}
+	return ""
+}
+
+func (m *ConfirmPasswordRequest) GetNewPassword() string {
+	if m != nil {
+		return m.NewPassword
+	}
+	return ""
+}
+
+type ChangePasswordRequest struct {
+	OldPassword          string   `protobuf:"bytes,1,opt,name=old_password,json=oldPassword,proto3" json:"old_password,omitempty"`
+	NewPassword          string   `protobuf:"bytes,2,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ChangePasswordRequest) Reset()         { *m = ChangePasswordRequest{} }
+func (m *ChangePasswordRequest) String() string { return proto.CompactTextString(m) }
+func (*ChangePasswordRequest) ProtoMessage()    {}
+func (*ChangePasswordRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{11}
+}
+func (m *ChangePasswordRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChangePasswordRequest.Unmarshal(m, b)
+}
+func (m *ChangePasswordRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChangePasswordRequest.Marshal(b, m, deterministic)
+}
+func (dst *ChangePasswordRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangePasswordRequest.Merge(dst, src)
+}
+func (m *ChangePasswordRequest) XXX_Size() int {
+	return xxx_messageInfo_ChangePasswordRequest.Size(m)
+}
+func (m *ChangePasswordRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChangePasswordRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChangePasswordRequest proto.InternalMessageInfo
+
+func (m *ChangePasswordRequest) GetOldPassword() string {
+	if m != nil {
+		return m.OldPassword
+	}
+	return ""
+}
+
+func (m *ChangePasswordRequest) GetNewPassword() string {
+	if m != nil {
+		return m.NewPassword
+	}
+	return ""
+}
+
+type ChangeEmailRequest struct {
+	NewEmail             string   `protobuf:"bytes,1,opt,name=new_email,json=newEmail,proto3" json:"new_email,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ChangeEmailRequest) Reset()         { *m = ChangeEmailRequest{} }
+func (m *ChangeEmailRequest) String() string { return proto.CompactTextString(m) }
+func (*ChangeEmailRequest) ProtoMessage()    {}
+func (*ChangeEmailRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{12}
+}
+func (m *ChangeEmailRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChangeEmailRequest.Unmarshal(m, b)
+}
+func (m *ChangeEmailRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChangeEmailRequest.Marshal(b, m, deterministic)
+}
+func (dst *ChangeEmailRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangeEmailRequest.Merge(dst, src)
+}
+func (m *ChangeEmailRequest) XXX_Size() int {
+	return xxx_messageInfo_ChangeEmailRequest.Size(m)
+}
+func (m *ChangeEmailRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChangeEmailRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChangeEmailRequest proto.InternalMessageInfo
+
+func (m *ChangeEmailRequest) GetNewEmail() string {
+	if m != nil {
+		return m.NewEmail
+	}
+	return ""
+}
+
+type UpdateAttributesRequest struct {
+	UserAttributes       []*UserAttribute `protobuf:"bytes,1,rep,name=user_attributes,json=userAttributes,proto3" json:"user_attributes,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
+}
+
+func (m *UpdateAttributesRequest) Reset()         { *m = UpdateAttributesRequest{} }
+func (m *UpdateAttributesRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateAttributesRequest) ProtoMessage()    {}
+func (*UpdateAttributesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_usermgr_e3ccf5f9d84d65e8, []int{13}
+}
+func (m *UpdateAttributesRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateAttributesRequest.Unmarshal(m, b)
+}
+func (m *UpdateAttributesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateAttributesRequest.Marshal(b, m, deterministic)
+}
+func (dst *UpdateAttributesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateAttributesRequest.Merge(dst, src)
+}
+func (m *UpdateAttributesRequest) XXX_Size() int {
+	return xxx_messageInfo_UpdateAttributesRequest.Size(m)
+}
+func (m *UpdateAttributesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateAttributesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateAttributesRequest proto.InternalMessageInfo
+
+func (m *UpdateAttributesRequest) GetUserAttributes() []*UserAttribute {
+	if m != nil {
+		return m.UserAttributes
 	}
 	return nil
 }
 
 func init() {
 	proto.RegisterType((*User)(nil), "usermgr.User")
+	proto.RegisterType((*UserAttribute)(nil), "usermgr.UserAttribute")
+	proto.RegisterType((*UserAttributes)(nil), "usermgr.UserAttributes")
+	proto.RegisterType((*RegisterRequest)(nil), "usermgr.RegisterRequest")
 	proto.RegisterType((*LoginRequest)(nil), "usermgr.LoginRequest")
 	proto.RegisterType((*LoginResponse)(nil), "usermgr.LoginResponse")
-	proto.RegisterType((*LogoutRequest)(nil), "usermgr.LogoutRequest")
-	proto.RegisterType((*Token)(nil), "usermgr.Token")
-	proto.RegisterType((*NewTokenResponse)(nil), "usermgr.NewTokenResponse")
+	proto.RegisterType((*AuthenticationResult)(nil), "usermgr.AuthenticationResult")
+	proto.RegisterType((*RefreshToken)(nil), "usermgr.RefreshToken")
+	proto.RegisterType((*ConfirmRegistrationRequest)(nil), "usermgr.ConfirmRegistrationRequest")
+	proto.RegisterType((*ForgotPasswordRequest)(nil), "usermgr.ForgotPasswordRequest")
+	proto.RegisterType((*ConfirmPasswordRequest)(nil), "usermgr.ConfirmPasswordRequest")
+	proto.RegisterType((*ChangePasswordRequest)(nil), "usermgr.ChangePasswordRequest")
+	proto.RegisterType((*ChangeEmailRequest)(nil), "usermgr.ChangeEmailRequest")
+	proto.RegisterType((*UpdateAttributesRequest)(nil), "usermgr.UpdateAttributesRequest")
+	proto.RegisterEnum("usermgr.UserStatus", UserStatus_name, UserStatus_value)
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -370,19 +911,20 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UserMgrClient interface {
 	// Register Create a new user
-	Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*common.Error, error)
+	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*common.Empty, error)
 	// Login login
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	// Logout need verify permission
-	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*common.Error, error)
-	// Auth  validates user
-	NewToken(ctx context.Context, in *User, opts ...grpc.CallOption) (*NewTokenResponse, error)
-	// VerifyToken validated token
-	VerifyToken(ctx context.Context, in *Token, opts ...grpc.CallOption) (*common.Error, error)
-	// VerifyToken validated token and refresh token, return new token
-	VerifyAndRefreshToken(ctx context.Context, in *Token, opts ...grpc.CallOption) (*common.Error, error)
+	// Logout need verify permission , disable RefreshToken , access_token still work for 2 hours.
+	Logout(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*common.Empty, error)
 	// RefreshToken reset token last access token
-	RefreshToken(ctx context.Context, in *Token, opts ...grpc.CallOption) (*common.Error, error)
+	RefreshSession(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*AuthenticationResult, error)
+	ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, opts ...grpc.CallOption) (*common.Empty, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*common.Empty, error)
+	ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, opts ...grpc.CallOption) (*common.Empty, error)
+	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*common.Empty, error)
+	UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...grpc.CallOption) (*User, error)
+	ChangeEmail(ctx context.Context, in *ChangeEmailRequest, opts ...grpc.CallOption) (*common.Empty, error)
+	VerifyAccessToken(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*common.Empty, error)
 }
 
 type userMgrClient struct {
@@ -393,8 +935,8 @@ func NewUserMgrClient(cc *grpc.ClientConn) UserMgrClient {
 	return &userMgrClient{cc}
 }
 
-func (c *userMgrClient) Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*common.Error, error) {
-	out := new(common.Error)
+func (c *userMgrClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*common.Empty, error) {
+	out := new(common.Empty)
 	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/Register", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -411,8 +953,8 @@ func (c *userMgrClient) Login(ctx context.Context, in *LoginRequest, opts ...grp
 	return out, nil
 }
 
-func (c *userMgrClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*common.Error, error) {
-	out := new(common.Error)
+func (c *userMgrClient) Logout(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*common.Empty, error) {
+	out := new(common.Empty)
 	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/Logout", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -420,36 +962,72 @@ func (c *userMgrClient) Logout(ctx context.Context, in *LogoutRequest, opts ...g
 	return out, nil
 }
 
-func (c *userMgrClient) NewToken(ctx context.Context, in *User, opts ...grpc.CallOption) (*NewTokenResponse, error) {
-	out := new(NewTokenResponse)
-	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/NewToken", in, out, opts...)
+func (c *userMgrClient) RefreshSession(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*AuthenticationResult, error) {
+	out := new(AuthenticationResult)
+	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/RefreshSession", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userMgrClient) VerifyToken(ctx context.Context, in *Token, opts ...grpc.CallOption) (*common.Error, error) {
-	out := new(common.Error)
-	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/VerifyToken", in, out, opts...)
+func (c *userMgrClient) ConfirmRegistration(ctx context.Context, in *ConfirmRegistrationRequest, opts ...grpc.CallOption) (*common.Empty, error) {
+	out := new(common.Empty)
+	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/ConfirmRegistration", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userMgrClient) VerifyAndRefreshToken(ctx context.Context, in *Token, opts ...grpc.CallOption) (*common.Error, error) {
-	out := new(common.Error)
-	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/VerifyAndRefreshToken", in, out, opts...)
+func (c *userMgrClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*common.Empty, error) {
+	out := new(common.Empty)
+	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/ForgotPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userMgrClient) RefreshToken(ctx context.Context, in *Token, opts ...grpc.CallOption) (*common.Error, error) {
-	out := new(common.Error)
-	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/RefreshToken", in, out, opts...)
+func (c *userMgrClient) ConfirmPassword(ctx context.Context, in *ConfirmPasswordRequest, opts ...grpc.CallOption) (*common.Empty, error) {
+	out := new(common.Empty)
+	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/ConfirmPassword", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrClient) ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*common.Empty, error) {
+	out := new(common.Empty)
+	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/ChangePassword", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrClient) UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...grpc.CallOption) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/UpdateAttributes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrClient) ChangeEmail(ctx context.Context, in *ChangeEmailRequest, opts ...grpc.CallOption) (*common.Empty, error) {
+	out := new(common.Empty)
+	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/ChangeEmail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrClient) VerifyAccessToken(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*common.Empty, error) {
+	out := new(common.Empty)
+	err := c.cc.Invoke(ctx, "/usermgr.UserMgr/VerifyAccessToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -459,19 +1037,20 @@ func (c *userMgrClient) RefreshToken(ctx context.Context, in *Token, opts ...grp
 // UserMgrServer is the server API for UserMgr service.
 type UserMgrServer interface {
 	// Register Create a new user
-	Register(context.Context, *User) (*common.Error, error)
+	Register(context.Context, *RegisterRequest) (*common.Empty, error)
 	// Login login
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
-	// Logout need verify permission
-	Logout(context.Context, *LogoutRequest) (*common.Error, error)
-	// Auth  validates user
-	NewToken(context.Context, *User) (*NewTokenResponse, error)
-	// VerifyToken validated token
-	VerifyToken(context.Context, *Token) (*common.Error, error)
-	// VerifyToken validated token and refresh token, return new token
-	VerifyAndRefreshToken(context.Context, *Token) (*common.Error, error)
+	// Logout need verify permission , disable RefreshToken , access_token still work for 2 hours.
+	Logout(context.Context, *RefreshToken) (*common.Empty, error)
 	// RefreshToken reset token last access token
-	RefreshToken(context.Context, *Token) (*common.Error, error)
+	RefreshSession(context.Context, *RefreshToken) (*AuthenticationResult, error)
+	ConfirmRegistration(context.Context, *ConfirmRegistrationRequest) (*common.Empty, error)
+	ForgotPassword(context.Context, *ForgotPasswordRequest) (*common.Empty, error)
+	ConfirmPassword(context.Context, *ConfirmPasswordRequest) (*common.Empty, error)
+	ChangePassword(context.Context, *ChangePasswordRequest) (*common.Empty, error)
+	UpdateAttributes(context.Context, *UpdateAttributesRequest) (*User, error)
+	ChangeEmail(context.Context, *ChangeEmailRequest) (*common.Empty, error)
+	VerifyAccessToken(context.Context, *common.Empty) (*common.Empty, error)
 }
 
 func RegisterUserMgrServer(s *grpc.Server, srv UserMgrServer) {
@@ -479,7 +1058,7 @@ func RegisterUserMgrServer(s *grpc.Server, srv UserMgrServer) {
 }
 
 func _UserMgr_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(User)
+	in := new(RegisterRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -491,7 +1070,7 @@ func _UserMgr_Register_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/usermgr.UserMgr/Register",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserMgrServer).Register(ctx, req.(*User))
+		return srv.(UserMgrServer).Register(ctx, req.(*RegisterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -515,7 +1094,7 @@ func _UserMgr_Login_Handler(srv interface{}, ctx context.Context, dec func(inter
 }
 
 func _UserMgr_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LogoutRequest)
+	in := new(RefreshToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -527,79 +1106,151 @@ func _UserMgr_Logout_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/usermgr.UserMgr/Logout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserMgrServer).Logout(ctx, req.(*LogoutRequest))
+		return srv.(UserMgrServer).Logout(ctx, req.(*RefreshToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserMgr_NewToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(User)
+func _UserMgr_RefreshSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserMgrServer).NewToken(ctx, in)
+		return srv.(UserMgrServer).RefreshSession(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/usermgr.UserMgr/NewToken",
+		FullMethod: "/usermgr.UserMgr/RefreshSession",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserMgrServer).NewToken(ctx, req.(*User))
+		return srv.(UserMgrServer).RefreshSession(ctx, req.(*RefreshToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserMgr_VerifyToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Token)
+func _UserMgr_ConfirmRegistration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmRegistrationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserMgrServer).VerifyToken(ctx, in)
+		return srv.(UserMgrServer).ConfirmRegistration(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/usermgr.UserMgr/VerifyToken",
+		FullMethod: "/usermgr.UserMgr/ConfirmRegistration",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserMgrServer).VerifyToken(ctx, req.(*Token))
+		return srv.(UserMgrServer).ConfirmRegistration(ctx, req.(*ConfirmRegistrationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserMgr_VerifyAndRefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Token)
+func _UserMgr_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForgotPasswordRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserMgrServer).VerifyAndRefreshToken(ctx, in)
+		return srv.(UserMgrServer).ForgotPassword(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/usermgr.UserMgr/VerifyAndRefreshToken",
+		FullMethod: "/usermgr.UserMgr/ForgotPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserMgrServer).VerifyAndRefreshToken(ctx, req.(*Token))
+		return srv.(UserMgrServer).ForgotPassword(ctx, req.(*ForgotPasswordRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserMgr_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Token)
+func _UserMgr_ConfirmPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmPasswordRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserMgrServer).RefreshToken(ctx, in)
+		return srv.(UserMgrServer).ConfirmPassword(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/usermgr.UserMgr/RefreshToken",
+		FullMethod: "/usermgr.UserMgr/ConfirmPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserMgrServer).RefreshToken(ctx, req.(*Token))
+		return srv.(UserMgrServer).ConfirmPassword(ctx, req.(*ConfirmPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserMgr_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangePasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserMgrServer).ChangePassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/usermgr.UserMgr/ChangePassword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserMgrServer).ChangePassword(ctx, req.(*ChangePasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserMgr_UpdateAttributes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAttributesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserMgrServer).UpdateAttributes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/usermgr.UserMgr/UpdateAttributes",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserMgrServer).UpdateAttributes(ctx, req.(*UpdateAttributesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserMgr_ChangeEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserMgrServer).ChangeEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/usermgr.UserMgr/ChangeEmail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserMgrServer).ChangeEmail(ctx, req.(*ChangeEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserMgr_VerifyAccessToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserMgrServer).VerifyAccessToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/usermgr.UserMgr/VerifyAccessToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserMgrServer).VerifyAccessToken(ctx, req.(*common.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -621,20 +1272,36 @@ var _UserMgr_serviceDesc = grpc.ServiceDesc{
 			Handler:    _UserMgr_Logout_Handler,
 		},
 		{
-			MethodName: "NewToken",
-			Handler:    _UserMgr_NewToken_Handler,
+			MethodName: "RefreshSession",
+			Handler:    _UserMgr_RefreshSession_Handler,
 		},
 		{
-			MethodName: "VerifyToken",
-			Handler:    _UserMgr_VerifyToken_Handler,
+			MethodName: "ConfirmRegistration",
+			Handler:    _UserMgr_ConfirmRegistration_Handler,
 		},
 		{
-			MethodName: "VerifyAndRefreshToken",
-			Handler:    _UserMgr_VerifyAndRefreshToken_Handler,
+			MethodName: "ForgotPassword",
+			Handler:    _UserMgr_ForgotPassword_Handler,
 		},
 		{
-			MethodName: "RefreshToken",
-			Handler:    _UserMgr_RefreshToken_Handler,
+			MethodName: "ConfirmPassword",
+			Handler:    _UserMgr_ConfirmPassword_Handler,
+		},
+		{
+			MethodName: "ChangePassword",
+			Handler:    _UserMgr_ChangePassword_Handler,
+		},
+		{
+			MethodName: "UpdateAttributes",
+			Handler:    _UserMgr_UpdateAttributes_Handler,
+		},
+		{
+			MethodName: "ChangeEmail",
+			Handler:    _UserMgr_ChangeEmail_Handler,
+		},
+		{
+			MethodName: "VerifyAccessToken",
+			Handler:    _UserMgr_VerifyAccessToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -642,37 +1309,68 @@ var _UserMgr_serviceDesc = grpc.ServiceDesc{
 }
 
 func init() {
-	proto.RegisterFile("usermgr/v1/grpc/usermgr.proto", fileDescriptor_usermgr_db83212cd46ef427)
+	proto.RegisterFile("usermgr/v1/grpc/usermgr.proto", fileDescriptor_usermgr_e3ccf5f9d84d65e8)
 }
 
-var fileDescriptor_usermgr_db83212cd46ef427 = []byte{
-	// 437 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x92, 0xcb, 0x6e, 0xd3, 0x40,
-	0x14, 0x86, 0x33, 0x6e, 0x9c, 0x38, 0xa7, 0x17, 0xa1, 0x53, 0x0a, 0x43, 0xa4, 0x48, 0xd1, 0xac,
-	0xcc, 0x26, 0x81, 0x72, 0x5d, 0x21, 0x90, 0x60, 0x81, 0x04, 0x2c, 0xcc, 0x65, 0x5b, 0xb9, 0xf1,
-	0xa9, 0x19, 0x35, 0x9e, 0x31, 0x33, 0x0e, 0x15, 0xcf, 0xc1, 0x43, 0xf1, 0x5a, 0xc8, 0x33, 0xb1,
-	0xe3, 0x46, 0x8d, 0x2a, 0x58, 0x25, 0xdf, 0xb9, 0xfd, 0xbf, 0x7e, 0x0f, 0x4c, 0x56, 0x96, 0x4c,
-	0x91, 0x9b, 0xf9, 0xcf, 0xc7, 0xf3, 0xdc, 0x94, 0x8b, 0xf9, 0x9a, 0x67, 0xa5, 0xd1, 0x95, 0xc6,
-	0xe1, 0x1a, 0xc7, 0xc7, 0x0b, 0x5d, 0x14, 0x5a, 0xcd, 0xfd, 0x8f, 0xef, 0x8a, 0x3f, 0x0c, 0xfa,
-	0x5f, 0x2d, 0x19, 0x3c, 0x82, 0x40, 0x66, 0x9c, 0x4d, 0x59, 0x3c, 0x4a, 0x02, 0x99, 0x21, 0x42,
-	0x5f, 0xa5, 0x05, 0xf1, 0xc0, 0x55, 0xdc, 0x7f, 0x1c, 0x43, 0xa4, 0xe4, 0xe2, 0xd2, 0xd5, 0xfb,
-	0xae, 0xde, 0x32, 0xde, 0x85, 0x90, 0x8a, 0x54, 0x2e, 0x79, 0xe8, 0x1a, 0x1e, 0xea, 0x8d, 0x32,
-	0xb5, 0xf6, 0x4a, 0x9b, 0x8c, 0x0f, 0xfc, 0x46, 0xc3, 0xc8, 0x61, 0x78, 0x9e, 0x2e, 0x53, 0xb5,
-	0x20, 0x3e, 0x9c, 0xb2, 0x38, 0x4c, 0x1a, 0xc4, 0x09, 0x80, 0xb4, 0x67, 0x19, 0x2d, 0xa9, 0xa2,
-	0x8c, 0x47, 0x53, 0x16, 0x47, 0xc9, 0x48, 0xda, 0xb7, 0xbe, 0x50, 0x4b, 0x55, 0xfa, 0x92, 0x14,
-	0x1f, 0x79, 0x29, 0x07, 0xe2, 0x35, 0x1c, 0x7c, 0xd0, 0xb9, 0x54, 0x09, 0xfd, 0x58, 0x91, 0xad,
-	0x36, 0x86, 0xd8, 0x2e, 0x43, 0xc1, 0x75, 0x43, 0x42, 0xc2, 0xe1, 0xfa, 0x82, 0x2d, 0xb5, 0xb2,
-	0xb4, 0x11, 0x62, 0x1d, 0x21, 0xbc, 0x0f, 0x2e, 0xd2, 0x33, 0xd9, 0x5c, 0x18, 0xd4, 0xf8, 0x3e,
-	0xc3, 0x87, 0x10, 0x92, 0x31, 0xda, 0xf0, 0xbd, 0x29, 0x8b, 0xf7, 0x4f, 0x8f, 0x67, 0xdd, 0xa4,
-	0x67, 0xef, 0xea, 0x56, 0xe2, 0x27, 0x44, 0xec, 0xa4, 0xf4, 0xaa, 0x6a, 0xdc, 0x76, 0x8e, 0xb2,
-	0xee, 0x51, 0x31, 0x81, 0xf0, 0x8b, 0x93, 0xbd, 0xd1, 0x8c, 0xf8, 0x0c, 0x77, 0x3e, 0xd1, 0x95,
-	0x9b, 0xb8, 0xc5, 0x76, 0xeb, 0x2e, 0xb8, 0xcd, 0xdd, 0xe9, 0xef, 0x3d, 0x18, 0xd6, 0x8f, 0xe2,
-	0x63, 0x6e, 0xf0, 0x11, 0x44, 0x09, 0xe5, 0xd2, 0x56, 0x64, 0xf0, 0x70, 0xd6, 0x3c, 0xad, 0xba,
-	0x3b, 0xbe, 0xe9, 0x84, 0xe8, 0xe1, 0x4b, 0x08, 0x5d, 0x8c, 0x78, 0xd2, 0x8e, 0x77, 0x3f, 0xcc,
-	0xf8, 0xde, 0x76, 0xd9, 0xdb, 0x16, 0x3d, 0x7c, 0x01, 0x03, 0x9f, 0x0a, 0x5e, 0x9b, 0xd9, 0xc4,
-	0xb4, 0x4b, 0xf2, 0x39, 0x44, 0x4d, 0x0a, 0xdb, 0x26, 0x1f, 0xb4, 0xb8, 0x9d, 0x93, 0xe8, 0xe1,
-	0x53, 0xd8, 0xff, 0x46, 0x46, 0x5e, 0xfc, 0xf2, 0xab, 0x47, 0xed, 0xac, 0xe3, 0x5d, 0x6a, 0xaf,
-	0xe0, 0xc4, 0x6f, 0xbd, 0x51, 0x59, 0x42, 0x17, 0x86, 0xec, 0xf7, 0x7f, 0xda, 0x7f, 0x06, 0x07,
-	0xff, 0xb1, 0x76, 0x3e, 0x70, 0xf8, 0xe4, 0x6f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xc2, 0x2d, 0xf6,
-	0xa2, 0xf0, 0x03, 0x00, 0x00,
+var fileDescriptor_usermgr_e3ccf5f9d84d65e8 = []byte{
+	// 937 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x55, 0x4b, 0x6f, 0xdb, 0x46,
+	0x10, 0x16, 0x65, 0xd9, 0x96, 0x46, 0x0f, 0x2b, 0xeb, 0x97, 0x20, 0xc3, 0x89, 0x42, 0x5f, 0x84,
+	0xa6, 0xb5, 0x11, 0x05, 0x68, 0x0b, 0xb4, 0x40, 0xaa, 0xca, 0x8a, 0x6d, 0x34, 0x4e, 0xd3, 0x8d,
+	0xe3, 0x43, 0x81, 0x82, 0xa0, 0xc4, 0x35, 0x4d, 0x44, 0xe2, 0xb2, 0xbb, 0xcb, 0xb8, 0xbe, 0xf4,
+	0xd8, 0x73, 0xd1, 0x6b, 0xff, 0x46, 0xff, 0x5e, 0x81, 0x62, 0x1f, 0xa2, 0x49, 0x99, 0x34, 0xd2,
+	0x93, 0xb8, 0x33, 0xdf, 0x7c, 0xfb, 0xcd, 0xce, 0x43, 0xb0, 0x1f, 0x73, 0xc2, 0xe6, 0x3e, 0x3b,
+	0xfa, 0xf8, 0xfc, 0xc8, 0x67, 0xd1, 0xf4, 0xc8, 0x9c, 0x0f, 0x23, 0x46, 0x05, 0x45, 0xeb, 0xe6,
+	0xd8, 0xdd, 0x9c, 0xd2, 0xf9, 0x9c, 0x86, 0x47, 0xfa, 0x47, 0x7b, 0xed, 0xbf, 0x2c, 0xa8, 0xbc,
+	0xe7, 0x84, 0xa1, 0x16, 0x94, 0x03, 0xaf, 0x63, 0xf5, 0xac, 0x7e, 0x0d, 0x97, 0x03, 0x0f, 0x6d,
+	0xc1, 0x2a, 0x99, 0xbb, 0xc1, 0xac, 0x53, 0x56, 0x26, 0x7d, 0x40, 0xcf, 0x60, 0x8d, 0x0b, 0x57,
+	0xc4, 0xbc, 0xb3, 0xd2, 0xb3, 0xfa, 0xad, 0xc1, 0xe6, 0xe1, 0xe2, 0x32, 0x49, 0xf2, 0x4e, 0xb9,
+	0xb0, 0x81, 0xa0, 0xaf, 0x00, 0x5c, 0x21, 0x58, 0x30, 0x89, 0x05, 0xe1, 0x9d, 0x4a, 0xcf, 0xea,
+	0xd7, 0x07, 0xbb, 0x99, 0x80, 0x61, 0xe2, 0xc6, 0x29, 0xa8, 0xfd, 0x8f, 0x05, 0xcd, 0x8c, 0x1b,
+	0xb5, 0x61, 0xe5, 0x03, 0xb9, 0x35, 0xf2, 0xe4, 0x27, 0xda, 0x87, 0x5a, 0x10, 0x0a, 0xe7, 0xa3,
+	0x3b, 0x8b, 0x89, 0xd2, 0xb8, 0x72, 0x5a, 0xc2, 0xd5, 0x20, 0x14, 0x97, 0xd2, 0x82, 0x0e, 0xa0,
+	0xe1, 0xd1, 0x78, 0x32, 0x23, 0x06, 0x21, 0xe5, 0x5a, 0xa7, 0x25, 0x5c, 0xd7, 0xd6, 0x04, 0xc4,
+	0x05, 0x0b, 0x42, 0xdf, 0x80, 0xa4, 0xc4, 0x9a, 0x04, 0x69, 0xab, 0x06, 0x3d, 0x01, 0x98, 0x50,
+	0x3a, 0x33, 0x90, 0xd5, 0x9e, 0xd5, 0xaf, 0x9e, 0x96, 0x70, 0x4d, 0xda, 0x14, 0xe0, 0xfb, 0x75,
+	0x58, 0x55, 0x3e, 0xfb, 0x4f, 0x0b, 0x5a, 0xd9, 0xac, 0x10, 0x82, 0x4a, 0xe8, 0xce, 0x89, 0x11,
+	0xae, 0xbe, 0xd1, 0x2e, 0xac, 0x47, 0xf1, 0xc4, 0x91, 0xf9, 0xe8, 0xb7, 0x5d, 0x8b, 0xe2, 0xc9,
+	0x0f, 0xe4, 0x16, 0x1d, 0x40, 0x73, 0xca, 0x88, 0x2b, 0x02, 0x1a, 0x3a, 0x9e, 0x2b, 0xb4, 0xe8,
+	0x0a, 0x6e, 0x2c, 0x8c, 0xc7, 0xae, 0x20, 0xe8, 0x73, 0x40, 0x33, 0x97, 0x0b, 0x67, 0x4e, 0xbd,
+	0xe0, 0x2a, 0x20, 0x9e, 0x46, 0x56, 0x14, 0xb2, 0x2d, 0x3d, 0xe7, 0xc6, 0x21, 0xd1, 0xf6, 0x5b,
+	0xd8, 0xc0, 0xc4, 0x0f, 0xb8, 0x20, 0x0c, 0x93, 0x5f, 0x63, 0xc2, 0x05, 0x7a, 0x0a, 0x15, 0x59,
+	0x02, 0x25, 0xa9, 0x3e, 0x68, 0x66, 0xea, 0x81, 0x95, 0x0b, 0x75, 0xa1, 0x1a, 0xb9, 0x9c, 0xdf,
+	0x50, 0xe6, 0x19, 0x89, 0xc9, 0xd9, 0xfe, 0x0e, 0x1a, 0xaf, 0xa9, 0x1f, 0x84, 0x0b, 0xba, 0xa4,
+	0x4f, 0xac, 0x74, 0x9f, 0x3c, 0xc4, 0xf0, 0x87, 0x05, 0x4d, 0x43, 0xc1, 0x23, 0x1a, 0x72, 0x82,
+	0x30, 0x6c, 0xbb, 0xb1, 0xb8, 0x26, 0xa1, 0x08, 0xa6, 0x3a, 0x7d, 0x46, 0x78, 0x3c, 0x13, 0x46,
+	0xe3, 0x7e, 0xa2, 0x71, 0x98, 0x41, 0x61, 0x05, 0xc2, 0x5b, 0x6e, 0x8e, 0x35, 0x49, 0xb3, 0x5c,
+	0x98, 0xa6, 0xfd, 0xb7, 0x05, 0x5b, 0x79, 0x8c, 0xe8, 0x31, 0x00, 0xf9, 0x2d, 0x0a, 0x98, 0xb2,
+	0x29, 0x11, 0x15, 0x9c, 0xb2, 0xa0, 0x3d, 0xa8, 0x05, 0x9c, 0xc7, 0xc4, 0x73, 0x5c, 0xa1, 0x2e,
+	0xa8, 0xe0, 0xaa, 0x36, 0x0c, 0xe5, 0xc5, 0x0d, 0x77, 0x3a, 0x25, 0x9c, 0x3b, 0x82, 0x7e, 0x20,
+	0xa1, 0x2a, 0x62, 0x0d, 0xd7, 0xb5, 0xed, 0x42, 0x9a, 0x64, 0xa1, 0x19, 0xb9, 0x62, 0x84, 0x5f,
+	0x1b, 0x8c, 0x6a, 0x3c, 0xdc, 0x30, 0x46, 0x05, 0xb2, 0x5f, 0x40, 0x03, 0xa7, 0xce, 0xf7, 0x83,
+	0xac, 0x9c, 0x20, 0x07, 0xba, 0x23, 0x1a, 0x5e, 0x05, 0x6c, 0xae, 0xcb, 0xce, 0x4c, 0x5a, 0x0f,
+	0xd5, 0xea, 0x19, 0x3c, 0x9a, 0xea, 0x18, 0xfd, 0xf6, 0x53, 0xea, 0x11, 0x53, 0xb4, 0x76, 0xda,
+	0x31, 0xa2, 0x1e, 0xb1, 0xbf, 0x80, 0xed, 0x57, 0x94, 0xf9, 0x54, 0xbc, 0x35, 0xe5, 0x7c, 0x90,
+	0xdb, 0xfe, 0x1d, 0x76, 0x8c, 0x9e, 0x4f, 0xc2, 0xff, 0x2f, 0x2d, 0xf2, 0xa5, 0x43, 0x72, 0xe3,
+	0x24, 0x8d, 0x66, 0x5e, 0x3a, 0x24, 0x37, 0x8b, 0xcb, 0xec, 0x5f, 0x60, 0x7b, 0x74, 0xed, 0x86,
+	0x3e, 0x59, 0xbe, 0xfe, 0x29, 0x34, 0xe8, 0xcc, 0xbb, 0x8b, 0xd5, 0x2a, 0xea, 0x74, 0xe6, 0x2d,
+	0x90, 0xf7, 0xe8, 0xcb, 0xf7, 0xe9, 0x9f, 0x03, 0xd2, 0xf4, 0x63, 0xa9, 0x7e, 0xc1, 0xbd, 0x07,
+	0x35, 0x19, 0x98, 0x4e, 0xaf, 0x1a, 0x92, 0x1b, 0x85, 0xb1, 0x7f, 0x86, 0xdd, 0xf7, 0x91, 0x9c,
+	0xd9, 0xd4, 0xee, 0x33, 0x71, 0x2f, 0x61, 0x43, 0xf6, 0xa5, 0x93, 0x5a, 0x9a, 0x56, 0x6f, 0xa5,
+	0x5f, 0x1f, 0xec, 0xe4, 0x2f, 0x4d, 0xdc, 0x8a, 0x33, 0xdb, 0xe6, 0xb3, 0x6f, 0x01, 0xee, 0xd6,
+	0x30, 0x6a, 0x01, 0x8c, 0x7e, 0x7c, 0xf3, 0xea, 0x0c, 0x9f, 0x9f, 0xbd, 0x39, 0x69, 0x97, 0x50,
+	0x13, 0x6a, 0xe6, 0x3c, 0x3e, 0x6e, 0x5b, 0x68, 0x03, 0xea, 0xc7, 0xe3, 0xe1, 0xe8, 0xe2, 0xec,
+	0x72, 0x78, 0x31, 0x3e, 0x6e, 0x97, 0x07, 0xff, 0xae, 0xc2, 0xba, 0x0c, 0x3f, 0xf7, 0x19, 0xfa,
+	0x06, 0xaa, 0x8b, 0xbd, 0x81, 0x3a, 0xc9, 0xed, 0x4b, 0xab, 0xa4, 0xbb, 0x79, 0x98, 0xfe, 0x2f,
+	0x39, 0x1c, 0xcf, 0x23, 0x71, 0x6b, 0x97, 0xd0, 0xd7, 0xb0, 0xaa, 0xe6, 0x1b, 0x6d, 0x27, 0x91,
+	0xe9, 0x95, 0xd1, 0xdd, 0x59, 0x36, 0xeb, 0x35, 0x60, 0x97, 0xd0, 0x97, 0xb0, 0xf6, 0x9a, 0xfa,
+	0x34, 0x16, 0xa9, 0xd0, 0xf4, 0x10, 0x14, 0xdd, 0x78, 0x0a, 0x2d, 0x03, 0x7b, 0x47, 0x38, 0x97,
+	0x23, 0x5a, 0x10, 0xff, 0xf0, 0x2a, 0xb1, 0x4b, 0xe8, 0x27, 0xd8, 0xcc, 0x19, 0x20, 0x74, 0x90,
+	0xc4, 0x15, 0x8f, 0x57, 0x91, 0xb8, 0x13, 0x68, 0x65, 0x47, 0x06, 0x3d, 0x4e, 0xd8, 0x72, 0x67,
+	0xa9, 0x88, 0xe8, 0x0c, 0x36, 0x96, 0x86, 0x09, 0x3d, 0x59, 0xd6, 0xf5, 0x89, 0x54, 0x27, 0xd0,
+	0xca, 0xce, 0x45, 0x4a, 0x53, 0xee, 0xc0, 0x14, 0x11, 0x8d, 0xa1, 0xbd, 0xdc, 0xce, 0xa8, 0x77,
+	0xd7, 0xae, 0xf9, 0x9d, 0xde, 0xcd, 0xae, 0x63, 0xbb, 0x84, 0x86, 0x50, 0x4f, 0x0d, 0x12, 0xda,
+	0x5b, 0x12, 0x93, 0x1e, 0xaf, 0x22, 0x25, 0x2f, 0xe1, 0xd1, 0x25, 0x61, 0xc1, 0xd5, 0xed, 0x30,
+	0xb5, 0x69, 0xf3, 0xb0, 0x05, 0x04, 0x93, 0x35, 0x75, 0x7c, 0xf1, 0x5f, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0xf7, 0x13, 0x2c, 0xaa, 0x50, 0x09, 0x00, 0x00,
 }
