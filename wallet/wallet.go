@@ -175,7 +175,12 @@ func SendCoins(ip, port, priv_key, from_address, to_address, amount, public_key 
 
 	if err != nil {
 		return err
+	} else if btr.CheckTx.Code != 0 {
+		return errors.New(btr.CheckTx.Log)
+	} else if btr.DeliverTx.Code != 0{
+		return errors.New(btr.DeliverTx.Log)
 	}
+
 	client.WaitForHeight(cl, btr.Height+1, nil)
 
 	return nil
