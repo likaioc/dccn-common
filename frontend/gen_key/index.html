@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Gen Key</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id="main">
+        <button onclick="gen()">generate</button>
+    </div>
+    <script src="dist/gen_key.js"></script>
+    <script>
+        const echo = (text) => {
+            document.getElementById("main").appendChild(document.createElement("br"))
+            if (text != null) {
+                document.getElementById("main").appendChild(document.createTextNode(text))
+            }
+        }
+        const gen = () => {
+            const key = await gen_key("email@ankr.network", "I am a password");
+
+            echo();
+            echo("public key:");
+            echo(keys.publicSignKeyBase64);
+            echo();
+            echo("secret key:");
+            echo(keys.secretSignKeyBase64);
+            echo();
+            echo("wallet address:");
+            echo(sha256(keys.publicSignKeyBase64).substr(0, 20));
+            echo();
+        }
+    </script>
+    <style>
+        body {
+            align-content: center;
+            padding: 20px;
+        }
+    </style>
+</body>
+
+</html>

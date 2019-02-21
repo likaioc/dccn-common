@@ -1,1 +1,10 @@
+.DS_Store
+._*
+*.swp
+*.swo
+.vscode
+.idea
+
 /vendor
+**/node_modules
+frontend/**/dist
