@@ -16,6 +16,7 @@ service DCAPI {
 }
 
 message DataCenterListResponse {
+  string id = 2;
   repeated common.proto.DataCenter dcList= 1; // repeated groups of DataCenterInfo list
 }
 
