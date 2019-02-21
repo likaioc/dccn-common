@@ -9,19 +9,20 @@
 </head>
 
 <body>
-    <div id="main">
-        <button onclick="gen()">generate</button>
+    <div id="app">
+        <button id="btn">generate</button>
     </div>
-    <script src="dist/gen_key.js"></script>
-    <script>
+    <script type="module">
+        import gen_key from "./dist/gen_key.js";
         const echo = (text) => {
-            document.getElementById("main").appendChild(document.createElement("br"))
+            document.getElementById("app").appendChild(document.createElement("br"))
             if (text != null) {
-                document.getElementById("main").appendChild(document.createTextNode(text))
+                document.getElementById("app").appendChild(document.createTextNode(text))
             }
         }
-        const gen = () => {
-            const key = await gen_key("email@ankr.network", "I am a password");
+
+        document.getElementById("btn").onclick = () => {
+            const keys = gen_key('me@example.com', 'brig alert rope welsh foss rang orb');
 
             echo();
             echo("public key:");

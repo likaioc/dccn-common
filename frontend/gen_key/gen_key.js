@@ -97,22 +97,23 @@ const sha256 = (ascii) => {
     return result;
 };
 
-const gen_key = async (email, password) => {
+export default (email, password) => {
     let keys = {};
 
     session25519(email, password, (err, obj) => {
         if (err !== null) {
-            throw err
+            throw err;
         }
         keys = obj;
     });
 
-    const addr = sha256(keys.publicSignKeyBase64).substr(0, 20)
+    console.log(keys);
+
+    const addr = sha256(keys.publicSignKeyBase64).substr(0, 20);
     return {
         public_key: keys.publicSignKeyBase64,
         private_key: keys.secretKeyBase64s,
         addr: addr,
     }
-}
+};
 
-export default gen_key;
