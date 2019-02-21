@@ -5,8 +5,8 @@ const (
 	MQDeployTask          = "topic.deploy.task"
 	MQFeedbackTask        = "topic.feedback.task"
 	MQMail                = "topic.mail.handler"
-	AccessTokenValidTime  = 15      // 15 minutes
-	RefreshTokenValidTime = 72 * 60 // 72 hours
+	AccessTokenValidTime  = 3600 * 2    // second   2 hours
+	RefreshTokenValidTime = 86400 * 7 // second   7 days
 	CleanupInterval       = 20      // minute
 	NoReplyEmailAddress   = "no-reply@ankr.network"
 )
