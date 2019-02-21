@@ -13,6 +13,19 @@ func TestGenerateKeys(t *testing.T) {
 	t.Logf("\nPrivate Key: %s\nPublic Key: %s\nAddress: %s", privateKey, publicKey, address)
 }
 
+func TestGetAddressByPublicKey(t *testing.T) {
+	t.Log("Testing GetAddressByPublicKey")
+	verified := "5003BDAF691E5FCEB88FFD14EC6DF6ACC58DEE8C"
+	address, err := wallet.GetAddressByPublicKey("wRRGKfjZ/MfMQ1iImhXIkStokco8UckOfee4/rXaLjQ=")
+	if err != nil {
+		t.Error(err)
+	}
+
+	if verified != address {
+		t.Error("Address doesn't match!")
+	}
+}
+
 func TestSign(t *testing.T) {
 	t.Log("Testing TestSign")
 	privateKey := "vfGLyfQawsZArHk45G45TXCDCobaybILJICYYimTUugVblxJkpsSHl4EnM5YgD41VEoJ+7m82fzTS0EvSwwLDw=="
