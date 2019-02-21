@@ -20,8 +20,8 @@ message DataCenterListResponse {
 }
 
 message NetworkInfoResponse {
-  int32 user_count = 1;
-  int32 host_count = 2;
+  string name = 1;
+  /* int32 host_count = 2;
   int32 environment_count = 3;
-  int32 container_count = 4;
+  int32 container_count = 4; */
 }
