@@ -12,8 +12,16 @@ service DCStreamer {
 // The dclist service definition.
 service DCAPI {
       rpc DataCenterList (common.proto.Empty) returns (DataCenterListResponse) {}
+      rpc NetworkInfo(common.proto.Empty) returns (NetworkInfoResponse){}
 }
 
 message DataCenterListResponse {
   repeated common.proto.DataCenter dcList= 1; // repeated groups of DataCenterInfo list
+}
+
+message NetworkInfoResponse {
+  int32 user_count = 1;
+  int32 host_count = 2;
+  int32 environment_count = 3;
+  int32 container_count = 4;
 }

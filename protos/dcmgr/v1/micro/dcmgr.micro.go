@@ -9,6 +9,7 @@ It is generated from these files:
 
 It has these top-level messages:
 	DataCenterListResponse
+	NetworkInfoResponse
 */
 package dcmgr
 
@@ -175,6 +176,7 @@ func (x *dCStreamerServerStreamStream) Recv() (*common_proto.DCStream, error) {
 
 type DCAPIService interface {
 	DataCenterList(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*DataCenterListResponse, error)
+	NetworkInfo(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*NetworkInfoResponse, error)
 }
 
 type dCAPIService struct {
@@ -205,15 +207,27 @@ func (c *dCAPIService) DataCenterList(ctx context.Context, in *common_proto.Empt
 	return out, nil
 }
 
+func (c *dCAPIService) NetworkInfo(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*NetworkInfoResponse, error) {
+	req := c.c.NewRequest(c.name, "DCAPI.NetworkInfo", in)
+	out := new(NetworkInfoResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for DCAPI service
 
 type DCAPIHandler interface {
 	DataCenterList(context.Context, *common_proto.Empty, *DataCenterListResponse) error
+	NetworkInfo(context.Context, *common_proto.Empty, *NetworkInfoResponse) error
 }
 
 func RegisterDCAPIHandler(s server.Server, hdlr DCAPIHandler, opts ...server.HandlerOption) error {
 	type dCAPI interface {
 		DataCenterList(ctx context.Context, in *common_proto.Empty, out *DataCenterListResponse) error
+		NetworkInfo(ctx context.Context, in *common_proto.Empty, out *NetworkInfoResponse) error
 	}
 	type DCAPI struct {
 		dCAPI
@@ -228,4 +242,8 @@ type dCAPIHandler struct {
 
 func (h *dCAPIHandler) DataCenterList(ctx context.Context, in *common_proto.Empty, out *DataCenterListResponse) error {
 	return h.DCAPIHandler.DataCenterList(ctx, in, out)
+}
+
+func (h *dCAPIHandler) NetworkInfo(ctx context.Context, in *common_proto.Empty, out *NetworkInfoResponse) error {
+	return h.DCAPIHandler.NetworkInfo(ctx, in, out)
 }
