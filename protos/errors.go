@@ -36,4 +36,6 @@ var (
 	ErrCanceledTwice             = errors.New("can not cancel twice")
 	ErrPurgedTwice               = errors.New("can not purge twice")
 	ErrAuthNotAllowed            = errors.New("auth not allow")
+	ErrEmailShouldNotSame        = errors.New("email should not same as before")
+	ErrPasswordShouldNotSame     = errors.New("password should not same as before")
 )
