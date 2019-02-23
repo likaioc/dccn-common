@@ -15,6 +15,9 @@ It has these top-level messages:
 	TaskFilter
 	TaskID
 	UpdateTaskRequest
+	TaskOverviewResponse
+	TaskLeaderBoardResponse
+	TaskLeaderBoardDetail
 */
 package taskmgr
 
@@ -55,6 +58,8 @@ type TaskMgrService interface {
 	CancelTask(ctx context.Context, in *TaskID, opts ...client.CallOption) (*common_proto.Empty, error)
 	PurgeTask(ctx context.Context, in *TaskID, opts ...client.CallOption) (*common_proto.Empty, error)
 	UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...client.CallOption) (*common_proto.Empty, error)
+	TaskOverview(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*TaskOverviewResponse, error)
+	TaskLeaderBoard(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*TaskLeaderBoardResponse, error)
 }
 
 type taskMgrService struct {
@@ -125,6 +130,26 @@ func (c *taskMgrService) UpdateTask(ctx context.Context, in *UpdateTaskRequest, 
 	return out, nil
 }
 
+func (c *taskMgrService) TaskOverview(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*TaskOverviewResponse, error) {
+	req := c.c.NewRequest(c.name, "TaskMgr.TaskOverview", in)
+	out := new(TaskOverviewResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskMgrService) TaskLeaderBoard(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*TaskLeaderBoardResponse, error) {
+	req := c.c.NewRequest(c.name, "TaskMgr.TaskLeaderBoard", in)
+	out := new(TaskLeaderBoardResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for TaskMgr service
 
 type TaskMgrHandler interface {
@@ -134,6 +159,8 @@ type TaskMgrHandler interface {
 	CancelTask(context.Context, *TaskID, *common_proto.Empty) error
 	PurgeTask(context.Context, *TaskID, *common_proto.Empty) error
 	UpdateTask(context.Context, *UpdateTaskRequest, *common_proto.Empty) error
+	TaskOverview(context.Context, *common_proto.Empty, *TaskOverviewResponse) error
+	TaskLeaderBoard(context.Context, *common_proto.Empty, *TaskLeaderBoardResponse) error
 }
 
 func RegisterTaskMgrHandler(s server.Server, hdlr TaskMgrHandler, opts ...server.HandlerOption) error {
@@ -143,6 +170,8 @@ func RegisterTaskMgrHandler(s server.Server, hdlr TaskMgrHandler, opts ...server
 		CancelTask(ctx context.Context, in *TaskID, out *common_proto.Empty) error
 		PurgeTask(ctx context.Context, in *TaskID, out *common_proto.Empty) error
 		UpdateTask(ctx context.Context, in *UpdateTaskRequest, out *common_proto.Empty) error
+		TaskOverview(ctx context.Context, in *common_proto.Empty, out *TaskOverviewResponse) error
+		TaskLeaderBoard(ctx context.Context, in *common_proto.Empty, out *TaskLeaderBoardResponse) error
 	}
 	type TaskMgr struct {
 		taskMgr
@@ -173,4 +202,12 @@ func (h *taskMgrHandler) PurgeTask(ctx context.Context, in *TaskID, out *common_
 
 func (h *taskMgrHandler) UpdateTask(ctx context.Context, in *UpdateTaskRequest, out *common_proto.Empty) error {
 	return h.TaskMgrHandler.UpdateTask(ctx, in, out)
+}
+
+func (h *taskMgrHandler) TaskOverview(ctx context.Context, in *common_proto.Empty, out *TaskOverviewResponse) error {
+	return h.TaskMgrHandler.TaskOverview(ctx, in, out)
+}
+
+func (h *taskMgrHandler) TaskLeaderBoard(ctx context.Context, in *common_proto.Empty, out *TaskLeaderBoardResponse) error {
+	return h.TaskMgrHandler.TaskLeaderBoard(ctx, in, out)
 }

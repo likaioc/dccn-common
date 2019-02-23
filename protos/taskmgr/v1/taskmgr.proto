@@ -11,6 +11,8 @@ service TaskMgr {
     rpc CancelTask (TaskID) returns (common.proto.Empty) {}
     rpc PurgeTask (TaskID) returns (common.proto.Empty) {}
     rpc UpdateTask (UpdateTaskRequest) returns (common.proto.Empty) {}
+    rpc TaskOverview (common.proto.Empty) returns (TaskOverviewResponse) {}
+    rpc TaskLeaderBoard (common.proto.Empty) returns (TaskLeaderBoardResponse) {}
 }
 
 // The dccn client request message containing the user's token
@@ -42,3 +44,19 @@ message UpdateTaskRequest{
     common.proto.Task task = 1;
 }
 
+message TaskOverviewResponse{
+  int32 cluster_count = 1;
+  int32 environment_count = 2;
+  int32 region_count = 3;
+  int32 total_task_count = 4;
+  int32 health_task_count = 5;
+}
+
+message TaskLeaderBoardResponse{
+  repeated TaskLeaderBoardDetail list = 1;
+}
+
+message TaskLeaderBoardDetail{
+  string name = 1;
+  double number = 2;
+}
