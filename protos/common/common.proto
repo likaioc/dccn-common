@@ -85,6 +85,7 @@ message Environment {
 message GeoLocation {
     string lat = 1; // latitude
     string lng = 2; // longitude
+    string country = 3; // US 
 }
 
 // Data Center structure
