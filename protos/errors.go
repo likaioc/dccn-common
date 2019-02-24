@@ -39,4 +39,5 @@ var (
 	ErrPurgedTwice               = errors.New("can not purge twice")
 	ErrAuthNotAllowed            = errors.New("auth not allow")
 	ErrUnexpectedChar            = errors.New("unexpected char")
+	ErrPasswordSame              = errors.New("password must be not same as before")
 )
