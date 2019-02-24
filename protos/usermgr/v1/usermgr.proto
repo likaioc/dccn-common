@@ -39,6 +39,10 @@ service UserMgr {
 
     rpc VerifyAccessToken(common.proto.Empty) returns (common.proto.Empty){
     }
+
+    rpc ConfirmEmail(ConfirmEmailRequest) returns (common.proto.Empty){
+
+    }
 }
 
 message User {
@@ -128,4 +132,9 @@ message ChangeEmailRequest {
 
 message UpdateAttributesRequest {
     repeated UserAttribute user_attributes = 1;
+}
+
+message ConfirmEmailRequest {
+  string ConfirmationCode = 1;
+  string NewEmail = 2;
 }

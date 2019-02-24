@@ -22,6 +22,7 @@ It has these top-level messages:
 	ChangePasswordRequest
 	ChangeEmailRequest
 	UpdateAttributesRequest
+	ConfirmEmailRequest
 */
 package usermgr
 
@@ -71,6 +72,7 @@ type UserMgrService interface {
 	UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, opts ...client.CallOption) (*User, error)
 	ChangeEmail(ctx context.Context, in *ChangeEmailRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	VerifyAccessToken(ctx context.Context, in *common_proto.Empty, opts ...client.CallOption) (*common_proto.Empty, error)
+	ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 }
 
 type userMgrService struct {
@@ -201,6 +203,16 @@ func (c *userMgrService) VerifyAccessToken(ctx context.Context, in *common_proto
 	return out, nil
 }
 
+func (c *userMgrService) ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, opts ...client.CallOption) (*common_proto.Empty, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.ConfirmEmail", in)
+	out := new(common_proto.Empty)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserMgr service
 
 type UserMgrHandler interface {
@@ -219,6 +231,7 @@ type UserMgrHandler interface {
 	UpdateAttributes(context.Context, *UpdateAttributesRequest, *User) error
 	ChangeEmail(context.Context, *ChangeEmailRequest, *common_proto.Empty) error
 	VerifyAccessToken(context.Context, *common_proto.Empty, *common_proto.Empty) error
+	ConfirmEmail(context.Context, *ConfirmEmailRequest, *common_proto.Empty) error
 }
 
 func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server.HandlerOption) error {
@@ -234,6 +247,7 @@ func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server
 		UpdateAttributes(ctx context.Context, in *UpdateAttributesRequest, out *User) error
 		ChangeEmail(ctx context.Context, in *ChangeEmailRequest, out *common_proto.Empty) error
 		VerifyAccessToken(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error
+		ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, out *common_proto.Empty) error
 	}
 	type UserMgr struct {
 		userMgr
@@ -288,4 +302,8 @@ func (h *userMgrHandler) ChangeEmail(ctx context.Context, in *ChangeEmailRequest
 
 func (h *userMgrHandler) VerifyAccessToken(ctx context.Context, in *common_proto.Empty, out *common_proto.Empty) error {
 	return h.UserMgrHandler.VerifyAccessToken(ctx, in, out)
+}
+
+func (h *userMgrHandler) ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, out *common_proto.Empty) error {
+	return h.UserMgrHandler.ConfirmEmail(ctx, in, out)
 }
