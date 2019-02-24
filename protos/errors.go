@@ -40,4 +40,5 @@ var (
 	ErrAuthNotAllowed            = errors.New("auth not allow")
 	ErrUnexpectedChar            = errors.New("unexpected char")
 	ErrPasswordSame              = errors.New("password must be not same as before")
+	ErrOldPassword               = errors.New("old password does not match") 
 )
