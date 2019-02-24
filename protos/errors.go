@@ -44,4 +44,5 @@ var (
 	ErrEmailSame                 = errors.New("email must be not same as before")
 	ErrUserNotVariyEmail         = errors.New("user's email has not been varified, please varify email first")
 	ErrUserDeactive              = errors.New("login failed, account has been locked, please contact admin")
+	ErrEmailNoExit               = errors.New("email does not exist
 )
