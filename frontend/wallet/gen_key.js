@@ -1,5 +1,6 @@
 import session25519 from 'session25519';
-import sha256 from "./sha256";
+import { sha256 } from 'js-sha256';
+
 
 const sum = (email, password, callback) => {
     let keys = {};
@@ -13,9 +14,18 @@ const sum = (email, password, callback) => {
     });
 }
 
+const toHex = (str) => {
+    var result = '';
+    for (var i = 0; i < str.length; i++) {
+        result += str.charCodeAt(i).toString(16);
+    }
+    return result;
+}
+
 const gen_key = (email, password, callback) => {
     sum(email, password, (keys) => {
-        const addr = sha256(keys.publicSignKey).substr(0, 20);
+        console.log(sha256(keys.publicSignKey).substr(0, 20))
+        const addr = toHex(sha256(keys.publicSignKey).substr(0, 20));
 
         callback({
             public_key: keys.publicSignKeyBase64,

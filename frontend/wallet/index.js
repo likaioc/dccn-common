@@ -1,6 +1,6 @@
 import gen_key from "./gen_key";
-import get_balance from "./get_balance";
-import send_coin from "./send_coin";
+import { default as get_balance, set_blockchain_addr as set_balance_bc_addr } from "./get_balance";
+import { default as send_coin, set_blockchain_addr as set_coin_bc_addr } from "./send_coin";
 
 let element = null;
 
