@@ -15,6 +15,7 @@ import (
 	cmn "github.com/tendermint/tendermint/libs/common"
 	"github.com/tendermint/tendermint/rpc/client"
 	"github.com/tendermint/tendermint/types"
+	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 )
 
 const PubKeyEd25519Size = 32
@@ -327,6 +328,74 @@ func SetBalance(ip, port, priv_key, address, amount, public_key string) error {
 	client.WaitForHeight(cl, btr.Height+1, nil)
 
 	return nil
+}
+
+/**
+based on the address, return the send history of such address. 
+For example, such address has sent out tokens 5 times, and the trx details will be returned.
+
+Parameter	Type	Default	Required	Description
+query		string	""	true		Query
+prove		bool	false	false		Include proofs of the transactions inclusion in the block
+page		int	1	false		Page number (1-based)
+per_page	int	30	false		Number of entries per page (max: 100)
+
+TxSearch API detail:
+https://tendermint.com/rpc/#txsearch
+*/
+func GetHistorySend(ip, port, address string, prove bool, page, perPage int) (*ctypes.ResultTxSearch, error) {
+	if page == 0 {
+		page = 1
+	}
+
+	if (perPage == 0) {
+		perPage = 30
+	}
+
+	cl := getHTTPClient(ip, port)
+
+	//curl "localhost:26657/tx_search?query=\"app.fromaddress='B508ED0D54597D516A680E7951F18CAD24C7EC9F'\"&prove=true"
+	query := "app.fromaddress="+"'"+address+"'"
+	btr, err := cl.TxSearch(query, prove, page, perPage)
+	if err != nil {
+		return nil, err
+	} 
+
+	return btr, err
+}
+
+/**
+based on the address, return the receive history of such address. 
+For example, such address has received tokens 5 times, and the trx details will be returned.
+
+Parameter	Type	Default	Required	Description
+query		string	""	true		Query
+prove		bool	false	false		Include proofs of the transactions inclusion in the block
+page		int	1	false		Page number (1-based)
+per_page	int	30	false		Number of entries per page (max: 100)
+
+TxSearch API detail:
+https://tendermint.com/rpc/#txsearch
+*/
+func GetHistoryReceive(ip, port, address string, prove bool, page, perPage int) (*ctypes.ResultTxSearch, error) {
+	if page == 0 {
+		page = 1
+	}
+
+	if (perPage == 0) {
+		perPage = 30
+	}
+
+	cl := getHTTPClient(ip, port)
+
+	//curl "localhost:26657/tx_search?query=\"app.fromaddress='B508ED0D54597D516A680E7951F18CAD24C7EC9F'\"&prove=true"
+	query := "app.toaddress="+"'"+address+"'"
+	btr, err := cl.TxSearch(query, prove, page, perPage)
+	if err != nil {
+		return nil, err
+	} 
+
+	return btr, err
 }
 
 /* helper functions */
