@@ -135,6 +135,17 @@ func GetBalance(ip, port, address string) (balance string, err_ret error) {
 	return balance, nil
 }
 
+/*
+Example: send 10 tokens from address1 to address2.
+
+from_address: address1
+to_address: address2
+amount: 10
+priv_key: address1's priv_key
+public_key: address1's public key
+
+note: priv_key is used for signature, and it will not be sent or saved.
+*/
 func SendCoins(ip, port, priv_key, from_address, to_address, amount, public_key string) error {
 	var nonce string
 	cl := getHTTPClient(ip, port)
@@ -388,7 +399,7 @@ func GetHistoryReceive(ip, port, address string, prove bool, page, perPage int) 
 
 	cl := getHTTPClient(ip, port)
 
-	//curl "localhost:26657/tx_search?query=\"app.fromaddress='B508ED0D54597D516A680E7951F18CAD24C7EC9F'\"&prove=true"
+	//curl "localhost:26657/tx_search?query=\"app.toaddress='B508ED0D54597D516A680E7951F18CAD24C7EC9F'\"&prove=true"
 	query := "app.toaddress="+"'"+address+"'"
 	btr, err := cl.TxSearch(query, prove, page, perPage)
 	if err != nil {
