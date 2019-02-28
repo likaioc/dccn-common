@@ -42,7 +42,7 @@ var (
 	ErrPasswordSame              = errors.New("password must be not same as before")
 	ErrOldPassword               = errors.New("old password does not match")
 	ErrEmailSame                 = errors.New("email must be not same as before")
-	ErrUserNotVariyEmail         = errors.New("user's email has not been varified, please varify email first")
+	ErrUserNotVariyEmail         = errors.New("user's email has not been varified, please verify email first")
 	ErrUserDeactive              = errors.New("login failed, account has been locked, please contact admin")
 	ErrEmailNoExit               = errors.New("email does not exist")
 	ErrEmailNoMatch              = errors.New("email does not match")
