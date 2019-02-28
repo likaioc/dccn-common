@@ -25,6 +25,7 @@ message NetworkInfoResponse {
   int32 host_count = 2;
   int32 environment_count = 3;
   int32 container_count = 4;
+  int32 traffic = 5;   // 1 light 2 median 3. heavy 
 }
 
 message DataCenterLeaderBoardResponse {
