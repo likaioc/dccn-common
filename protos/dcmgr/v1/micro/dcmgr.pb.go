@@ -30,7 +30,7 @@ func (m *DataCenterListResponse) Reset()         { *m = DataCenterListResponse{}
 func (m *DataCenterListResponse) String() string { return proto.CompactTextString(m) }
 func (*DataCenterListResponse) ProtoMessage()    {}
 func (*DataCenterListResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_d2baa97ade45534a, []int{0}
+	return fileDescriptor_dcmgr_0d8d3509f302dd31, []int{0}
 }
 func (m *DataCenterListResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterListResponse.Unmarshal(m, b)
@@ -72,7 +72,7 @@ func (m *NetworkInfoResponse) Reset()         { *m = NetworkInfoResponse{} }
 func (m *NetworkInfoResponse) String() string { return proto.CompactTextString(m) }
 func (*NetworkInfoResponse) ProtoMessage()    {}
 func (*NetworkInfoResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_d2baa97ade45534a, []int{1}
+	return fileDescriptor_dcmgr_0d8d3509f302dd31, []int{1}
 }
 func (m *NetworkInfoResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_NetworkInfoResponse.Unmarshal(m, b)
@@ -138,7 +138,7 @@ func (m *DataCenterLeaderBoardResponse) Reset()         { *m = DataCenterLeaderB
 func (m *DataCenterLeaderBoardResponse) String() string { return proto.CompactTextString(m) }
 func (*DataCenterLeaderBoardResponse) ProtoMessage()    {}
 func (*DataCenterLeaderBoardResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_d2baa97ade45534a, []int{2}
+	return fileDescriptor_dcmgr_0d8d3509f302dd31, []int{2}
 }
 func (m *DataCenterLeaderBoardResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterLeaderBoardResponse.Unmarshal(m, b)
@@ -177,7 +177,7 @@ func (m *DataCenterLeaderBoardDetail) Reset()         { *m = DataCenterLeaderBoa
 func (m *DataCenterLeaderBoardDetail) String() string { return proto.CompactTextString(m) }
 func (*DataCenterLeaderBoardDetail) ProtoMessage()    {}
 func (*DataCenterLeaderBoardDetail) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_d2baa97ade45534a, []int{3}
+	return fileDescriptor_dcmgr_0d8d3509f302dd31, []int{3}
 }
 func (m *DataCenterLeaderBoardDetail) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterLeaderBoardDetail.Unmarshal(m, b)
@@ -218,9 +218,9 @@ func init() {
 	proto.RegisterType((*DataCenterLeaderBoardDetail)(nil), "dcmgr.DataCenterLeaderBoardDetail")
 }
 
-func init() { proto.RegisterFile("dcmgr/v1/micro/dcmgr.proto", fileDescriptor_dcmgr_d2baa97ade45534a) }
+func init() { proto.RegisterFile("dcmgr/v1/micro/dcmgr.proto", fileDescriptor_dcmgr_0d8d3509f302dd31) }
 
-var fileDescriptor_dcmgr_d2baa97ade45534a = []byte{
+var fileDescriptor_dcmgr_0d8d3509f302dd31 = []byte{
 	// 395 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x92, 0x61, 0x8b, 0xd3, 0x40,
 	0x10, 0x86, 0x1b, 0xdb, 0x54, 0x3a, 0x95, 0xaa, 0x5b, 0x2c, 0x21, 0x52, 0x90, 0x45, 0xb0, 0x20,
