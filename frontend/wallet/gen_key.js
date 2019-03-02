@@ -24,8 +24,8 @@ const toHex = (str) => {
 
 const gen_key = (email, password, callback) => {
     sum(email, password, (keys) => {
-        console.log(sha256(keys.publicSignKey).substr(0, 20))
-        const addr = toHex(sha256(keys.publicSignKey).substr(0, 20));
+        console.log(sha256(keys.publicSignKey).substr(0, 40))
+        const addr = sha256(keys.publicSignKey).substr(0, 40).toUpperCase();
 
         callback({
             public_key: keys.publicSignKeyBase64,
