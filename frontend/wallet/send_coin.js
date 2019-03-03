@@ -7,29 +7,47 @@ export const set_blockchain_addr = (blockchain_addr) => {
     bc_addr = '//' + blockchain_addr + '/abci_query';
 }
 
+function hex2bytes(hex)
+{
+    var bytes = [], str;
+
+    for(var i=0; i< hex.length-1; i+=2)
+        bytes.push(parseInt(hex.substr(i, 2), 16));
+
+    return bytes
+}
+
 export default async (from, to, amount, private_key, public_key) => {
 
-    const balance = await get_balance(from);
-    console.log(balance)
+    const balance = await get_balance(from); //TODO check balance is FAIL.
+
+    // handle nonce
     let nonce = balance.split(":")[1];
-    nonce++;
+    let nonceInt = parseInt(nonce); //TODO check parseInt fail.
+    nonceInt++
 
-    const sha245_sum = sha256(from + to + amount + nonce);
-    console.log(1)
+    // for test
+    //nonceInt = 10 
 
+    // handle hash
+    const sha245_sum = sha256(from + to + amount + nonceInt);
     let arr = new Uint8Array(32);
-    arr.set(sha245_sum.substr(0, 32));
-    console.log(2)
+    arr.set(hex2bytes(sha245_sum));
 
-    let key_arr = new Uint8Array(64);
-    console.log(atob(private_key).length)
+    // handle priv key
+    var raw = atob(private_key); //TODO check DOMException
+    var rawLength = raw.length;
+    var pk_array = new Uint8Array(new ArrayBuffer(rawLength));
+    var i = 0;
+    for(i = 0; i < rawLength; i++) {
+        pk_array[i] = raw.charCodeAt(i);
+    }
 
-    key_arr.set(atob(private_key));
-    console.log(3)
-    const sign = nacl.sign(arr, key_arr);
-    console.log(4)
+    // handle sign
+    let sign_array = nacl.sign(arr, pk_array)
+    const sign = btoa(String.fromCharCode.apply(null, sign_array.slice(0,64)));
 
-    await fetch(bc_addr + '?tx="trx_send=' + from + ":" + to + ":" + amount + ":" + nonce + ":" + public_key + ":" + sign + '"', {
+    await fetch(bc_addr + '?tx="trx_send=' + from + ":" + to + ":" + amount + ":" + nonceInt + ":" + public_key + ":" + sign + '"', {
         method: 'GET',
         mode: 'cors',
     }).then(res => {
