@@ -2,9 +2,9 @@ import nacl from "tweetnacl";
 import { get_balance } from "./get_balance";
 import { sha256 } from 'js-sha256';
 
-let bc_addr = '//localhost:26657/abci_query';
+let bc_addr = '//localhost:26657/broadcast_tx_commit';
 export const set_blockchain_addr = (blockchain_addr) => {
-    bc_addr = '//' + blockchain_addr + '/abci_query';
+    bc_addr = '//' + blockchain_addr + '/broadcast_tx_commit';
 }
 
 const hex2bytes = (hex) => {
@@ -19,6 +19,9 @@ const hex2bytes = (hex) => {
 export const send_coin = async (from, to, amount, private_key, public_key) => {
 
     const balance = await get_balance(from); //TODO check balance is FAIL.
+    if (balance === "") {
+        throw "get balance fail"
+    }
 
     // handle nonce
     let nonce = balance.split(":")[1];
@@ -45,21 +48,16 @@ export const send_coin = async (from, to, amount, private_key, public_key) => {
     let sign_array = nacl.sign(arr, pk_array)
     const sign = btoa(String.fromCharCode.apply(null, sign_array.slice(0, 64)));
 
-    await fetch(bc_addr + '?tx="trx_send=' + from + ":" + to + ":" + amount + ":" + nonceInt + ":" + public_key + ":" + sign + '"', {
+    await fetch(bc_addr + '?tx="trx_send=' + from + ":" + to + ":" + amount + ":" + nonceInt + ":" + encodeURIComponent(public_key) + ":" + encodeURIComponent(sign) + '"', {
         method: 'GET',
         mode: 'cors',
     }).then(res => {
-        console.log(res)
         return res.json();
     }).then(json => {
         if (json['error']) {
             throw json['error'];
         }
-        return json.result.response;
-    }).then(data => {
-        return data.value;
-    }).then(val => {
-        balance = btoa(val);
+        return json.result;
     }).catch(err => {
         console.log('请求错误', err);
     });

@@ -11,7 +11,7 @@ const echo = (text) => {
     }
 }
 
-document.getElementById("gen_keys_btn").onclick = () => {
+document.getElementById("gen_keys_btn").onclick = async () => {
     gen_key('me@example.com', 'brig alert rope welsh foss rang orb', (key) => {
         element = document.getElementById("gen_keys");
         echo();
@@ -48,5 +48,5 @@ document.getElementById("send_coin_btn").onclick = async () => {
 
     echo();
     echo("new balance:");
-    echo(balance);
+    echo(balance.split(':', 1));
 }
