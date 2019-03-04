@@ -1,0 +1,21 @@
+{
+  "name": "wallet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gen_key.js",
+  "dependencies": {
+    "js-sha256": "^0.9.0",
+    "session25519": "^1.1.0",
+    "tweetnacl": "^1.0.1",
+    "tweetnacl-util": "^0.15.0"
+  },
+  "devDependencies": {
+    "@babel/preset-es2015": "^7.0.0-beta.53"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
