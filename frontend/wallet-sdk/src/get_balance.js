@@ -3,7 +3,7 @@ export const set_blockchain_addr = (blockchain_addr) => {
     bc_addr = '//' + blockchain_addr + '/abci_query';
 }
 
-export default async (wallet_addr) => {
+export const get_balance = async (wallet_addr) => {
     let balance = 'FAIL';
     await fetch(bc_addr + '?data="bal:' + wallet_addr.toString() + '"', {
         method: 'GET',

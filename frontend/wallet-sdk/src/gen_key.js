@@ -14,15 +14,8 @@ const sum = (email, password, callback) => {
     });
 }
 
-const toHex = (str) => {
-    var result = '';
-    for (var i = 0; i < str.length; i++) {
-        result += str.charCodeAt(i).toString(16);
-    }
-    return result;
-}
 
-const gen_key = (email, password, callback) => {
+export const gen_key = (email, password, callback) => {
     sum(email, password, (keys) => {
         console.log(sha256(keys.publicSignKey).substr(0, 40))
         const addr = sha256(keys.publicSignKey).substr(0, 40).toUpperCase();
@@ -34,5 +27,3 @@ const gen_key = (email, password, callback) => {
         })
     });
 };
-
-export default gen_key;
