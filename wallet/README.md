@@ -10,7 +10,17 @@
     * import "github.com/Ankr-network/dccn-common/wallet"
     * follow the sample code to call,
 
-- wallet.GenerateKeys(), 
-- wallet.GetBalance(), 
-- wallet.SendCoins(), 
+- wallet.GenerateKeys() 
+- wallet.GetBalance() 
+- wallet.SendCoins() 
 - wallet.Sign()
+- wallet.GetAddressByPublicKey()
+- wallet.GetStake()
+- wallet.GetHistorySend()
+- wallet.GetHistoryReceive()
+
+
+Admin:
+
+- wallet.SetStake()
+- wallet.SetBalance()
