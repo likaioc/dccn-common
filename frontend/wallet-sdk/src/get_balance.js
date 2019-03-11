@@ -18,9 +18,9 @@ export const get_balance = async (wallet_addr) => {
     }).then(data => {
         return data.value;
     }).then(val => {
-        balance = atob(val);
+        balance = atob(val).split(':', 1);
     }).catch(err => {
-        console.log('请求错误', err);
+        console.log('request error:', err);
     });
 
     return balance;
