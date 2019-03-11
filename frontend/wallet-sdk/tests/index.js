@@ -36,7 +36,7 @@ document.getElementById("get_balance_btn").onclick = async () => {
 
     echo();
     echo("balance:");
-    echo(balance.split(':', 1));
+    echo(balance);
 }
 
 document.getElementById("send_coin_btn").onclick = async () => {
