@@ -1,5 +1,4 @@
 import nacl from "tweetnacl";
-import { get_balance } from "./get_balance";
 import { get_nonce } from "./get_nonce";
 import { sha256 } from 'js-sha256';
 
@@ -21,13 +20,13 @@ const hex2bytes = (hex) => {
 
 export const send_coin = async (from, to, amount, private_key, public_key) => {
 
-    const balance = await get_nonce(bc_addr_query, from); //TODO check balance is FAIL.
-    if (balance === "") {
+    const nonce = await get_nonce(bc_addr_query, from); //TODO check balance is FAIL.
+    if (nonce === "") {
         throw "get balance fail"
     }
 
     // handle nonce
-    let nonceInt = parseInt(balance); //TODO check parseInt fail.
+    let nonceInt = parseInt(nonce); //TODO check parseInt fail.
     nonceInt++
 
     // for test
