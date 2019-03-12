@@ -1,10 +1,13 @@
 import nacl from "tweetnacl";
 import { get_balance } from "./get_balance";
+import { get_nonce } from "./get_nonce";
 import { sha256 } from 'js-sha256';
 
 let bc_addr = '//localhost:26657/broadcast_tx_commit';
+let bc_addr_query = '//localhost:26657/abci_query';
 export const set_blockchain_addr = (blockchain_addr) => {
     bc_addr = '//' + blockchain_addr + '/broadcast_tx_commit';
+    bc_addr_query = '//' + blockchain_addr + '/abci_query';
 }
 
 const hex2bytes = (hex) => {
@@ -18,14 +21,13 @@ const hex2bytes = (hex) => {
 
 export const send_coin = async (from, to, amount, private_key, public_key) => {
 
-    const balance = await get_balance(from); //TODO check balance is FAIL.
+    const balance = await get_nonce(bc_addr_query, from); //TODO check balance is FAIL.
     if (balance === "") {
         throw "get balance fail"
     }
 
     // handle nonce
-    let nonce = balance.split(":")[1];
-    let nonceInt = parseInt(nonce); //TODO check parseInt fail.
+    let nonceInt = parseInt(balance); //TODO check parseInt fail.
     nonceInt++
 
     // for test
