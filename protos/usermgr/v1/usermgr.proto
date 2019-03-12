@@ -78,6 +78,7 @@ message UserAttributes {
     string pub_key = 2;
     uint64 creation_date = 3; //task creation date
     uint64 last_modified_date = 4; //task creation date
+    repeated UserAttribute extra_fields = 5; // extra field
 }
 
 message RegisterRequest {
