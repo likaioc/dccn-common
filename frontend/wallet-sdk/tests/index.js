@@ -29,7 +29,7 @@ document.getElementById("gen_keys_btn").onclick = async () => {
 }
 
 document.getElementById("get_balance_btn").onclick = async () => {
-    set_balance_bc_addr("18.217.17.80:26657")
+    set_balance_bc_addr("chain-stage.dccn.ankr.network:26657")
 
     const balance = await get_balance('B508ED0D54597D516A680E7951F18CAD24C7EC9F');
     element = document.getElementById("get_balance");
@@ -40,11 +40,11 @@ document.getElementById("get_balance_btn").onclick = async () => {
 }
 
 document.getElementById("send_coin_btn").onclick = async () => {
-    set_coin_bc_addr("18.217.17.80:26657")
+    set_coin_bc_addr("chain-stage.dccn.ankr.network:26657")
 
     await send_coin('B508ED0D54597D516A680E7951F18CAD24C7EC9F', '0D9FE6A785C830D2BE66FE40E0E7FE3D9838456C', '88', 'wmyZZoMedWlsPUDVCOy+TiVcrIBPcn3WJN8k5cPQgIvC8cbcR10FtdAdzIlqXQJL9hBw1i0RsVjF6Oep/06Ezg==', 'wvHG3EddBbXQHcyJal0CS/YQcNYtEbFYxejnqf9OhM4=');
 
-    set_balance_bc_addr("18.217.17.80:26657")
+    set_balance_bc_addr("chain-stage.dccn.ankr.network:26657")
     const balance = await get_balance('B508ED0D54597D516A680E7951F18CAD24C7EC9F');
     element = document.getElementById("send_coin");
 
@@ -54,7 +54,7 @@ document.getElementById("send_coin_btn").onclick = async () => {
 }
 
 document.getElementById("get_send_history_btn").onclick = async () => {
-    set_history_bc_addr("18.217.17.80:26657")
+    set_history_bc_addr("chain-stage.dccn.ankr.network:26657")
 
     const historys = await get_send_history('B508ED0D54597D516A680E7951F18CAD24C7EC9F');
     element = document.getElementById("get_send_history");
@@ -70,7 +70,7 @@ document.getElementById("get_send_history_btn").onclick = async () => {
     });
 }
 document.getElementById("get_recv_history_btn").onclick = async () => {
-    set_history_bc_addr("18.217.17.80:26657")
+    set_history_bc_addr("chain-stage.dccn.ankr.network:26657")
 
     const historys = await get_recv_history('0D9FE6A785C830D2BE66FE40E0E7FE3D9838456C');
     element = document.getElementById("get_recv_history");
@@ -87,7 +87,7 @@ document.getElementById("get_recv_history_btn").onclick = async () => {
 }
 
 document.getElementById("get_history_btn").onclick = async () => {
-    set_history_bc_addr("18.217.17.80:26657")
+    set_history_bc_addr("chain-stage.dccn.ankr.network:26657")
 
     const historys = await get_history('B508ED0D54597D516A680E7951F18CAD24C7EC9F');
     element = document.getElementById("get_history");
