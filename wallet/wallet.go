@@ -4,11 +4,14 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
-	_ "encoding/json"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"strconv"
 	"strings"
+	"net/http"
+	"io/ioutil"
+	"math/big"
 
 	_ "github.com/tendermint/tendermint/crypto"
 	"github.com/tendermint/tendermint/crypto/ed25519"
@@ -21,6 +24,9 @@ import (
 const PubKeyEd25519Size = 32
 const PrivKeyEd25519Size = 64
 const PubkeyStart = "PubKeyEd25519{"
+
+const AnkrERC20Contract = "0x8290333ceF9e6D528dD5618Fb97a76f268f3EDD4"
+const DEFAULT_ETHEREUM_URL = "https://api.tokenbalance.com/token/"
 
 /*
   Generate new key-pair. return priv_key, pub_key, address in string format.
@@ -409,6 +415,74 @@ func GetHistoryReceive(ip, port, address string, prove bool, page, perPage int) 
 	return btr, err
 }
 
+/*
+query ANKR ERC20 balance and current block. block can used to calculate confirmations.
+DEFAULT_ETHEREUM_URL is not guaranteed to be available. Callers should try other network if not available.
+*/
+func GetERC20BalanceBlock(ethereum_url, address string) (balance, block string, err error) {
+	if ethereum_url == "" {
+		ethereum_url = DEFAULT_ETHEREUM_URL
+	}
+
+	full_url := ethereum_url + AnkrERC20Contract + "/" + address
+	req, err := http.NewRequest("GET", full_url, nil)
+	if err != nil {
+		return "", "", err
+	}
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return "", "", err
+	}
+
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return "", "", err
+	}
+
+	personMap := make(map[string]interface{})
+	err = json.Unmarshal([]byte(body), &personMap)
+	if err != nil {
+		return "", "", err
+        }
+
+        for key, value := range personMap {
+		switch key {
+		    case "decimals":
+		    case "block":
+			    block = fmt.Sprintf("%d", (int)(value.(float64)))
+		    case "token":
+			    if value != AnkrERC20Contract {
+				return "", "",  errors.New("contract error.")
+			    }
+		    case "wallet":
+			    if value != address {
+				return "", "",  errors.New("address error.")
+			    }
+		    case "name":
+			    if value != "Ankr Network" {
+				return "", "",  errors.New("name error.")
+			    }
+		    case "symbol":
+			    if value != "ANKR" {
+				return "", "",  errors.New("symbol error.")
+			    }
+		    case "eth_balance":
+		    case "balance":
+			    balance = fmt.Sprintf("%v", value)
+		}
+                //fmt.Println("index : ", key, " value : ", value)
+        }
+
+	lbalance, bret := toBalanceLongFormat(balance)
+	if bret != nil {
+		return "", "", bret
+	}
+
+	return lbalance, block, nil
+}
+
 /* helper functions */
 /*-------------------------------------------------------------------------------------------------*/
 func getHTTPClient(ip, port string) *client.HTTP {
@@ -444,4 +518,25 @@ func deserilizePubKey(pub_key_b64 string) (ed25519.PubKeyEd25519, error) {
 		pk[20], pk[21],pk[22], pk[23],pk[24], pk[25],pk[26], pk[27],pk[28], pk[29],pk[30], pk[PubKeyEd25519Size - 1]}
 
 	return pubObject, nil
+}
+
+func toBalanceLongFormat(input string) (string, error) {
+	amount := new(big.Float)
+	_, err := fmt.Sscan(input, amount)
+	if err != nil {
+		return "", err
+	}
+
+	eighteenZero := new(big.Float)
+	_, err = fmt.Sscan("1000000000000000000", eighteenZero)
+	if err != nil {
+		return "", err
+	}
+
+	amount.Mul(amount, eighteenZero)
+
+	result := new(big.Int)
+	amount.Int(result)
+
+	return result.String(), nil
 }
