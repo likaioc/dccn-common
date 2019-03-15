@@ -6,14 +6,19 @@
   "dependencies": {
     "js-sha256": "^0.9.0",
     "session25519": "^1.1.0",
+    "static-server": "^2.2.1",
     "tweetnacl": "^1.0.1",
-    "tweetnacl-util": "^0.15.0"
+    "tweetnacl-util": "^0.15.0",
+    "webpack": "^4.29.6"
   },
   "devDependencies": {
-    "@babel/preset-es2015": "^7.0.0-beta.53"
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "webpack-cli": "^3.2.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack src/*.js tests/index.js -o tests/main.js",
+    "start": "cd tests && static-server -o"
   },
   "keywords": [],
   "author": "",
