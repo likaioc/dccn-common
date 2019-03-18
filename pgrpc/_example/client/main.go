@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
 	"sync"
 	"time"
 
@@ -34,7 +33,7 @@ func main() {
 }
 
 func dial(port string) {
-	if err := pgrpc.InitClient(":8899", 20*time.Second, log.New(os.Stderr, "", log.Ltime|log.Lshortfile)); err != nil {
+	if err := pgrpc.InitClient(":8899", nil); err != nil {
 		log.Fatalln(err)
 	}
 

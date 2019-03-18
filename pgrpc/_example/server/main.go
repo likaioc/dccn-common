@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"os"
-	"time"
 
 	"github.com/Ankr-network/dccn-common/pgrpc"
 	"github.com/Ankr-network/dccn-common/pgrpc/_example/api"
@@ -21,7 +20,7 @@ func main() {
 }
 
 func server(ip string) {
-	conn, err := pgrpc.NewServer(ip+":8899", 20*time.Second, nil)
+	conn, err := pgrpc.NewServer(ip+":8899", nil)
 	if err != nil {
 		log.Fatalln("FAIL:", err)
 	}
@@ -31,7 +30,7 @@ func server(ip string) {
 	server := grpc.NewServer()
 	api.RegisterPingServer(server, &Server{})
 	api.RegisterStreamPingServer(server, &StreamServer{})
-	if err := server.Serve(conn); err != nil {
+	if err := server.Serve(conn.Session()); err != nil {
 		log.Fatalln("FAIL:", err)
 	}
 }
