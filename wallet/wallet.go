@@ -100,6 +100,45 @@ func Sign(input, priv_key string) (result string, err_ret error) {
 	return
 }
 
+func SetValidators(ip, port, pubkey, power string) (result string, err_ret error) {
+
+        _, err := strconv.ParseInt(string(power), 10, 64)
+        if err != nil {
+                return "", err
+        }
+
+	cl := getHTTPClient(ip, port)
+	_, err = cl.Status()
+	if err != nil {
+		return "", err
+	}
+
+	pubKeyObject, err := deserilizePubKey(pubkey)
+        if err != nil {
+                return "", err
+        }
+
+	mystr := fmt.Sprintf("%s", pubKeyObject)
+        mystr = mystr[len(PubkeyStart) : len(PubkeyStart)+PrivKeyEd25519Size]
+	fmt.Println(mystr)
+
+	btr, err := cl.BroadcastTxCommit(types.Tx(
+		fmt.Sprintf("%s:%s/%s", string("val"), mystr, power)))
+
+        if err != nil {
+                return "", err
+        } else if btr.CheckTx.Code != 0 {
+                return "", errors.New(btr.CheckTx.Log)
+        } else if btr.DeliverTx.Code != 0{
+                return "", errors.New(btr.DeliverTx.Log)
+        }
+
+        client.WaitForHeight(cl, btr.Height+1, nil)
+
+	fmt.Println(btr)
+	return "", nil
+}
+
 /*
  get balance based on (ip, port, address).
  ip: blockchain node ip or domain
