@@ -2,7 +2,7 @@
 
 GOPATH:=$(shell go env GOPATH)
 
-all: micro grpc
+all: micro grpc gateway
 # To do: there should be a script to loop through all the micro services.
 # To do: there should be only one copy of each proto file.
 common:
@@ -30,4 +30,13 @@ grpc: common
 			--go_out=plugins=grpc,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 			$$type/v1/grpc/*.proto; \
 		rm $$type/v1/grpc/*.proto; \
+	done
+
+gateway: common
+	@echo "Generating gPRC-gateway proto"
+	@for type in usermgr taskmgr dcmgr; do \
+		protoc -I. -Icommon -I$$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis\
+			--go_out=plugins=grpc,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+			--grpc-gateway_out=logtostderr=true,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common:. \
+			gateway/$$type/*.proto; \
 	done

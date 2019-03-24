@@ -1,0 +1,89 @@
+syntax = "proto3";
+import "google/api/annotations.proto";
+import "common/common.proto";
+
+package gwtaskmgr;
+
+service TaskMgr {
+    // Sends request to start a task and list task
+    rpc CreateTask (CreateTaskRequest) returns (CreateTaskResponse) {
+        option (google.api.http) = {
+            post: "/task/create"
+            body: "*"
+    };
+    }
+    rpc TaskList (TaskListRequest) returns (TaskListResponse) {
+      option (google.api.http).get = "/task/list";
+    }
+    rpc CancelTask (TaskID) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/task/cancel"
+            body: "*"
+    };
+    }
+    rpc PurgeTask (TaskID) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/task/purge"
+            body: "*"
+    };
+    }
+    rpc UpdateTask (UpdateTaskRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/task/update"
+            body: "*"
+    };
+    }
+    rpc TaskOverview (common.proto.Empty) returns (TaskOverviewResponse) {}
+    rpc TaskLeaderBoard (common.proto.Empty) returns (TaskLeaderBoardResponse) {
+        option (google.api.http) = {
+            post: "/task/leaderboard"
+            body: "*"
+    };
+    }
+}
+
+// The dccn client request message containing the user's token
+message CreateTaskRequest {
+    common.proto.Task task = 1;
+}
+
+message CreateTaskResponse {
+    string task_id = 1;
+}
+
+message TaskListRequest {
+    TaskFilter task_filter = 1;
+}
+
+message TaskListResponse {
+    repeated common.proto.Task tasks = 1;
+}
+
+message TaskFilter {
+    string task_id = 1;
+}
+
+message TaskID {
+    string task_id = 1;
+}
+
+message UpdateTaskRequest{
+    common.proto.Task task = 1;
+}
+
+message TaskOverviewResponse{
+  int32 cluster_count = 1;
+  int32 environment_count = 2;
+  int32 region_count = 3;
+  int32 total_task_count = 4;
+  int32 health_task_count = 5;
+}
+
+message TaskLeaderBoardResponse{
+  repeated TaskLeaderBoardDetail list = 1;
+}
+
+message TaskLeaderBoardDetail{
+  string name = 1;
+  double number = 2;
+}
