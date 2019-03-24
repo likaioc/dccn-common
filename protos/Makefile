@@ -38,5 +38,5 @@ gateway: common
 		protoc -I. -Icommon -I$$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis\
 			--go_out=plugins=grpc,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common:. \
 			--grpc-gateway_out=logtostderr=true,Mcommon/common.proto=github.com/Ankr-network/dccn-common/protos/common:. \
-			gateway/$$type/*.proto; \
+			gateway/$$type/v1/*.proto; \
 	done
