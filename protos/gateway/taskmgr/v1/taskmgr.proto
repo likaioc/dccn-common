@@ -44,7 +44,14 @@ service TaskMgr {
 
 // The dccn client request message containing the user's token
 message CreateTaskRequest {
-    common.proto.Task task = 1;
+    string name = 1;
+    string type = 2;
+    string image = 3;
+    int32 replica = 4;
+    string data_center_name = 5;
+    int32 cpu = 6;
+    int32 memory = 7;
+    int32 disk = 8;
 }
 
 message CreateTaskResponse {
