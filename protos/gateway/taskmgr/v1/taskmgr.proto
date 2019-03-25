@@ -47,11 +47,12 @@ message CreateTaskRequest {
     string name = 1;
     string type = 2;
     string image = 3;
-    int32 replica = 4;
-    string data_center_name = 5;
-    int32 cpu = 6;
-    int32 memory = 7;
-    int32 disk = 8;
+    string schedule = 4;
+    int32 replica = 5;
+    string data_center_name = 6;
+    int32 cpu = 7;
+    int32 memory = 8;
+    int32 disk = 9;
 }
 
 message CreateTaskResponse {
