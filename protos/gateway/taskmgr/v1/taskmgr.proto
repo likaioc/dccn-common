@@ -53,6 +53,9 @@ message CreateTaskRequest {
     int32 cpu = 7;
     int32 memory = 8;
     int32 disk = 9;
+    string uid = 11;
+    string chart_name = 12;
+    string chart_ver = 13;
 }
 
 message CreateTaskResponse {

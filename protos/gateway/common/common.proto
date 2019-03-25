@@ -54,6 +54,9 @@ message Task  {
     TaskStatus status = 8;
     TaskAttributes attributes = 9;
     Environment environment = 10;
+    string uid = 11;
+    string chart_name = 12;
+    string chart_ver = 13;
 }
 
 message TaskTypeDeployment {
