@@ -7,7 +7,7 @@ package gwusermgr;
 // TODO: supports filter
 service UserMgr {
     // Register Create a new user
-    rpc Register(RegisterRequest) returns (common.proto.Empty) {
+    rpc Register(RegisterRequest) returns (RegisterResponse) {
         option (google.api.http) = {
             post: "/signup"
             body: "*"
@@ -86,6 +86,10 @@ service UserMgr {
             body: "*"
     };
     }
+}
+
+message RegisterResponse{
+    string message = 1;
 }
 
 message User {
