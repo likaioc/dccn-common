@@ -57,6 +57,7 @@ message Task  {
     string uid = 11;
     string chart_name = 12;
     string chart_ver = 13;
+    string chart_repo = 14;
 }
 
 message TaskTypeDeployment {
