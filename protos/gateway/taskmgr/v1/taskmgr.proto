@@ -56,6 +56,7 @@ message CreateTaskRequest {
     string uid = 11;
     string chart_name = 12;
     string chart_ver = 13;
+    string chart_repo = 14;
 }
 
 message CreateTaskResponse {
@@ -91,7 +92,8 @@ message UpdateTaskRequest{
     string uid = 11;
     string chart_name = 12;
     string chart_ver = 13;
-    string task_id = 14;
+    string chart_repo = 14;
+    string task_id = 15;
 }
 
 message TaskOverviewResponse{
