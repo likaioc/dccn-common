@@ -79,7 +79,19 @@ message TaskID {
 }
 
 message UpdateTaskRequest{
-    common.proto.Task task = 1;
+    string name = 1;
+    string type = 2;
+    string image = 3;
+    string schedule = 4;
+    int32 replica = 5;
+    string data_center_name = 6;
+    int32 cpu = 7;
+    int32 memory = 8;
+    int32 disk = 9;
+    string uid = 11;
+    string chart_name = 12;
+    string chart_ver = 13;
+    string task_id = 14;
 }
 
 message TaskOverviewResponse{
