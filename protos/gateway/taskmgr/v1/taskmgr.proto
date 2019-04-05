@@ -68,7 +68,7 @@ message TaskListRequest {
 }
 
 message TaskListResponse {
-    repeated common.proto.Task tasks = 1;
+    repeated common.proto.App apps = 1;
 }
 
 message TaskFilter {
