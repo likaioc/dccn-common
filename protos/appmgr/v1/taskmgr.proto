@@ -107,7 +107,7 @@ message ListNamespaceRequest {
 }
 
 message ListNamespaceResponse {
-    common.proto.Namespace namespace = 1;
+    repeated common.proto.Namespace namespace = 1;
 }
 
 message UpdateNamespaceRequest {
