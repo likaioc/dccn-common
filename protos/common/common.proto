@@ -12,18 +12,35 @@ enum DCOperation {
 
 // Hub app status
 enum AppStatus {
-    STARTING = 0;
-    START_SUCCESS = 1;
-    START_FAILED = 2;
-    RUNNING = 3;
-    UPDATING = 4;
-    UPDATE_SUCCESS = 5;
-    UPDATE_FAILED = 6;
-    CANCELLING = 7;
-    CANCELLED = 8;
-    CANCEL_FAILED = 9;
-    DONE = 10;
+    APP_STARTING = 0;
+    APP_START_SUCCESS = 1;
+    APP_START_FAILED = 2;
+    APP_RUNNING = 3;
+    APP_UPDATING = 4;
+    APP_UPDATE_SUCCESS = 5;
+    APP_UPDATE_FAILED = 6;
+    APP_CANCELLING = 7;
+    APP_CANCELLED = 8;
+    APP_CANCEL_FAILED = 9;
+    APP_DONE = 10;
 }
+
+// Hub namespace status
+enum NamespaceStatus {
+    NS_STARTING = 0;
+    NS_START_SUCCESS = 1;
+    NS_START_FAILED = 2;
+    NS_RUNNING = 3;
+    NS_UPDATING = 4;
+    NS_UPDATE_SUCCESS = 5;
+    NS_UPDATE_FAILED = 6;
+    NS_CANCELLING = 7;
+    NS_CANCELLED = 8;
+    NS_CANCEL_FAILED = 9;
+    NS_DONE = 10;
+}
+
+
 
 // Data center status
 enum DCStatus {
@@ -116,4 +133,5 @@ message Namespace {
     float cpu_limit = 6;
     string mem_limit = 7;
     string storage_limit = 8;
+    NamespaceStatus namespace_status = 9;
 }
