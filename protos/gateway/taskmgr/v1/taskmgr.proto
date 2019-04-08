@@ -2,48 +2,96 @@ syntax = "proto3";
 import "google/api/annotations.proto";
 import "common/common.proto";
 
-package gwtaskmgr;
+package gwappmgr;
 
-service TaskMgr {
-    // Sends request to start a task and list task
-    rpc CreateTask (CreateTaskRequest) returns (CreateTaskResponse) {
+service AppMgr {
+    // Sends request to start a app and list app
+    rpc CreateApp (CreateAppRequest) returns (CreateAppResponse) {
         option (google.api.http) = {
-            post: "/task/create"
+            post: "/app/create"
             body: "*"
     };
     }
-    rpc TaskList (TaskListRequest) returns (TaskListResponse) {
-      option (google.api.http).get = "/task/list";
+    rpc AppList (AppListRequest) returns (AppListResponse) {
+      option (google.api.http).get = "/app/list";
     }
-    rpc CancelTask (TaskID) returns (common.proto.Empty) {
+    rpc CancelApp (AppID) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/task/cancel"
+            post: "/app/cancel"
             body: "*"
     };
     }
-    rpc PurgeTask (TaskID) returns (common.proto.Empty) {
+    rpc PurgeApp (AppID) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/task/purge"
+            post: "/app/purge"
             body: "*"
     };
     }
-    rpc UpdateTask (UpdateTaskRequest) returns (common.proto.Empty) {
+    rpc UpdateApp (UpdateAppRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/task/update"
+            post: "/app/update"
             body: "*"
     };
     }
-    rpc TaskOverview (common.proto.Empty) returns (TaskOverviewResponse) {}
-    rpc TaskLeaderBoard (common.proto.Empty) returns (TaskLeaderBoardResponse) {
+    rpc AppOverview (common.proto.Empty) returns (AppOverviewResponse) {}
+    rpc AppLeaderBoard (common.proto.Empty) returns (AppLeaderBoardResponse) {
         option (google.api.http) = {
-            post: "/task/leaderboard"
+            post: "/app/leaderboard"
+            body: "*"
+    };
+    }
+    rpc CreateChart (CreateChartRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/chart/create"
+            body: "*"
+    };
+    }
+    rpc ChartList (ChartListRequest) returns (ChartListResponse) {
+        option (google.api.http) = {
+            post: "/chart/list"
+            body: "*"
+    };
+    }
+    rpc ChartDetail (ChartDetailRequest) returns (ChartDetailResponse) {
+        option (google.api.http) = {
+            post: "/chart/detail"
+            body: "*"
+    };
+    }
+    rpc DeleteChart (DeleteChartRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/chart/delete"
+            body: "*"
+    };
+    }
+    rpc CreateNamespace (CreateNamespaceRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/namespace/create"
+            body: "*"
+    };
+    }
+    rpc ListNamespace (ListNamespaceRequest) returns (ListNamespaceResponse) {
+        option (google.api.http) = {
+            post: "/namespace/list"
+            body: "*"
+    };
+    }
+    rpc UpdateNamespace (UpdateNamespaceRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/namespace/update"
+            body: "*"
+    };
+    }
+    rpc DeleteNamespace (DeleteNamespaceRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/namespace/delete"
             body: "*"
     };
     }
 }
 
 // The dccn client request message containing the user's token
-message CreateTaskRequest {
+message CreateAppRequest {
     string name = 1;
     string type = 2;
     string image = 3;
@@ -59,27 +107,27 @@ message CreateTaskRequest {
     string chart_repo = 14;
 }
 
-message CreateTaskResponse {
-    string task_id = 1;
+message CreateAppResponse {
+    string app_id = 1;
 }
 
-message TaskListRequest {
-    TaskFilter task_filter = 1;
+message AppListRequest {
+    AppFilter app_filter = 1;
 }
 
-message TaskListResponse {
+message AppListResponse {
     repeated common.proto.App apps = 1;
 }
 
-message TaskFilter {
-    string task_id = 1;
+message AppFilter {
+    string app_id = 1;
 }
 
-message TaskID {
-    string task_id = 1;
+message AppID {
+    string app_id = 1;
 }
 
-message UpdateTaskRequest{
+message UpdateAppRequest{
     string name = 1;
     string type = 2;
     string image = 3;
@@ -93,22 +141,73 @@ message UpdateTaskRequest{
     string chart_name = 12;
     string chart_ver = 13;
     string chart_repo = 14;
-    string task_id = 15;
+    string app_id = 15;
 }
 
-message TaskOverviewResponse{
+message AppOverviewResponse{
   int32 cluster_count = 1;
   int32 environment_count = 2;
   int32 region_count = 3;
-  int32 total_task_count = 4;
-  int32 health_task_count = 5;
+  int32 total_app_count = 4;
+  int32 health_app_count = 5;
 }
 
-message TaskLeaderBoardResponse{
-  repeated TaskLeaderBoardDetail list = 1;
+message AppLeaderBoardResponse{
+  repeated AppLeaderBoardDetail list = 1;
 }
 
-message TaskLeaderBoardDetail{
+message AppLeaderBoardDetail{
   string name = 1;
   double number = 2;
+}
+
+
+message CreateChartRequest {
+    string chart_repo = 1;
+    string chart_ver = 2;
+    string chart_name = 3;
+    bytes chart_file = 4;
+}
+
+message ChartListRequest {
+    string chart_repo = 1;
+    string filter = 2;
+}
+
+message ChartListResponse {
+    repeated common.proto.Chart charts = 1;
+}
+
+message ChartDetailRequest {
+    common.proto.Chart chart = 1;
+}
+
+message ChartDetailResponse {
+    repeated common.proto.ChartDetail chartdetail = 1; //for multiple version
+}
+
+message DeleteChartRequest {
+    string chart_repo = 1;
+    string chart_ver = 2;
+    string chart_name = 3;
+}
+
+message CreateNamespaceRequest {
+    common.proto.Namespace namespace = 1;
+}
+
+message ListNamespaceRequest {
+    string filter = 1;
+}
+
+message ListNamespaceResponse {
+    repeated common.proto.Namespace namespace = 1;
+}
+
+message UpdateNamespaceRequest {
+    common.proto.Namespace namespace = 1;
+}
+
+message DeleteNamespaceRequest {
+    string id = 1;
 }
