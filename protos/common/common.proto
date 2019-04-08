@@ -120,6 +120,8 @@ message Chart {
 	string repo = 2; //chart repo, e.g. app_store or user_catalog               
 	string description = 3;
 	string icon_url = 4; // Chart icon image url
+    string latest_version = 5;
+    string latest_app_version = 6;
 }
 
 message ChartDetail { 
@@ -127,8 +129,6 @@ message ChartDetail {
     string repo = 2;
     string version = 3; //chart version 
 	string app_version = 4; //application version 
-	string readme = 5; // readme.md 
-	string values = 6; // value.yaml
 }
 
 message Namespace {
