@@ -60,8 +60,15 @@ message App {
         Namespace namespace = 4; // request for create new namespace
     }
     AppStatus status = 5;
-    string uid = 6;
-    Chart chart = 7;
+    AppAttributes attribute = 6;
+    string uid = 7;
+    Chart chart = 8;
+}
+
+message AppAttributes {
+    bool hidden = 1;
+    uint64 creation_date = 2; //app creation date
+    uint64 last_modified_date = 3; //app creation date
 }
 
 message GeoLocation {
