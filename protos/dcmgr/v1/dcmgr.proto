@@ -4,11 +4,15 @@ import "common/common.proto";
 
 package dcmgr;
 
-// The k8s service definition.
-service DCStreamer {
-    rpc ServerStream(stream common.proto.DCStream) returns (stream common.proto.DCStream) {} // k8s app stream
+// DC is the communication definition of daemon and dc-facade
+service DC {
+    rpc CreateApp (common.proto.App) returns (common.proto.Empty) {}
+    rpc UpdateApp (common.proto.App) returns (common.proto.Empty) {}
+    rpc PurgeApp (common.proto.AppID) returns (common.proto.Empty) {}
+    rpc Status (common.proto.Empty) returns (common.proto.DCHeartbeatReport) {}
 }
 
+//
 // The dclist service definition.
 service DCAPI {
       rpc DataCenterList (common.proto.Empty) returns (DataCenterListResponse) {}
@@ -25,7 +29,7 @@ message NetworkInfoResponse {
   int32 host_count = 2;
   int32 environment_count = 3;
   int32 container_count = 4;
-  int32 traffic = 5;   //0 unavailable 1 light 2 median 3. heavy 
+  int32 traffic = 5;   //0 unavailable 1 light 2 median 3. heavy
 }
 
 message DataCenterLeaderBoardResponse {

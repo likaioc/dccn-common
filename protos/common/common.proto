@@ -2,16 +2,6 @@ syntax = "proto3";
 
 package common.proto;
 
-// App Events operation code
-enum DCOperation {
-    APP_CREATE = 0;
-    APP_CANCEL = 1;
-    APP_UPDATE = 2;
-    HEARTBEAT = 3;
-    NS_CREATE = 4;
-    NS_DELETE = 5;
-    NS_UPDATE = 6;
-}
 
 // Hub app status
 enum AppStatus {
@@ -81,11 +71,14 @@ message AppAttributes {
     uint64 creation_date = 2; //app creation date
     uint64 last_modified_date = 3; //app creation date
 }
+message AppID {
+    string id = 1;
+}
 
 message GeoLocation {
     string lat = 1; // latitude
     string lng = 2; // longitude
-    string country = 3; // US 
+    string country = 3; // US
 }
 
 // Data Center structure
@@ -110,34 +103,18 @@ message DCHeartbeatReport {
     uint64 report_time = 3;
 }
 
-message AppReport {
-    AppDeployment app_deployment = 1; //json string for Metrics structure which defined in constants
-    string report = 2;
-}
-
-// data center communicate with dc manager
-message DCStream {
-    DCOperation op_type = 1; // HeartBeat or app operation
-
-    oneof op_payload {
-        AppDeployment app_deployment = 2; // Deploy app action
-        AppReport app_report = 3;
-        DataCenter data_center = 4; // HearBeat Info with DataCenter message
-        Namespace namespace = 5;
-    }
-}
 
 message Chart {
-	string name = 1; //chart name                   
-	string repo = 2; //chart repo, e.g. app_store or user_catalog               
+	string name = 1; //chart name
+	string repo = 2; //chart repo, e.g. app_store or user_catalog
 	string description = 3;
 	string icon_url = 4; // Chart icon image url
     string latest_version = 5;
     string latest_app_version = 6;
 }
 
-message ChartDetail { 
-    string name = 1; 
+message ChartDetail {
+    string name = 1;
     string repo = 2;
     string version = 3; //chart version 
 	string app_version = 4; //application version 
