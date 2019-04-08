@@ -86,10 +86,13 @@ message ChartListResponse {
 
 message ChartDetailRequest {
     common.proto.Chart chart = 1;
+    string show_version = 2;
 }
 
 message ChartDetailResponse {
     repeated common.proto.ChartDetail chartdetail = 1; //for multiple version
+    string show_readme = 2; // readme.md for current version 
+	string show_values = 3; // value.yaml for current version 
 }
 
 message DeleteChartRequest {
