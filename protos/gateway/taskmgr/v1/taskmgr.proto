@@ -193,7 +193,14 @@ message DeleteChartRequest {
 }
 
 message CreateNamespaceRequest {
-    common.proto.Namespace namespace = 1;
+    string id = 1; //short hash of uid+name+cluster_id
+	string name = 2;
+	string cluster_id = 3; //id of cluster
+    string cluster_name = 4; //name of cluster
+	uint64 creation_date = 5;
+    float cpu_limit = 6;
+    string mem_limit = 7;
+    string storage_limit = 8;
 }
 
 message ListNamespaceRequest {
