@@ -94,17 +94,22 @@ service AppMgr {
 message CreateAppRequest {
     string name = 1;
     string type = 2;
-    string image = 3;
-    string schedule = 4;
-    int32 replica = 5;
-    string data_center_name = 6;
-    int32 cpu = 7;
-    int32 memory = 8;
-    int32 disk = 9;
-    string uid = 11;
-    string chart_name = 12;
-    string chart_ver = 13;
-    string chart_repo = 14;
+    uint64 creation_date = 3;
+    uint64 last_modified_date = 4;
+    string uid = 5;
+    string chartname = 6;
+    string chartrepo = 7;
+    string chartdescription = 8;
+    string icon_url = 9;
+    string namespace_id = 10;
+    string ns_id = 11; 
+	string ns_name = 12;
+	string ns_cluster_id = 13; //id of cluster
+    string ns_cluster_name = 14; //name of cluster
+	uint64 ns_creation_date = 15;
+    float ns_cpu_limit = 16;
+    string ns_mem_limit = 17;
+    string ns_storage_limit = 18;
 }
 
 message CreateAppResponse {
