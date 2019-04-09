@@ -222,7 +222,7 @@ message NamespaceListResponse {
 }
 
 message UpdateNamespaceRequest {
-    common.proto.Namespace namespace = 1;
+    common.proto.Namespace namespaces = 1;
 }
 
 message DeleteNamespaceRequest {
