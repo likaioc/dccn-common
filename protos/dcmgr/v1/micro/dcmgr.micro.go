@@ -38,7 +38,7 @@ type DCService interface {
 	CreateApp(ctx context.Context, in *common.App, opts ...client.CallOption) (*common.Empty, error)
 	UpdateApp(ctx context.Context, in *common.App, opts ...client.CallOption) (*common.Empty, error)
 	PurgeApp(ctx context.Context, in *common.AppID, opts ...client.CallOption) (*common.Empty, error)
-	Status(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*common.DCHeartbeatReport, error)
+	Status(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*common.DataCenter, error)
 }
 
 type dCService struct {
@@ -89,9 +89,9 @@ func (c *dCService) PurgeApp(ctx context.Context, in *common.AppID, opts ...clie
 	return out, nil
 }
 
-func (c *dCService) Status(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*common.DCHeartbeatReport, error) {
+func (c *dCService) Status(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*common.DataCenter, error) {
 	req := c.c.NewRequest(c.name, "DC.Status", in)
-	out := new(common.DCHeartbeatReport)
+	out := new(common.DataCenter)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ type DCHandler interface {
 	CreateApp(context.Context, *common.App, *common.Empty) error
 	UpdateApp(context.Context, *common.App, *common.Empty) error
 	PurgeApp(context.Context, *common.AppID, *common.Empty) error
-	Status(context.Context, *common.Empty, *common.DCHeartbeatReport) error
+	Status(context.Context, *common.Empty, *common.DataCenter) error
 }
 
 func RegisterDCHandler(s server.Server, hdlr DCHandler, opts ...server.HandlerOption) error {
@@ -113,7 +113,7 @@ func RegisterDCHandler(s server.Server, hdlr DCHandler, opts ...server.HandlerOp
 		CreateApp(ctx context.Context, in *common.App, out *common.Empty) error
 		UpdateApp(ctx context.Context, in *common.App, out *common.Empty) error
 		PurgeApp(ctx context.Context, in *common.AppID, out *common.Empty) error
-		Status(ctx context.Context, in *common.Empty, out *common.DCHeartbeatReport) error
+		Status(ctx context.Context, in *common.Empty, out *common.DataCenter) error
 	}
 	type DC struct {
 		dC
@@ -138,7 +138,7 @@ func (h *dCHandler) PurgeApp(ctx context.Context, in *common.AppID, out *common.
 	return h.DCHandler.PurgeApp(ctx, in, out)
 }
 
-func (h *dCHandler) Status(ctx context.Context, in *common.Empty, out *common.DCHeartbeatReport) error {
+func (h *dCHandler) Status(ctx context.Context, in *common.Empty, out *common.DataCenter) error {
 	return h.DCHandler.Status(ctx, in, out)
 }
 

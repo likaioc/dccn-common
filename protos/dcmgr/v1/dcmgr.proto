@@ -9,7 +9,7 @@ service DC {
     rpc CreateApp (common.proto.App) returns (common.proto.Empty) {}
     rpc UpdateApp (common.proto.App) returns (common.proto.Empty) {}
     rpc PurgeApp (common.proto.AppID) returns (common.proto.Empty) {}
-    rpc Status (common.proto.Empty) returns (common.proto.DCHeartbeatReport) {}
+    rpc Status (common.proto.Empty) returns (common.proto.DataCenter) {}
 }
 
 //
