@@ -76,6 +76,7 @@ func Send(topic string, e interface{}) {
 // support failed reconnect function
 func Receive(topic string, handler interface{}) {
 	var rabbitCloseError chan *amqp.Error
+	WriteLog("RabbitMQ Listening " + topic)
 
 	for {
 		var conn *amqp.Connection
@@ -191,7 +192,7 @@ func Receive(topic string, handler interface{}) {
 			}
 		}()
 
-		WriteLog(" [*] Waiting for messages. To exit press CTRL+C")
+		//WriteLog(" [*] Waiting for messages. To exit press CTRL+C")
 		msg := <-rabbitCloseError
 		//conn.Close()
 		logStr := fmt.Sprintf("receive rabbitMQ close messages, error : %s ", msg.Reason)
