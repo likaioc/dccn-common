@@ -11,3 +11,5 @@ protos/google/
 **/node_modules
 frontend/**/dist
 frontend/**/package-lock.json
+
+**/vendor/
