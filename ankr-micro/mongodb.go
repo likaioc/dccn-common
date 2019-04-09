@@ -2,15 +2,14 @@ package ankrmicro
 
 import (
 	"fmt"
-	"gopkg.in/mgo.v2"
 	"sync"
+
+	"gopkg.in/mgo.v2"
 )
 
-var MongoDBHost = "127.0.0.1"
+var MongoDBHost string
 var instance *mgo.Database
 var once sync.Once
-
-
 
 func GetCollection(collection string) *mgo.Collection {
 	db := GetDBInstance()
@@ -18,7 +17,6 @@ func GetCollection(collection string) *mgo.Collection {
 	return c
 
 }
-
 
 func GetDBInstance() *mgo.Database {
 	once.Do(func() {

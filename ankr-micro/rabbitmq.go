@@ -2,16 +2,18 @@ package ankrmicro
 
 import (
 	"fmt"
-	"github.com/golang/protobuf/proto"
-	"github.com/streadway/amqp"
 	"log"
 	"reflect"
 	"time"
+
+	"github.com/golang/protobuf/proto"
+	"github.com/streadway/amqp"
 )
 
+// RabbitMQHost contains the endpoint of RabbitMQ broker
+var RabbitMQHost string
 
-var defaultExchange = "micro"
-
+var DefaultExchange = "micro"
 
 func failOnError(err error, msg string) {
 	if err != nil {
@@ -19,8 +21,6 @@ func failOnError(err error, msg string) {
 		WriteLog(logStr)
 	}
 }
-
-
 
 func getRabbitMQHost() string {
 	config := GetConfig()
@@ -30,7 +30,7 @@ func getRabbitMQHost() string {
 	return host
 }
 
-//send message to RabbitMQ queue
+// Send function send message to RabbitMQ queue
 func Send(topic string, e interface{}) {
 
 	conn, err := amqp.Dial(getRabbitMQHost())
@@ -42,13 +42,13 @@ func Send(topic string, e interface{}) {
 	defer ch.Close()
 
 	err = ch.ExchangeDeclare(
-		defaultExchange, // name
-		"topic",      // type
-		false,          // durable
-		false,         // auto-deleted
-		false,         // internal
-		false,         // no-wait
-		nil,           // arguments
+		DefaultExchange, // name
+		"topic",         // type
+		false,           // durable
+		false,           // auto-deleted
+		false,           // internal
+		false,           // no-wait
+		nil,             // arguments
 	)
 
 	b, _ := proto.Marshal(e.(proto.Message))
@@ -61,10 +61,10 @@ func Send(topic string, e interface{}) {
 	m.Headers["Content-Type"] = "application/octet-stream"
 
 	err = ch.Publish(
-		defaultExchange,     // exchange
-		topic, // routing key
-		false,  // mandatory
-		false,  // immediate
+		DefaultExchange, // exchange
+		topic,           // routing key
+		false,           // mandatory
+		false,           // immediate
 		m)
 
 	logstr := fmt.Sprintf(" [x] Sent %s to  %+v ", topic, b)
@@ -72,7 +72,8 @@ func Send(topic string, e interface{}) {
 	failOnError(err, "Failed to publish a message")
 }
 
-//receive messages from RabbitMQ queue, support failed reconnect function
+// Receive function receives messages from RabbitMQ queue,
+// support failed reconnect function
 func Receive(topic string, handler interface{}) {
 	var rabbitCloseError chan *amqp.Error
 
@@ -101,29 +102,25 @@ func Receive(topic string, handler interface{}) {
 
 		//defer ch.Close()
 
-
 		err = ch.ExchangeDeclare(
-			defaultExchange, // name
-			"topic",      // type
-			false,          // durable
-			false,         // auto-deleted
-			false,         // internal
-			false,         // no-wait
-			nil,           // arguments
+			DefaultExchange, // name
+			"topic",         // type
+			false,           // durable
+			false,           // auto-deleted
+			false,           // internal
+			false,           // no-wait
+			nil,             // arguments
 		)
-
-
 
 		if err != nil {
 			log.Panicf(" ExchangeDeclare error  %s \n", err)
 		}
 
-
 		rabbitCloseError = make(chan *amqp.Error)
 		conn.NotifyClose(rabbitCloseError)
 
 		q, err := ch.QueueDeclare(
-			"", // name
+			"",    // name
 			true,  // durable
 			false, // delete when unused
 			false, // exclusive
@@ -133,8 +130,8 @@ func Receive(topic string, handler interface{}) {
 		failOnError(err, "Failed to declare a queue")
 
 		err = ch.QueueBind(
-			q.Name,        // queue name
-			topic,             // routing key
+			q.Name,  // queue name
+			topic,   // routing key
 			"micro", // exchange
 			false,
 			nil)
@@ -157,26 +154,22 @@ func Receive(topic string, handler interface{}) {
 		//hdlr := reflect.ValueOf(handler)
 		//name := reflect.Indirect(hdlr).Type().Name()
 
-	//	for m := 0; m < typ.NumMethod(); m++ {
-			method := typ.Method(0)   // only first method will be callback
-			methodFunc := method.Func
-			//fmt.Printf("method wlll be callback %+v\n", method)
-			if method.Type.NumIn() != 2 {
-				fmt.Printf("subscribe callback method only have one parameter, real %d \n", method.Type.NumIn())
-				return
-			}
-			reqType := method.Type.In(1)
+		//	for m := 0; m < typ.NumMethod(); m++ {
+		method := typ.Method(0) // only first method will be callback
+		methodFunc := method.Func
+		//fmt.Printf("method wlll be callback %+v\n", method)
+		if method.Type.NumIn() != 2 {
+			fmt.Printf("subscribe callback method only have one parameter, real %d \n", method.Type.NumIn())
+			return
+		}
+		reqType := method.Type.In(1)
 
-			//fmt.Printf("reqType %+v\n", reqType)
-
-
-
+		//fmt.Printf("reqType %+v\n", reqType)
 
 		go func() {
 			for d := range msgs {
 				logStr := fmt.Sprintf("Received a message: %s", d.Body)
 				WriteLog(logStr)
-
 
 				var req reflect.Value
 				if reqType.Kind() == reflect.Ptr {
@@ -188,7 +181,6 @@ func Receive(topic string, handler interface{}) {
 				proto.Unmarshal(d.Body, newP2.(proto.Message))
 
 				//fmt.Printf("req %+v \n", newP2)
-
 
 				var vals []reflect.Value
 				handlerValue := reflect.ValueOf(handler)
