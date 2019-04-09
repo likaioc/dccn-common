@@ -20,7 +20,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-// Task Events operation code
+// App Events operation code
 type DCOperation int32
 
 const (

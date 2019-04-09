@@ -1,35 +1,35 @@
 package ankr_const
 
 // RabbitQ name
-const TaskManagerQueueName = "task_manager"
+const AppManagerQueueName = "app_manager"
 const K8sAdopterQueueName = "k8s_adopter"
 
 // Request Types
-const RequestTypeAddTask = "AddTask"
-const RequestTypeTaskList = "TaskListRequest"
-const RequestTypeCancelTask = "CancelTaskRequest"
+const RequestTypeAddApp = "AddApp"
+const RequestTypeAppList = "AppListRequest"
+const RequestTypeCancelApp = "CancelAppRequest"
 
-// Task Events
-const NewTaskEvent = "New"
-const UpdateTaskEvent = "Update"
-const CancelTaskEvent = "Cancel"
+// App Events
+const NewAppEvent = "New"
+const UpdateAppEvent = "Update"
+const CancelAppEvent = "Cancel"
 
-// Hub task status
-const TaskStatusNew = "new"
-const TaskStatusRunning = "running"
-const TaskStatusStartFailed = "startFailed"
-const TaskStatusUpdating = "updating"
-const TaskStatusUpdateFailed = "updateFailed"
-const TaskStatusCancelled = "cancelled"
-const TaskStatusDone = "done"
+// Hub app status
+const AppStatusNew = "new"
+const AppStatusRunning = "running"
+const AppStatusStartFailed = "startFailed"
+const AppStatusUpdating = "updating"
+const AppStatusUpdateFailed = "updateFailed"
+const AppStatusCancelled = "cancelled"
+const AppStatusDone = "done"
 
-// Data center task status
-const DataCenterTaskStartSuccess = "StartSuccess"
-const DataCenterTaskStartFailure = "StartFailure"
-const DataCenterTaskUpdateSuccess = "UpdateSuccess"
-const DataCenterTaskUpdateFailure = "UpdateFailure"
-const DataCenterTaskDone = "Done"
-const DataCenterTaskCancelled = "Cancelled"
+// Data center app status
+const DataCenterAppStartSuccess = "StartSuccess"
+const DataCenterAppStartFailure = "StartFailure"
+const DataCenterAppUpdateSuccess = "UpdateSuccess"
+const DataCenterAppUpdateFailure = "UpdateFailure"
+const DataCenterAppDone = "Done"
+const DataCenterAppCancelled = "Cancelled"
 
 // Data center status
 const DataCenteStatusOnLine = "available"
@@ -42,9 +42,9 @@ const CliReplyStatusFailure = "Failure"
 // CLI errors
 const CliErrorReasonDataCenterNotExist = "DataCenter does not exist"
 const CliErrorReasonUserNotExist = "Token error, can not find user"
-const CliErrorReasonTaskNotExist = "Task does not exist"
-const CliErrorReasonUserNotOwn = "User does not own this task"
-const CliErrorReasonUpdateFailed = "Task can not be updated"
+const CliErrorReasonAppNotExist = "App does not exist"
+const CliErrorReasonUserNotOwn = "User does not own this app"
+const CliErrorReasonUpdateFailed = "App can not be updated"
 
 const CliErrorReasonUserExit= "User already existed"
 const CliErrorReasonPasswordError = "Password does not match"

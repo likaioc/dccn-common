@@ -6,7 +6,7 @@ package gwexdcmgr;
 
 // The k8s service definition.
 service DCStreamer {
-    rpc ServerStream(stream common.proto.DCStream) returns (stream common.proto.DCStream) {} // k8s task stream
+    rpc ServerStream(stream common.proto.DCStream) returns (stream common.proto.DCStream) {} // k8s app stream
 }
 
 // The dclist service definition.

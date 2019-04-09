@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package common.proto;
 
-// Task Events operation code
+// App Events operation code
 enum DCOperation {
     TASK_CREATE = 0;
     TASK_CANCEL = 1;
@@ -82,8 +82,8 @@ message DataCenter {
 
 message DataCenterAttributes {
     string wallet_address = 1;  //datacenter wallet address
-    uint64 creation_date = 2; //task creation date
-    uint64 last_modified_date = 3; //task creation date
+    uint64 creation_date = 2; //app creation date
+    uint64 last_modified_date = 3; //app creation date
 }
 
 message DCHeartbeatReport {
@@ -102,7 +102,7 @@ message DCStream {
     DCOperation op_type = 1; // HeartBeat or app operation
 
     oneof op_payload {
-        App app = 2; // Deploy task action
+        App app = 2; // Deploy app action
         AppReport app_report = 3;
         DataCenter data_center = 4; // HearBeat Info with DataCenter message
     }

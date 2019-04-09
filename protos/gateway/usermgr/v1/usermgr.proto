@@ -123,8 +123,8 @@ message UserAttributes {
     string name = 1;
     // public key of tendermint wallet
     string pub_key = 2;
-    uint64 creation_date = 3; //task creation date
-    uint64 last_modified_date = 4; //task creation date
+    uint64 creation_date = 3; //app creation date
+    uint64 last_modified_date = 4; //app creation date
     repeated UserAttribute extra_fields = 5; // extra field
 }
 

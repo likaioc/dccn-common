@@ -353,15 +353,15 @@
         ]
       }
     },
-    "/task/create": {
+    "/app/create": {
       "post": {
-        "summary": "Sends a create task request",
-        "operationId": "createtask",
+        "summary": "Sends a create app request",
+        "operationId": "createapp",
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/CreateTaskResponse"
+              "$ref": "#/definitions/CreateAppResponse"
             }
           }
         },
@@ -440,14 +440,14 @@
           }
         ],
         "tags": [
-          "Taskmgr"
+          "Appmgr"
         ]
       }
     },
-    "/task/update": {
+    "/app/update": {
       "post": {
-        "summary": "Sends an update task request",
-        "operationId": "updatetask",
+        "summary": "Sends an update app request",
+        "operationId": "updateapp",
         "responses": {
           "200": {
             "description": "",
@@ -530,21 +530,21 @@
             "type": "string"
           },
           {
-            "name": "task_id",
+            "name": "app_id",
             "in": "query",
             "required": true,
             "type": "string"
           }
         ],
         "tags": [
-          "Taskmgr"
+          "Appmgr"
         ]
       }
     },
-    "/task/cancel": {
+    "/app/cancel": {
       "post": {
-        "summary": "Sends a cancel task request",
-        "operationId": "canceltask",
+        "summary": "Sends a cancel app request",
+        "operationId": "cancelapp",
         "responses": {
           "200": {
             "description": "",
@@ -555,21 +555,21 @@
         },
         "parameters": [
           {
-            "name": "task_id",
+            "name": "app_id",
             "in": "query",
             "required": true,
             "type": "string"
           }
         ],
         "tags": [
-          "Taskmgr"
+          "Appmgr"
         ]
       }
     },
-    "/task/purge": {
+    "/app/purge": {
       "post": {
-        "summary": "Sends a purge task request",
-        "operationId": "purgetask",
+        "summary": "Sends a purge app request",
+        "operationId": "purgeapp",
         "responses": {
           "200": {
             "description": "",
@@ -580,75 +580,75 @@
         },
         "parameters": [
           {
-            "name": "task_id",
+            "name": "app_id",
             "in": "query",
             "required": true,
             "type": "string"
           }
         ],
         "tags": [
-          "Taskmgr"
+          "Appmgr"
         ]
       }
     },
-    "/task/list": {
+    "/app/list": {
       "post": {
-        "summary": "Sends a list tasks request",
-        "operationId": "tasklist",
+        "summary": "Sends a list apps request",
+        "operationId": "applist",
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/TaskListResponse"
+              "$ref": "#/definitions/AppListResponse"
             }
           }
         },
         "parameters": [
           {
-            "name": "task_id",
+            "name": "app_id",
             "in": "query",
             "required": true,
             "type": "string"
           }
         ],
         "tags": [
-          "Taskmgr"
+          "Appmgr"
         ]
       }
     },
-    "/task/overview": {
+    "/app/overview": {
       "get": {
-        "summary": "Sends a task overview request",
-        "operationId": "taskoverview",
+        "summary": "Sends a app overview request",
+        "operationId": "appoverview",
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/TaskOverviewResponse"
+              "$ref": "#/definitions/AppOverviewResponse"
             }
           }
         },
         "parameters": [],
         "tags": [
-          "Taskmgr"
+          "Appmgr"
         ]
       }
     },
-    "/task/leaderboard": {
+    "/app/leaderboard": {
       "get": {
-        "summary": "Sends a task leaderboard request",
-        "operationId": "taskleaderboard",
+        "summary": "Sends a app leaderboard request",
+        "operationId": "appleaderboard",
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/TaskLeaderboardResponse"
+              "$ref": "#/definitions/AppLeaderboardResponse"
             }
           }
         },
         "parameters": [],
         "tags": [
-          "Taskmgr"
+          "Appmgr"
         ]
       }
     }
@@ -678,7 +678,7 @@
       },
       "description": "This message containing datacenterdetail."
     },
-    "task": {
+    "app": {
       "type": "object",
       "properties": {
         "id": {
@@ -696,7 +696,7 @@
         "status": {
           "type": "string"
         },
-        "task_attributes": {
+        "app_attributes": {
           "type": "object",
           "properties": {
             "replica": {
@@ -884,10 +884,10 @@
       "title": "DcLeaderBoard information",
       "description": "The response message containing the DcLeaderboard information"
     },
-    "TaskLeaderboardResponse": {
+    "AppLeaderboardResponse": {
       "type": "object",
       "properties": {
-        "task_leader_board_detail": {
+        "app_leader_board_detail": {
           "type": "array",
           "items": {
             "$ref": "#/components/dcdetail"
@@ -909,20 +909,20 @@
       "title": "DcList Information",
       "description": "The response message containing the DcList information"
     },
-    "TaskListResponse": {
+    "AppListResponse": {
       "type": "object",
       "properties": {
-        "tasklist": {
+        "applist": {
           "type": "array",
           "items": {
-            "$ref": "#/components/task"
+            "$ref": "#/components/app"
           }
         }
       },
-      "title": "TaskList Information",
-      "description": "The response message containing the TaskList information"
+      "title": "AppList Information",
+      "description": "The response message containing the AppList information"
     },
-    "TaskOverviewResponse": {
+    "AppOverviewResponse": {
       "type": "object",
       "properties": {
         "cluster_count": {
@@ -934,25 +934,25 @@
         "region_count": {
           "type": "integer"
         },
-        "total_task_count": {
+        "total_app_count": {
           "type": "integer"
         },
-        "health_task_count": {
+        "health_app_count": {
           "type": "integer"
         }
       },
-      "title": "TaskOverview Information",
-      "description": "The response message containing the TaskOverview information"
+      "title": "AppOverview Information",
+      "description": "The response message containing the AppOverview information"
     },
-    "CreateTaskResponse": {
+    "CreateAppResponse": {
       "type": "object",
       "properties": {
-        "task_id": {
+        "app_id": {
           "type": "string"
         }
       },
-      "title": "Create Task Response",
-      "description": "The response message containing the returned taskid"
+      "title": "Create App Response",
+      "description": "The response message containing the returned appid"
     }
   }
 }
