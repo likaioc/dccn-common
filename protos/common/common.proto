@@ -70,7 +70,7 @@ message AppDeployment {
     AppStatus status = 4;
     AppAttributes attributes = 5;
     string uid = 6;
-    Chart chart = 7;
+    ChartDetail chart_detail = 7;
 }
 
 message AppAttributes {
