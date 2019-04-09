@@ -4,8 +4,10 @@
 *.swo
 .vscode
 .idea
+
+protos/google/
+
 /vendor
 **/node_modules
 frontend/**/dist
 frontend/**/package-lock.json
-protos/google/
