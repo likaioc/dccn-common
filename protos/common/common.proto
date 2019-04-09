@@ -60,7 +60,7 @@ message App {
         Namespace namespace = 4; // request for create new namespace
     }
     AppStatus status = 5;
-    AppAttributes attribute = 6;
+    AppAttributes attributes = 6;
     string uid = 7;
     Chart chart = 8;
 }
