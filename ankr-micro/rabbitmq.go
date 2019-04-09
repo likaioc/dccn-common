@@ -24,7 +24,7 @@ func failOnError(err error, msg string) {
 
 func getRabbitMQHost() string {
 	config := GetConfig()
-	host := "amqp://guest:guest@" + config.Rabbitmq + "/"
+	host := config.Rabbitmq
 	//logStr := fmt.Sprintf("RabbitMQ hostname : %s", host)
 	//WriteLog(logStr)
 	return host

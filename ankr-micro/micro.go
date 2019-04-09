@@ -22,6 +22,6 @@ func NewPublisher(topic string) *Publisher {
 
 // RegisterSubscriber is syntactic sugar for registering a subscriber
 func RegisterSubscriber(topic string, handler interface{}) error {
-	Receive(topic, handler)
+	go Receive(topic, handler)
 	return nil
 }
