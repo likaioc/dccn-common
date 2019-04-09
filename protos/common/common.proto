@@ -37,10 +37,7 @@ enum NamespaceStatus {
     NS_CANCELLING = 7;
     NS_CANCELLED = 8;
     NS_CANCEL_FAILED = 9;
-    NS_DONE = 10;
 }
-
-
 
 // Data center status
 enum DCStatus {
@@ -63,6 +60,17 @@ message App {
     AppAttributes attributes = 6;
     string uid = 7;
     Chart chart = 8;
+}
+
+// App Deployment structure
+message AppDeployment {
+    string id = 1;
+    string name = 2; // name of the app
+    Namespace namespace = 3; // request for create new namespace
+    AppStatus status = 4;
+    AppAttributes attributes = 5;
+    string uid = 6;
+    Chart chart = 7;
 }
 
 message AppAttributes {
