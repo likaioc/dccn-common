@@ -222,7 +222,9 @@ message NamespaceListResponse {
 }
 
 message UpdateNamespaceRequest {
-    common.proto.Namespace namespaces = 1;
+    float cpu_limit = 1;
+    string mem_limit = 2;
+    string storage_limit = 3;
 }
 
 message DeleteNamespaceRequest {
