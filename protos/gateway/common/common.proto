@@ -52,7 +52,7 @@ message Empty {}
 message App {
     string id = 1;
     string name = 2; // name of the app
-    oneof type_data {
+    oneof namespace_data {
         string namespace_id = 3; // namespace id
         Namespace namespace = 4; // request for create new namespace
     }
