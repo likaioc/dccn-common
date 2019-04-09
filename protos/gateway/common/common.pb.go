@@ -213,7 +213,7 @@ func (m *Empty) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Empty proto.InternalMessageInfo
 
-// App Data structure
+// App Data structure for external usage
 type App struct {
 	Id   string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
@@ -342,7 +342,7 @@ func (*App) XXX_OneofWrappers() []interface{} {
 	}
 }
 
-// App Deployment structure
+// App Deployment structure for internal use
 type AppDeployment struct {
 	Id                   string         `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name                 string         `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`

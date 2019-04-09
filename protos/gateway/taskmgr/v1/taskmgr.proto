@@ -99,8 +99,8 @@ message CreateAppRequest {
     string uid = 5;
     string chartname = 6;
     string chartrepo = 7;
-    string chartdescription = 8;
-    string icon_url = 9;
+    string chartversion = 8;
+    string chartappversion = 9;
     string namespace_id = 10;
     string ns_id = 11; 
 	string ns_name = 12;
