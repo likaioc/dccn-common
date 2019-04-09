@@ -59,7 +59,7 @@ message App {
     AppStatus status = 5;
     AppAttributes attributes = 6;
     string uid = 7;
-    Chart chart = 8;
+    ChartDetail chart_detail = 8;
 }
 
 // App Deployment structure
