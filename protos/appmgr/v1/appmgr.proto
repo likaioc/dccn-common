@@ -36,7 +36,7 @@ message AppListRequest {
 }
 
 message AppListResponse {
-    repeated common.proto.App apps = 1;
+    repeated common.proto.AppDeployment app_deployments = 1;
 }
 
 message AppFilter {
@@ -48,7 +48,7 @@ message AppID {
 }
 
 message UpdateAppRequest{
-    common.proto.App app = 1;
+    common.proto.AppDeployment app_deployment = 1;
 }
 
 message AppOverviewResponse{
