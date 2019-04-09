@@ -108,7 +108,7 @@ message DCHeartbeatReport {
 }
 
 message AppReport {
-    App app = 1; //json string for Metrics structure which defined in constants
+    AppDeployment app_deployment = 1; //json string for Metrics structure which defined in constants
     string report = 2;
 }
 
