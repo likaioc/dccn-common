@@ -110,7 +110,7 @@ message NamespaceListRequest {
 }
 
 message NamespaceListResponse {
-    repeated common.proto.Namespace namespace = 1;
+    repeated common.proto.Namespace namespaces = 1;
 }
 
 message UpdateNamespaceRequest {
