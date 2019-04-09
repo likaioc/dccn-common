@@ -415,6 +415,39 @@ func GetHistoryReceive(ip, port, address string, prove bool, page, perPage int) 
 	return btr, err
 }
 
+/**
+based on the datacentername and namespace, return metering history. 
+
+Parameter	Type	Default	Required	Description
+query		string	""	true		Query
+prove		bool	false	false		Include proofs of the transactions inclusion in the block
+page		int	1	false		Page number (1-based)
+per_page	int	30	false		Number of entries per page (max: 100)
+
+TxSearch API detail:
+https://tendermint.com/rpc/#txsearch
+*/
+func GetHistoryMetering(ip, port, dc_name, namespace string, prove bool, page, perPage int) (*ctypes.ResultTxSearch, error) {
+	if page == 0 {
+		page = 1
+	}
+
+	if (perPage == 0) {
+		perPage = 30
+	}
+
+	cl := getHTTPClient(ip, port)
+
+	//curl "localhost:26657/tx_search?query=\"app.metering='datacenter_name:namespace'\"&prove=true"
+	query := "app.metering=" + "'" + dc_name + ":" + namespace + "'"
+	btr, err := cl.TxSearch(query, prove, page, perPage)
+	if err != nil {
+		return nil, err
+	}
+
+	return btr, err
+}
+
 /*
 query ANKR ERC20 balance and current block. block can used to calculate confirmations.
 DEFAULT_ETHEREUM_URL is not guaranteed to be available. Callers should try other network if not available.
@@ -481,6 +514,7 @@ func GetERC20BalanceBlock(ethereum_url, address string) (balance, block string, 
 	}
 
 	return lbalance, block, nil
+
 }
 
 /* helper functions */
