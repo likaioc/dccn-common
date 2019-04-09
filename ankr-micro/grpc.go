@@ -9,11 +9,15 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+// GRPCService struct keep track of the server data struction
+// of gRPC
 type GRPCService struct {
 	listener net.Listener
 	s        *grpc.Server
 }
 
+// NewGRPCService creates a new gRPC service and returns the
+// the gRPC Server
 func NewGRPCService() GRPCService {
 	s := GRPCService{}
 	lis, err := net.Listen("tcp", config.Listen)
@@ -26,10 +30,12 @@ func NewGRPCService() GRPCService {
 
 }
 
+// GetServer gets the underlying gPRC server instance
 func (s *GRPCService) GetServer() *grpc.Server {
 	return s.s
 }
 
+// Start will initiate the gPRC serving proces
 func (s *GRPCService) Start() {
 	// Register reflection service on gRPC server.
 	reflection.Register(s.s)

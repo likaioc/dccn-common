@@ -1,14 +1,13 @@
-// Package micro is a pluggable framework for microservices
 package ankrmicro
 
+// Publisher is syntactic sugar for publishing
 type Publisher struct {
 	topic string
-	//Publish(topic string) error
 }
 
+// Publish pushes data to a broker
 func (p *Publisher) Publish(data interface{}) {
 	Send(p.topic, data)
-
 }
 
 // NewService creates and returns a new Service based on the packages within.

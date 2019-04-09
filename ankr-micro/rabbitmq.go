@@ -13,7 +13,7 @@ import (
 // RabbitMQHost contains the endpoint of RabbitMQ broker
 var RabbitMQHost string
 
-var DefaultExchange = "micro"
+var defaultExchange = "micro"
 
 func failOnError(err error, msg string) {
 	if err != nil {
@@ -42,7 +42,7 @@ func Send(topic string, e interface{}) {
 	defer ch.Close()
 
 	err = ch.ExchangeDeclare(
-		DefaultExchange, // name
+		defaultExchange, // name
 		"topic",         // type
 		false,           // durable
 		false,           // auto-deleted
@@ -61,7 +61,7 @@ func Send(topic string, e interface{}) {
 	m.Headers["Content-Type"] = "application/octet-stream"
 
 	err = ch.Publish(
-		DefaultExchange, // exchange
+		defaultExchange, // exchange
 		topic,           // routing key
 		false,           // mandatory
 		false,           // immediate
@@ -103,7 +103,7 @@ func Receive(topic string, handler interface{}) {
 		//defer ch.Close()
 
 		err = ch.ExchangeDeclare(
-			DefaultExchange, // name
+			defaultExchange, // name
 			"topic",         // type
 			false,           // durable
 			false,           // auto-deleted

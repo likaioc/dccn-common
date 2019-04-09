@@ -7,17 +7,19 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
+// MongoDBHost saves the endpoint of mongo db
 var MongoDBHost string
 var instance *mgo.Database
 var once sync.Once
 
+// GetCollection return the mongo db collection instance
 func GetCollection(collection string) *mgo.Collection {
 	db := GetDBInstance()
 	c := db.C(collection)
 	return c
-
 }
 
+// GetDBInstance return an instance of mongo db instance
 func GetDBInstance() *mgo.Database {
 	once.Do(func() {
 		instance = mongodbconnect()
