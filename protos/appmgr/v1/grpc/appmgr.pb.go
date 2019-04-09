@@ -801,78 +801,78 @@ func (m *CreateNamespaceRequest) GetNamespace() *common.Namespace {
 	return nil
 }
 
-type ListNamespaceRequest struct {
+type NamespaceListRequest struct {
 	Filter               string   `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ListNamespaceRequest) Reset()         { *m = ListNamespaceRequest{} }
-func (m *ListNamespaceRequest) String() string { return proto.CompactTextString(m) }
-func (*ListNamespaceRequest) ProtoMessage()    {}
-func (*ListNamespaceRequest) Descriptor() ([]byte, []int) {
+func (m *NamespaceListRequest) Reset()         { *m = NamespaceListRequest{} }
+func (m *NamespaceListRequest) String() string { return proto.CompactTextString(m) }
+func (*NamespaceListRequest) ProtoMessage()    {}
+func (*NamespaceListRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8b7c3ca3eef8e484, []int{17}
 }
 
-func (m *ListNamespaceRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListNamespaceRequest.Unmarshal(m, b)
+func (m *NamespaceListRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_NamespaceListRequest.Unmarshal(m, b)
 }
-func (m *ListNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListNamespaceRequest.Marshal(b, m, deterministic)
+func (m *NamespaceListRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_NamespaceListRequest.Marshal(b, m, deterministic)
 }
-func (m *ListNamespaceRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListNamespaceRequest.Merge(m, src)
+func (m *NamespaceListRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceListRequest.Merge(m, src)
 }
-func (m *ListNamespaceRequest) XXX_Size() int {
-	return xxx_messageInfo_ListNamespaceRequest.Size(m)
+func (m *NamespaceListRequest) XXX_Size() int {
+	return xxx_messageInfo_NamespaceListRequest.Size(m)
 }
-func (m *ListNamespaceRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListNamespaceRequest.DiscardUnknown(m)
+func (m *NamespaceListRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceListRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListNamespaceRequest proto.InternalMessageInfo
+var xxx_messageInfo_NamespaceListRequest proto.InternalMessageInfo
 
-func (m *ListNamespaceRequest) GetFilter() string {
+func (m *NamespaceListRequest) GetFilter() string {
 	if m != nil {
 		return m.Filter
 	}
 	return ""
 }
 
-type ListNamespaceResponse struct {
+type NamespaceListResponse struct {
 	Namespace            []*common.Namespace `protobuf:"bytes,1,rep,name=namespace,proto3" json:"namespace,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
 	XXX_unrecognized     []byte              `json:"-"`
 	XXX_sizecache        int32               `json:"-"`
 }
 
-func (m *ListNamespaceResponse) Reset()         { *m = ListNamespaceResponse{} }
-func (m *ListNamespaceResponse) String() string { return proto.CompactTextString(m) }
-func (*ListNamespaceResponse) ProtoMessage()    {}
-func (*ListNamespaceResponse) Descriptor() ([]byte, []int) {
+func (m *NamespaceListResponse) Reset()         { *m = NamespaceListResponse{} }
+func (m *NamespaceListResponse) String() string { return proto.CompactTextString(m) }
+func (*NamespaceListResponse) ProtoMessage()    {}
+func (*NamespaceListResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8b7c3ca3eef8e484, []int{18}
 }
 
-func (m *ListNamespaceResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListNamespaceResponse.Unmarshal(m, b)
+func (m *NamespaceListResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_NamespaceListResponse.Unmarshal(m, b)
 }
-func (m *ListNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListNamespaceResponse.Marshal(b, m, deterministic)
+func (m *NamespaceListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_NamespaceListResponse.Marshal(b, m, deterministic)
 }
-func (m *ListNamespaceResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListNamespaceResponse.Merge(m, src)
+func (m *NamespaceListResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceListResponse.Merge(m, src)
 }
-func (m *ListNamespaceResponse) XXX_Size() int {
-	return xxx_messageInfo_ListNamespaceResponse.Size(m)
+func (m *NamespaceListResponse) XXX_Size() int {
+	return xxx_messageInfo_NamespaceListResponse.Size(m)
 }
-func (m *ListNamespaceResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListNamespaceResponse.DiscardUnknown(m)
+func (m *NamespaceListResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceListResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListNamespaceResponse proto.InternalMessageInfo
+var xxx_messageInfo_NamespaceListResponse proto.InternalMessageInfo
 
-func (m *ListNamespaceResponse) GetNamespace() []*common.Namespace {
+func (m *NamespaceListResponse) GetNamespace() []*common.Namespace {
 	if m != nil {
 		return m.Namespace
 	}
@@ -975,8 +975,8 @@ func init() {
 	proto.RegisterType((*ChartDetailResponse)(nil), "appmgr.ChartDetailResponse")
 	proto.RegisterType((*DeleteChartRequest)(nil), "appmgr.DeleteChartRequest")
 	proto.RegisterType((*CreateNamespaceRequest)(nil), "appmgr.CreateNamespaceRequest")
-	proto.RegisterType((*ListNamespaceRequest)(nil), "appmgr.ListNamespaceRequest")
-	proto.RegisterType((*ListNamespaceResponse)(nil), "appmgr.ListNamespaceResponse")
+	proto.RegisterType((*NamespaceListRequest)(nil), "appmgr.NamespaceListRequest")
+	proto.RegisterType((*NamespaceListResponse)(nil), "appmgr.NamespaceListResponse")
 	proto.RegisterType((*UpdateNamespaceRequest)(nil), "appmgr.UpdateNamespaceRequest")
 	proto.RegisterType((*DeleteNamespaceRequest)(nil), "appmgr.DeleteNamespaceRequest")
 }
@@ -984,7 +984,7 @@ func init() {
 func init() { proto.RegisterFile("appmgr/v1/grpc/appmgr.proto", fileDescriptor_8b7c3ca3eef8e484) }
 
 var fileDescriptor_8b7c3ca3eef8e484 = []byte{
-	// 918 bytes of a gzipped FileDescriptorProto
+	// 917 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x55, 0x5b, 0x8f, 0xdb, 0x44,
 	0x14, 0x5e, 0x6f, 0x36, 0x69, 0x7d, 0xb2, 0x97, 0xec, 0x6c, 0x9b, 0x6e, 0xb3, 0x74, 0x29, 0x53,
 	0x81, 0x16, 0x2a, 0x25, 0xdb, 0x22, 0x54, 0x24, 0xfa, 0x50, 0x27, 0xa1, 0x34, 0x08, 0x76, 0x91,
@@ -1024,25 +1024,25 @@ var fileDescriptor_8b7c3ca3eef8e484 = []byte{
 	0x1f, 0x51, 0x1d, 0x16, 0x84, 0xc8, 0x95, 0x92, 0x02, 0xb0, 0x26, 0xe1, 0x8a, 0xa6, 0xba, 0x4b,
 	0x12, 0x70, 0x23, 0x25, 0x38, 0x01, 0x34, 0xa5, 0x21, 0xfd, 0xdf, 0xe6, 0x02, 0x5f, 0x43, 0x5f,
 	0x0d, 0xa2, 0x38, 0xa5, 0x8c, 0x78, 0x34, 0x0f, 0xfa, 0x15, 0xd8, 0x71, 0x2e, 0xd3, 0x35, 0x7f,
-	0xb4, 0x59, 0x87, 0xd2, 0xa4, 0x44, 0xe2, 0x21, 0x3c, 0x10, 0x9d, 0xdf, 0x72, 0x57, 0x8e, 0x8b,
-	0xb5, 0x31, 0x2e, 0x57, 0xf0, 0xb0, 0x82, 0xd7, 0x9d, 0xa8, 0xc4, 0x6f, 0xdd, 0x31, 0xfe, 0x35,
-	0xf4, 0x15, 0x05, 0xfe, 0x57, 0x17, 0xba, 0x80, 0xbe, 0x6a, 0xc9, 0x96, 0xc3, 0x43, 0xd8, 0x2d,
-	0x08, 0x78, 0x37, 0xf0, 0x5f, 0xfe, 0x79, 0x0f, 0x3a, 0x0e, 0x63, 0x3f, 0x2e, 0x38, 0x1a, 0x83,
-	0x5d, 0x3c, 0x3b, 0xe8, 0x34, 0x67, 0x95, 0xea, 0x13, 0x36, 0x78, 0x5c, 0xa3, 0x51, 0xd7, 0xc7,
-	0x3b, 0xe8, 0x35, 0xdc, 0xd3, 0x4f, 0x09, 0xea, 0x9b, 0xbc, 0x54, 0xae, 0xe8, 0xe0, 0xd1, 0x96,
-	0xbc, 0xb0, 0x7e, 0x01, 0xf6, 0x84, 0xc4, 0x1e, 0x15, 0x74, 0x89, 0x0e, 0x0c, 0xdc, 0x6c, 0x3a,
-	0xa8, 0xec, 0xce, 0xb7, 0x11, 0xcb, 0x7e, 0xc5, 0x3b, 0xe8, 0x12, 0xee, 0xff, 0xb4, 0xe2, 0x0b,
-	0x7a, 0x77, 0x8b, 0xd7, 0x60, 0x17, 0xef, 0x4d, 0x79, 0xcd, 0xea, 0x13, 0xd4, 0x64, 0xed, 0x40,
-	0xd7, 0x78, 0x73, 0x50, 0x1d, 0x6a, 0x70, 0x66, 0xe4, 0x51, 0x7d, 0x9d, 0xf0, 0x0e, 0xfa, 0x4e,
-	0x3d, 0xd9, 0x25, 0x19, 0xd7, 0x7b, 0x39, 0xaf, 0xe7, 0x75, 0xc3, 0xd1, 0x1b, 0xe8, 0x1a, 0x84,
-	0x8c, 0x06, 0x9b, 0x8d, 0x31, 0xb7, 0xb1, 0xe9, 0x36, 0xa2, 0xe5, 0x39, 0xef, 0x19, 0x2d, 0xaf,
-	0xb0, 0xaa, 0xd1, 0xf2, 0x2a, 0x49, 0xe2, 0x1d, 0xf4, 0x0e, 0xba, 0x06, 0xb9, 0x18, 0x59, 0x6c,
-	0xd1, 0x61, 0x59, 0x98, 0x1a, 0x16, 0x53, 0xf7, 0x31, 0x88, 0xa4, 0xf4, 0xb4, 0xcd, 0x2e, 0x4d,
-	0xf7, 0x79, 0x07, 0x47, 0x15, 0x66, 0x40, 0xe7, 0x9b, 0x55, 0xa9, 0x2e, 0x44, 0x93, 0xa7, 0x2b,
-	0x38, 0xd8, 0x58, 0x71, 0x54, 0x3c, 0xb3, 0x75, 0x4c, 0x31, 0x78, 0xd2, 0xa0, 0x35, 0xaa, 0x74,
-	0x54, 0x59, 0xf1, 0x32, 0xb3, 0xfa, 0xdd, 0xff, 0x9b, 0x3b, 0x56, 0x76, 0xbb, 0xf4, 0x54, 0xbf,
-	0xf4, 0x0d, 0x9e, 0x6e, 0x3b, 0xf2, 0xf8, 0xe5, 0x5f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x42, 0x7e,
-	0x62, 0x2d, 0xe3, 0x0a, 0x00, 0x00,
+	0xb4, 0x59, 0x87, 0xd2, 0xa4, 0x44, 0xe2, 0x21, 0x3c, 0x28, 0xe4, 0xe6, 0x34, 0x95, 0xe3, 0x62,
+	0x6d, 0x8c, 0xcb, 0x15, 0x3c, 0xac, 0xe0, 0x75, 0x27, 0x2a, 0xf1, 0x5b, 0x77, 0x8c, 0x7f, 0x0d,
+	0x7d, 0x45, 0x81, 0xff, 0xd5, 0x85, 0x2e, 0xa0, 0xaf, 0x5a, 0xb2, 0xe5, 0xf0, 0x10, 0x76, 0x0b,
+	0x02, 0xde, 0x0d, 0xfc, 0x97, 0x7f, 0xde, 0x83, 0x8e, 0xc3, 0xd8, 0x8f, 0x0b, 0x8e, 0xc6, 0x60,
+	0x17, 0xcf, 0x0e, 0x3a, 0xcd, 0x59, 0xa5, 0xfa, 0x84, 0x0d, 0x1e, 0xd7, 0x68, 0xd4, 0xf5, 0xf1,
+	0x0e, 0x7a, 0x0d, 0xf7, 0xf4, 0x53, 0x82, 0xfa, 0x26, 0x2f, 0x95, 0x45, 0x1d, 0x3c, 0xda, 0x92,
+	0x17, 0xd6, 0x2f, 0xc0, 0x9e, 0x90, 0xd8, 0xa3, 0x82, 0x2e, 0xd1, 0x81, 0x81, 0x9b, 0x4d, 0x07,
+	0x95, 0xdd, 0xf9, 0x36, 0x62, 0xd9, 0xaf, 0x78, 0x07, 0x5d, 0xc2, 0xfd, 0x9f, 0x56, 0x7c, 0x41,
+	0xef, 0x6e, 0xf1, 0x1a, 0xec, 0xe2, 0xbd, 0x29, 0xaf, 0x59, 0x7d, 0x82, 0x9a, 0xac, 0x1d, 0xe8,
+	0x1a, 0x6f, 0x0e, 0xaa, 0x43, 0x0d, 0xce, 0x8c, 0x3c, 0xaa, 0xaf, 0x13, 0xde, 0x41, 0xdf, 0xa9,
+	0x27, 0xbb, 0x24, 0xe3, 0x7a, 0x2f, 0xe7, 0xf5, 0xbc, 0x6e, 0x38, 0x7a, 0x03, 0x5d, 0x83, 0x90,
+	0xd1, 0x60, 0xb3, 0x31, 0xe6, 0x36, 0x36, 0xdd, 0x46, 0xb4, 0x3c, 0xe7, 0x3d, 0xa3, 0xe5, 0x15,
+	0x56, 0x35, 0x5a, 0x5e, 0x25, 0x49, 0xbc, 0x83, 0xde, 0x41, 0xd7, 0x20, 0x17, 0x23, 0x8b, 0x2d,
+	0x3a, 0x2c, 0x0b, 0x53, 0xc3, 0x62, 0xea, 0x3e, 0x06, 0x91, 0x94, 0x9e, 0xb6, 0xd9, 0xa5, 0xe9,
+	0x3e, 0xef, 0xe0, 0xa8, 0xc2, 0x0c, 0xe8, 0x7c, 0xb3, 0x2a, 0xd5, 0x85, 0x68, 0xf2, 0x74, 0x05,
+	0x07, 0x1b, 0x2b, 0x8e, 0x8a, 0x67, 0xb6, 0x8e, 0x29, 0x06, 0x4f, 0x1a, 0xb4, 0x46, 0x95, 0x8e,
+	0x2a, 0x2b, 0x5e, 0x66, 0x56, 0xbf, 0xfb, 0x7f, 0x73, 0xc7, 0xca, 0x6e, 0x97, 0x9e, 0xea, 0x97,
+	0xbe, 0xc1, 0xd3, 0x6d, 0x47, 0x1e, 0xbf, 0xfc, 0x2b, 0x00, 0x00, 0xff, 0xff, 0xd0, 0x64, 0x48,
+	0x61, 0xe3, 0x0a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1070,7 +1070,7 @@ type AppMgrClient interface {
 	ChartDetail(ctx context.Context, in *ChartDetailRequest, opts ...grpc.CallOption) (*ChartDetailResponse, error)
 	DeleteChart(ctx context.Context, in *DeleteChartRequest, opts ...grpc.CallOption) (*common.Empty, error)
 	CreateNamespace(ctx context.Context, in *CreateNamespaceRequest, opts ...grpc.CallOption) (*common.Empty, error)
-	ListNamespace(ctx context.Context, in *ListNamespaceRequest, opts ...grpc.CallOption) (*ListNamespaceResponse, error)
+	NamespaceList(ctx context.Context, in *NamespaceListRequest, opts ...grpc.CallOption) (*NamespaceListResponse, error)
 	UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, opts ...grpc.CallOption) (*common.Empty, error)
 	DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, opts ...grpc.CallOption) (*common.Empty, error)
 }
@@ -1191,9 +1191,9 @@ func (c *appMgrClient) CreateNamespace(ctx context.Context, in *CreateNamespaceR
 	return out, nil
 }
 
-func (c *appMgrClient) ListNamespace(ctx context.Context, in *ListNamespaceRequest, opts ...grpc.CallOption) (*ListNamespaceResponse, error) {
-	out := new(ListNamespaceResponse)
-	err := c.cc.Invoke(ctx, "/appmgr.AppMgr/ListNamespace", in, out, opts...)
+func (c *appMgrClient) NamespaceList(ctx context.Context, in *NamespaceListRequest, opts ...grpc.CallOption) (*NamespaceListResponse, error) {
+	out := new(NamespaceListResponse)
+	err := c.cc.Invoke(ctx, "/appmgr.AppMgr/NamespaceList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1233,7 +1233,7 @@ type AppMgrServer interface {
 	ChartDetail(context.Context, *ChartDetailRequest) (*ChartDetailResponse, error)
 	DeleteChart(context.Context, *DeleteChartRequest) (*common.Empty, error)
 	CreateNamespace(context.Context, *CreateNamespaceRequest) (*common.Empty, error)
-	ListNamespace(context.Context, *ListNamespaceRequest) (*ListNamespaceResponse, error)
+	NamespaceList(context.Context, *NamespaceListRequest) (*NamespaceListResponse, error)
 	UpdateNamespace(context.Context, *UpdateNamespaceRequest) (*common.Empty, error)
 	DeleteNamespace(context.Context, *DeleteNamespaceRequest) (*common.Empty, error)
 }
@@ -1278,8 +1278,8 @@ func (*UnimplementedAppMgrServer) DeleteChart(ctx context.Context, req *DeleteCh
 func (*UnimplementedAppMgrServer) CreateNamespace(ctx context.Context, req *CreateNamespaceRequest) (*common.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateNamespace not implemented")
 }
-func (*UnimplementedAppMgrServer) ListNamespace(ctx context.Context, req *ListNamespaceRequest) (*ListNamespaceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListNamespace not implemented")
+func (*UnimplementedAppMgrServer) NamespaceList(ctx context.Context, req *NamespaceListRequest) (*NamespaceListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NamespaceList not implemented")
 }
 func (*UnimplementedAppMgrServer) UpdateNamespace(ctx context.Context, req *UpdateNamespaceRequest) (*common.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateNamespace not implemented")
@@ -1508,20 +1508,20 @@ func _AppMgr_CreateNamespace_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AppMgr_ListNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListNamespaceRequest)
+func _AppMgr_NamespaceList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NamespaceListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AppMgrServer).ListNamespace(ctx, in)
+		return srv.(AppMgrServer).NamespaceList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/appmgr.AppMgr/ListNamespace",
+		FullMethod: "/appmgr.AppMgr/NamespaceList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AppMgrServer).ListNamespace(ctx, req.(*ListNamespaceRequest))
+		return srv.(AppMgrServer).NamespaceList(ctx, req.(*NamespaceListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1615,8 +1615,8 @@ var _AppMgr_serviceDesc = grpc.ServiceDesc{
 			Handler:    _AppMgr_CreateNamespace_Handler,
 		},
 		{
-			MethodName: "ListNamespace",
-			Handler:    _AppMgr_ListNamespace_Handler,
+			MethodName: "NamespaceList",
+			Handler:    _AppMgr_NamespaceList_Handler,
 		},
 		{
 			MethodName: "UpdateNamespace",

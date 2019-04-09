@@ -25,8 +25,8 @@ It has these top-level messages:
 	ChartDetailResponse
 	DeleteChartRequest
 	CreateNamespaceRequest
-	ListNamespaceRequest
-	ListNamespaceResponse
+	NamespaceListRequest
+	NamespaceListResponse
 	UpdateNamespaceRequest
 	DeleteNamespaceRequest
 */
@@ -76,7 +76,7 @@ type AppMgrService interface {
 	ChartDetail(ctx context.Context, in *ChartDetailRequest, opts ...client.CallOption) (*ChartDetailResponse, error)
 	DeleteChart(ctx context.Context, in *DeleteChartRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	CreateNamespace(ctx context.Context, in *CreateNamespaceRequest, opts ...client.CallOption) (*common_proto.Empty, error)
-	ListNamespace(ctx context.Context, in *ListNamespaceRequest, opts ...client.CallOption) (*ListNamespaceResponse, error)
+	NamespaceList(ctx context.Context, in *NamespaceListRequest, opts ...client.CallOption) (*NamespaceListResponse, error)
 	UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 	DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, opts ...client.CallOption) (*common_proto.Empty, error)
 }
@@ -219,9 +219,9 @@ func (c *appMgrService) CreateNamespace(ctx context.Context, in *CreateNamespace
 	return out, nil
 }
 
-func (c *appMgrService) ListNamespace(ctx context.Context, in *ListNamespaceRequest, opts ...client.CallOption) (*ListNamespaceResponse, error) {
-	req := c.c.NewRequest(c.name, "AppMgr.ListNamespace", in)
-	out := new(ListNamespaceResponse)
+func (c *appMgrService) NamespaceList(ctx context.Context, in *NamespaceListRequest, opts ...client.CallOption) (*NamespaceListResponse, error) {
+	req := c.c.NewRequest(c.name, "AppMgr.NamespaceList", in)
+	out := new(NamespaceListResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -265,7 +265,7 @@ type AppMgrHandler interface {
 	ChartDetail(context.Context, *ChartDetailRequest, *ChartDetailResponse) error
 	DeleteChart(context.Context, *DeleteChartRequest, *common_proto.Empty) error
 	CreateNamespace(context.Context, *CreateNamespaceRequest, *common_proto.Empty) error
-	ListNamespace(context.Context, *ListNamespaceRequest, *ListNamespaceResponse) error
+	NamespaceList(context.Context, *NamespaceListRequest, *NamespaceListResponse) error
 	UpdateNamespace(context.Context, *UpdateNamespaceRequest, *common_proto.Empty) error
 	DeleteNamespace(context.Context, *DeleteNamespaceRequest, *common_proto.Empty) error
 }
@@ -284,7 +284,7 @@ func RegisterAppMgrHandler(s server.Server, hdlr AppMgrHandler, opts ...server.H
 		ChartDetail(ctx context.Context, in *ChartDetailRequest, out *ChartDetailResponse) error
 		DeleteChart(ctx context.Context, in *DeleteChartRequest, out *common_proto.Empty) error
 		CreateNamespace(ctx context.Context, in *CreateNamespaceRequest, out *common_proto.Empty) error
-		ListNamespace(ctx context.Context, in *ListNamespaceRequest, out *ListNamespaceResponse) error
+		NamespaceList(ctx context.Context, in *NamespaceListRequest, out *NamespaceListResponse) error
 		UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, out *common_proto.Empty) error
 		DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, out *common_proto.Empty) error
 	}
@@ -347,8 +347,8 @@ func (h *appMgrHandler) CreateNamespace(ctx context.Context, in *CreateNamespace
 	return h.AppMgrHandler.CreateNamespace(ctx, in, out)
 }
 
-func (h *appMgrHandler) ListNamespace(ctx context.Context, in *ListNamespaceRequest, out *ListNamespaceResponse) error {
-	return h.AppMgrHandler.ListNamespace(ctx, in, out)
+func (h *appMgrHandler) NamespaceList(ctx context.Context, in *NamespaceListRequest, out *NamespaceListResponse) error {
+	return h.AppMgrHandler.NamespaceList(ctx, in, out)
 }
 
 func (h *appMgrHandler) UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, out *common_proto.Empty) error {
