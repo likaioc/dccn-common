@@ -8,9 +8,9 @@ import (
 )
 
 type Server struct {
-	addr    string
-	config  *yamux.Config
-	session *yamux.Session
+	addr   string
+	conn   net.Conn
+	config *yamux.Config
 }
 
 func NewServer(addr string, conf *yamux.Config) (*Server, error) {
@@ -23,18 +23,28 @@ func NewServer(addr string, conf *yamux.Config) (*Server, error) {
 		conf = yamux.DefaultConfig()
 	}
 
-	session, err := yamux.Server(conn, conf)
-	if err != nil {
-		return nil, errors.Wrap(err, "mux session")
-	}
-
 	return &Server{
-		addr:    addr,
-		config:  conf,
-		session: session,
+		addr:   addr,
+		conn:   conn,
+		config: conf,
 	}, nil
 }
 
-func (s *Server) Session() net.Listener {
-	return s.session
+func (s *Server) Session() (net.Listener, error) {
+	session, err := yamux.Server(s.conn, s.config)
+	if err != nil {
+		s.conn.Close()
+		s, err = NewServer(s.addr, s.config)
+		if err != nil {
+			return nil, errors.Wrap(err, "session")
+		}
+
+		// retry
+		session, err = yamux.Server(s.conn, s.config)
+		if err != nil {
+			return nil, errors.Wrap(err, "session")
+		}
+	}
+
+	return session, nil
 }
