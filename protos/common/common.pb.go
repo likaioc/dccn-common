@@ -20,6 +20,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+<<<<<<< HEAD
 // App Events operation code
 type DCOperation int32
 
@@ -164,6 +165,8 @@ func (NamespaceStatus) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_555bd8c177793206, []int{2}
 }
 
+=======
+>>>>>>> bcf4f263ede4dafc566378a80c86d3a60d535863
 // Data center status
 type DCStatus int32
 
@@ -187,7 +190,39 @@ func (x DCStatus) String() string {
 }
 
 func (DCStatus) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{3}
+	return fileDescriptor_555bd8c177793206, []int{0}
+}
+
+// Task Events operation code
+type DCOperation int32
+
+const (
+	DCOperation_TASK_CREATE DCOperation = 0
+	DCOperation_TASK_CANCEL DCOperation = 1
+	DCOperation_TASK_UPDATE DCOperation = 2
+	DCOperation_HEARTBEAT   DCOperation = 3
+)
+
+var DCOperation_name = map[int32]string{
+	0: "TASK_CREATE",
+	1: "TASK_CANCEL",
+	2: "TASK_UPDATE",
+	3: "HEARTBEAT",
+}
+
+var DCOperation_value = map[string]int32{
+	"TASK_CREATE": 0,
+	"TASK_CANCEL": 1,
+	"TASK_UPDATE": 2,
+	"HEARTBEAT":   3,
+}
+
+func (x DCOperation) String() string {
+	return proto.EnumName(DCOperation_name, int32(x))
+}
+
+func (DCOperation) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_555bd8c177793206, []int{1}
 }
 
 // Emtpy Message
@@ -222,144 +257,14 @@ func (m *Empty) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Empty proto.InternalMessageInfo
 
-// App Data structure
-type App struct {
-	Id   string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	// Types that are valid to be assigned to NamespaceData:
-	//	*App_NamespaceId
-	//	*App_Namespace
-	NamespaceData        isApp_NamespaceData `protobuf_oneof:"namespace_data"`
-	Status               AppStatus           `protobuf:"varint,5,opt,name=status,proto3,enum=common.proto.AppStatus" json:"status,omitempty"`
-	Attributes           *AppAttributes      `protobuf:"bytes,6,opt,name=attributes,proto3" json:"attributes,omitempty"`
-	Uid                  string              `protobuf:"bytes,7,opt,name=uid,proto3" json:"uid,omitempty"`
-	ChartDetail          *ChartDetail        `protobuf:"bytes,8,opt,name=chart_detail,json=chartDetail,proto3" json:"chart_detail,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
-	XXX_unrecognized     []byte              `json:"-"`
-	XXX_sizecache        int32               `json:"-"`
-}
-
-func (m *App) Reset()         { *m = App{} }
-func (m *App) String() string { return proto.CompactTextString(m) }
-func (*App) ProtoMessage()    {}
-func (*App) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{1}
-}
-
-func (m *App) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_App.Unmarshal(m, b)
-}
-func (m *App) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_App.Marshal(b, m, deterministic)
-}
-func (m *App) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_App.Merge(m, src)
-}
-func (m *App) XXX_Size() int {
-	return xxx_messageInfo_App.Size(m)
-}
-func (m *App) XXX_DiscardUnknown() {
-	xxx_messageInfo_App.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_App proto.InternalMessageInfo
-
-func (m *App) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *App) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-type isApp_NamespaceData interface {
-	isApp_NamespaceData()
-}
-
-type App_NamespaceId struct {
-	NamespaceId string `protobuf:"bytes,3,opt,name=namespace_id,json=namespaceId,proto3,oneof"`
-}
-
-type App_Namespace struct {
-	Namespace *Namespace `protobuf:"bytes,4,opt,name=namespace,proto3,oneof"`
-}
-
-func (*App_NamespaceId) isApp_NamespaceData() {}
-
-func (*App_Namespace) isApp_NamespaceData() {}
-
-func (m *App) GetNamespaceData() isApp_NamespaceData {
-	if m != nil {
-		return m.NamespaceData
-	}
-	return nil
-}
-
-func (m *App) GetNamespaceId() string {
-	if x, ok := m.GetNamespaceData().(*App_NamespaceId); ok {
-		return x.NamespaceId
-	}
-	return ""
-}
-
-func (m *App) GetNamespace() *Namespace {
-	if x, ok := m.GetNamespaceData().(*App_Namespace); ok {
-		return x.Namespace
-	}
-	return nil
-}
-
-func (m *App) GetStatus() AppStatus {
-	if m != nil {
-		return m.Status
-	}
-	return AppStatus_APP_STARTING
-}
-
-func (m *App) GetAttributes() *AppAttributes {
-	if m != nil {
-		return m.Attributes
-	}
-	return nil
-}
-
-func (m *App) GetUid() string {
-	if m != nil {
-		return m.Uid
-	}
-	return ""
-}
-
-func (m *App) GetChartDetail() *ChartDetail {
-	if m != nil {
-		return m.ChartDetail
-	}
-	return nil
-}
-
-// XXX_OneofWrappers is for the internal use of the proto package.
-func (*App) XXX_OneofWrappers() []interface{} {
-	return []interface{}{
-		(*App_NamespaceId)(nil),
-		(*App_Namespace)(nil),
-	}
-}
-
 // App Deployment structure
 type AppDeployment struct {
 	Id                   string         `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name                 string         `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Namespace            *Namespace     `protobuf:"bytes,3,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Status               AppStatus      `protobuf:"varint,4,opt,name=status,proto3,enum=common.proto.AppStatus" json:"status,omitempty"`
-	Attributes           *AppAttributes `protobuf:"bytes,5,opt,name=attributes,proto3" json:"attributes,omitempty"`
-	Uid                  string         `protobuf:"bytes,6,opt,name=uid,proto3" json:"uid,omitempty"`
-	ChartDetail          *ChartDetail   `protobuf:"bytes,7,opt,name=chart_detail,json=chartDetail,proto3" json:"chart_detail,omitempty"`
+	Attributes           *AppAttributes `protobuf:"bytes,4,opt,name=attributes,proto3" json:"attributes,omitempty"`
+	Uid                  string         `protobuf:"bytes,5,opt,name=uid,proto3" json:"uid,omitempty"`
+	ChartDetail          *ChartDetail   `protobuf:"bytes,6,opt,name=chart_detail,json=chartDetail,proto3" json:"chart_detail,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
 	XXX_unrecognized     []byte         `json:"-"`
 	XXX_sizecache        int32          `json:"-"`
@@ -369,7 +274,7 @@ func (m *AppDeployment) Reset()         { *m = AppDeployment{} }
 func (m *AppDeployment) String() string { return proto.CompactTextString(m) }
 func (*AppDeployment) ProtoMessage()    {}
 func (*AppDeployment) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{2}
+	return fileDescriptor_555bd8c177793206, []int{1}
 }
 
 func (m *AppDeployment) XXX_Unmarshal(b []byte) error {
@@ -411,13 +316,6 @@ func (m *AppDeployment) GetNamespace() *Namespace {
 	return nil
 }
 
-func (m *AppDeployment) GetStatus() AppStatus {
-	if m != nil {
-		return m.Status
-	}
-	return AppStatus_APP_STARTING
-}
-
 func (m *AppDeployment) GetAttributes() *AppAttributes {
 	if m != nil {
 		return m.Attributes
@@ -452,7 +350,7 @@ func (m *AppAttributes) Reset()         { *m = AppAttributes{} }
 func (m *AppAttributes) String() string { return proto.CompactTextString(m) }
 func (*AppAttributes) ProtoMessage()    {}
 func (*AppAttributes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{3}
+	return fileDescriptor_555bd8c177793206, []int{2}
 }
 
 func (m *AppAttributes) XXX_Unmarshal(b []byte) error {
@@ -494,6 +392,125 @@ func (m *AppAttributes) GetLastModifiedDate() uint64 {
 	return 0
 }
 
+type AppID struct {
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *AppID) Reset()         { *m = AppID{} }
+func (m *AppID) String() string { return proto.CompactTextString(m) }
+func (*AppID) ProtoMessage()    {}
+func (*AppID) Descriptor() ([]byte, []int) {
+	return fileDescriptor_555bd8c177793206, []int{3}
+}
+
+func (m *AppID) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AppID.Unmarshal(m, b)
+}
+func (m *AppID) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AppID.Marshal(b, m, deterministic)
+}
+func (m *AppID) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppID.Merge(m, src)
+}
+func (m *AppID) XXX_Size() int {
+	return xxx_messageInfo_AppID.Size(m)
+}
+func (m *AppID) XXX_DiscardUnknown() {
+	xxx_messageInfo_AppID.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AppID proto.InternalMessageInfo
+
+func (m *AppID) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+// Data Center structure
+type DataCenterStatus struct {
+	Id                   string                `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                 string                `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	GeoLocation          *GeoLocation          `protobuf:"bytes,3,opt,name=geo_location,json=geoLocation,proto3" json:"geo_location,omitempty"`
+	Status               DCStatus              `protobuf:"varint,4,opt,name=status,proto3,enum=common.proto.DCStatus" json:"status,omitempty"`
+	DcAttributes         *DataCenterAttributes `protobuf:"bytes,5,opt,name=dc_attributes,json=dcAttributes,proto3" json:"dc_attributes,omitempty"`
+	DcHeartbeatReport    *DCHeartbeatReport    `protobuf:"bytes,6,opt,name=dc_heartbeat_report,json=dcHeartbeatReport,proto3" json:"dc_heartbeat_report,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
+}
+
+func (m *DataCenterStatus) Reset()         { *m = DataCenterStatus{} }
+func (m *DataCenterStatus) String() string { return proto.CompactTextString(m) }
+func (*DataCenterStatus) ProtoMessage()    {}
+func (*DataCenterStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_555bd8c177793206, []int{4}
+}
+
+func (m *DataCenterStatus) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DataCenterStatus.Unmarshal(m, b)
+}
+func (m *DataCenterStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DataCenterStatus.Marshal(b, m, deterministic)
+}
+func (m *DataCenterStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterStatus.Merge(m, src)
+}
+func (m *DataCenterStatus) XXX_Size() int {
+	return xxx_messageInfo_DataCenterStatus.Size(m)
+}
+func (m *DataCenterStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_DataCenterStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DataCenterStatus proto.InternalMessageInfo
+
+func (m *DataCenterStatus) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *DataCenterStatus) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *DataCenterStatus) GetGeoLocation() *GeoLocation {
+	if m != nil {
+		return m.GeoLocation
+	}
+	return nil
+}
+
+func (m *DataCenterStatus) GetStatus() DCStatus {
+	if m != nil {
+		return m.Status
+	}
+	return DCStatus_AVAILABLE
+}
+
+func (m *DataCenterStatus) GetDcAttributes() *DataCenterAttributes {
+	if m != nil {
+		return m.DcAttributes
+	}
+	return nil
+}
+
+func (m *DataCenterStatus) GetDcHeartbeatReport() *DCHeartbeatReport {
+	if m != nil {
+		return m.DcHeartbeatReport
+	}
+	return nil
+}
+
 type GeoLocation struct {
 	Lat                  string   `protobuf:"bytes,1,opt,name=lat,proto3" json:"lat,omitempty"`
 	Lng                  string   `protobuf:"bytes,2,opt,name=lng,proto3" json:"lng,omitempty"`
@@ -507,7 +524,7 @@ func (m *GeoLocation) Reset()         { *m = GeoLocation{} }
 func (m *GeoLocation) String() string { return proto.CompactTextString(m) }
 func (*GeoLocation) ProtoMessage()    {}
 func (*GeoLocation) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{4}
+	return fileDescriptor_555bd8c177793206, []int{5}
 }
 
 func (m *GeoLocation) XXX_Unmarshal(b []byte) error {
@@ -547,86 +564,6 @@ func (m *GeoLocation) GetCountry() string {
 		return m.Country
 	}
 	return ""
-}
-
-// Data Center structure
-type DataCenter struct {
-	Id                   string                `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name                 string                `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	GeoLocation          *GeoLocation          `protobuf:"bytes,3,opt,name=geo_location,json=geoLocation,proto3" json:"geo_location,omitempty"`
-	Status               DCStatus              `protobuf:"varint,4,opt,name=status,proto3,enum=common.proto.DCStatus" json:"status,omitempty"`
-	DcAttributes         *DataCenterAttributes `protobuf:"bytes,5,opt,name=dc_attributes,json=dcAttributes,proto3" json:"dc_attributes,omitempty"`
-	DcHeartbeatReport    *DCHeartbeatReport    `protobuf:"bytes,6,opt,name=dc_heartbeat_report,json=dcHeartbeatReport,proto3" json:"dc_heartbeat_report,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
-	XXX_unrecognized     []byte                `json:"-"`
-	XXX_sizecache        int32                 `json:"-"`
-}
-
-func (m *DataCenter) Reset()         { *m = DataCenter{} }
-func (m *DataCenter) String() string { return proto.CompactTextString(m) }
-func (*DataCenter) ProtoMessage()    {}
-func (*DataCenter) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{5}
-}
-
-func (m *DataCenter) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DataCenter.Unmarshal(m, b)
-}
-func (m *DataCenter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DataCenter.Marshal(b, m, deterministic)
-}
-func (m *DataCenter) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenter.Merge(m, src)
-}
-func (m *DataCenter) XXX_Size() int {
-	return xxx_messageInfo_DataCenter.Size(m)
-}
-func (m *DataCenter) XXX_DiscardUnknown() {
-	xxx_messageInfo_DataCenter.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DataCenter proto.InternalMessageInfo
-
-func (m *DataCenter) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *DataCenter) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *DataCenter) GetGeoLocation() *GeoLocation {
-	if m != nil {
-		return m.GeoLocation
-	}
-	return nil
-}
-
-func (m *DataCenter) GetStatus() DCStatus {
-	if m != nil {
-		return m.Status
-	}
-	return DCStatus_AVAILABLE
-}
-
-func (m *DataCenter) GetDcAttributes() *DataCenterAttributes {
-	if m != nil {
-		return m.DcAttributes
-	}
-	return nil
-}
-
-func (m *DataCenter) GetDcHeartbeatReport() *DCHeartbeatReport {
-	if m != nil {
-		return m.DcHeartbeatReport
-	}
-	return nil
 }
 
 type DataCenterAttributes struct {
@@ -739,172 +676,6 @@ func (m *DCHeartbeatReport) GetReportTime() uint64 {
 	return 0
 }
 
-type AppReport struct {
-	AppDeployment        *AppDeployment `protobuf:"bytes,1,opt,name=app_deployment,json=appDeployment,proto3" json:"app_deployment,omitempty"`
-	Report               string         `protobuf:"bytes,2,opt,name=report,proto3" json:"report,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
-	XXX_unrecognized     []byte         `json:"-"`
-	XXX_sizecache        int32          `json:"-"`
-}
-
-func (m *AppReport) Reset()         { *m = AppReport{} }
-func (m *AppReport) String() string { return proto.CompactTextString(m) }
-func (*AppReport) ProtoMessage()    {}
-func (*AppReport) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{8}
-}
-
-func (m *AppReport) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_AppReport.Unmarshal(m, b)
-}
-func (m *AppReport) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_AppReport.Marshal(b, m, deterministic)
-}
-func (m *AppReport) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppReport.Merge(m, src)
-}
-func (m *AppReport) XXX_Size() int {
-	return xxx_messageInfo_AppReport.Size(m)
-}
-func (m *AppReport) XXX_DiscardUnknown() {
-	xxx_messageInfo_AppReport.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_AppReport proto.InternalMessageInfo
-
-func (m *AppReport) GetAppDeployment() *AppDeployment {
-	if m != nil {
-		return m.AppDeployment
-	}
-	return nil
-}
-
-func (m *AppReport) GetReport() string {
-	if m != nil {
-		return m.Report
-	}
-	return ""
-}
-
-// data center communicate with dc manager
-type DCStream struct {
-	OpType DCOperation `protobuf:"varint,1,opt,name=op_type,json=opType,proto3,enum=common.proto.DCOperation" json:"op_type,omitempty"`
-	// Types that are valid to be assigned to OpPayload:
-	//	*DCStream_AppDeployment
-	//	*DCStream_AppReport
-	//	*DCStream_DataCenter
-	//	*DCStream_Namespace
-	OpPayload            isDCStream_OpPayload `protobuf_oneof:"op_payload"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
-}
-
-func (m *DCStream) Reset()         { *m = DCStream{} }
-func (m *DCStream) String() string { return proto.CompactTextString(m) }
-func (*DCStream) ProtoMessage()    {}
-func (*DCStream) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{9}
-}
-
-func (m *DCStream) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DCStream.Unmarshal(m, b)
-}
-func (m *DCStream) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DCStream.Marshal(b, m, deterministic)
-}
-func (m *DCStream) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DCStream.Merge(m, src)
-}
-func (m *DCStream) XXX_Size() int {
-	return xxx_messageInfo_DCStream.Size(m)
-}
-func (m *DCStream) XXX_DiscardUnknown() {
-	xxx_messageInfo_DCStream.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DCStream proto.InternalMessageInfo
-
-func (m *DCStream) GetOpType() DCOperation {
-	if m != nil {
-		return m.OpType
-	}
-	return DCOperation_APP_CREATE
-}
-
-type isDCStream_OpPayload interface {
-	isDCStream_OpPayload()
-}
-
-type DCStream_AppDeployment struct {
-	AppDeployment *AppDeployment `protobuf:"bytes,2,opt,name=app_deployment,json=appDeployment,proto3,oneof"`
-}
-
-type DCStream_AppReport struct {
-	AppReport *AppReport `protobuf:"bytes,3,opt,name=app_report,json=appReport,proto3,oneof"`
-}
-
-type DCStream_DataCenter struct {
-	DataCenter *DataCenter `protobuf:"bytes,4,opt,name=data_center,json=dataCenter,proto3,oneof"`
-}
-
-type DCStream_Namespace struct {
-	Namespace *Namespace `protobuf:"bytes,5,opt,name=namespace,proto3,oneof"`
-}
-
-func (*DCStream_AppDeployment) isDCStream_OpPayload() {}
-
-func (*DCStream_AppReport) isDCStream_OpPayload() {}
-
-func (*DCStream_DataCenter) isDCStream_OpPayload() {}
-
-func (*DCStream_Namespace) isDCStream_OpPayload() {}
-
-func (m *DCStream) GetOpPayload() isDCStream_OpPayload {
-	if m != nil {
-		return m.OpPayload
-	}
-	return nil
-}
-
-func (m *DCStream) GetAppDeployment() *AppDeployment {
-	if x, ok := m.GetOpPayload().(*DCStream_AppDeployment); ok {
-		return x.AppDeployment
-	}
-	return nil
-}
-
-func (m *DCStream) GetAppReport() *AppReport {
-	if x, ok := m.GetOpPayload().(*DCStream_AppReport); ok {
-		return x.AppReport
-	}
-	return nil
-}
-
-func (m *DCStream) GetDataCenter() *DataCenter {
-	if x, ok := m.GetOpPayload().(*DCStream_DataCenter); ok {
-		return x.DataCenter
-	}
-	return nil
-}
-
-func (m *DCStream) GetNamespace() *Namespace {
-	if x, ok := m.GetOpPayload().(*DCStream_Namespace); ok {
-		return x.Namespace
-	}
-	return nil
-}
-
-// XXX_OneofWrappers is for the internal use of the proto package.
-func (*DCStream) XXX_OneofWrappers() []interface{} {
-	return []interface{}{
-		(*DCStream_AppDeployment)(nil),
-		(*DCStream_AppReport)(nil),
-		(*DCStream_DataCenter)(nil),
-		(*DCStream_Namespace)(nil),
-	}
-}
-
 type Chart struct {
 	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Repo                 string   `protobuf:"bytes,2,opt,name=repo,proto3" json:"repo,omitempty"`
@@ -921,7 +692,7 @@ func (m *Chart) Reset()         { *m = Chart{} }
 func (m *Chart) String() string { return proto.CompactTextString(m) }
 func (*Chart) ProtoMessage()    {}
 func (*Chart) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{10}
+	return fileDescriptor_555bd8c177793206, []int{8}
 }
 
 func (m *Chart) XXX_Unmarshal(b []byte) error {
@@ -998,7 +769,7 @@ func (m *ChartDetail) Reset()         { *m = ChartDetail{} }
 func (m *ChartDetail) String() string { return proto.CompactTextString(m) }
 func (*ChartDetail) ProtoMessage()    {}
 func (*ChartDetail) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{11}
+	return fileDescriptor_555bd8c177793206, []int{9}
 }
 
 func (m *ChartDetail) XXX_Unmarshal(b []byte) error {
@@ -1048,25 +819,24 @@ func (m *ChartDetail) GetAppVersion() string {
 }
 
 type Namespace struct {
-	Id                   string          `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name                 string          `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	ClusterId            string          `protobuf:"bytes,3,opt,name=cluster_id,json=clusterId,proto3" json:"cluster_id,omitempty"`
-	ClusterName          string          `protobuf:"bytes,4,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
-	CreationDate         uint64          `protobuf:"varint,5,opt,name=creation_date,json=creationDate,proto3" json:"creation_date,omitempty"`
-	CpuLimit             float32         `protobuf:"fixed32,6,opt,name=cpu_limit,json=cpuLimit,proto3" json:"cpu_limit,omitempty"`
-	MemLimit             string          `protobuf:"bytes,7,opt,name=mem_limit,json=memLimit,proto3" json:"mem_limit,omitempty"`
-	StorageLimit         string          `protobuf:"bytes,8,opt,name=storage_limit,json=storageLimit,proto3" json:"storage_limit,omitempty"`
-	NamespaceStatus      NamespaceStatus `protobuf:"varint,9,opt,name=namespace_status,json=namespaceStatus,proto3,enum=common.proto.NamespaceStatus" json:"namespace_status,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
-	XXX_unrecognized     []byte          `json:"-"`
-	XXX_sizecache        int32           `json:"-"`
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	ClusterId            string   `protobuf:"bytes,3,opt,name=cluster_id,json=clusterId,proto3" json:"cluster_id,omitempty"`
+	ClusterName          string   `protobuf:"bytes,4,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
+	CreationDate         uint64   `protobuf:"varint,5,opt,name=creation_date,json=creationDate,proto3" json:"creation_date,omitempty"`
+	CpuLimit             float32  `protobuf:"fixed32,6,opt,name=cpu_limit,json=cpuLimit,proto3" json:"cpu_limit,omitempty"`
+	MemLimit             string   `protobuf:"bytes,7,opt,name=mem_limit,json=memLimit,proto3" json:"mem_limit,omitempty"`
+	StorageLimit         string   `protobuf:"bytes,8,opt,name=storage_limit,json=storageLimit,proto3" json:"storage_limit,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *Namespace) Reset()         { *m = Namespace{} }
 func (m *Namespace) String() string { return proto.CompactTextString(m) }
 func (*Namespace) ProtoMessage()    {}
 func (*Namespace) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{12}
+	return fileDescriptor_555bd8c177793206, []int{10}
 }
 
 func (m *Namespace) XXX_Unmarshal(b []byte) error {
@@ -1143,36 +913,324 @@ func (m *Namespace) GetStorageLimit() string {
 	return ""
 }
 
-func (m *Namespace) GetNamespaceStatus() NamespaceStatus {
+// Used by appmgr
+type App struct {
+	Id   string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// Types that are valid to be assigned to NamespaceData:
+	//	*App_NamespaceId
+	//	*App_Namespace
+	NamespaceData        isApp_NamespaceData `protobuf_oneof:"namespace_data"`
+	Status               AppStatus           `protobuf:"varint,5,opt,name=status,proto3,enum=common.proto.AppStatus" json:"status,omitempty"`
+	Attributes           *AppAttributes      `protobuf:"bytes,6,opt,name=attributes,proto3" json:"attributes,omitempty"`
+	Uid                  string              `protobuf:"bytes,7,opt,name=uid,proto3" json:"uid,omitempty"`
+	ChartDetail          *ChartDetail        `protobuf:"bytes,8,opt,name=chart_detail,json=chartDetail,proto3" json:"chart_detail,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *App) Reset()         { *m = App{} }
+func (m *App) String() string { return proto.CompactTextString(m) }
+func (*App) ProtoMessage()    {}
+func (*App) Descriptor() ([]byte, []int) {
+	return fileDescriptor_555bd8c177793206, []int{11}
+}
+
+func (m *App) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_App.Unmarshal(m, b)
+}
+func (m *App) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_App.Marshal(b, m, deterministic)
+}
+func (m *App) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_App.Merge(m, src)
+}
+func (m *App) XXX_Size() int {
+	return xxx_messageInfo_App.Size(m)
+}
+func (m *App) XXX_DiscardUnknown() {
+	xxx_messageInfo_App.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_App proto.InternalMessageInfo
+
+func (m *App) GetId() string {
 	if m != nil {
-		return m.NamespaceStatus
+		return m.Id
 	}
-	return NamespaceStatus_NS_STARTING
+	return ""
+}
+
+func (m *App) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type isApp_NamespaceData interface {
+	isApp_NamespaceData()
+}
+
+type App_NamespaceId struct {
+	NamespaceId string `protobuf:"bytes,3,opt,name=namespace_id,json=namespaceId,proto3,oneof"`
+}
+
+type App_Namespace struct {
+	Namespace *Namespace `protobuf:"bytes,4,opt,name=namespace,proto3,oneof"`
+}
+
+func (*App_NamespaceId) isApp_NamespaceData() {}
+
+func (*App_Namespace) isApp_NamespaceData() {}
+
+func (m *App) GetNamespaceData() isApp_NamespaceData {
+	if m != nil {
+		return m.NamespaceData
+	}
+	return nil
+}
+
+func (m *App) GetNamespaceId() string {
+	if x, ok := m.GetNamespaceData().(*App_NamespaceId); ok {
+		return x.NamespaceId
+	}
+	return ""
+}
+
+func (m *App) GetNamespace() *Namespace {
+	if x, ok := m.GetNamespaceData().(*App_Namespace); ok {
+		return x.Namespace
+	}
+	return nil
+}
+
+func (m *App) GetStatus() AppStatus {
+	if m != nil {
+		return m.Status
+	}
+	return AppStatus_APP_STARTING
+}
+
+func (m *App) GetAttributes() *AppAttributes {
+	if m != nil {
+		return m.Attributes
+	}
+	return nil
+}
+
+func (m *App) GetUid() string {
+	if m != nil {
+		return m.Uid
+	}
+	return ""
+}
+
+func (m *App) GetChartDetail() *ChartDetail {
+	if m != nil {
+		return m.ChartDetail
+	}
+	return nil
+}
+
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*App) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
+		(*App_NamespaceId)(nil),
+		(*App_Namespace)(nil),
+	}
+}
+
+// Used by dc-mgr to dc-facade rabbitmq
+type DCStream struct {
+	OpType DCOperation `protobuf:"varint,1,opt,name=op_type,json=opType,proto3,enum=common.proto.DCOperation" json:"op_type,omitempty"`
+	// Types that are valid to be assigned to OpPayload:
+	//	*DCStream_AppDeployment
+	//	*DCStream_AppReport
+	//	*DCStream_DataCenter
+	//	*DCStream_Namespace
+	OpPayload            isDCStream_OpPayload `protobuf_oneof:"op_payload"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
+}
+
+func (m *DCStream) Reset()         { *m = DCStream{} }
+func (m *DCStream) String() string { return proto.CompactTextString(m) }
+func (*DCStream) ProtoMessage()    {}
+func (*DCStream) Descriptor() ([]byte, []int) {
+	return fileDescriptor_555bd8c177793206, []int{12}
+}
+
+func (m *DCStream) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DCStream.Unmarshal(m, b)
+}
+func (m *DCStream) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DCStream.Marshal(b, m, deterministic)
+}
+func (m *DCStream) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DCStream.Merge(m, src)
+}
+func (m *DCStream) XXX_Size() int {
+	return xxx_messageInfo_DCStream.Size(m)
+}
+func (m *DCStream) XXX_DiscardUnknown() {
+	xxx_messageInfo_DCStream.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DCStream proto.InternalMessageInfo
+
+func (m *DCStream) GetOpType() DCOperation {
+	if m != nil {
+		return m.OpType
+	}
+	return DCOperation_TASK_CREATE
+}
+
+type isDCStream_OpPayload interface {
+	isDCStream_OpPayload()
+}
+
+type DCStream_AppDeployment struct {
+	AppDeployment *AppDeployment `protobuf:"bytes,2,opt,name=app_deployment,json=appDeployment,proto3,oneof"`
+}
+
+type DCStream_AppReport struct {
+	AppReport *AppReport `protobuf:"bytes,3,opt,name=app_report,json=appReport,proto3,oneof"`
+}
+
+type DCStream_DataCenter struct {
+	DataCenter *DataCenterStatus `protobuf:"bytes,4,opt,name=data_center,json=dataCenter,proto3,oneof"`
+}
+
+type DCStream_Namespace struct {
+	Namespace *Namespace `protobuf:"bytes,5,opt,name=namespace,proto3,oneof"`
+}
+
+func (*DCStream_AppDeployment) isDCStream_OpPayload() {}
+
+func (*DCStream_AppReport) isDCStream_OpPayload() {}
+
+func (*DCStream_DataCenter) isDCStream_OpPayload() {}
+
+func (*DCStream_Namespace) isDCStream_OpPayload() {}
+
+func (m *DCStream) GetOpPayload() isDCStream_OpPayload {
+	if m != nil {
+		return m.OpPayload
+	}
+	return nil
+}
+
+func (m *DCStream) GetAppDeployment() *AppDeployment {
+	if x, ok := m.GetOpPayload().(*DCStream_AppDeployment); ok {
+		return x.AppDeployment
+	}
+	return nil
+}
+
+func (m *DCStream) GetAppReport() *AppReport {
+	if x, ok := m.GetOpPayload().(*DCStream_AppReport); ok {
+		return x.AppReport
+	}
+	return nil
+}
+
+func (m *DCStream) GetDataCenter() *DataCenterStatus {
+	if x, ok := m.GetOpPayload().(*DCStream_DataCenter); ok {
+		return x.DataCenter
+	}
+	return nil
+}
+
+func (m *DCStream) GetNamespace() *Namespace {
+	if x, ok := m.GetOpPayload().(*DCStream_Namespace); ok {
+		return x.Namespace
+	}
+	return nil
+}
+
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*DCStream) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
+		(*DCStream_AppDeployment)(nil),
+		(*DCStream_AppReport)(nil),
+		(*DCStream_DataCenter)(nil),
+		(*DCStream_Namespace)(nil),
+	}
+}
+
+type AppReport struct {
+	AppDeployment        *AppDeployment `protobuf:"bytes,1,opt,name=app_deployment,json=appDeployment,proto3" json:"app_deployment,omitempty"`
+	Report               string         `protobuf:"bytes,2,opt,name=report,proto3" json:"report,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
+}
+
+func (m *AppReport) Reset()         { *m = AppReport{} }
+func (m *AppReport) String() string { return proto.CompactTextString(m) }
+func (*AppReport) ProtoMessage()    {}
+func (*AppReport) Descriptor() ([]byte, []int) {
+	return fileDescriptor_555bd8c177793206, []int{13}
+}
+
+func (m *AppReport) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AppReport.Unmarshal(m, b)
+}
+func (m *AppReport) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AppReport.Marshal(b, m, deterministic)
+}
+func (m *AppReport) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppReport.Merge(m, src)
+}
+func (m *AppReport) XXX_Size() int {
+	return xxx_messageInfo_AppReport.Size(m)
+}
+func (m *AppReport) XXX_DiscardUnknown() {
+	xxx_messageInfo_AppReport.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AppReport proto.InternalMessageInfo
+
+func (m *AppReport) GetAppDeployment() *AppDeployment {
+	if m != nil {
+		return m.AppDeployment
+	}
+	return nil
+}
+
+func (m *AppReport) GetReport() string {
+	if m != nil {
+		return m.Report
+	}
+	return ""
 }
 
 func init() {
-	proto.RegisterEnum("common.proto.DCOperation", DCOperation_name, DCOperation_value)
-	proto.RegisterEnum("common.proto.AppStatus", AppStatus_name, AppStatus_value)
-	proto.RegisterEnum("common.proto.NamespaceStatus", NamespaceStatus_name, NamespaceStatus_value)
 	proto.RegisterEnum("common.proto.DCStatus", DCStatus_name, DCStatus_value)
+	proto.RegisterEnum("common.proto.DCOperation", DCOperation_name, DCOperation_value)
 	proto.RegisterType((*Empty)(nil), "common.proto.Empty")
-	proto.RegisterType((*App)(nil), "common.proto.App")
 	proto.RegisterType((*AppDeployment)(nil), "common.proto.AppDeployment")
 	proto.RegisterType((*AppAttributes)(nil), "common.proto.AppAttributes")
+	proto.RegisterType((*AppID)(nil), "common.proto.AppID")
+	proto.RegisterType((*DataCenterStatus)(nil), "common.proto.DataCenterStatus")
 	proto.RegisterType((*GeoLocation)(nil), "common.proto.GeoLocation")
-	proto.RegisterType((*DataCenter)(nil), "common.proto.DataCenter")
 	proto.RegisterType((*DataCenterAttributes)(nil), "common.proto.DataCenterAttributes")
 	proto.RegisterType((*DCHeartbeatReport)(nil), "common.proto.DCHeartbeatReport")
-	proto.RegisterType((*AppReport)(nil), "common.proto.AppReport")
-	proto.RegisterType((*DCStream)(nil), "common.proto.DCStream")
 	proto.RegisterType((*Chart)(nil), "common.proto.Chart")
 	proto.RegisterType((*ChartDetail)(nil), "common.proto.ChartDetail")
 	proto.RegisterType((*Namespace)(nil), "common.proto.Namespace")
+	proto.RegisterType((*App)(nil), "common.proto.App")
+	proto.RegisterType((*DCStream)(nil), "common.proto.DCStream")
+	proto.RegisterType((*AppReport)(nil), "common.proto.AppReport")
 }
 
 func init() { proto.RegisterFile("common.proto", fileDescriptor_555bd8c177793206) }
 
 var fileDescriptor_555bd8c177793206 = []byte{
+<<<<<<< HEAD
 	// 1185 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0xeb, 0x8e, 0xdb, 0xc4,
 	0x17, 0x8f, 0x9d, 0xab, 0x8f, 0x9d, 0xac, 0x33, 0xbd, 0xfc, 0x53, 0x55, 0x55, 0xf7, 0xef, 0x0a,
@@ -1249,4 +1307,70 @@ var fileDescriptor_555bd8c177793206 = []byte{
 	0x9e, 0x2f, 0xdd, 0xb3, 0x25, 0x1f, 0x9d, 0x23, 0x30, 0x2f, 0x56, 0x15, 0xa0, 0xbd, 0xef, 0x89,
 	0x91, 0xfc, 0xfc, 0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xa2, 0xfc, 0x6e, 0xab, 0x42, 0x0c, 0x00,
 	0x00,
+=======
+	// 1000 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0xdd, 0x6e, 0xe3, 0x44,
+	0x14, 0x8e, 0xf3, 0xef, 0xe3, 0x24, 0x64, 0x07, 0xb4, 0xcd, 0xb2, 0x82, 0x2d, 0xae, 0x90, 0x56,
+	0x15, 0x2a, 0x52, 0x11, 0x02, 0x89, 0xbd, 0x71, 0x7e, 0xb4, 0xa9, 0x36, 0xb4, 0xc8, 0x9b, 0xee,
+	0xad, 0x35, 0xf5, 0x4c, 0x53, 0x4b, 0xfe, 0x19, 0x8d, 0x27, 0xa0, 0xf0, 0x14, 0x3c, 0x11, 0x12,
+	0x77, 0xbc, 0x01, 0x4f, 0x82, 0xb8, 0x45, 0xf3, 0x63, 0xc7, 0x49, 0x5b, 0x08, 0x48, 0x7b, 0x95,
+	0x39, 0xdf, 0x7c, 0xe3, 0x33, 0xe7, 0x9c, 0x6f, 0xce, 0x09, 0xf4, 0xc2, 0x2c, 0x49, 0xb2, 0xf4,
+	0x8c, 0xf1, 0x4c, 0x64, 0x68, 0xc7, 0xfa, 0xd8, 0x09, 0xb3, 0x34, 0x17, 0xda, 0x70, 0x3b, 0xd0,
+	0x9a, 0x25, 0x4c, 0x6c, 0xdc, 0xbf, 0x2c, 0xe8, 0x7b, 0x8c, 0x4d, 0x29, 0x8b, 0xb3, 0x4d, 0x42,
+	0x53, 0x81, 0x06, 0x50, 0x8f, 0xc8, 0xc8, 0x3a, 0xb6, 0x5e, 0xda, 0x7e, 0x3d, 0x22, 0x08, 0x41,
+	0x33, 0xc5, 0x09, 0x1d, 0xd5, 0x15, 0xa2, 0xd6, 0xe8, 0x6b, 0xb0, 0xe5, 0x6f, 0xce, 0x70, 0x48,
+	0x47, 0x8d, 0x63, 0xeb, 0xa5, 0x73, 0x7e, 0x74, 0x56, 0xf5, 0x76, 0x76, 0x59, 0x6c, 0xfb, 0x5b,
+	0x26, 0xfa, 0x0e, 0x00, 0x0b, 0xc1, 0xa3, 0x9b, 0xb5, 0xa0, 0xf9, 0xa8, 0xa9, 0xce, 0x3d, 0xdf,
+	0x3d, 0xe7, 0x31, 0xe6, 0x95, 0x14, 0xbf, 0x42, 0x47, 0x43, 0x68, 0xac, 0x23, 0x32, 0x6a, 0xa9,
+	0x6b, 0xc8, 0x25, 0x7a, 0x05, 0xbd, 0xf0, 0x0e, 0x73, 0x11, 0x10, 0x2a, 0x70, 0x14, 0x8f, 0xda,
+	0xea, 0x83, 0xcf, 0x76, 0x3f, 0x38, 0x91, 0x8c, 0xa9, 0x22, 0xf8, 0x4e, 0xb8, 0x35, 0xdc, 0x9f,
+	0x55, 0xe0, 0x5b, 0x67, 0xe8, 0x29, 0xb4, 0xef, 0x22, 0x42, 0x68, 0xaa, 0x82, 0xef, 0xfa, 0xc6,
+	0x42, 0x27, 0xd0, 0x0f, 0x39, 0xc5, 0x22, 0xca, 0xd2, 0x80, 0x60, 0xa1, 0x33, 0xd1, 0xf4, 0x7b,
+	0x05, 0x38, 0xc5, 0x82, 0xa2, 0x2f, 0x00, 0xc5, 0x38, 0x17, 0x41, 0x92, 0x91, 0xe8, 0x36, 0xa2,
+	0x44, 0x33, 0x1b, 0x8a, 0x39, 0x94, 0x3b, 0xdf, 0x9b, 0x0d, 0xc9, 0x76, 0x8f, 0xa0, 0xe5, 0x31,
+	0x76, 0x31, 0xdd, 0x4f, 0xb6, 0xfb, 0x6b, 0x1d, 0x86, 0x53, 0x2c, 0xf0, 0x84, 0xa6, 0x82, 0xf2,
+	0xb7, 0x02, 0x8b, 0x75, 0x7e, 0x50, 0x45, 0x5e, 0x41, 0x6f, 0x45, 0xb3, 0x20, 0xce, 0x42, 0x75,
+	0x27, 0x53, 0x94, 0xbd, 0x5c, 0xbc, 0xa6, 0xd9, 0xc2, 0x10, 0x7c, 0x67, 0xb5, 0x35, 0xd0, 0x19,
+	0xb4, 0x73, 0xe5, 0x4b, 0x15, 0x65, 0x70, 0xfe, 0x74, 0xf7, 0xdc, 0x74, 0xa2, 0x6f, 0xe2, 0x1b,
+	0x16, 0x7a, 0x0d, 0x7d, 0x12, 0x06, 0x95, 0x5a, 0xb6, 0x94, 0x3b, 0x77, 0xef, 0x58, 0x19, 0x48,
+	0xa5, 0xa4, 0x3d, 0x12, 0x56, 0x72, 0x7e, 0x05, 0x1f, 0x92, 0x30, 0xb8, 0xa3, 0x98, 0x8b, 0x1b,
+	0x8a, 0x45, 0xc0, 0x29, 0xcb, 0xb8, 0x30, 0x95, 0x7c, 0xb1, 0x7f, 0x8b, 0x79, 0xc1, 0xf3, 0x15,
+	0xcd, 0x7f, 0x42, 0xc2, 0x3d, 0xc8, 0x7d, 0x03, 0x4e, 0x25, 0x4a, 0x29, 0x9a, 0x18, 0x0b, 0x93,
+	0x3b, 0xb9, 0x54, 0x48, 0xba, 0x32, 0xb9, 0x93, 0x4b, 0x34, 0x82, 0x4e, 0x98, 0xad, 0x53, 0xc1,
+	0x37, 0x2a, 0x6b, 0xb6, 0x5f, 0x98, 0xee, 0x2f, 0x16, 0x7c, 0xf4, 0x50, 0x10, 0xe8, 0x73, 0x18,
+	0xfc, 0x84, 0xe3, 0x98, 0x8a, 0x00, 0x13, 0xc2, 0x69, 0x9e, 0x1b, 0x0f, 0x7d, 0x8d, 0x7a, 0x1a,
+	0x7c, 0x1f, 0xca, 0xb9, 0x85, 0x27, 0xf7, 0xf2, 0x20, 0x23, 0x48, 0xa8, 0xe0, 0x51, 0x58, 0xdc,
+	0xa3, 0x30, 0xa5, 0xa6, 0x4d, 0x4a, 0x75, 0xc0, 0xc6, 0x42, 0x2f, 0xc0, 0xd1, 0xab, 0x40, 0x44,
+	0x49, 0xe1, 0x0d, 0x34, 0xb4, 0x8c, 0x12, 0xea, 0xfe, 0x66, 0x41, 0x4b, 0x3d, 0x9d, 0x52, 0x6d,
+	0x56, 0x45, 0x6d, 0x08, 0x9a, 0x92, 0x5b, 0x28, 0x50, 0xae, 0xd1, 0x31, 0x38, 0x84, 0xe6, 0x21,
+	0x8f, 0x58, 0x29, 0x40, 0xdb, 0xaf, 0x42, 0xe8, 0x19, 0x74, 0xa3, 0x30, 0x4b, 0x83, 0x35, 0x8f,
+	0x95, 0xce, 0x6c, 0xbf, 0x23, 0xed, 0x6b, 0x1e, 0xcb, 0x84, 0xc6, 0x58, 0xd0, 0x5c, 0x04, 0x3f,
+	0x52, 0x9e, 0xcb, 0xf3, 0xfa, 0x9d, 0xf7, 0x35, 0xfa, 0x4e, 0x83, 0x3a, 0x57, 0x8a, 0x86, 0x19,
+	0x2b, 0xa9, 0x6d, 0x45, 0x1d, 0xea, 0x1d, 0x8f, 0x31, 0xc3, 0x76, 0x19, 0x38, 0x95, 0xd7, 0x7f,
+	0x70, 0x20, 0x23, 0xe8, 0x14, 0x5f, 0x36, 0x7a, 0x30, 0xa6, 0xcc, 0x5a, 0xd5, 0xaf, 0x8e, 0x01,
+	0xf0, 0xd6, 0xe3, 0x9f, 0x16, 0xd8, 0x65, 0xe7, 0x3b, 0xe8, 0xdd, 0x7e, 0x02, 0x10, 0xc6, 0xeb,
+	0x5c, 0x50, 0x1e, 0x44, 0xc4, 0xf8, 0xb3, 0x0d, 0x72, 0x41, 0xd0, 0x67, 0xd0, 0x2b, 0xb6, 0xd5,
+	0x51, 0xed, 0xd2, 0x31, 0x98, 0x74, 0x75, 0x5f, 0x64, 0xad, 0x07, 0x44, 0xf6, 0x1c, 0xec, 0x90,
+	0xad, 0x83, 0x38, 0x4a, 0x22, 0xfd, 0xba, 0xea, 0x7e, 0x37, 0x64, 0xeb, 0x85, 0xb4, 0xe5, 0x66,
+	0x42, 0x13, 0xb3, 0xd9, 0x51, 0x1e, 0xba, 0x09, 0x4d, 0xf4, 0xe6, 0x09, 0xf4, 0x73, 0x91, 0x71,
+	0xbc, 0xa2, 0x86, 0xd0, 0x55, 0x84, 0x9e, 0x01, 0x15, 0xc9, 0xfd, 0xa3, 0x0e, 0x0d, 0x8f, 0xb1,
+	0x83, 0x22, 0x3e, 0x81, 0x5e, 0x39, 0x11, 0xca, 0x98, 0xe7, 0x35, 0xdf, 0x29, 0xd1, 0x0b, 0x82,
+	0xbe, 0xa9, 0x0e, 0x98, 0xe6, 0x3f, 0x0e, 0x98, 0x79, 0xad, 0x3a, 0x62, 0xbe, 0x2c, 0x3b, 0x59,
+	0x4b, 0x75, 0xb2, 0xa3, 0x7b, 0xe3, 0x65, 0xaf, 0x95, 0xed, 0xce, 0xa4, 0xf6, 0xff, 0x9a, 0x49,
+	0x9d, 0xc7, 0x67, 0x52, 0xf7, 0xbf, 0xcc, 0xa4, 0xf1, 0x10, 0x06, 0xdb, 0xdc, 0x10, 0x2c, 0xb0,
+	0xfb, 0x7b, 0x1d, 0xba, 0xb2, 0xfd, 0x72, 0x8a, 0x13, 0x74, 0x0e, 0x9d, 0x8c, 0x05, 0x62, 0xc3,
+	0xb4, 0x88, 0x07, 0xfb, 0xdf, 0x9d, 0x4e, 0xae, 0x18, 0xe5, 0xba, 0xbf, 0xb7, 0x33, 0xb6, 0xdc,
+	0x30, 0x8a, 0xa6, 0x30, 0x90, 0x9a, 0x25, 0xe5, 0x80, 0x57, 0xc5, 0x78, 0x28, 0xc6, 0xed, 0x7f,
+	0x80, 0x79, 0xcd, 0xef, 0xe3, 0x9d, 0x3f, 0x05, 0xdf, 0x82, 0x94, 0x79, 0xd1, 0x9e, 0x1f, 0x9c,
+	0xf8, 0x1e, 0x63, 0xba, 0x1d, 0xc9, 0x82, 0xe0, 0xc2, 0x40, 0x1e, 0x38, 0x32, 0x90, 0x20, 0x54,
+	0x3d, 0xd4, 0xd4, 0xf2, 0xd3, 0xc7, 0x06, 0x85, 0x2e, 0xce, 0xbc, 0xe6, 0x03, 0x29, 0xb1, 0x5d,
+	0x31, 0xb4, 0x0e, 0x17, 0xc3, 0xb8, 0x07, 0x90, 0xb1, 0x80, 0xe1, 0x4d, 0x9c, 0x61, 0xe2, 0xae,
+	0xc0, 0x2e, 0xef, 0x88, 0xc6, 0xf7, 0xd2, 0x62, 0xfd, 0x6b, 0x5a, 0xf6, 0x93, 0xf2, 0x48, 0x73,
+	0x3d, 0x3d, 0xd5, 0x25, 0x53, 0xf2, 0xea, 0x83, 0xed, 0xbd, 0xf3, 0x2e, 0x16, 0xde, 0x78, 0x31,
+	0x1b, 0xd6, 0xd0, 0x07, 0xe0, 0x5c, 0x5f, 0x6e, 0x01, 0xeb, 0xf4, 0x0a, 0x9c, 0x4a, 0xd5, 0xe4,
+	0xfe, 0xd2, 0x7b, 0xfb, 0x26, 0x98, 0xf8, 0x33, 0x6f, 0x69, 0x0e, 0x68, 0xc0, 0xbb, 0x9c, 0xcc,
+	0x16, 0x43, 0xab, 0x04, 0xae, 0x7f, 0x98, 0x4a, 0x46, 0x5d, 0x7a, 0x98, 0xcf, 0x3c, 0x7f, 0x39,
+	0x9e, 0x79, 0xcb, 0x61, 0xe3, 0xa6, 0xad, 0x2e, 0xfe, 0xd5, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff,
+	0xf2, 0x82, 0x0e, 0x03, 0x0b, 0x0a, 0x00, 0x00,
+>>>>>>> bcf4f263ede4dafc566378a80c86d3a60d535863
 }
