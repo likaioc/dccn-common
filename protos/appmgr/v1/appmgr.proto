@@ -90,7 +90,7 @@ message ChartDetailRequest {
 }
 
 message ChartDetailResponse {
-    repeated common.proto.ChartDetail chartdetail = 1; //for multiple version
+    repeated common.proto.ChartDetail chartdetails = 1; //for multiple version
     string show_readme = 2; // readme.md for current version 
 	string show_values = 3; // value.yaml for current version 
 }
