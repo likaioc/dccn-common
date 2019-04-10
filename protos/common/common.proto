@@ -4,10 +4,13 @@ package common.proto;
 
 // App Events operation code
 enum DCOperation {
-    TASK_CREATE = 0;
-    TASK_CANCEL = 1;
-    TASK_UPDATE = 2;
+    APP_CREATE = 0;
+    APP_CANCEL = 1;
+    APP_UPDATE = 2;
     HEARTBEAT = 3;
+    NS_CREATE = 4;
+    NS_DELETE = 5;
+    NS_UPDATE = 6;
 }
 
 // Hub app status
@@ -120,6 +123,7 @@ message DCStream {
         AppDeployment app_deployment = 2; // Deploy app action
         AppReport app_report = 3;
         DataCenter data_center = 4; // HearBeat Info with DataCenter message
+        Namespace namespace = 5;
     }
 }
 
