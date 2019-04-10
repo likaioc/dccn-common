@@ -6,10 +6,10 @@ package dcmgr;
 
 // DC is the communication definition of daemon and dc-facade
 service DC {
-    rpc CreateApp (common.proto.App) returns (common.proto.Empty) {}
-    rpc UpdateApp (common.proto.App) returns (common.proto.Empty) {}
+    rpc CreateApp (common.proto.AppDeployment) returns (common.proto.Empty) {}
+    rpc UpdateApp (common.proto.AppDeployment) returns (common.proto.Empty) {}
     rpc PurgeApp (common.proto.AppID) returns (common.proto.Empty) {}
-    rpc Status (common.proto.Empty) returns (common.proto.DataCenter) {}
+    rpc Status (common.proto.Empty) returns (common.proto.DataCenterStatus) {}
 }
 
 //
@@ -21,7 +21,7 @@ service DCAPI {
 }
 
 message DataCenterListResponse {
-  repeated common.proto.DataCenter dcList= 1; // repeated groups of DataCenterInfo list
+  repeated common.proto.DataCenterStatus dcList= 1; // repeated groups of DataCenterInfo list
 }
 
 message NetworkInfoResponse {

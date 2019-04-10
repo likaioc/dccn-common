@@ -1,36 +1,10 @@
 syntax = "proto3";
-
 package common.proto;
 
+// FIXME: delete useless definitions
+// FIXME: ensure id and name use case, delete one if not necessary
+import "const.proto";
 
-// Hub app status
-enum AppStatus {
-    APP_STARTING = 0;
-    APP_START_SUCCESS = 1;
-    APP_START_FAILED = 2;
-    APP_RUNNING = 3;
-    APP_UPDATING = 4;
-    APP_UPDATE_SUCCESS = 5;
-    APP_UPDATE_FAILED = 6;
-    APP_CANCELLING = 7;
-    APP_CANCELLED = 8;
-    APP_CANCEL_FAILED = 9;
-    APP_DONE = 10;
-}
-
-// Hub namespace status
-enum NamespaceStatus {
-    NS_STARTING = 0;
-    NS_START_SUCCESS = 1;
-    NS_START_FAILED = 2;
-    NS_RUNNING = 3;
-    NS_UPDATING = 4;
-    NS_UPDATE_SUCCESS = 5;
-    NS_UPDATE_FAILED = 6;
-    NS_CANCELLING = 7;
-    NS_CANCELLED = 8;
-    NS_CANCEL_FAILED = 9;
-}
 
 // Data center status
 enum DCStatus {
@@ -38,34 +12,20 @@ enum DCStatus {
     UNAVAILABLE = 1;
 }
 
+
 // Emtpy Message
 message Empty {}
 
-// App Data structure
-message App {
-    string id = 1;
-    string name = 2; // name of the app
-    oneof namespace_data {
-        string namespace_id = 3; // namespace id
-        Namespace namespace = 4; // request for create new namespace
-    }
-    AppStatus status = 5;
-    AppAttributes attributes = 6;
-    string uid = 7;
-    ChartDetail chart_detail = 8;
-}
 
 // App Deployment structure
 message AppDeployment {
     string id = 1;
     string name = 2; // name of the app
     Namespace namespace = 3; // request for create new namespace
-    AppStatus status = 4;
-    AppAttributes attributes = 5;
-    string uid = 6;
-    ChartDetail chart_detail = 7;
+    AppAttributes attributes = 4;
+    string uid = 5;
+    ChartDetail chart_detail = 6;
 }
-
 message AppAttributes {
     bool hidden = 1;
     uint64 creation_date = 2; //app creation date
@@ -75,14 +35,9 @@ message AppID {
     string id = 1;
 }
 
-message GeoLocation {
-    string lat = 1; // latitude
-    string lng = 2; // longitude
-    string country = 3; // US
-}
 
 // Data Center structure
-message DataCenter {
+message DataCenterStatus {
     string id = 1;  //data center id
     string name = 2; // data center name
     GeoLocation geo_location = 3;
@@ -90,13 +45,16 @@ message DataCenter {
     DataCenterAttributes dc_attributes = 5;
     DCHeartbeatReport dc_heartbeat_report = 6;
 }
-
+message GeoLocation {
+    string lat = 1; // latitude
+    string lng = 2; // longitude
+    string country = 3; // US
+}
 message DataCenterAttributes {
     string wallet_address = 1;  //datacenter wallet address
     uint64 creation_date = 2; //app creation date
     uint64 last_modified_date = 3; //app creation date
 }
-
 message DCHeartbeatReport {
     string metrics = 1; //json string for Metrics structure which defined in constants
     string report = 2;
@@ -112,13 +70,13 @@ message Chart {
     string latest_version = 5;
     string latest_app_version = 6;
 }
-
 message ChartDetail {
     string name = 1;
     string repo = 2;
     string version = 3; //chart version 
 	string app_version = 4; //application version 
 }
+
 
 message Namespace {
     string id = 1; //short hash of uid+name+cluster_id
@@ -129,19 +87,33 @@ message Namespace {
     float cpu_limit = 6;
     string mem_limit = 7;
     string storage_limit = 8;
-    NamespaceStatus namespace_status = 9;
 }
 
 
-// Used by dc-mgr to dc-facade
-// data center communicate with dc manager
+// Used by appmgr
+message App {
+    string id = 1;
+    string name = 2; // name of the app
+    oneof namespace_data {
+        string namespace_id = 3; // namespace id
+        Namespace namespace = 4; // request for create new namespace
+    }
+    AppStatus status = 5;
+    AppAttributes attributes = 6;
+    string uid = 7;
+    ChartDetail chart_detail = 8;
+}
+
+
+// Used by dc-mgr to dc-facade rabbitmq
 message DCStream {
     DCOperation op_type = 1; // HeartBeat or app operation
 
     oneof op_payload {
-        App app = 2; // Deploy task action
+        AppDeployment app_deployment = 2; // Deploy app action
         AppReport app_report = 3;
-        DataCenter data_center = 4; // HearBeat Info with DataCenter message
+        DataCenterStatus data_center = 4; // HearBeat Info with DataCenter message
+        Namespace namespace = 5;
     }
 }
 // Task Events operation code
@@ -152,6 +124,6 @@ enum DCOperation {
     HEARTBEAT = 3;
 }
 message AppReport {
-    App app = 1; //json string for Metrics structure which defined in constants
+    AppDeployment app_deployment = 1; //json string for Metrics structure which defined in constants
     string report = 2;
 }
