@@ -25,12 +25,15 @@ message AppDeployment {
     AppAttributes attributes = 4;
     string uid = 5;
     ChartDetail chart_detail = 6;
+    AppStatus status = 7;
 }
+
 message AppAttributes {
     bool hidden = 1;
     uint64 creation_date = 2; //app creation date
     uint64 last_modified_date = 3; //app creation date
 }
+
 message AppID {
     string id = 1;
 }
@@ -45,16 +48,19 @@ message DataCenterStatus {
     DataCenterAttributes dc_attributes = 5;
     DCHeartbeatReport dc_heartbeat_report = 6;
 }
+
 message GeoLocation {
     string lat = 1; // latitude
     string lng = 2; // longitude
     string country = 3; // US
 }
+
 message DataCenterAttributes {
     string wallet_address = 1;  //datacenter wallet address
     uint64 creation_date = 2; //app creation date
     uint64 last_modified_date = 3; //app creation date
 }
+
 message DCHeartbeatReport {
     string metrics = 1; //json string for Metrics structure which defined in constants
     string report = 2;
@@ -87,6 +93,7 @@ message Namespace {
     float cpu_limit = 6;
     string mem_limit = 7;
     string storage_limit = 8;
+    NamespaceStatus status = 9;
 }
 
 
