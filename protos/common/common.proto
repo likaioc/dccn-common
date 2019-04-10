@@ -40,6 +40,17 @@ message AppID {
 
 
 // Data Center structure
+message DataCenter {
+    string id = 1;  //data center id
+    string name = 2; // data center name
+    GeoLocation geo_location = 3;
+    DCStatus status = 4; // data center status // 1. online 2. offline
+    DataCenterAttributes dc_attributes = 5;
+    DCHeartbeatReport dc_heartbeat_report = 6;
+}
+
+
+// Data Center structure  this only used by deamon reply
 message DataCenterStatus {
     string id = 1;  //data center id
     string name = 2; // data center name
