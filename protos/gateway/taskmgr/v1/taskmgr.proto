@@ -99,8 +99,8 @@ message CreateAppRequest {
     string uid = 5;
     string chartname = 6;
     string chartrepo = 7;
-    string chartdescription = 8;
-    string icon_url = 9;
+    string chartversion = 8;
+    string chartappversion = 9;
     string namespace_id = 10;
     string ns_id = 11; 
 	string ns_name = 12;
@@ -140,8 +140,8 @@ message UpdateAppRequest{
     string uid = 5;
     string chartname = 6;
     string chartrepo = 7;
-    string chartdescription = 8;
-    string icon_url = 9;
+    string chartversion = 8;
+    string chartappversion = 9;
     string namespace_id = 10;
     string ns_id = 11; 
 	string ns_name = 12;
@@ -222,7 +222,9 @@ message NamespaceListResponse {
 }
 
 message UpdateNamespaceRequest {
-    common.proto.Namespace namespaces = 1;
+    float cpu_limit = 1;
+    string mem_limit = 2;
+    string storage_limit = 3;
 }
 
 message DeleteNamespaceRequest {

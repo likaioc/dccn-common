@@ -48,11 +48,11 @@ enum DCStatus {
 // Emtpy Message
 message Empty {}
 
-// App Data structure
+// App Data structure for external usage
 message App {
     string id = 1;
     string name = 2; // name of the app
-    oneof type_data {
+    oneof namespace_data {
         string namespace_id = 3; // namespace id
         Namespace namespace = 4; // request for create new namespace
     }
@@ -62,7 +62,7 @@ message App {
     ChartDetail chart_detail = 8;
 }
 
-// App Deployment structure
+// App Deployment structure for internal use
 message AppDeployment {
     string id = 1;
     string name = 2; // name of the app
