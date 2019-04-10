@@ -9,7 +9,7 @@ enum DCOperation {
     APP_UPDATE = 2;
     HEARTBEAT = 3;
     NS_CREATE = 4;
-    NS_DELETE = 5;
+    NS_CANCEL = 5;
     NS_UPDATE = 6;
 }
 
