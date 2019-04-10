@@ -61,15 +61,23 @@ func NewClient(port string, conf *yamux.Config) (*Client, error) {
 				continue
 			}
 
-			if conf.Logger != nil {
-				conf.Logger.Println("new connection from:", muxConn.RemoteAddr().String())
+			host, _, err := net.SplitHostPort(muxConn.RemoteAddr().String())
+			if err != nil {
+				if conf.Logger != nil {
+					conf.Logger.Println("parse new connection address fail:", err)
+				}
+				continue
 			}
 
-			if conn, ok := conns.LoadOrStore(muxConn.RemoteAddr().String(), muxConn); ok {
-				conns.Store(muxConn.RemoteAddr().String(), muxConn)
+			if conf.Logger != nil {
+				conf.Logger.Println("new connection from:", host)
+			}
+
+			if conn, ok := conns.LoadOrStore(host, muxConn); ok {
+				conns.Store(host, muxConn)
 
 				if err := conn.(*yamux.Session).GoAway(); err != nil && conf.Logger != nil {
-					conf.Logger.Printf("session(%s) go away fail: %s", muxConn.RemoteAddr().String(), err)
+					conf.Logger.Printf("session(%s) go away fail: %s", host, err)
 				}
 			}
 		}
