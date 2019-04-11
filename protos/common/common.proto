@@ -140,4 +140,5 @@ enum DCOperation {
 message AppReport {
     AppDeployment app_deployment = 1; //json string for Metrics structure which defined in constants
     string report = 2;
+    AppStatus app_status = 3;
 }
