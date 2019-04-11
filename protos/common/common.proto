@@ -2,7 +2,6 @@ syntax = "proto3";
 package common.proto;
 
 // FIXME: delete useless definitions
-// FIXME: ensure id and name use case, delete one if not necessary
 import "const.proto";
 
 
@@ -19,13 +18,12 @@ message Empty {}
 
 // App Deployment structure
 message AppDeployment {
-    string id = 1;
-    string name = 2; // name of the app
-    Namespace namespace = 3; // request for create new namespace
-    AppAttributes attributes = 4;
-    string uid = 5;
+    string  id = 1;
+    string  name = 2; // name of the app
+    Namespace   namespace = 3; // request for create new namespace
+    AppAttributes   attributes = 4;
+    string  uid = 5;
     ChartDetail chart_detail = 6;
-    AppStatus status = 7;
 }
 
 message AppAttributes {
@@ -34,19 +32,13 @@ message AppAttributes {
     uint64 last_modified_date = 3; //app creation date
 }
 
-message AppID {
-    string id = 1;
-}
-
 
 // Data Center structure
 message DataCenter {
-    string id = 1;  //data center id
-    string name = 2; // data center name
-    GeoLocation geo_location = 3;
-    DCStatus status = 4; // data center status // 1. online 2. offline
-    DataCenterAttributes dc_attributes = 5;
-    DCHeartbeatReport dc_heartbeat_report = 6;
+    string  id = 1;  //data center id
+    string  name = 2; // data center name
+    bool    force_update = 3;
+    DataCenterAttributes    dc_attributes = 4;
 }
 
 

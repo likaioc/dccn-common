@@ -8,7 +8,11 @@ package dcmgr;
 service DC {
     rpc CreateApp (common.proto.AppDeployment) returns (common.proto.Empty) {}
     rpc UpdateApp (common.proto.AppDeployment) returns (common.proto.Empty) {}
-    rpc PurgeApp (common.proto.AppID) returns (common.proto.Empty) {}
+    rpc DeleteApp (common.proto.AppDeployment) returns (common.proto.Empty) {}
+    rpc CreateNamespace (common.proto.Namespace) returns (common.proto.Empty) {}
+    rpc UpdateNamespace (common.proto.Namespace) returns (common.proto.Empty) {}
+    rpc DeleteNamespace (common.proto.Namespace) returns (common.proto.Empty) {}
+    rpc InitDC (common.proto.DataCenter) returns (common.proto.Empty) {}
     rpc Status (common.proto.Empty) returns (common.proto.DataCenterStatus) {}
 }
 
