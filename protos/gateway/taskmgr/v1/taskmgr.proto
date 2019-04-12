@@ -107,9 +107,9 @@ message CreateAppRequest {
 	string ns_cluster_id = 13; //id of cluster
     string ns_cluster_name = 14; //name of cluster
 	uint64 ns_creation_date = 15;
-    float ns_cpu_limit = 16;
-    string ns_mem_limit = 17;
-    string ns_storage_limit = 18;
+    uint64 ns_cpu_limit = 16;
+    uint64 ns_mem_limit = 17;
+    uint64 ns_storage_limit = 18;
 }
 
 message CreateAppResponse {
@@ -148,9 +148,9 @@ message UpdateAppRequest{
 	string ns_cluster_id = 13; //id of cluster
     string ns_cluster_name = 14; //name of cluster
 	uint64 ns_creation_date = 15;
-    float ns_cpu_limit = 16;
-    string ns_mem_limit = 17;
-    string ns_storage_limit = 18;
+    uint64 ns_cpu_limit = 16;
+    uint64 ns_mem_limit = 17;
+    uint64 ns_storage_limit = 18;
     common.proto.AppStatus status = 19;
 }
 
