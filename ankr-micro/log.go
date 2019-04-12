@@ -5,6 +5,7 @@ import (
 	"log"
 	"path"
 	"runtime"
+	"sync"
 	"time"
 )
 
@@ -15,6 +16,11 @@ func (writer logWriter) Write(bytes []byte) (int, error) {
 	return fmt.Print(time.Now().UTC().Format("2006-01-02 15:04:05") + string(bytes))
 }
 
+var (
+	logOnce sync.Once
+	logger  *log.Logger
+)
+
 // WriteLog function writes the string line to the default logging device
 func WriteLog(msg string) {
 
@@ -23,7 +29,8 @@ func WriteLog(msg string) {
 		pathInfo = fmt.Sprintf("    [%s:%v]", path.Base(file), line)
 	}
 
-	log.SetFlags(0)
-	log.SetOutput(new(logWriter))
-	log.Println("    " + msg + pathInfo)
+	logOnce.Do(func() {
+		logger = log.New(new(logWriter), "", 0)
+	})
+	logger.Println("    " + msg + pathInfo)
 }
