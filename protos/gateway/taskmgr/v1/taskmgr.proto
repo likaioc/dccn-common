@@ -211,9 +211,9 @@ message CreateNamespaceRequest {
 	string cluster_id = 3; //id of cluster
     string cluster_name = 4; //name of cluster
 	uint64 creation_date = 5;
-    float cpu_limit = 6;
-    string mem_limit = 7;
-    string storage_limit = 8;
+    uint64 cpu_limit = 6;
+    uint64 mem_limit = 7;
+    uint64 storage_limit = 8;
 }
 
 message NamespaceListRequest {
@@ -225,9 +225,9 @@ message NamespaceListResponse {
 }
 
 message UpdateNamespaceRequest {
-    float cpu_limit = 1;
-    string mem_limit = 2;
-    string storage_limit = 3;
+    uint64 cpu_limit = 1;
+    uint64 mem_limit = 2;
+    uint64 storage_limit = 3;
 }
 
 message DeleteNamespaceRequest {
