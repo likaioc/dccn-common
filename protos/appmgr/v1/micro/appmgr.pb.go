@@ -3,12 +3,10 @@
 
 package appmgr
 
-import (
-	fmt "fmt"
-	common "github.com/Ankr-network/dccn-common/protos/common"
-	proto "github.com/golang/protobuf/proto"
-	math "math"
-)
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
+import math "math"
+import common "github.com/Ankr-network/dccn-common/protos/common"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -19,7 +17,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 // The dccn client request message containing the user's token
 type CreateAppRequest struct {
@@ -33,17 +31,16 @@ func (m *CreateAppRequest) Reset()         { *m = CreateAppRequest{} }
 func (m *CreateAppRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateAppRequest) ProtoMessage()    {}
 func (*CreateAppRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{0}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{0}
 }
-
 func (m *CreateAppRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CreateAppRequest.Unmarshal(m, b)
 }
 func (m *CreateAppRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CreateAppRequest.Marshal(b, m, deterministic)
 }
-func (m *CreateAppRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateAppRequest.Merge(m, src)
+func (dst *CreateAppRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateAppRequest.Merge(dst, src)
 }
 func (m *CreateAppRequest) XXX_Size() int {
 	return xxx_messageInfo_CreateAppRequest.Size(m)
@@ -72,17 +69,16 @@ func (m *CreateAppResponse) Reset()         { *m = CreateAppResponse{} }
 func (m *CreateAppResponse) String() string { return proto.CompactTextString(m) }
 func (*CreateAppResponse) ProtoMessage()    {}
 func (*CreateAppResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{1}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{1}
 }
-
 func (m *CreateAppResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CreateAppResponse.Unmarshal(m, b)
 }
 func (m *CreateAppResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CreateAppResponse.Marshal(b, m, deterministic)
 }
-func (m *CreateAppResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateAppResponse.Merge(m, src)
+func (dst *CreateAppResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateAppResponse.Merge(dst, src)
 }
 func (m *CreateAppResponse) XXX_Size() int {
 	return xxx_messageInfo_CreateAppResponse.Size(m)
@@ -111,17 +107,16 @@ func (m *AppListRequest) Reset()         { *m = AppListRequest{} }
 func (m *AppListRequest) String() string { return proto.CompactTextString(m) }
 func (*AppListRequest) ProtoMessage()    {}
 func (*AppListRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{2}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{2}
 }
-
 func (m *AppListRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppListRequest.Unmarshal(m, b)
 }
 func (m *AppListRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppListRequest.Marshal(b, m, deterministic)
 }
-func (m *AppListRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppListRequest.Merge(m, src)
+func (dst *AppListRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppListRequest.Merge(dst, src)
 }
 func (m *AppListRequest) XXX_Size() int {
 	return xxx_messageInfo_AppListRequest.Size(m)
@@ -150,17 +145,16 @@ func (m *AppListResponse) Reset()         { *m = AppListResponse{} }
 func (m *AppListResponse) String() string { return proto.CompactTextString(m) }
 func (*AppListResponse) ProtoMessage()    {}
 func (*AppListResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{3}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{3}
 }
-
 func (m *AppListResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppListResponse.Unmarshal(m, b)
 }
 func (m *AppListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppListResponse.Marshal(b, m, deterministic)
 }
-func (m *AppListResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppListResponse.Merge(m, src)
+func (dst *AppListResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppListResponse.Merge(dst, src)
 }
 func (m *AppListResponse) XXX_Size() int {
 	return xxx_messageInfo_AppListResponse.Size(m)
@@ -189,17 +183,16 @@ func (m *AppFilter) Reset()         { *m = AppFilter{} }
 func (m *AppFilter) String() string { return proto.CompactTextString(m) }
 func (*AppFilter) ProtoMessage()    {}
 func (*AppFilter) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{4}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{4}
 }
-
 func (m *AppFilter) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppFilter.Unmarshal(m, b)
 }
 func (m *AppFilter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppFilter.Marshal(b, m, deterministic)
 }
-func (m *AppFilter) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppFilter.Merge(m, src)
+func (dst *AppFilter) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppFilter.Merge(dst, src)
 }
 func (m *AppFilter) XXX_Size() int {
 	return xxx_messageInfo_AppFilter.Size(m)
@@ -228,17 +221,16 @@ func (m *AppID) Reset()         { *m = AppID{} }
 func (m *AppID) String() string { return proto.CompactTextString(m) }
 func (*AppID) ProtoMessage()    {}
 func (*AppID) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{5}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{5}
 }
-
 func (m *AppID) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppID.Unmarshal(m, b)
 }
 func (m *AppID) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppID.Marshal(b, m, deterministic)
 }
-func (m *AppID) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppID.Merge(m, src)
+func (dst *AppID) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppID.Merge(dst, src)
 }
 func (m *AppID) XXX_Size() int {
 	return xxx_messageInfo_AppID.Size(m)
@@ -267,17 +259,16 @@ func (m *UpdateAppRequest) Reset()         { *m = UpdateAppRequest{} }
 func (m *UpdateAppRequest) String() string { return proto.CompactTextString(m) }
 func (*UpdateAppRequest) ProtoMessage()    {}
 func (*UpdateAppRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{6}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{6}
 }
-
 func (m *UpdateAppRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UpdateAppRequest.Unmarshal(m, b)
 }
 func (m *UpdateAppRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_UpdateAppRequest.Marshal(b, m, deterministic)
 }
-func (m *UpdateAppRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateAppRequest.Merge(m, src)
+func (dst *UpdateAppRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateAppRequest.Merge(dst, src)
 }
 func (m *UpdateAppRequest) XXX_Size() int {
 	return xxx_messageInfo_UpdateAppRequest.Size(m)
@@ -310,17 +301,16 @@ func (m *AppOverviewResponse) Reset()         { *m = AppOverviewResponse{} }
 func (m *AppOverviewResponse) String() string { return proto.CompactTextString(m) }
 func (*AppOverviewResponse) ProtoMessage()    {}
 func (*AppOverviewResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{7}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{7}
 }
-
 func (m *AppOverviewResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppOverviewResponse.Unmarshal(m, b)
 }
 func (m *AppOverviewResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppOverviewResponse.Marshal(b, m, deterministic)
 }
-func (m *AppOverviewResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppOverviewResponse.Merge(m, src)
+func (dst *AppOverviewResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppOverviewResponse.Merge(dst, src)
 }
 func (m *AppOverviewResponse) XXX_Size() int {
 	return xxx_messageInfo_AppOverviewResponse.Size(m)
@@ -377,17 +367,16 @@ func (m *AppLeaderBoardResponse) Reset()         { *m = AppLeaderBoardResponse{}
 func (m *AppLeaderBoardResponse) String() string { return proto.CompactTextString(m) }
 func (*AppLeaderBoardResponse) ProtoMessage()    {}
 func (*AppLeaderBoardResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{8}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{8}
 }
-
 func (m *AppLeaderBoardResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppLeaderBoardResponse.Unmarshal(m, b)
 }
 func (m *AppLeaderBoardResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppLeaderBoardResponse.Marshal(b, m, deterministic)
 }
-func (m *AppLeaderBoardResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppLeaderBoardResponse.Merge(m, src)
+func (dst *AppLeaderBoardResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppLeaderBoardResponse.Merge(dst, src)
 }
 func (m *AppLeaderBoardResponse) XXX_Size() int {
 	return xxx_messageInfo_AppLeaderBoardResponse.Size(m)
@@ -417,17 +406,16 @@ func (m *AppLeaderBoardDetail) Reset()         { *m = AppLeaderBoardDetail{} }
 func (m *AppLeaderBoardDetail) String() string { return proto.CompactTextString(m) }
 func (*AppLeaderBoardDetail) ProtoMessage()    {}
 func (*AppLeaderBoardDetail) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{9}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{9}
 }
-
 func (m *AppLeaderBoardDetail) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppLeaderBoardDetail.Unmarshal(m, b)
 }
 func (m *AppLeaderBoardDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppLeaderBoardDetail.Marshal(b, m, deterministic)
 }
-func (m *AppLeaderBoardDetail) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppLeaderBoardDetail.Merge(m, src)
+func (dst *AppLeaderBoardDetail) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppLeaderBoardDetail.Merge(dst, src)
 }
 func (m *AppLeaderBoardDetail) XXX_Size() int {
 	return xxx_messageInfo_AppLeaderBoardDetail.Size(m)
@@ -466,17 +454,16 @@ func (m *CreateChartRequest) Reset()         { *m = CreateChartRequest{} }
 func (m *CreateChartRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateChartRequest) ProtoMessage()    {}
 func (*CreateChartRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{10}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{10}
 }
-
 func (m *CreateChartRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CreateChartRequest.Unmarshal(m, b)
 }
 func (m *CreateChartRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CreateChartRequest.Marshal(b, m, deterministic)
 }
-func (m *CreateChartRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateChartRequest.Merge(m, src)
+func (dst *CreateChartRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateChartRequest.Merge(dst, src)
 }
 func (m *CreateChartRequest) XXX_Size() int {
 	return xxx_messageInfo_CreateChartRequest.Size(m)
@@ -527,17 +514,16 @@ func (m *ChartListRequest) Reset()         { *m = ChartListRequest{} }
 func (m *ChartListRequest) String() string { return proto.CompactTextString(m) }
 func (*ChartListRequest) ProtoMessage()    {}
 func (*ChartListRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{11}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{11}
 }
-
 func (m *ChartListRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChartListRequest.Unmarshal(m, b)
 }
 func (m *ChartListRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChartListRequest.Marshal(b, m, deterministic)
 }
-func (m *ChartListRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChartListRequest.Merge(m, src)
+func (dst *ChartListRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChartListRequest.Merge(dst, src)
 }
 func (m *ChartListRequest) XXX_Size() int {
 	return xxx_messageInfo_ChartListRequest.Size(m)
@@ -573,17 +559,16 @@ func (m *ChartListResponse) Reset()         { *m = ChartListResponse{} }
 func (m *ChartListResponse) String() string { return proto.CompactTextString(m) }
 func (*ChartListResponse) ProtoMessage()    {}
 func (*ChartListResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{12}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{12}
 }
-
 func (m *ChartListResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChartListResponse.Unmarshal(m, b)
 }
 func (m *ChartListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChartListResponse.Marshal(b, m, deterministic)
 }
-func (m *ChartListResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChartListResponse.Merge(m, src)
+func (dst *ChartListResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChartListResponse.Merge(dst, src)
 }
 func (m *ChartListResponse) XXX_Size() int {
 	return xxx_messageInfo_ChartListResponse.Size(m)
@@ -613,17 +598,16 @@ func (m *ChartDetailRequest) Reset()         { *m = ChartDetailRequest{} }
 func (m *ChartDetailRequest) String() string { return proto.CompactTextString(m) }
 func (*ChartDetailRequest) ProtoMessage()    {}
 func (*ChartDetailRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{13}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{13}
 }
-
 func (m *ChartDetailRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChartDetailRequest.Unmarshal(m, b)
 }
 func (m *ChartDetailRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChartDetailRequest.Marshal(b, m, deterministic)
 }
-func (m *ChartDetailRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChartDetailRequest.Merge(m, src)
+func (dst *ChartDetailRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChartDetailRequest.Merge(dst, src)
 }
 func (m *ChartDetailRequest) XXX_Size() int {
 	return xxx_messageInfo_ChartDetailRequest.Size(m)
@@ -661,17 +645,16 @@ func (m *ChartDetailResponse) Reset()         { *m = ChartDetailResponse{} }
 func (m *ChartDetailResponse) String() string { return proto.CompactTextString(m) }
 func (*ChartDetailResponse) ProtoMessage()    {}
 func (*ChartDetailResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{14}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{14}
 }
-
 func (m *ChartDetailResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChartDetailResponse.Unmarshal(m, b)
 }
 func (m *ChartDetailResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChartDetailResponse.Marshal(b, m, deterministic)
 }
-func (m *ChartDetailResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChartDetailResponse.Merge(m, src)
+func (dst *ChartDetailResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChartDetailResponse.Merge(dst, src)
 }
 func (m *ChartDetailResponse) XXX_Size() int {
 	return xxx_messageInfo_ChartDetailResponse.Size(m)
@@ -716,17 +699,16 @@ func (m *DeleteChartRequest) Reset()         { *m = DeleteChartRequest{} }
 func (m *DeleteChartRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteChartRequest) ProtoMessage()    {}
 func (*DeleteChartRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{15}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{15}
 }
-
 func (m *DeleteChartRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DeleteChartRequest.Unmarshal(m, b)
 }
 func (m *DeleteChartRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DeleteChartRequest.Marshal(b, m, deterministic)
 }
-func (m *DeleteChartRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeleteChartRequest.Merge(m, src)
+func (dst *DeleteChartRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteChartRequest.Merge(dst, src)
 }
 func (m *DeleteChartRequest) XXX_Size() int {
 	return xxx_messageInfo_DeleteChartRequest.Size(m)
@@ -769,17 +751,16 @@ func (m *CreateNamespaceRequest) Reset()         { *m = CreateNamespaceRequest{}
 func (m *CreateNamespaceRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateNamespaceRequest) ProtoMessage()    {}
 func (*CreateNamespaceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{16}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{16}
 }
-
 func (m *CreateNamespaceRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CreateNamespaceRequest.Unmarshal(m, b)
 }
 func (m *CreateNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CreateNamespaceRequest.Marshal(b, m, deterministic)
 }
-func (m *CreateNamespaceRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateNamespaceRequest.Merge(m, src)
+func (dst *CreateNamespaceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateNamespaceRequest.Merge(dst, src)
 }
 func (m *CreateNamespaceRequest) XXX_Size() int {
 	return xxx_messageInfo_CreateNamespaceRequest.Size(m)
@@ -808,17 +789,16 @@ func (m *NamespaceListRequest) Reset()         { *m = NamespaceListRequest{} }
 func (m *NamespaceListRequest) String() string { return proto.CompactTextString(m) }
 func (*NamespaceListRequest) ProtoMessage()    {}
 func (*NamespaceListRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{17}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{17}
 }
-
 func (m *NamespaceListRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_NamespaceListRequest.Unmarshal(m, b)
 }
 func (m *NamespaceListRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_NamespaceListRequest.Marshal(b, m, deterministic)
 }
-func (m *NamespaceListRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_NamespaceListRequest.Merge(m, src)
+func (dst *NamespaceListRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceListRequest.Merge(dst, src)
 }
 func (m *NamespaceListRequest) XXX_Size() int {
 	return xxx_messageInfo_NamespaceListRequest.Size(m)
@@ -847,17 +827,16 @@ func (m *NamespaceListResponse) Reset()         { *m = NamespaceListResponse{} }
 func (m *NamespaceListResponse) String() string { return proto.CompactTextString(m) }
 func (*NamespaceListResponse) ProtoMessage()    {}
 func (*NamespaceListResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{18}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{18}
 }
-
 func (m *NamespaceListResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_NamespaceListResponse.Unmarshal(m, b)
 }
 func (m *NamespaceListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_NamespaceListResponse.Marshal(b, m, deterministic)
 }
-func (m *NamespaceListResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_NamespaceListResponse.Merge(m, src)
+func (dst *NamespaceListResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceListResponse.Merge(dst, src)
 }
 func (m *NamespaceListResponse) XXX_Size() int {
 	return xxx_messageInfo_NamespaceListResponse.Size(m)
@@ -886,17 +865,16 @@ func (m *UpdateNamespaceRequest) Reset()         { *m = UpdateNamespaceRequest{}
 func (m *UpdateNamespaceRequest) String() string { return proto.CompactTextString(m) }
 func (*UpdateNamespaceRequest) ProtoMessage()    {}
 func (*UpdateNamespaceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{19}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{19}
 }
-
 func (m *UpdateNamespaceRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UpdateNamespaceRequest.Unmarshal(m, b)
 }
 func (m *UpdateNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_UpdateNamespaceRequest.Marshal(b, m, deterministic)
 }
-func (m *UpdateNamespaceRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateNamespaceRequest.Merge(m, src)
+func (dst *UpdateNamespaceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateNamespaceRequest.Merge(dst, src)
 }
 func (m *UpdateNamespaceRequest) XXX_Size() int {
 	return xxx_messageInfo_UpdateNamespaceRequest.Size(m)
@@ -925,17 +903,16 @@ func (m *DeleteNamespaceRequest) Reset()         { *m = DeleteNamespaceRequest{}
 func (m *DeleteNamespaceRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteNamespaceRequest) ProtoMessage()    {}
 func (*DeleteNamespaceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4a1cb3715215941c, []int{20}
+	return fileDescriptor_appmgr_b6d7d2ec2f08658b, []int{20}
 }
-
 func (m *DeleteNamespaceRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DeleteNamespaceRequest.Unmarshal(m, b)
 }
 func (m *DeleteNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DeleteNamespaceRequest.Marshal(b, m, deterministic)
 }
-func (m *DeleteNamespaceRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeleteNamespaceRequest.Merge(m, src)
+func (dst *DeleteNamespaceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteNamespaceRequest.Merge(dst, src)
 }
 func (m *DeleteNamespaceRequest) XXX_Size() int {
 	return xxx_messageInfo_DeleteNamespaceRequest.Size(m)
@@ -977,9 +954,11 @@ func init() {
 	proto.RegisterType((*DeleteNamespaceRequest)(nil), "appmgr.DeleteNamespaceRequest")
 }
 
-func init() { proto.RegisterFile("appmgr/v1/micro/appmgr.proto", fileDescriptor_4a1cb3715215941c) }
+func init() {
+	proto.RegisterFile("appmgr/v1/micro/appmgr.proto", fileDescriptor_appmgr_b6d7d2ec2f08658b)
+}
 
-var fileDescriptor_4a1cb3715215941c = []byte{
+var fileDescriptor_appmgr_b6d7d2ec2f08658b = []byte{
 	// 953 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x55, 0xdd, 0x6e, 0xdb, 0x36,
 	0x14, 0x8e, 0x93, 0xd8, 0xad, 0x8e, 0xe3, 0xc4, 0x61, 0x5a, 0x37, 0x75, 0xda, 0xac, 0x63, 0x81,
