@@ -1,42 +1,29 @@
 syntax = "proto3";
-
 package common.proto;
 
-// App Events operation code
-enum DCOperation {
-    TASK_CREATE = 0;
-    TASK_CANCEL = 1;
-    TASK_UPDATE = 2;
-    HEARTBEAT = 3;
-}
+// FIXME: delete useless definitions
 
-// Hub app status
 enum AppStatus {
     APP_STARTING = 0;
-    APP_START_SUCCESS = 1;
-    APP_START_FAILED = 2;
-    APP_RUNNING = 3;
-    APP_UPDATING = 4;
-    APP_UPDATE_SUCCESS = 5;
-    APP_UPDATE_FAILED = 6;
-    APP_CANCELLING = 7;
-    APP_CANCELLED = 8;
-    APP_CANCEL_FAILED = 9;
-    APP_DONE = 10;
+    APP_START_FAILED = 1;
+    APP_RUNNING = 2;
+    APP_UPDATING = 3;
+    APP_UPDATE_FAILED = 4;
+    APP_CANCELLING = 5;
+    APP_CANCELLED = 6;
+    APP_CANCEL_FAILED = 7;
 }
 
 // Hub namespace status
 enum NamespaceStatus {
     NS_STARTING = 0;
-    NS_START_SUCCESS = 1;
-    NS_START_FAILED = 2;
-    NS_RUNNING = 3;
-    NS_UPDATING = 4;
-    NS_UPDATE_SUCCESS = 5;
-    NS_UPDATE_FAILED = 6;
-    NS_CANCELLING = 7;
-    NS_CANCELLED = 8;
-    NS_CANCEL_FAILED = 9;
+    NS_START_FAILED = 1;
+    NS_RUNNING = 2;
+    NS_UPDATING = 3;
+    NS_UPDATE_FAILED = 4;
+    NS_CANCELLING = 5;
+    NS_CANCELLED = 6;
+    NS_CANCEL_FAILED = 7;
 }
 
 // Data center status
@@ -45,32 +32,19 @@ enum DCStatus {
     UNAVAILABLE = 1;
 }
 
+
 // Emtpy Message
 message Empty {}
 
-// App Data structure for external usage
-message App {
-    string id = 1;
-    string name = 2; // name of the app
-    oneof namespace_data {
-        string namespace_id = 3; // namespace id
-        Namespace namespace = 4; // request for create new namespace
-    }
-    AppStatus status = 5;
-    AppAttributes attributes = 6;
-    string uid = 7;
-    ChartDetail chart_detail = 8;
-}
 
-// App Deployment structure for internal use
+// App Deployment structure
 message AppDeployment {
-    string id = 1;
-    string name = 2; // name of the app
-    Namespace namespace = 3; // request for create new namespace
-    AppStatus status = 4;
-    AppAttributes attributes = 5;
-    string uid = 6;
-    ChartDetail chart_detail = 7;
+    string  id = 1;
+    string  name = 2; // name of the app
+    Namespace   namespace = 3; // request for create new namespace
+    AppAttributes   attributes = 4;
+    string  uid = 5;
+    ChartDetail chart_detail = 6;
 }
 
 message AppAttributes {
@@ -79,20 +53,30 @@ message AppAttributes {
     uint64 last_modified_date = 3; //app creation date
 }
 
-message GeoLocation {
-    string lat = 1; // latitude
-    string lng = 2; // longitude
-    string country = 3; // US 
-}
 
 // Data Center structure
 message DataCenter {
+    string  id = 1;  //data center id
+    string  name = 2; // data center name
+    bool    force_update = 3;
+    DataCenterAttributes    dc_attributes = 4;
+}
+
+
+// Data Center structure  this only used by deamon reply
+message DataCenterStatus {
     string id = 1;  //data center id
     string name = 2; // data center name
     GeoLocation geo_location = 3;
     DCStatus status = 4; // data center status // 1. online 2. offline
     DataCenterAttributes dc_attributes = 5;
     DCHeartbeatReport dc_heartbeat_report = 6;
+}
+
+message GeoLocation {
+    string lat = 1; // latitude
+    string lng = 2; // longitude
+    string country = 3; // US
 }
 
 message DataCenterAttributes {
@@ -107,37 +91,22 @@ message DCHeartbeatReport {
     uint64 report_time = 3;
 }
 
-message AppReport {
-    AppDeployment app_deployment = 1; //json string for Metrics structure which defined in constants
-    string report = 2;
-}
-
-// data center communicate with dc manager
-message DCStream {
-    DCOperation op_type = 1; // HeartBeat or app operation
-
-    oneof op_payload {
-        AppDeployment app_deployment = 2; // Deploy app action
-        AppReport app_report = 3;
-        DataCenter data_center = 4; // HearBeat Info with DataCenter message
-    }
-}
 
 message Chart {
-	string name = 1; //chart name                   
-	string repo = 2; //chart repo, e.g. app_store or user_catalog               
+	string name = 1; //chart name
+	string repo = 2; //chart repo, e.g. app_store or user_catalog
 	string description = 3;
 	string icon_url = 4; // Chart icon image url
     string latest_version = 5;
     string latest_app_version = 6;
 }
-
-message ChartDetail { 
-    string name = 1; 
+message ChartDetail {
+    string name = 1;
     string repo = 2;
     string version = 3; //chart version 
 	string app_version = 4; //application version 
 }
+
 
 message Namespace {
     string id = 1; //short hash of uid+name+cluster_id
@@ -145,8 +114,52 @@ message Namespace {
 	string cluster_id = 3; //id of cluster
     string cluster_name = 4; //name of cluster
 	uint64 creation_date = 5;
-    float cpu_limit = 6;
-    string mem_limit = 7;
-    string storage_limit = 8;
-    NamespaceStatus namespace_status = 9;
+    uint64 cpu_limit = 6;  // number of mcpu 
+    uint64 mem_limit = 7; // number of Mi mem usage
+    uint64 storage_limit = 8; // number of Gi storage
+    NamespaceStatus status = 9;
+}
+
+
+// Used by appmgr
+message App {
+    string id = 1;
+    string name = 2; // name of the app
+    oneof namespace_data {
+        string namespace_id = 3; // namespace id
+        Namespace namespace = 4; // request for create new namespace
+    }
+    AppStatus status = 5;
+    AppAttributes attributes = 6;
+    string uid = 7;
+    ChartDetail chart_detail = 8;
+}
+
+
+// Used by dc-mgr to dc-facade rabbitmq
+message DCStream {
+    DCOperation op_type = 1; // HeartBeat or app operation
+
+    oneof op_payload {
+        AppDeployment app_deployment = 2; // Deploy app action
+        AppReport app_report = 3;
+        DataCenterStatus data_center = 4; // HearBeat Info with DataCenter message
+        Namespace namespace = 5;
+    }
+}
+// Task Events operation code
+enum DCOperation {
+    APP_CREATE = 0;
+    APP_CANCEL = 1;
+    APP_UPDATE = 2;
+    HEARTBEAT = 3;
+    NS_CREATE = 4;
+    NS_CANCEL = 5;
+    NS_UPDATE = 6;
+}
+
+message AppReport {
+    AppDeployment app_deployment = 1; //json string for Metrics structure which defined in constants
+    string report = 2;
+    AppStatus app_status = 3;
 }

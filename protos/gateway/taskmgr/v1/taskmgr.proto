@@ -121,7 +121,7 @@ message AppListRequest {
 }
 
 message AppListResponse {
-    repeated common.proto.AppDeployment app_deployments = 1;
+    repeated common.proto.AppReport app_reports = 1;
 }
 
 message AppFilter {
