@@ -27,3 +27,13 @@ func WriteLog(msg string) {
 	log.SetOutput(new(logWriter))
 	log.Println("    " + msg + pathInfo)
 }
+
+
+func Printf(format string, a...interface{}){
+	logStr := fmt.Sprintf(format, a)
+	WriteLog(logStr)
+}
+
+func Print(logStr sting){
+	WriteLog(logStr)
+}
