@@ -36,11 +36,27 @@ func WriteLog(msg string) {
 }
 
 
+// WriteLog function writes the string line to the default logging device
+func WriteLog2(msg string) {
+
+	pathInfo := ""
+	if _, file, line, ok := runtime.Caller(2); ok {
+		pathInfo = fmt.Sprintf("    [%s:%v]", path.Base(file), line)
+	}
+
+	logOnce.Do(func() {
+		logger = log.New(new(logWriter), "", 0)
+	})
+	logger.Println("    " + msg + pathInfo)
+}
+
+
+
 func Printf(format string, a...interface{}){
 	logStr := fmt.Sprintf(format, a)
-	WriteLog(logStr)
+	WriteLog2(logStr)
 }
 
 func Print(logStr string){
-	WriteLog(logStr)
+	WriteLog2(logStr)
 }
