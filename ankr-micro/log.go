@@ -41,6 +41,6 @@ func Printf(format string, a...interface{}){
 	WriteLog(logStr)
 }
 
-func Print(logStr sting){
+func Print(logStr string){
 	WriteLog(logStr)
 }
