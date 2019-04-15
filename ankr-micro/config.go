@@ -19,7 +19,7 @@ var config Config
 
 func init() {
 	config.DatabaseHost = "localhost:27018"
-	config.Rabbitmq = "localhost:5672"
+	config.Rabbitmq = "amqp://guest:guest@localhost:5672"
 	config.Listen = ":50051"
 	config.DatabaseName = "dccn"
 	config = LoadConfigFromEnv()

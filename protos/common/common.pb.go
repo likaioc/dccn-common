@@ -3,11 +3,9 @@
 
 package common_proto
 
-import (
-	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
-	math "math"
-)
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
+import math "math"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -18,7 +16,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 // Data center status
 type DCStatus int32
@@ -32,7 +30,6 @@ var DCStatus_name = map[int32]string{
 	0: "AVAILABLE",
 	1: "UNAVAILABLE",
 }
-
 var DCStatus_value = map[string]int32{
 	"AVAILABLE":   0,
 	"UNAVAILABLE": 1,
@@ -41,9 +38,8 @@ var DCStatus_value = map[string]int32{
 func (x DCStatus) String() string {
 	return proto.EnumName(DCStatus_name, int32(x))
 }
-
 func (DCStatus) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{0}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{0}
 }
 
 // Task Events operation code
@@ -68,7 +64,6 @@ var DCOperation_name = map[int32]string{
 	5: "NS_CANCEL",
 	6: "NS_UPDATE",
 }
-
 var DCOperation_value = map[string]int32{
 	"APP_CREATE": 0,
 	"APP_CANCEL": 1,
@@ -82,9 +77,8 @@ var DCOperation_value = map[string]int32{
 func (x DCOperation) String() string {
 	return proto.EnumName(DCOperation_name, int32(x))
 }
-
 func (DCOperation) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{1}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{1}
 }
 
 // Emtpy Message
@@ -98,17 +92,16 @@ func (m *Empty) Reset()         { *m = Empty{} }
 func (m *Empty) String() string { return proto.CompactTextString(m) }
 func (*Empty) ProtoMessage()    {}
 func (*Empty) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{0}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{0}
 }
-
 func (m *Empty) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Empty.Unmarshal(m, b)
 }
 func (m *Empty) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Empty.Marshal(b, m, deterministic)
 }
-func (m *Empty) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Empty.Merge(m, src)
+func (dst *Empty) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Empty.Merge(dst, src)
 }
 func (m *Empty) XXX_Size() int {
 	return xxx_messageInfo_Empty.Size(m)
@@ -136,17 +129,16 @@ func (m *AppDeployment) Reset()         { *m = AppDeployment{} }
 func (m *AppDeployment) String() string { return proto.CompactTextString(m) }
 func (*AppDeployment) ProtoMessage()    {}
 func (*AppDeployment) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{1}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{1}
 }
-
 func (m *AppDeployment) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppDeployment.Unmarshal(m, b)
 }
 func (m *AppDeployment) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppDeployment.Marshal(b, m, deterministic)
 }
-func (m *AppDeployment) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppDeployment.Merge(m, src)
+func (dst *AppDeployment) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppDeployment.Merge(dst, src)
 }
 func (m *AppDeployment) XXX_Size() int {
 	return xxx_messageInfo_AppDeployment.Size(m)
@@ -212,17 +204,16 @@ func (m *AppAttributes) Reset()         { *m = AppAttributes{} }
 func (m *AppAttributes) String() string { return proto.CompactTextString(m) }
 func (*AppAttributes) ProtoMessage()    {}
 func (*AppAttributes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{2}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{2}
 }
-
 func (m *AppAttributes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppAttributes.Unmarshal(m, b)
 }
 func (m *AppAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppAttributes.Marshal(b, m, deterministic)
 }
-func (m *AppAttributes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppAttributes.Merge(m, src)
+func (dst *AppAttributes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppAttributes.Merge(dst, src)
 }
 func (m *AppAttributes) XXX_Size() int {
 	return xxx_messageInfo_AppAttributes.Size(m)
@@ -269,17 +260,16 @@ func (m *DataCenter) Reset()         { *m = DataCenter{} }
 func (m *DataCenter) String() string { return proto.CompactTextString(m) }
 func (*DataCenter) ProtoMessage()    {}
 func (*DataCenter) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{3}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{3}
 }
-
 func (m *DataCenter) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenter.Unmarshal(m, b)
 }
 func (m *DataCenter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DataCenter.Marshal(b, m, deterministic)
 }
-func (m *DataCenter) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenter.Merge(m, src)
+func (dst *DataCenter) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenter.Merge(dst, src)
 }
 func (m *DataCenter) XXX_Size() int {
 	return xxx_messageInfo_DataCenter.Size(m)
@@ -335,17 +325,16 @@ func (m *DataCenterStatus) Reset()         { *m = DataCenterStatus{} }
 func (m *DataCenterStatus) String() string { return proto.CompactTextString(m) }
 func (*DataCenterStatus) ProtoMessage()    {}
 func (*DataCenterStatus) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{4}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{4}
 }
-
 func (m *DataCenterStatus) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterStatus.Unmarshal(m, b)
 }
 func (m *DataCenterStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DataCenterStatus.Marshal(b, m, deterministic)
 }
-func (m *DataCenterStatus) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterStatus.Merge(m, src)
+func (dst *DataCenterStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterStatus.Merge(dst, src)
 }
 func (m *DataCenterStatus) XXX_Size() int {
 	return xxx_messageInfo_DataCenterStatus.Size(m)
@@ -411,17 +400,16 @@ func (m *GeoLocation) Reset()         { *m = GeoLocation{} }
 func (m *GeoLocation) String() string { return proto.CompactTextString(m) }
 func (*GeoLocation) ProtoMessage()    {}
 func (*GeoLocation) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{5}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{5}
 }
-
 func (m *GeoLocation) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_GeoLocation.Unmarshal(m, b)
 }
 func (m *GeoLocation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_GeoLocation.Marshal(b, m, deterministic)
 }
-func (m *GeoLocation) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GeoLocation.Merge(m, src)
+func (dst *GeoLocation) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GeoLocation.Merge(dst, src)
 }
 func (m *GeoLocation) XXX_Size() int {
 	return xxx_messageInfo_GeoLocation.Size(m)
@@ -466,17 +454,16 @@ func (m *DataCenterAttributes) Reset()         { *m = DataCenterAttributes{} }
 func (m *DataCenterAttributes) String() string { return proto.CompactTextString(m) }
 func (*DataCenterAttributes) ProtoMessage()    {}
 func (*DataCenterAttributes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{6}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{6}
 }
-
 func (m *DataCenterAttributes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterAttributes.Unmarshal(m, b)
 }
 func (m *DataCenterAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DataCenterAttributes.Marshal(b, m, deterministic)
 }
-func (m *DataCenterAttributes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterAttributes.Merge(m, src)
+func (dst *DataCenterAttributes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterAttributes.Merge(dst, src)
 }
 func (m *DataCenterAttributes) XXX_Size() int {
 	return xxx_messageInfo_DataCenterAttributes.Size(m)
@@ -521,17 +508,16 @@ func (m *DCHeartbeatReport) Reset()         { *m = DCHeartbeatReport{} }
 func (m *DCHeartbeatReport) String() string { return proto.CompactTextString(m) }
 func (*DCHeartbeatReport) ProtoMessage()    {}
 func (*DCHeartbeatReport) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{7}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{7}
 }
-
 func (m *DCHeartbeatReport) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DCHeartbeatReport.Unmarshal(m, b)
 }
 func (m *DCHeartbeatReport) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DCHeartbeatReport.Marshal(b, m, deterministic)
 }
-func (m *DCHeartbeatReport) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DCHeartbeatReport.Merge(m, src)
+func (dst *DCHeartbeatReport) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DCHeartbeatReport.Merge(dst, src)
 }
 func (m *DCHeartbeatReport) XXX_Size() int {
 	return xxx_messageInfo_DCHeartbeatReport.Size(m)
@@ -579,17 +565,16 @@ func (m *Chart) Reset()         { *m = Chart{} }
 func (m *Chart) String() string { return proto.CompactTextString(m) }
 func (*Chart) ProtoMessage()    {}
 func (*Chart) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{8}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{8}
 }
-
 func (m *Chart) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Chart.Unmarshal(m, b)
 }
 func (m *Chart) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Chart.Marshal(b, m, deterministic)
 }
-func (m *Chart) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Chart.Merge(m, src)
+func (dst *Chart) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Chart.Merge(dst, src)
 }
 func (m *Chart) XXX_Size() int {
 	return xxx_messageInfo_Chart.Size(m)
@@ -656,17 +641,16 @@ func (m *ChartDetail) Reset()         { *m = ChartDetail{} }
 func (m *ChartDetail) String() string { return proto.CompactTextString(m) }
 func (*ChartDetail) ProtoMessage()    {}
 func (*ChartDetail) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{9}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{9}
 }
-
 func (m *ChartDetail) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChartDetail.Unmarshal(m, b)
 }
 func (m *ChartDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChartDetail.Marshal(b, m, deterministic)
 }
-func (m *ChartDetail) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChartDetail.Merge(m, src)
+func (dst *ChartDetail) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChartDetail.Merge(dst, src)
 }
 func (m *ChartDetail) XXX_Size() int {
 	return xxx_messageInfo_ChartDetail.Size(m)
@@ -724,17 +708,16 @@ func (m *Namespace) Reset()         { *m = Namespace{} }
 func (m *Namespace) String() string { return proto.CompactTextString(m) }
 func (*Namespace) ProtoMessage()    {}
 func (*Namespace) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{10}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{10}
 }
-
 func (m *Namespace) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Namespace.Unmarshal(m, b)
 }
 func (m *Namespace) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Namespace.Marshal(b, m, deterministic)
 }
-func (m *Namespace) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Namespace.Merge(m, src)
+func (dst *Namespace) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Namespace.Merge(dst, src)
 }
 func (m *Namespace) XXX_Size() int {
 	return xxx_messageInfo_Namespace.Size(m)
@@ -829,17 +812,16 @@ func (m *App) Reset()         { *m = App{} }
 func (m *App) String() string { return proto.CompactTextString(m) }
 func (*App) ProtoMessage()    {}
 func (*App) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{11}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{11}
 }
-
 func (m *App) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_App.Unmarshal(m, b)
 }
 func (m *App) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_App.Marshal(b, m, deterministic)
 }
-func (m *App) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_App.Merge(m, src)
+func (dst *App) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_App.Merge(dst, src)
 }
 func (m *App) XXX_Size() int {
 	return xxx_messageInfo_App.Size(m)
@@ -929,12 +911,74 @@ func (m *App) GetChartDetail() *ChartDetail {
 	return nil
 }
 
-// XXX_OneofWrappers is for the internal use of the proto package.
-func (*App) XXX_OneofWrappers() []interface{} {
-	return []interface{}{
+// XXX_OneofFuncs is for the internal use of the proto package.
+func (*App) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _App_OneofMarshaler, _App_OneofUnmarshaler, _App_OneofSizer, []interface{}{
 		(*App_NamespaceId)(nil),
 		(*App_Namespace)(nil),
 	}
+}
+
+func _App_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	m := msg.(*App)
+	// namespace_data
+	switch x := m.NamespaceData.(type) {
+	case *App_NamespaceId:
+		b.EncodeVarint(3<<3 | proto.WireBytes)
+		b.EncodeStringBytes(x.NamespaceId)
+	case *App_Namespace:
+		b.EncodeVarint(4<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.Namespace); err != nil {
+			return err
+		}
+	case nil:
+	default:
+		return fmt.Errorf("App.NamespaceData has unexpected type %T", x)
+	}
+	return nil
+}
+
+func _App_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	m := msg.(*App)
+	switch tag {
+	case 3: // namespace_data.namespace_id
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		x, err := b.DecodeStringBytes()
+		m.NamespaceData = &App_NamespaceId{x}
+		return true, err
+	case 4: // namespace_data.namespace
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(Namespace)
+		err := b.DecodeMessage(msg)
+		m.NamespaceData = &App_Namespace{msg}
+		return true, err
+	default:
+		return false, nil
+	}
+}
+
+func _App_OneofSizer(msg proto.Message) (n int) {
+	m := msg.(*App)
+	// namespace_data
+	switch x := m.NamespaceData.(type) {
+	case *App_NamespaceId:
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(len(x.NamespaceId)))
+		n += len(x.NamespaceId)
+	case *App_Namespace:
+		s := proto.Size(x.Namespace)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case nil:
+	default:
+		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
+	}
+	return n
 }
 
 // Used by dc-mgr to dc-facade rabbitmq
@@ -955,17 +999,16 @@ func (m *DCStream) Reset()         { *m = DCStream{} }
 func (m *DCStream) String() string { return proto.CompactTextString(m) }
 func (*DCStream) ProtoMessage()    {}
 func (*DCStream) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{12}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{12}
 }
-
 func (m *DCStream) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DCStream.Unmarshal(m, b)
 }
 func (m *DCStream) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DCStream.Marshal(b, m, deterministic)
 }
-func (m *DCStream) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DCStream.Merge(m, src)
+func (dst *DCStream) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DCStream.Merge(dst, src)
 }
 func (m *DCStream) XXX_Size() int {
 	return xxx_messageInfo_DCStream.Size(m)
@@ -1046,14 +1089,116 @@ func (m *DCStream) GetNamespace() *Namespace {
 	return nil
 }
 
-// XXX_OneofWrappers is for the internal use of the proto package.
-func (*DCStream) XXX_OneofWrappers() []interface{} {
-	return []interface{}{
+// XXX_OneofFuncs is for the internal use of the proto package.
+func (*DCStream) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _DCStream_OneofMarshaler, _DCStream_OneofUnmarshaler, _DCStream_OneofSizer, []interface{}{
 		(*DCStream_AppDeployment)(nil),
 		(*DCStream_AppReport)(nil),
 		(*DCStream_DataCenter)(nil),
 		(*DCStream_Namespace)(nil),
 	}
+}
+
+func _DCStream_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	m := msg.(*DCStream)
+	// op_payload
+	switch x := m.OpPayload.(type) {
+	case *DCStream_AppDeployment:
+		b.EncodeVarint(2<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.AppDeployment); err != nil {
+			return err
+		}
+	case *DCStream_AppReport:
+		b.EncodeVarint(3<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.AppReport); err != nil {
+			return err
+		}
+	case *DCStream_DataCenter:
+		b.EncodeVarint(4<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.DataCenter); err != nil {
+			return err
+		}
+	case *DCStream_Namespace:
+		b.EncodeVarint(5<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.Namespace); err != nil {
+			return err
+		}
+	case nil:
+	default:
+		return fmt.Errorf("DCStream.OpPayload has unexpected type %T", x)
+	}
+	return nil
+}
+
+func _DCStream_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	m := msg.(*DCStream)
+	switch tag {
+	case 2: // op_payload.app_deployment
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(AppDeployment)
+		err := b.DecodeMessage(msg)
+		m.OpPayload = &DCStream_AppDeployment{msg}
+		return true, err
+	case 3: // op_payload.app_report
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(AppReport)
+		err := b.DecodeMessage(msg)
+		m.OpPayload = &DCStream_AppReport{msg}
+		return true, err
+	case 4: // op_payload.data_center
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(DataCenterStatus)
+		err := b.DecodeMessage(msg)
+		m.OpPayload = &DCStream_DataCenter{msg}
+		return true, err
+	case 5: // op_payload.namespace
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(Namespace)
+		err := b.DecodeMessage(msg)
+		m.OpPayload = &DCStream_Namespace{msg}
+		return true, err
+	default:
+		return false, nil
+	}
+}
+
+func _DCStream_OneofSizer(msg proto.Message) (n int) {
+	m := msg.(*DCStream)
+	// op_payload
+	switch x := m.OpPayload.(type) {
+	case *DCStream_AppDeployment:
+		s := proto.Size(x.AppDeployment)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *DCStream_AppReport:
+		s := proto.Size(x.AppReport)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *DCStream_DataCenter:
+		s := proto.Size(x.DataCenter)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *DCStream_Namespace:
+		s := proto.Size(x.Namespace)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case nil:
+	default:
+		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
+	}
+	return n
 }
 
 type AppReport struct {
@@ -1069,17 +1214,16 @@ func (m *AppReport) Reset()         { *m = AppReport{} }
 func (m *AppReport) String() string { return proto.CompactTextString(m) }
 func (*AppReport) ProtoMessage()    {}
 func (*AppReport) Descriptor() ([]byte, []int) {
-	return fileDescriptor_555bd8c177793206, []int{13}
+	return fileDescriptor_common_9c2c75c81beaf220, []int{13}
 }
-
 func (m *AppReport) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AppReport.Unmarshal(m, b)
 }
 func (m *AppReport) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AppReport.Marshal(b, m, deterministic)
 }
-func (m *AppReport) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AppReport.Merge(m, src)
+func (dst *AppReport) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppReport.Merge(dst, src)
 }
 func (m *AppReport) XXX_Size() int {
 	return xxx_messageInfo_AppReport.Size(m)
@@ -1112,8 +1256,6 @@ func (m *AppReport) GetAppStatus() AppStatus {
 }
 
 func init() {
-	proto.RegisterEnum("common.proto.DCStatus", DCStatus_name, DCStatus_value)
-	proto.RegisterEnum("common.proto.DCOperation", DCOperation_name, DCOperation_value)
 	proto.RegisterType((*Empty)(nil), "common.proto.Empty")
 	proto.RegisterType((*AppDeployment)(nil), "common.proto.AppDeployment")
 	proto.RegisterType((*AppAttributes)(nil), "common.proto.AppAttributes")
@@ -1128,11 +1270,13 @@ func init() {
 	proto.RegisterType((*App)(nil), "common.proto.App")
 	proto.RegisterType((*DCStream)(nil), "common.proto.DCStream")
 	proto.RegisterType((*AppReport)(nil), "common.proto.AppReport")
+	proto.RegisterEnum("common.proto.DCStatus", DCStatus_name, DCStatus_value)
+	proto.RegisterEnum("common.proto.DCOperation", DCOperation_name, DCOperation_value)
 }
 
-func init() { proto.RegisterFile("common.proto", fileDescriptor_555bd8c177793206) }
+func init() { proto.RegisterFile("common.proto", fileDescriptor_common_9c2c75c81beaf220) }
 
-var fileDescriptor_555bd8c177793206 = []byte{
+var fileDescriptor_common_9c2c75c81beaf220 = []byte{
 	// 1062 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0xdd, 0x6e, 0x1b, 0x45,
 	0x14, 0xce, 0xfa, 0x7f, 0xcf, 0xda, 0xc6, 0x1d, 0x50, 0xeb, 0x52, 0x95, 0x86, 0x8d, 0x90, 0xaa,

@@ -3,11 +3,9 @@
 
 package common_proto
 
-import (
-	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
-	math "math"
-)
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
+import math "math"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -18,7 +16,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 // Hub app status
 type AppStatus int32
@@ -44,7 +42,6 @@ var AppStatus_name = map[int32]string{
 	6: "APP_CANCELLED",
 	7: "APP_CANCEL_FAILED",
 }
-
 var AppStatus_value = map[string]int32{
 	"APP_STARTING":      0,
 	"APP_START_FAILED":  1,
@@ -59,9 +56,8 @@ var AppStatus_value = map[string]int32{
 func (x AppStatus) String() string {
 	return proto.EnumName(AppStatus_name, int32(x))
 }
-
 func (AppStatus) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_5adb9555099c2688, []int{0}
+	return fileDescriptor_const_6aff5514a0fc994b, []int{0}
 }
 
 // Hub namespace status
@@ -88,7 +84,6 @@ var NamespaceStatus_name = map[int32]string{
 	6: "NS_CANCELLED",
 	7: "NS_CANCEL_FAILED",
 }
-
 var NamespaceStatus_value = map[string]int32{
 	"NS_STARTING":      0,
 	"NS_START_FAILED":  1,
@@ -103,9 +98,8 @@ var NamespaceStatus_value = map[string]int32{
 func (x NamespaceStatus) String() string {
 	return proto.EnumName(NamespaceStatus_name, int32(x))
 }
-
 func (NamespaceStatus) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_5adb9555099c2688, []int{1}
+	return fileDescriptor_const_6aff5514a0fc994b, []int{1}
 }
 
 func init() {
@@ -113,9 +107,9 @@ func init() {
 	proto.RegisterEnum("common.proto.NamespaceStatus", NamespaceStatus_name, NamespaceStatus_value)
 }
 
-func init() { proto.RegisterFile("const.proto", fileDescriptor_5adb9555099c2688) }
+func init() { proto.RegisterFile("const.proto", fileDescriptor_const_6aff5514a0fc994b) }
 
-var fileDescriptor_5adb9555099c2688 = []byte{
+var fileDescriptor_const_6aff5514a0fc994b = []byte{
 	// 224 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x90, 0x4d, 0x4e, 0xc3, 0x30,
 	0x10, 0x46, 0x09, 0x3f, 0x45, 0x7c, 0x49, 0x1b, 0x67, 0x28, 0x97, 0xe8, 0x82, 0x0d, 0x27, 0xb0,

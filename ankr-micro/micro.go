@@ -10,6 +10,10 @@ func (p *Publisher) Publish(data interface{}) {
 	Send(p.topic, data)
 }
 
+func (p *Publisher)GetTopic() string {
+	return p.topic
+}
+
 // NewService creates and returns a new Service based on the packages within.
 func NewService() GRPCService {
 	return NewGRPCService()

@@ -651,6 +651,24 @@
           "Appmgr"
         ]
       }
+    },
+    "//list": {
+      "get": {
+        "summary": "Sends a list datacenter request",
+        "operationId": "datacenterlist",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DcListResponse"
+            }
+          }
+        },
+        "parameters": [],
+        "tags": [
+          "Dcmgr"
+        ]
+      }
     }
   },
   "components": {

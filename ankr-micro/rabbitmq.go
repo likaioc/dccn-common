@@ -67,7 +67,7 @@ func Send(topic string, e interface{}) {
 		false,           // immediate
 		m)
 
-	logstr := fmt.Sprintf(" [x] Sent %s to  %+v ", topic, b)
+	logstr := fmt.Sprintf(" [x] Sent Msg to Topic : %s ", topic)
 	WriteLog(logstr)
 	failOnError(err, "Failed to publish a message")
 }
@@ -169,7 +169,7 @@ func Receive(topic string, handler interface{}) {
 
 		go func() {
 			for d := range msgs {
-				logStr := fmt.Sprintf("Received a message: %s", d.Body)
+				logStr := fmt.Sprintf("Received a Message from Topic : %s ", topic)
 				WriteLog(logStr)
 
 				var req reflect.Value

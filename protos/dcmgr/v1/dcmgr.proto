@@ -25,7 +25,7 @@ service DCAPI {
 }
 
 message DataCenterListResponse {
-  repeated common.proto.DataCenter dcList= 1; // repeated groups of DataCenterInfo list
+  repeated common.proto.DataCenterStatus dcList= 1; // repeated groups of DataCenterInfo list
 }
 
 message NetworkInfoResponse {
