@@ -3,10 +3,12 @@
 
 package dcmgr
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import common "github.com/Ankr-network/dccn-common/protos/common"
+import (
+	fmt "fmt"
+	common "github.com/Ankr-network/dccn-common/protos/common"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -17,7 +19,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type DataCenterListResponse struct {
 	DcList               []*common.DataCenterStatus `protobuf:"bytes,1,rep,name=dcList,proto3" json:"dcList,omitempty"`
@@ -30,16 +32,17 @@ func (m *DataCenterListResponse) Reset()         { *m = DataCenterListResponse{}
 func (m *DataCenterListResponse) String() string { return proto.CompactTextString(m) }
 func (*DataCenterListResponse) ProtoMessage()    {}
 func (*DataCenterListResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_c6697c811281c754, []int{0}
+	return fileDescriptor_1750e4d9ba65142d, []int{0}
 }
+
 func (m *DataCenterListResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterListResponse.Unmarshal(m, b)
 }
 func (m *DataCenterListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DataCenterListResponse.Marshal(b, m, deterministic)
 }
-func (dst *DataCenterListResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterListResponse.Merge(dst, src)
+func (m *DataCenterListResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterListResponse.Merge(m, src)
 }
 func (m *DataCenterListResponse) XXX_Size() int {
 	return xxx_messageInfo_DataCenterListResponse.Size(m)
@@ -72,16 +75,17 @@ func (m *NetworkInfoResponse) Reset()         { *m = NetworkInfoResponse{} }
 func (m *NetworkInfoResponse) String() string { return proto.CompactTextString(m) }
 func (*NetworkInfoResponse) ProtoMessage()    {}
 func (*NetworkInfoResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_c6697c811281c754, []int{1}
+	return fileDescriptor_1750e4d9ba65142d, []int{1}
 }
+
 func (m *NetworkInfoResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_NetworkInfoResponse.Unmarshal(m, b)
 }
 func (m *NetworkInfoResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_NetworkInfoResponse.Marshal(b, m, deterministic)
 }
-func (dst *NetworkInfoResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_NetworkInfoResponse.Merge(dst, src)
+func (m *NetworkInfoResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NetworkInfoResponse.Merge(m, src)
 }
 func (m *NetworkInfoResponse) XXX_Size() int {
 	return xxx_messageInfo_NetworkInfoResponse.Size(m)
@@ -138,16 +142,17 @@ func (m *DataCenterLeaderBoardResponse) Reset()         { *m = DataCenterLeaderB
 func (m *DataCenterLeaderBoardResponse) String() string { return proto.CompactTextString(m) }
 func (*DataCenterLeaderBoardResponse) ProtoMessage()    {}
 func (*DataCenterLeaderBoardResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_c6697c811281c754, []int{2}
+	return fileDescriptor_1750e4d9ba65142d, []int{2}
 }
+
 func (m *DataCenterLeaderBoardResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterLeaderBoardResponse.Unmarshal(m, b)
 }
 func (m *DataCenterLeaderBoardResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DataCenterLeaderBoardResponse.Marshal(b, m, deterministic)
 }
-func (dst *DataCenterLeaderBoardResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterLeaderBoardResponse.Merge(dst, src)
+func (m *DataCenterLeaderBoardResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterLeaderBoardResponse.Merge(m, src)
 }
 func (m *DataCenterLeaderBoardResponse) XXX_Size() int {
 	return xxx_messageInfo_DataCenterLeaderBoardResponse.Size(m)
@@ -177,16 +182,17 @@ func (m *DataCenterLeaderBoardDetail) Reset()         { *m = DataCenterLeaderBoa
 func (m *DataCenterLeaderBoardDetail) String() string { return proto.CompactTextString(m) }
 func (*DataCenterLeaderBoardDetail) ProtoMessage()    {}
 func (*DataCenterLeaderBoardDetail) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_c6697c811281c754, []int{3}
+	return fileDescriptor_1750e4d9ba65142d, []int{3}
 }
+
 func (m *DataCenterLeaderBoardDetail) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterLeaderBoardDetail.Unmarshal(m, b)
 }
 func (m *DataCenterLeaderBoardDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DataCenterLeaderBoardDetail.Marshal(b, m, deterministic)
 }
-func (dst *DataCenterLeaderBoardDetail) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterLeaderBoardDetail.Merge(dst, src)
+func (m *DataCenterLeaderBoardDetail) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterLeaderBoardDetail.Merge(m, src)
 }
 func (m *DataCenterLeaderBoardDetail) XXX_Size() int {
 	return xxx_messageInfo_DataCenterLeaderBoardDetail.Size(m)
@@ -218,9 +224,9 @@ func init() {
 	proto.RegisterType((*DataCenterLeaderBoardDetail)(nil), "dcmgr.DataCenterLeaderBoardDetail")
 }
 
-func init() { proto.RegisterFile("dcmgr/v1/micro/dcmgr.proto", fileDescriptor_dcmgr_c6697c811281c754) }
+func init() { proto.RegisterFile("dcmgr/v1/micro/dcmgr.proto", fileDescriptor_1750e4d9ba65142d) }
 
-var fileDescriptor_dcmgr_c6697c811281c754 = []byte{
+var fileDescriptor_1750e4d9ba65142d = []byte{
 	// 469 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x94, 0xdf, 0x6a, 0x13, 0x41,
 	0x14, 0xc6, 0xb3, 0x6d, 0xb2, 0x92, 0x53, 0x68, 0x75, 0x82, 0x35, 0x6c, 0x89, 0xc8, 0x20, 0x58,

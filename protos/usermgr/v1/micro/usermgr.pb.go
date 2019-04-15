@@ -3,10 +3,12 @@
 
 package usermgr
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import _ "github.com/Ankr-network/dccn-common/protos/common"
+import (
+	fmt "fmt"
+	_ "github.com/Ankr-network/dccn-common/protos/common"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -17,7 +19,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type UserStatus int32
 
@@ -32,6 +34,7 @@ var UserStatus_name = map[int32]string{
 	1: "CONFIRMED",
 	2: "DEACTIVATED",
 }
+
 var UserStatus_value = map[string]int32{
 	"CONFIRMING":  0,
 	"CONFIRMED":   1,
@@ -41,8 +44,9 @@ var UserStatus_value = map[string]int32{
 func (x UserStatus) String() string {
 	return proto.EnumName(UserStatus_name, int32(x))
 }
+
 func (UserStatus) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{0}
+	return fileDescriptor_07324a721ebdf9ff, []int{0}
 }
 
 type User struct {
@@ -61,16 +65,17 @@ func (m *User) Reset()         { *m = User{} }
 func (m *User) String() string { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()    {}
 func (*User) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{0}
+	return fileDescriptor_07324a721ebdf9ff, []int{0}
 }
+
 func (m *User) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_User.Unmarshal(m, b)
 }
 func (m *User) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_User.Marshal(b, m, deterministic)
 }
-func (dst *User) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_User.Merge(dst, src)
+func (m *User) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_User.Merge(m, src)
 }
 func (m *User) XXX_Size() int {
 	return xxx_messageInfo_User.Size(m)
@@ -126,16 +131,17 @@ func (m *UserAttribute) Reset()         { *m = UserAttribute{} }
 func (m *UserAttribute) String() string { return proto.CompactTextString(m) }
 func (*UserAttribute) ProtoMessage()    {}
 func (*UserAttribute) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{1}
+	return fileDescriptor_07324a721ebdf9ff, []int{1}
 }
+
 func (m *UserAttribute) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UserAttribute.Unmarshal(m, b)
 }
 func (m *UserAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_UserAttribute.Marshal(b, m, deterministic)
 }
-func (dst *UserAttribute) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UserAttribute.Merge(dst, src)
+func (m *UserAttribute) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserAttribute.Merge(m, src)
 }
 func (m *UserAttribute) XXX_Size() int {
 	return xxx_messageInfo_UserAttribute.Size(m)
@@ -216,101 +222,14 @@ func (m *UserAttribute) GetBoolValue() bool {
 	return false
 }
 
-// XXX_OneofFuncs is for the internal use of the proto package.
-func (*UserAttribute) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _UserAttribute_OneofMarshaler, _UserAttribute_OneofUnmarshaler, _UserAttribute_OneofSizer, []interface{}{
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*UserAttribute) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
 		(*UserAttribute_IntValue)(nil),
 		(*UserAttribute_DoubleValue)(nil),
 		(*UserAttribute_StringValue)(nil),
 		(*UserAttribute_BoolValue)(nil),
 	}
-}
-
-func _UserAttribute_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
-	m := msg.(*UserAttribute)
-	// value
-	switch x := m.Value.(type) {
-	case *UserAttribute_IntValue:
-		b.EncodeVarint(2<<3 | proto.WireVarint)
-		b.EncodeVarint(uint64(x.IntValue))
-	case *UserAttribute_DoubleValue:
-		b.EncodeVarint(3<<3 | proto.WireFixed64)
-		b.EncodeFixed64(math.Float64bits(x.DoubleValue))
-	case *UserAttribute_StringValue:
-		b.EncodeVarint(4<<3 | proto.WireBytes)
-		b.EncodeStringBytes(x.StringValue)
-	case *UserAttribute_BoolValue:
-		t := uint64(0)
-		if x.BoolValue {
-			t = 1
-		}
-		b.EncodeVarint(5<<3 | proto.WireVarint)
-		b.EncodeVarint(t)
-	case nil:
-	default:
-		return fmt.Errorf("UserAttribute.Value has unexpected type %T", x)
-	}
-	return nil
-}
-
-func _UserAttribute_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
-	m := msg.(*UserAttribute)
-	switch tag {
-	case 2: // value.int_value
-		if wire != proto.WireVarint {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeVarint()
-		m.Value = &UserAttribute_IntValue{int64(x)}
-		return true, err
-	case 3: // value.double_value
-		if wire != proto.WireFixed64 {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeFixed64()
-		m.Value = &UserAttribute_DoubleValue{math.Float64frombits(x)}
-		return true, err
-	case 4: // value.string_value
-		if wire != proto.WireBytes {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeStringBytes()
-		m.Value = &UserAttribute_StringValue{x}
-		return true, err
-	case 5: // value.bool_value
-		if wire != proto.WireVarint {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeVarint()
-		m.Value = &UserAttribute_BoolValue{x != 0}
-		return true, err
-	default:
-		return false, nil
-	}
-}
-
-func _UserAttribute_OneofSizer(msg proto.Message) (n int) {
-	m := msg.(*UserAttribute)
-	// value
-	switch x := m.Value.(type) {
-	case *UserAttribute_IntValue:
-		n += 1 // tag and wire
-		n += proto.SizeVarint(uint64(x.IntValue))
-	case *UserAttribute_DoubleValue:
-		n += 1 // tag and wire
-		n += 8
-	case *UserAttribute_StringValue:
-		n += 1 // tag and wire
-		n += proto.SizeVarint(uint64(len(x.StringValue)))
-		n += len(x.StringValue)
-	case *UserAttribute_BoolValue:
-		n += 1 // tag and wire
-		n += 1
-	case nil:
-	default:
-		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
-	}
-	return n
 }
 
 type UserAttributes struct {
@@ -330,16 +249,17 @@ func (m *UserAttributes) Reset()         { *m = UserAttributes{} }
 func (m *UserAttributes) String() string { return proto.CompactTextString(m) }
 func (*UserAttributes) ProtoMessage()    {}
 func (*UserAttributes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{2}
+	return fileDescriptor_07324a721ebdf9ff, []int{2}
 }
+
 func (m *UserAttributes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UserAttributes.Unmarshal(m, b)
 }
 func (m *UserAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_UserAttributes.Marshal(b, m, deterministic)
 }
-func (dst *UserAttributes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UserAttributes.Merge(dst, src)
+func (m *UserAttributes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserAttributes.Merge(m, src)
 }
 func (m *UserAttributes) XXX_Size() int {
 	return xxx_messageInfo_UserAttributes.Size(m)
@@ -397,16 +317,17 @@ func (m *RegisterRequest) Reset()         { *m = RegisterRequest{} }
 func (m *RegisterRequest) String() string { return proto.CompactTextString(m) }
 func (*RegisterRequest) ProtoMessage()    {}
 func (*RegisterRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{3}
+	return fileDescriptor_07324a721ebdf9ff, []int{3}
 }
+
 func (m *RegisterRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RegisterRequest.Unmarshal(m, b)
 }
 func (m *RegisterRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_RegisterRequest.Marshal(b, m, deterministic)
 }
-func (dst *RegisterRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegisterRequest.Merge(dst, src)
+func (m *RegisterRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RegisterRequest.Merge(m, src)
 }
 func (m *RegisterRequest) XXX_Size() int {
 	return xxx_messageInfo_RegisterRequest.Size(m)
@@ -443,16 +364,17 @@ func (m *LoginRequest) Reset()         { *m = LoginRequest{} }
 func (m *LoginRequest) String() string { return proto.CompactTextString(m) }
 func (*LoginRequest) ProtoMessage()    {}
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{4}
+	return fileDescriptor_07324a721ebdf9ff, []int{4}
 }
+
 func (m *LoginRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_LoginRequest.Unmarshal(m, b)
 }
 func (m *LoginRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_LoginRequest.Marshal(b, m, deterministic)
 }
-func (dst *LoginRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_LoginRequest.Merge(dst, src)
+func (m *LoginRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LoginRequest.Merge(m, src)
 }
 func (m *LoginRequest) XXX_Size() int {
 	return xxx_messageInfo_LoginRequest.Size(m)
@@ -489,16 +411,17 @@ func (m *LoginResponse) Reset()         { *m = LoginResponse{} }
 func (m *LoginResponse) String() string { return proto.CompactTextString(m) }
 func (*LoginResponse) ProtoMessage()    {}
 func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{5}
+	return fileDescriptor_07324a721ebdf9ff, []int{5}
 }
+
 func (m *LoginResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_LoginResponse.Unmarshal(m, b)
 }
 func (m *LoginResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_LoginResponse.Marshal(b, m, deterministic)
 }
-func (dst *LoginResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_LoginResponse.Merge(dst, src)
+func (m *LoginResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LoginResponse.Merge(m, src)
 }
 func (m *LoginResponse) XXX_Size() int {
 	return xxx_messageInfo_LoginResponse.Size(m)
@@ -537,16 +460,17 @@ func (m *AuthenticationResult) Reset()         { *m = AuthenticationResult{} }
 func (m *AuthenticationResult) String() string { return proto.CompactTextString(m) }
 func (*AuthenticationResult) ProtoMessage()    {}
 func (*AuthenticationResult) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{6}
+	return fileDescriptor_07324a721ebdf9ff, []int{6}
 }
+
 func (m *AuthenticationResult) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AuthenticationResult.Unmarshal(m, b)
 }
 func (m *AuthenticationResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AuthenticationResult.Marshal(b, m, deterministic)
 }
-func (dst *AuthenticationResult) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AuthenticationResult.Merge(dst, src)
+func (m *AuthenticationResult) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AuthenticationResult.Merge(m, src)
 }
 func (m *AuthenticationResult) XXX_Size() int {
 	return xxx_messageInfo_AuthenticationResult.Size(m)
@@ -596,16 +520,17 @@ func (m *RefreshToken) Reset()         { *m = RefreshToken{} }
 func (m *RefreshToken) String() string { return proto.CompactTextString(m) }
 func (*RefreshToken) ProtoMessage()    {}
 func (*RefreshToken) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{7}
+	return fileDescriptor_07324a721ebdf9ff, []int{7}
 }
+
 func (m *RefreshToken) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RefreshToken.Unmarshal(m, b)
 }
 func (m *RefreshToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_RefreshToken.Marshal(b, m, deterministic)
 }
-func (dst *RefreshToken) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RefreshToken.Merge(dst, src)
+func (m *RefreshToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RefreshToken.Merge(m, src)
 }
 func (m *RefreshToken) XXX_Size() int {
 	return xxx_messageInfo_RefreshToken.Size(m)
@@ -635,16 +560,17 @@ func (m *ConfirmRegistrationRequest) Reset()         { *m = ConfirmRegistrationR
 func (m *ConfirmRegistrationRequest) String() string { return proto.CompactTextString(m) }
 func (*ConfirmRegistrationRequest) ProtoMessage()    {}
 func (*ConfirmRegistrationRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{8}
+	return fileDescriptor_07324a721ebdf9ff, []int{8}
 }
+
 func (m *ConfirmRegistrationRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConfirmRegistrationRequest.Unmarshal(m, b)
 }
 func (m *ConfirmRegistrationRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConfirmRegistrationRequest.Marshal(b, m, deterministic)
 }
-func (dst *ConfirmRegistrationRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConfirmRegistrationRequest.Merge(dst, src)
+func (m *ConfirmRegistrationRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfirmRegistrationRequest.Merge(m, src)
 }
 func (m *ConfirmRegistrationRequest) XXX_Size() int {
 	return xxx_messageInfo_ConfirmRegistrationRequest.Size(m)
@@ -680,16 +606,17 @@ func (m *ForgotPasswordRequest) Reset()         { *m = ForgotPasswordRequest{} }
 func (m *ForgotPasswordRequest) String() string { return proto.CompactTextString(m) }
 func (*ForgotPasswordRequest) ProtoMessage()    {}
 func (*ForgotPasswordRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{9}
+	return fileDescriptor_07324a721ebdf9ff, []int{9}
 }
+
 func (m *ForgotPasswordRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ForgotPasswordRequest.Unmarshal(m, b)
 }
 func (m *ForgotPasswordRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ForgotPasswordRequest.Marshal(b, m, deterministic)
 }
-func (dst *ForgotPasswordRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ForgotPasswordRequest.Merge(dst, src)
+func (m *ForgotPasswordRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ForgotPasswordRequest.Merge(m, src)
 }
 func (m *ForgotPasswordRequest) XXX_Size() int {
 	return xxx_messageInfo_ForgotPasswordRequest.Size(m)
@@ -720,16 +647,17 @@ func (m *ConfirmPasswordRequest) Reset()         { *m = ConfirmPasswordRequest{}
 func (m *ConfirmPasswordRequest) String() string { return proto.CompactTextString(m) }
 func (*ConfirmPasswordRequest) ProtoMessage()    {}
 func (*ConfirmPasswordRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{10}
+	return fileDescriptor_07324a721ebdf9ff, []int{10}
 }
+
 func (m *ConfirmPasswordRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConfirmPasswordRequest.Unmarshal(m, b)
 }
 func (m *ConfirmPasswordRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConfirmPasswordRequest.Marshal(b, m, deterministic)
 }
-func (dst *ConfirmPasswordRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConfirmPasswordRequest.Merge(dst, src)
+func (m *ConfirmPasswordRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfirmPasswordRequest.Merge(m, src)
 }
 func (m *ConfirmPasswordRequest) XXX_Size() int {
 	return xxx_messageInfo_ConfirmPasswordRequest.Size(m)
@@ -773,16 +701,17 @@ func (m *ChangePasswordRequest) Reset()         { *m = ChangePasswordRequest{} }
 func (m *ChangePasswordRequest) String() string { return proto.CompactTextString(m) }
 func (*ChangePasswordRequest) ProtoMessage()    {}
 func (*ChangePasswordRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{11}
+	return fileDescriptor_07324a721ebdf9ff, []int{11}
 }
+
 func (m *ChangePasswordRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChangePasswordRequest.Unmarshal(m, b)
 }
 func (m *ChangePasswordRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChangePasswordRequest.Marshal(b, m, deterministic)
 }
-func (dst *ChangePasswordRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChangePasswordRequest.Merge(dst, src)
+func (m *ChangePasswordRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangePasswordRequest.Merge(m, src)
 }
 func (m *ChangePasswordRequest) XXX_Size() int {
 	return xxx_messageInfo_ChangePasswordRequest.Size(m)
@@ -818,16 +747,17 @@ func (m *ChangeEmailRequest) Reset()         { *m = ChangeEmailRequest{} }
 func (m *ChangeEmailRequest) String() string { return proto.CompactTextString(m) }
 func (*ChangeEmailRequest) ProtoMessage()    {}
 func (*ChangeEmailRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{12}
+	return fileDescriptor_07324a721ebdf9ff, []int{12}
 }
+
 func (m *ChangeEmailRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChangeEmailRequest.Unmarshal(m, b)
 }
 func (m *ChangeEmailRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChangeEmailRequest.Marshal(b, m, deterministic)
 }
-func (dst *ChangeEmailRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChangeEmailRequest.Merge(dst, src)
+func (m *ChangeEmailRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangeEmailRequest.Merge(m, src)
 }
 func (m *ChangeEmailRequest) XXX_Size() int {
 	return xxx_messageInfo_ChangeEmailRequest.Size(m)
@@ -856,16 +786,17 @@ func (m *UpdateAttributesRequest) Reset()         { *m = UpdateAttributesRequest
 func (m *UpdateAttributesRequest) String() string { return proto.CompactTextString(m) }
 func (*UpdateAttributesRequest) ProtoMessage()    {}
 func (*UpdateAttributesRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{13}
+	return fileDescriptor_07324a721ebdf9ff, []int{13}
 }
+
 func (m *UpdateAttributesRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UpdateAttributesRequest.Unmarshal(m, b)
 }
 func (m *UpdateAttributesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_UpdateAttributesRequest.Marshal(b, m, deterministic)
 }
-func (dst *UpdateAttributesRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateAttributesRequest.Merge(dst, src)
+func (m *UpdateAttributesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateAttributesRequest.Merge(m, src)
 }
 func (m *UpdateAttributesRequest) XXX_Size() int {
 	return xxx_messageInfo_UpdateAttributesRequest.Size(m)
@@ -895,16 +826,17 @@ func (m *ConfirmEmailRequest) Reset()         { *m = ConfirmEmailRequest{} }
 func (m *ConfirmEmailRequest) String() string { return proto.CompactTextString(m) }
 func (*ConfirmEmailRequest) ProtoMessage()    {}
 func (*ConfirmEmailRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_usermgr_e21887ed91d40d1b, []int{14}
+	return fileDescriptor_07324a721ebdf9ff, []int{14}
 }
+
 func (m *ConfirmEmailRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConfirmEmailRequest.Unmarshal(m, b)
 }
 func (m *ConfirmEmailRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConfirmEmailRequest.Marshal(b, m, deterministic)
 }
-func (dst *ConfirmEmailRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConfirmEmailRequest.Merge(dst, src)
+func (m *ConfirmEmailRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfirmEmailRequest.Merge(m, src)
 }
 func (m *ConfirmEmailRequest) XXX_Size() int {
 	return xxx_messageInfo_ConfirmEmailRequest.Size(m)
@@ -930,6 +862,7 @@ func (m *ConfirmEmailRequest) GetNewEmail() string {
 }
 
 func init() {
+	proto.RegisterEnum("usermgr.UserStatus", UserStatus_name, UserStatus_value)
 	proto.RegisterType((*User)(nil), "usermgr.User")
 	proto.RegisterType((*UserAttribute)(nil), "usermgr.UserAttribute")
 	proto.RegisterType((*UserAttributes)(nil), "usermgr.UserAttributes")
@@ -945,14 +878,11 @@ func init() {
 	proto.RegisterType((*ChangeEmailRequest)(nil), "usermgr.ChangeEmailRequest")
 	proto.RegisterType((*UpdateAttributesRequest)(nil), "usermgr.UpdateAttributesRequest")
 	proto.RegisterType((*ConfirmEmailRequest)(nil), "usermgr.ConfirmEmailRequest")
-	proto.RegisterEnum("usermgr.UserStatus", UserStatus_name, UserStatus_value)
 }
 
-func init() {
-	proto.RegisterFile("usermgr/v1/micro/usermgr.proto", fileDescriptor_usermgr_e21887ed91d40d1b)
-}
+func init() { proto.RegisterFile("usermgr/v1/micro/usermgr.proto", fileDescriptor_07324a721ebdf9ff) }
 
-var fileDescriptor_usermgr_e21887ed91d40d1b = []byte{
+var fileDescriptor_07324a721ebdf9ff = []byte{
 	// 999 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x55, 0xcb, 0x6e, 0x1b, 0x37,
 	0x14, 0xd5, 0xc8, 0xb2, 0x2c, 0x5d, 0x3d, 0xac, 0xd0, 0x2f, 0x41, 0x6e, 0x1c, 0x65, 0xbc, 0x11,

@@ -3,10 +3,12 @@
 
 package mail
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import _ "github.com/Ankr-network/dccn-common/protos/common"
+import (
+	fmt "fmt"
+	_ "github.com/Ankr-network/dccn-common/protos/common"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -17,7 +19,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type EmailType int32
 
@@ -34,6 +36,7 @@ var EmailType_name = map[int32]string{
 	2: "CHANGE_PASSWORD",
 	3: "CONFIRM_EMAIL",
 }
+
 var EmailType_value = map[string]int32{
 	"CONFIRM_REGISTRATION": 0,
 	"FORGET_PASSWORD":      1,
@@ -44,8 +47,9 @@ var EmailType_value = map[string]int32{
 func (x EmailType) String() string {
 	return proto.EnumName(EmailType_name, int32(x))
 }
+
 func (EmailType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_email_ff19676d86dd223a, []int{0}
+	return fileDescriptor_a857ab765f9f42f3, []int{0}
 }
 
 type ConfirmRegistration struct {
@@ -61,16 +65,17 @@ func (m *ConfirmRegistration) Reset()         { *m = ConfirmRegistration{} }
 func (m *ConfirmRegistration) String() string { return proto.CompactTextString(m) }
 func (*ConfirmRegistration) ProtoMessage()    {}
 func (*ConfirmRegistration) Descriptor() ([]byte, []int) {
-	return fileDescriptor_email_ff19676d86dd223a, []int{0}
+	return fileDescriptor_a857ab765f9f42f3, []int{0}
 }
+
 func (m *ConfirmRegistration) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConfirmRegistration.Unmarshal(m, b)
 }
 func (m *ConfirmRegistration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConfirmRegistration.Marshal(b, m, deterministic)
 }
-func (dst *ConfirmRegistration) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConfirmRegistration.Merge(dst, src)
+func (m *ConfirmRegistration) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfirmRegistration.Merge(m, src)
 }
 func (m *ConfirmRegistration) XXX_Size() int {
 	return xxx_messageInfo_ConfirmRegistration.Size(m)
@@ -114,16 +119,17 @@ func (m *ForgetPassword) Reset()         { *m = ForgetPassword{} }
 func (m *ForgetPassword) String() string { return proto.CompactTextString(m) }
 func (*ForgetPassword) ProtoMessage()    {}
 func (*ForgetPassword) Descriptor() ([]byte, []int) {
-	return fileDescriptor_email_ff19676d86dd223a, []int{1}
+	return fileDescriptor_a857ab765f9f42f3, []int{1}
 }
+
 func (m *ForgetPassword) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ForgetPassword.Unmarshal(m, b)
 }
 func (m *ForgetPassword) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ForgetPassword.Marshal(b, m, deterministic)
 }
-func (dst *ForgetPassword) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ForgetPassword.Merge(dst, src)
+func (m *ForgetPassword) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ForgetPassword.Merge(m, src)
 }
 func (m *ForgetPassword) XXX_Size() int {
 	return xxx_messageInfo_ForgetPassword.Size(m)
@@ -161,16 +167,17 @@ func (m *ChangePassword) Reset()         { *m = ChangePassword{} }
 func (m *ChangePassword) String() string { return proto.CompactTextString(m) }
 func (*ChangePassword) ProtoMessage()    {}
 func (*ChangePassword) Descriptor() ([]byte, []int) {
-	return fileDescriptor_email_ff19676d86dd223a, []int{2}
+	return fileDescriptor_a857ab765f9f42f3, []int{2}
 }
+
 func (m *ChangePassword) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChangePassword.Unmarshal(m, b)
 }
 func (m *ChangePassword) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChangePassword.Marshal(b, m, deterministic)
 }
-func (dst *ChangePassword) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChangePassword.Merge(dst, src)
+func (m *ChangePassword) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangePassword.Merge(m, src)
 }
 func (m *ChangePassword) XXX_Size() int {
 	return xxx_messageInfo_ChangePassword.Size(m)
@@ -215,16 +222,17 @@ func (m *ChangeEmail) Reset()         { *m = ChangeEmail{} }
 func (m *ChangeEmail) String() string { return proto.CompactTextString(m) }
 func (*ChangeEmail) ProtoMessage()    {}
 func (*ChangeEmail) Descriptor() ([]byte, []int) {
-	return fileDescriptor_email_ff19676d86dd223a, []int{3}
+	return fileDescriptor_a857ab765f9f42f3, []int{3}
 }
+
 func (m *ChangeEmail) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChangeEmail.Unmarshal(m, b)
 }
 func (m *ChangeEmail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChangeEmail.Marshal(b, m, deterministic)
 }
-func (dst *ChangeEmail) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ChangeEmail.Merge(dst, src)
+func (m *ChangeEmail) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangeEmail.Merge(m, src)
 }
 func (m *ChangeEmail) XXX_Size() int {
 	return xxx_messageInfo_ChangeEmail.Size(m)
@@ -276,16 +284,17 @@ func (m *MailEvent) Reset()         { *m = MailEvent{} }
 func (m *MailEvent) String() string { return proto.CompactTextString(m) }
 func (*MailEvent) ProtoMessage()    {}
 func (*MailEvent) Descriptor() ([]byte, []int) {
-	return fileDescriptor_email_ff19676d86dd223a, []int{4}
+	return fileDescriptor_a857ab765f9f42f3, []int{4}
 }
+
 func (m *MailEvent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_MailEvent.Unmarshal(m, b)
 }
 func (m *MailEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_MailEvent.Marshal(b, m, deterministic)
 }
-func (dst *MailEvent) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MailEvent.Merge(dst, src)
+func (m *MailEvent) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MailEvent.Merge(m, src)
 }
 func (m *MailEvent) XXX_Size() int {
 	return xxx_messageInfo_MailEvent.Size(m)
@@ -380,9 +389,9 @@ func (m *MailEvent) GetChangeEmail() *ChangeEmail {
 	return nil
 }
 
-// XXX_OneofFuncs is for the internal use of the proto package.
-func (*MailEvent) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _MailEvent_OneofMarshaler, _MailEvent_OneofUnmarshaler, _MailEvent_OneofSizer, []interface{}{
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*MailEvent) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
 		(*MailEvent_ConfirmRegistration)(nil),
 		(*MailEvent_ForgetPassword)(nil),
 		(*MailEvent_ChangePassword)(nil),
@@ -390,120 +399,18 @@ func (*MailEvent) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) err
 	}
 }
 
-func _MailEvent_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
-	m := msg.(*MailEvent)
-	// op_mail
-	switch x := m.OpMail.(type) {
-	case *MailEvent_ConfirmRegistration:
-		b.EncodeVarint(4<<3 | proto.WireBytes)
-		if err := b.EncodeMessage(x.ConfirmRegistration); err != nil {
-			return err
-		}
-	case *MailEvent_ForgetPassword:
-		b.EncodeVarint(5<<3 | proto.WireBytes)
-		if err := b.EncodeMessage(x.ForgetPassword); err != nil {
-			return err
-		}
-	case *MailEvent_ChangePassword:
-		b.EncodeVarint(6<<3 | proto.WireBytes)
-		if err := b.EncodeMessage(x.ChangePassword); err != nil {
-			return err
-		}
-	case *MailEvent_ChangeEmail:
-		b.EncodeVarint(7<<3 | proto.WireBytes)
-		if err := b.EncodeMessage(x.ChangeEmail); err != nil {
-			return err
-		}
-	case nil:
-	default:
-		return fmt.Errorf("MailEvent.OpMail has unexpected type %T", x)
-	}
-	return nil
-}
-
-func _MailEvent_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
-	m := msg.(*MailEvent)
-	switch tag {
-	case 4: // op_mail.confirm_registration
-		if wire != proto.WireBytes {
-			return true, proto.ErrInternalBadWireType
-		}
-		msg := new(ConfirmRegistration)
-		err := b.DecodeMessage(msg)
-		m.OpMail = &MailEvent_ConfirmRegistration{msg}
-		return true, err
-	case 5: // op_mail.forget_password
-		if wire != proto.WireBytes {
-			return true, proto.ErrInternalBadWireType
-		}
-		msg := new(ForgetPassword)
-		err := b.DecodeMessage(msg)
-		m.OpMail = &MailEvent_ForgetPassword{msg}
-		return true, err
-	case 6: // op_mail.change_password
-		if wire != proto.WireBytes {
-			return true, proto.ErrInternalBadWireType
-		}
-		msg := new(ChangePassword)
-		err := b.DecodeMessage(msg)
-		m.OpMail = &MailEvent_ChangePassword{msg}
-		return true, err
-	case 7: // op_mail.change_email
-		if wire != proto.WireBytes {
-			return true, proto.ErrInternalBadWireType
-		}
-		msg := new(ChangeEmail)
-		err := b.DecodeMessage(msg)
-		m.OpMail = &MailEvent_ChangeEmail{msg}
-		return true, err
-	default:
-		return false, nil
-	}
-}
-
-func _MailEvent_OneofSizer(msg proto.Message) (n int) {
-	m := msg.(*MailEvent)
-	// op_mail
-	switch x := m.OpMail.(type) {
-	case *MailEvent_ConfirmRegistration:
-		s := proto.Size(x.ConfirmRegistration)
-		n += 1 // tag and wire
-		n += proto.SizeVarint(uint64(s))
-		n += s
-	case *MailEvent_ForgetPassword:
-		s := proto.Size(x.ForgetPassword)
-		n += 1 // tag and wire
-		n += proto.SizeVarint(uint64(s))
-		n += s
-	case *MailEvent_ChangePassword:
-		s := proto.Size(x.ChangePassword)
-		n += 1 // tag and wire
-		n += proto.SizeVarint(uint64(s))
-		n += s
-	case *MailEvent_ChangeEmail:
-		s := proto.Size(x.ChangeEmail)
-		n += 1 // tag and wire
-		n += proto.SizeVarint(uint64(s))
-		n += s
-	case nil:
-	default:
-		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
-	}
-	return n
-}
-
 func init() {
+	proto.RegisterEnum("mail.EmailType", EmailType_name, EmailType_value)
 	proto.RegisterType((*ConfirmRegistration)(nil), "mail.ConfirmRegistration")
 	proto.RegisterType((*ForgetPassword)(nil), "mail.ForgetPassword")
 	proto.RegisterType((*ChangePassword)(nil), "mail.ChangePassword")
 	proto.RegisterType((*ChangeEmail)(nil), "mail.ChangeEmail")
 	proto.RegisterType((*MailEvent)(nil), "mail.MailEvent")
-	proto.RegisterEnum("mail.EmailType", EmailType_name, EmailType_value)
 }
 
-func init() { proto.RegisterFile("email/v1/micro/email.proto", fileDescriptor_email_ff19676d86dd223a) }
+func init() { proto.RegisterFile("email/v1/micro/email.proto", fileDescriptor_a857ab765f9f42f3) }
 
-var fileDescriptor_email_ff19676d86dd223a = []byte{
+var fileDescriptor_a857ab765f9f42f3 = []byte{
 	// 482 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x93, 0x4f, 0x6f, 0xda, 0x40,
 	0x10, 0xc5, 0x8d, 0xed, 0x40, 0x3c, 0xb4, 0x86, 0xac, 0x91, 0xea, 0x92, 0x4b, 0x44, 0x2f, 0x51,
