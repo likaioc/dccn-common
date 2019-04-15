@@ -64,6 +64,18 @@ service AppMgr {
             body: "*"
     };
     }
+    rpc SaveChart (SaveChartRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/chart/save"
+            body: "*"
+    };
+    }
+    rpc DownloadChart (DownloadChartRequest) returns (DownloadChartResponse) {
+        option (google.api.http) = {
+            post: "/chart/download"
+            body: "*"
+    };
+    }  
     rpc CreateNamespace (CreateNamespaceRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
             post: "/namespace/create"
@@ -232,4 +244,21 @@ message UpdateNamespaceRequest {
 
 message DeleteNamespaceRequest {
     string id = 1;
+}
+
+message DownloadChartRequest {
+    string chart_repo = 1;
+    string chart_ver = 2;
+    string chart_name = 3;
+}
+
+message DownloadChartResponse {
+    bytes chart_file = 1;
+}
+
+message SaveChartRequest {
+    string chart_repo = 1;
+    string chart_ver = 2;
+    string chart_name = 3;
+    bytes values_file = 4;
 }
