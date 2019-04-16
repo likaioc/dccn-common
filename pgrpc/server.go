@@ -40,6 +40,9 @@ func NewServer(addr string, hook Hook, conf *yamux.Config) (*Server, error) {
 
 func (s *Server) Session() (net.Listener, error) {
 	session, err := yamux.Server(s.conn, s.config)
+	if err == nil {
+		_, err = session.Ping()
+	}
 	if err != nil {
 		s.conn.Close()
 		s, err = NewServer(s.addr, s.hook, s.config)
@@ -50,6 +53,8 @@ func (s *Server) Session() (net.Listener, error) {
 		// retry
 		session, err = yamux.Server(s.conn, s.config)
 		if err != nil {
+			return nil, errors.Wrap(err, "session")
+		} else if _, err = session.Ping(); err != nil {
 			return nil, errors.Wrap(err, "session")
 		}
 	}
