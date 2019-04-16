@@ -1,0 +1,937 @@
+swagger: '2.0'
+info:
+  title: dccn/facade open api
+  version: version not set
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /register:
+    post:
+      security:
+      - Bearer: [] 
+      summary: Sends a register request
+      operationId: register
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+        - name: email
+          in: query
+          required: true
+          type: string
+        - name: password
+          in: query
+          required: true
+          type: string
+      tags:
+        - Usermgr
+  /logout:
+    post:
+      summary: Sends a logout request
+      operationId: logout
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters: []
+      tags:
+        - Usermgr
+  /login:
+    post:
+      summary: Sends a login request
+      operationId: login
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/LoginResponse'
+      parameters:
+        - name: email
+          in: query
+          required: true
+          type: string
+        - name: password
+          in: query
+          required: true
+          type: string
+      tags:
+        - Usermgr
+  /refresh:
+    post:
+      summary: Sends a refresh request
+      operationId: refresh
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters: []
+      tags:
+        - Usermgr
+  /confirm_email:
+    post:
+      summary: Sends a confirm email request
+      operationId: comfirmemail
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: new_email
+          in: query
+          required: true
+          type: string
+        - name: confirmation_code
+          in: query
+          required: true
+          type: string
+      tags:
+        - Usermgr
+  /change_email:
+    post:
+      summary: Sends a change email request
+      operationId: changeemail
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: new_email
+          in: query
+          required: true
+          type: string
+      tags:
+        - Usermgr
+  /forgot_password:
+    post:
+      summary: Sends a forgot password request
+      operationId: forgotpassoword
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: email
+          in: query
+          required: true
+          type: string
+      tags:
+        - Usermgr
+  /confirm_password:
+    post:
+      summary: Sends a confirm password request
+      operationId: comfirmpassword
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: email
+          in: query
+          required: true
+          type: string
+        - name: new_password
+          in: query
+          required: true
+          type: string
+        - name: confirmation_code
+          in: query
+          required: true
+          type: string
+      tags:
+        - Usermgr
+  /change_password:
+    post:
+      summary: Sends a change password request
+      operationId: changepassword
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: old_password
+          in: query
+          required: true
+          type: string
+        - name: new_password
+          in: query
+          required: true
+          type: string
+      tags:
+        - Usermgr
+  /update_attribute:
+    post:
+      summary: Sends an update attribute request
+      operationId: updateattribute
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserResponse'
+      parameters:
+        - name: key
+          in: query
+          required: true
+          type: string
+        - name: value
+          in: query
+          required: true
+          type: string
+      tags:
+        - Usermgr
+  /dc/list:
+    get:
+      summary: Sends a list datacenter request
+      operationId: datacenterlist
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/DcListResponse'
+      parameters: []
+      tags:
+        - Dcmgr
+  /dc/leaderboard:
+    get:
+      summary: Sends a list leaderboard request
+      operationId: datacenterleaderboard
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/DcLeaderboardResponse'
+      parameters: []
+      tags:
+        - Dcmgr
+  /dc/networkinfo:
+    get:
+      summary: Sends a newwork information request
+      operationId: dcnetworkinfo
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/DcNetworkInfoResponse'
+      parameters: []
+      tags:
+        - Dcmgr
+  /app/create:
+    post:
+      summary: Sends a create app request
+      operationId: createapp
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/CreateAppResponse'
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+        - name: type
+          in: query
+          required: true
+          type: string
+        - name: image
+          in: query
+          required: true
+          type: string
+        - name: schedule
+          in: query
+          required: false
+          type: string
+        - name: replica
+          in: query
+          required: true
+          type: integer
+        - name: data_center_name
+          in: query
+          required: false
+          type: string
+        - name: cpu
+          in: query
+          required: false
+          type: integer
+        - name: memory
+          in: query
+          required: false
+          type: integer
+        - name: disk
+          in: query
+          required: false
+          type: integer
+        - name: chart_name
+          in: query
+          required: true
+          type: string
+        - name: chart_ver
+          in: query
+          required: true
+          type: string
+        - name: chart_repo
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /app/update:
+    post:
+      summary: Sends an update app request
+      operationId: updateapp
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+        - name: type
+          in: query
+          required: true
+          type: string
+        - name: image
+          in: query
+          required: true
+          type: string
+        - name: schedule
+          in: query
+          required: false
+          type: string
+        - name: replica
+          in: query
+          required: true
+          type: integer
+        - name: data_center_name
+          in: query
+          required: false
+          type: string
+        - name: cpu
+          in: query
+          required: false
+          type: integer
+        - name: memory
+          in: query
+          required: false
+          type: integer
+        - name: disk
+          in: query
+          required: false
+          type: integer
+        - name: chart_name
+          in: query
+          required: true
+          type: string
+        - name: chart_ver
+          in: query
+          required: true
+          type: string
+        - name: chart_repo
+          in: query
+          required: true
+          type: string
+        - name: app_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /app/cancel:
+    post:
+      summary: Sends a cancel app request
+      operationId: cancelapp
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: app_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /app/purge:
+    post:
+      summary: Sends a purge app request
+      operationId: purgeapp
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: app_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /app/list:
+    post:
+      summary: Sends a list apps request
+      operationId: applist
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/AppListResponse'
+      parameters:
+        - name: app_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /app/overview:
+    get:
+      summary: Sends a app overview request
+      operationId: appoverview
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/AppOverviewResponse'
+      parameters: []
+      tags:
+        - Appmgr
+  /app/leaderboard:
+    get:
+      summary: Sends a app leaderboard request
+      operationId: appleaderboard
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/AppLeaderboardResponse'
+      parameters: []
+      tags:
+        - Appmgr
+  /namespace/create:
+    post:
+      summary: Sends a create namespace request
+      operationId: createnamespace
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+        - name: type
+          in: query
+          required: true
+          type: string
+        - name: image
+          in: query
+          required: true
+          type: string
+        - name: schedule
+          in: query
+          required: false
+          type: string
+      tags:
+        - Appmgr
+  /namespace/list:
+    post:
+      summary: Sends a list namespaces request
+      operationId: namespacelist
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/NamespaceListResponse'
+      parameters:
+        - name: namespace_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /namespace/update:
+    post:
+      summary: Sends an update namespace request
+      operationId: updatenamespace
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+        - name: type
+          in: query
+          required: true
+          type: string
+        - name: image
+          in: query
+          required: true
+          type: string
+        - name: schedule
+          in: query
+          required: false
+          type: string
+        - name: replica
+          in: query
+          required: true
+          type: integer
+        - name: data_center_name
+          in: query
+          required: false
+          type: string
+        - name: cpu
+          in: query
+          required: false
+          type: integer
+        - name: memory
+          in: query
+          required: false
+          type: integer
+        - name: disk
+          in: query
+          required: false
+          type: integer
+        - name: chart_name
+          in: query
+          required: true
+          type: string
+        - name: chart_ver
+          in: query
+          required: true
+          type: string
+        - name: chart_repo
+          in: query
+          required: true
+          type: string
+        - name: app_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /namespace/delete:
+    post:
+      summary: Sends a delete namespace request
+      operationId: deletenamespace
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: namespace_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /chart/create:
+    post:
+      summary: Sends a create chart request
+      operationId: createchart
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+        - name: type
+          in: query
+          required: true
+          type: string
+        - name: image
+          in: query
+          required: true
+          type: string
+        - name: schedule
+          in: query
+          required: false
+          type: string
+      tags:
+        - Appmgr
+  /chart/list:
+    post:
+      summary: Sends a list charts request
+      operationId: chartlist
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/ChartListResponse'
+      parameters:
+        - name: namespace_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /chart/update:
+    post:
+      summary: Sends an update namespace request
+      operationId: updatechart
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+        - name: type
+          in: query
+          required: true
+          type: string
+        - name: image
+          in: query
+          required: true
+          type: string
+        - name: schedule
+          in: query
+          required: false
+          type: string
+        - name: replica
+          in: query
+          required: true
+          type: integer
+        - name: data_center_name
+          in: query
+          required: false
+          type: string
+        - name: cpu
+          in: query
+          required: false
+          type: integer
+        - name: memory
+          in: query
+          required: false
+          type: integer
+        - name: disk
+          in: query
+          required: false
+          type: integer
+        - name: chart_name
+          in: query
+          required: true
+          type: string
+        - name: chart_ver
+          in: query
+          required: true
+          type: string
+        - name: chart_repo
+          in: query
+          required: true
+          type: string
+        - name: app_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+  /chart/delete:
+    post:
+      summary: Sends a delete chart request
+      operationId: deletechart
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+      parameters:
+        - name: namespace_id
+          in: query
+          required: true
+          type: string
+      tags:
+        - Appmgr
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  chart:
+    type: object
+    properties:
+      name:
+        type: string
+      repo:
+        type: string
+      description:
+        type: string
+      icon_url:
+        type: string
+      latest_version:
+        type: string
+      latest_app_version:
+        type: string
+    description: This component serve as chart.
+  userattribute:
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    description: This message serve as userattribute.
+  dcdetail:
+    type: object
+    properties:
+      name:
+        type: string
+      number:
+        type: number
+    description: This message containing datacenterdetail.
+  app:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+      data_center_name:
+        type: string
+      status:
+        type: string
+      app_attributes:
+        type: object
+        properties:
+          replica:
+            type: integer
+          creation_date:
+            type: integer
+          last_modified_date:
+            type: integer
+      environments:
+        type: object
+        properties:
+          cpu:
+            type: integer
+          memory:
+            type: integer
+          disk:
+            type: integer
+      uid:
+        type: string
+      chart_name:
+        type: string
+      chart_ver:
+        type: string
+      chart_repo:
+        type: string
+  namespace:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      geo_location:
+        type: string
+      status:
+        type: string
+  datacenter:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      geo_location:
+        type: string
+      status:
+        type: string
+      dc_attributes:
+        type: object
+        properties:
+          wallet_address:
+            type: string
+          creation_date:
+            type: integer
+          last_modified_date:
+            type: integer
+      dc_heartbeat_report:
+        type: object
+        properties:
+          metrics:
+            type: string
+          report:
+            type: string
+          report_time:
+            type: integer
+    description: This message containing datacenter.
+definitions:
+  EmptyResponse:
+    type: object
+    properties: {}
+    description: The request message containing Empty.
+  UserResponse:
+    type: object
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+      status:
+        type: string
+      attribute:
+        type: object
+        properties:
+          name:
+            type: string
+          pub_key:
+            type: string
+          creation_date:
+            type: integer
+          last_modified_date:
+            type: integer
+          extra_fields:
+            type: array
+            items:
+              $ref: '#/components/userattribute'
+    title: User Information
+    description: The response message containing the User information
+  LoginResponse:
+    type: object
+    properties:
+      expiration:
+        type: string
+      issued_at:
+        type: string
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    title: Login Information
+    description: The response message containing the login information
+  DcNetworkInfoResponse:
+    type: object
+    properties:
+      user_count:
+        type: integer
+      host_count:
+        type: integer
+      environment_count:
+        type: integer
+      container_count:
+        type: integer
+      traffic:
+        type: integer
+    title: DcNetwork information
+    description: The response message containing the DcNetwork information
+  DcLeaderboardResponse:
+    type: object
+    properties:
+      datacenter_leader_board_detail:
+        type: array
+        items:
+          $ref: '#/components/dcdetail'
+    title: DcLeaderBoard information
+    description: The response message containing the DcLeaderboard information
+  AppLeaderboardResponse:
+    type: object
+    properties:
+      app_leader_board_detail:
+        type: array
+        items:
+          $ref: '#/components/dcdetail'
+    title: The response message containing the DcLeaderboard information
+  DcListResponse:
+    type: object
+    properties:
+      dclist:
+        type: array
+        items:
+          $ref: '#/components/datacenter'
+    title: DcList Information
+    description: The response message containing the DcList information
+  NamespaceListResponse:
+    type: object
+    properties:
+      Namespaces:
+        type: array
+        items:
+          $ref: '#/components/namespace'
+    title: Namespace Information
+    description: The response message containing the Namespaces information
+  ChartListResponse:
+    type: object
+    properties:
+      Charts:
+        type: array
+        items:
+          $ref: '#/components/chart'
+    title: DcList Information
+    description: The response message containing the DcList information
+  AppListResponse:
+    type: object
+    properties:
+      applist:
+        type: array
+        items:
+          $ref: '#/components/app'
+    title: AppList Information
+    description: The response message containing the AppList information
+  AppOverviewResponse:
+    type: object
+    properties:
+      cluster_count:
+        type: integer
+      environment_count:
+        type: integer
+      region_count:
+        type: integer
+      total_app_count:
+        type: integer
+      health_app_count:
+        type: integer
+    title: AppOverview Information
+    description: The response message containing the AppOverview information
+  CreateAppResponse:
+    type: object
+    properties:
+      app_id:
+        type: string
+    title: Create App Response
+    description: The response message containing the returned appid
+  
+
