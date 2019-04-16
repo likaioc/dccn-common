@@ -3,6 +3,7 @@ package ankrmicro
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 // Config struct save the configuration of the micro-service
@@ -13,6 +14,7 @@ type Config struct {
 	DatabaseHost string
 	DatabaseName string
 	Listen       string
+	DevEnv       bool
 }
 
 var config Config
@@ -22,6 +24,7 @@ func init() {
 	config.Rabbitmq = "amqp://guest:guest@localhost:5672"
 	config.Listen = ":50051"
 	config.DatabaseName = "dccn"
+	config.DevEnv = true
 	config = LoadConfigFromEnv()
 
 }
@@ -58,6 +61,17 @@ func LoadConfigFromEnv() Config {
 		config.Listen = value
 	}
 
+
+	value = os.Getenv("DEV_EVN")
+
+	if len(value) > 0 {
+		value = strings.ToLower(value)
+		if strings.Compare(value, "false") == 0 {
+			config.DevEnv = false
+		}
+
+	}
+
 	return config
 }
 
@@ -68,4 +82,5 @@ func (config *Config) Show() {
 	fmt.Printf("DB_HOST  : %s  \n", config.DatabaseHost)
 	fmt.Printf("DB_Name  : %s  \n", config.DatabaseName)
 	fmt.Printf("Listen   : %s \n", config.Listen)
+	fmt.Printf("DevEnv   : %t \n", config.DevEnv)
 }
