@@ -16,16 +16,18 @@ type Client struct {
 	port   string
 	config *yamux.Config
 	conns  *sync.Map
+	index  *sync.Map
 	opts   []grpc.DialOption
+	hook   Hook
 }
 
 var DefaultClient *Client
 
-func InitClient(port string, conf *yamux.Config, defaultOpts ...grpc.DialOption) (err error) {
-	DefaultClient, err = NewClient(port, conf, defaultOpts...)
+func InitClient(port string, conf *yamux.Config, hook Hook, defaultOpts ...grpc.DialOption) (err error) {
+	DefaultClient, err = NewClient(port, conf, hook, defaultOpts...)
 	return
 }
-func NewClient(port string, conf *yamux.Config, defaultOpts ...grpc.DialOption) (*Client, error) {
+func NewClient(port string, conf *yamux.Config, hook Hook, defaultOpts ...grpc.DialOption) (*Client, error) {
 	// init yamux
 	if conf == nil {
 		conf = yamux.DefaultConfig()
@@ -42,6 +44,7 @@ func NewClient(port string, conf *yamux.Config, defaultOpts ...grpc.DialOption) 
 	}
 
 	conns := &sync.Map{}
+	index := &sync.Map{}
 	go func() {
 		for {
 			conn, err := ln.Accept()
@@ -52,6 +55,23 @@ func NewClient(port string, conf *yamux.Config, defaultOpts ...grpc.DialOption) 
 				continue
 			}
 
+			host, _, err := net.SplitHostPort(conn.RemoteAddr().String())
+			if err != nil {
+				if conf.Logger != nil {
+					conf.Logger.Println("parse new connection address fail:", err)
+				}
+				continue
+			}
+
+			if hook != nil {
+				if err := hook.OnAccept(host, conn); err != nil {
+					if conf.Logger != nil {
+						conf.Logger.Println("on accept hook:", err)
+					}
+					continue
+				}
+			}
+
 			sess, err := yamux.Client(conn, conf)
 			if err != nil {
 				if conf.Logger != nil {
@@ -60,12 +80,13 @@ func NewClient(port string, conf *yamux.Config, defaultOpts ...grpc.DialOption) 
 				continue
 			}
 
-			host, _, err := net.SplitHostPort(sess.RemoteAddr().String())
-			if err != nil {
-				if conf.Logger != nil {
-					conf.Logger.Println("parse new connection address fail:", err)
+			if hook != nil {
+				if err := hook.OnBuild(host, sess); err != nil {
+					if conf.Logger != nil {
+						conf.Logger.Println("on build hook:", err)
+					}
+					continue
 				}
-				continue
 			}
 
 			if conf.Logger != nil {
@@ -75,8 +96,16 @@ func NewClient(port string, conf *yamux.Config, defaultOpts ...grpc.DialOption) 
 			if conn, ok := conns.LoadOrStore(host, sess); ok {
 				conns.Store(host, sess)
 				go func() {
+					index.Store(host, host)
+
 					<-sess.CloseChan()
 					conns.Delete(host)
+
+					if hook != nil {
+						if val, ok := index.LoadOrStore(host, host); ok && val.(string) == host {
+							hook.OnClose(host, sess)
+						}
+					}
 				}()
 
 				if err := conn.(*yamux.Session).GoAway(); err != nil && conf.Logger != nil {
@@ -100,6 +129,7 @@ func NewClient(port string, conf *yamux.Config, defaultOpts ...grpc.DialOption) 
 		port:   port,
 		config: conf,
 		conns:  conns,
+		index:  index,
 		opts:   defaultOpts,
 	}, nil
 }
@@ -115,13 +145,24 @@ func (c *Client) Alias(key, alias string, force bool) error {
 
 	if force {
 		c.conns.Store(alias, val)
-	} else if _, ok = c.conns.LoadOrStore(alias, val); ok {
+		c.index.Store(key, alias)
+	} else if _, ok = c.conns.LoadOrStore(alias, val); !ok {
+		c.index.Store(key, alias)
+	} else {
 		return errors.New("alias name has been occupied")
 	}
 
 	go func() {
+		c.index.Store(alias, alias)
+
 		<-val.(*yamux.Session).CloseChan()
 		c.conns.Delete(alias)
+
+		if c.hook != nil {
+			if val, ok := c.index.Load(alias); ok && val.(string) == alias {
+				c.hook.OnClose(alias, val.(*yamux.Session))
+			}
+		}
 	}()
 	return nil
 }
