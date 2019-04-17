@@ -112,6 +112,7 @@ message App {
     AppAttributes attributes = 6;
     string uid = 7;
     ChartDetail chart_detail = 8;
+    AppEvent event = 9;
 }
 
 
@@ -131,14 +132,17 @@ enum DCOperation {
     APP_CREATE = 0;
     APP_CANCEL = 1;
     APP_UPDATE = 2;
-    HEARTBEAT = 3;
-    NS_CREATE = 4;
-    NS_CANCEL = 5;
-    NS_UPDATE = 6;
+    APP_DETAIL = 3;
+    HEARTBEAT = 4;
+    NS_CREATE = 5;
+    NS_CANCEL = 6;
+    NS_UPDATE = 7;
 }
 
 message AppReport {
-    AppDeployment app_deployment = 1; //json string for Metrics structure which defined in constants
-    string report = 2;
+    AppDeployment app_deployment = 1; 
+    string report = 2; //json string for Metrics structure which defined in constants
     AppStatus app_status = 3;
+    AppEvent app_event = 4;
+    string detail = 5; //string for app resource detail 
 }

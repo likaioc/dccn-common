@@ -7,6 +7,7 @@ service AppMgr {
     // Sends request to start a app and list app
     rpc CreateApp (CreateAppRequest) returns (CreateAppResponse) {}
     rpc AppList (AppListRequest) returns (AppListResponse) {}
+    rpc AppDetail (AppID) returns (AppDetailResponse) {}
     rpc CancelApp (AppID) returns (common.proto.Empty) {}
     rpc PurgeApp (AppID) returns (common.proto.Empty) {}
     rpc UpdateApp (UpdateAppRequest) returns (common.proto.Empty) {}
@@ -39,6 +40,10 @@ message AppListRequest {
 
 message AppListResponse {
     repeated common.proto.AppReport app_reports = 1;
+}
+
+message AppDetailResponse {
+    common.proto.AppReport app_report = 1;
 }
 
 message AppFilter {

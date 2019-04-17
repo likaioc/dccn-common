@@ -15,6 +15,12 @@ service AppMgr {
     rpc AppList (AppListRequest) returns (AppListResponse) {
       option (google.api.http).get = "/app/list";
     }
+    rpc AppDetail (AppID) returns (AppDetailResponse) {
+        option (google.api.http) = {
+            post: "/app/detail"
+            body: "*"
+    };
+    }
     rpc CancelApp (AppID) returns (common.proto.Empty) {
         option (google.api.http) = {
             post: "/app/cancel"
@@ -134,6 +140,10 @@ message AppListRequest {
 
 message AppListResponse {
     repeated common.proto.AppReport app_reports = 1;
+}
+
+message AppDetailResponse {
+    common.proto.AppReport app_report = 1;
 }
 
 message AppFilter {

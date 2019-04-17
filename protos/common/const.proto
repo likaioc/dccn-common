@@ -1,26 +1,48 @@
 syntax = "proto3";
 package common.proto;
 
-// Hub app status
+// Hub application status
 enum AppStatus {
-    APP_STARTING = 0;
-    APP_START_FAILED = 1;
-    APP_RUNNING = 2;
-    APP_UPDATING = 3;
-    APP_UPDATE_FAILED = 4;
+    APP_NOT_EXIST = 0;
+    APP_DISPATCHING = 1;
+    APP_LAUNCHING = 2;
+    APP_RUNNING = 3;
+    APP_UPDATING = 4;
     APP_CANCELLING = 5;
-    APP_CANCELLED = 6;
-    APP_CANCEL_FAILED = 7;
+}
+// Hub application event
+enum AppEvent {
+    DISPATCH_APP = 0;
+    LAUNCH_APP = 1;
+    LAUNCH_APP_FAILED = 2;
+    LAUNCH_APP_SUCCEED = 3;
+    UPDATE_APP = 4;
+    UPDATE_APP_FAILED = 5;
+    UPDATE_APP_SUCCEED = 6;
+    CANCEL_APP = 7;
+    CANCEL_APP_FAILED = 8;
+    CANCEL_APP_SUCCEED = 9;
 }
 
 // Hub namespace status
 enum NamespaceStatus {
-    NS_STARTING = 0;
-    NS_START_FAILED = 1;
-    NS_RUNNING = 2;
-    NS_UPDATING = 3;
-    NS_UPDATE_FAILED = 4;
+    NS_NOT_EXIST = 0;
+    NS_DISPATCHING = 1;
+    NS_LAUNCHING = 2;
+    NS_RUNNING = 3;
+    NS_UPDATING = 4;
     NS_CANCELLING = 5;
-    NS_CANCELLED = 6;
-    NS_CANCEL_FAILED = 7;
+}
+// Hub namespace event
+enum NamespaceEvent {
+    DISPATCH_NS = 0;
+    LAUNCH_NS = 1;
+    LAUNCH_NS_FAILED = 2;
+    LAUNCH_NS_SUCCEED = 3;
+    UPDATE_NS = 4;
+    UPDATE_NS_FAILED = 5;
+    UPDATE_NS_SUCCEED = 6;
+    CANCEL_NS = 7;
+    CANCEL_NS_FAILED = 8;
+    CANCEL_NS_SUCCEED = 9;
 }
