@@ -37,28 +37,28 @@ service UserMgr {
 
     rpc ConfirmRegistration(ConfirmRegistrationRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/confirm-registration"
+            post: "/confirm_registration"
             body: "*"
     };
     }
 
     rpc ForgotPassword(ForgotPasswordRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/forgot-password"
+            post: "/forgot_password"
             body: "*"
     };
     }
 
     rpc ConfirmPassword(ConfirmPasswordRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/confirm-password"
+            post: "/confirm_password"
             body: "*"
     };
     }
 
     rpc ChangePassword(ChangePasswordRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/change-password"
+            post: "/change_password"
             body: "*"
     };
     }
@@ -72,7 +72,7 @@ service UserMgr {
 
     rpc ChangeEmail(ChangeEmailRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/change-email"
+            post: "/change_email"
             body: "*"
     };
     }
@@ -82,7 +82,7 @@ service UserMgr {
 
     rpc ConfirmEmail(ConfirmEmailRequest) returns (common.proto.Empty){
         option (google.api.http) = {
-            post: "/forgot-password"
+            post: "/forgot_password"
             body: "*"
     };
     }

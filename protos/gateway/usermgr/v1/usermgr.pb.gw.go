@@ -485,19 +485,19 @@ var (
 
 	pattern_UserMgr_RefreshSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"refresh"}, ""))
 
-	pattern_UserMgr_ConfirmRegistration_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"confirm-registration"}, ""))
+	pattern_UserMgr_ConfirmRegistration_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"confirm_registration"}, ""))
 
-	pattern_UserMgr_ForgotPassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"forgot-password"}, ""))
+	pattern_UserMgr_ForgotPassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"forgot_password"}, ""))
 
-	pattern_UserMgr_ConfirmPassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"confirm-password"}, ""))
+	pattern_UserMgr_ConfirmPassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"confirm_password"}, ""))
 
-	pattern_UserMgr_ChangePassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"change-password"}, ""))
+	pattern_UserMgr_ChangePassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"change_password"}, ""))
 
 	pattern_UserMgr_UpdateAttributes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"update_attribute"}, ""))
 
-	pattern_UserMgr_ChangeEmail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"change-email"}, ""))
+	pattern_UserMgr_ChangeEmail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"change_email"}, ""))
 
-	pattern_UserMgr_ConfirmEmail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"forgot-password"}, ""))
+	pattern_UserMgr_ConfirmEmail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"forgot_password"}, ""))
 )
 
 var (
