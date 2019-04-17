@@ -96,23 +96,17 @@ message Namespace {
     uint64 cpu_limit = 6;  // number of mcpu 
     uint64 mem_limit = 7; // number of Mi mem usage
     uint64 storage_limit = 8; // number of Gi storage
-    NamespaceStatus status = 9;
 }
 
 
 // Used by appmgr
 message App {
-    string id = 1;
     string name = 2; // name of the app
     oneof namespace_data {
         string namespace_id = 3; // namespace id
         Namespace namespace = 4; // request for create new namespace
     }
-    AppStatus status = 5;
-    AppAttributes attributes = 6;
-    string uid = 7;
     ChartDetail chart_detail = 8;
-    AppEvent event = 9;
 }
 
 
@@ -124,7 +118,7 @@ message DCStream {
         AppDeployment app_deployment = 2; // Deploy app action
         AppReport app_report = 3;
         DataCenterStatus data_center = 4; // HearBeat Info with DataCenter message
-        Namespace namespace = 5;
+        NamespaceReport ns_report = 5;
     }
 }
 // Task Events operation code
@@ -145,4 +139,10 @@ message AppReport {
     AppStatus app_status = 3;
     AppEvent app_event = 4;
     string detail = 5; //string for app resource detail 
+}
+
+message NamespaceReport {
+    Namespace namespace = 1; 
+    NamespaceStatus ns_status = 3;
+    NamespaceEvent ns_event = 4;
 }
