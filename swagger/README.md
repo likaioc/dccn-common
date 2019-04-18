@@ -34,7 +34,7 @@ docker run -d -p 80:8080 swagger-editor
 You can then view the app by navigating to `http://localhost` in your browser.
 
 ## Test for Create App
-1. Choose either server (This is used for test)
+1. Import related yaml into editor.
 
 2. Click login, then click "try it out"
 
