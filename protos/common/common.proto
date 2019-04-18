@@ -118,7 +118,8 @@ message DCStream {
         AppDeployment app_deployment = 2; // Deploy app action
         AppReport app_report = 3;
         DataCenterStatus data_center = 4; // HearBeat Info with DataCenter message
-        NamespaceReport ns_report = 5;
+        Namespace namespace = 5; // Deploy namespace action
+        NamespaceReport ns_report = 6;
     }
 }
 // Task Events operation code
