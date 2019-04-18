@@ -196,7 +196,13 @@ func (c *Client) Each(fn func(key string, conn *grpc.ClientConn, err error), opt
 			opts = c.opts
 		}
 		opts = append(opts, grpc.WithContextDialer(func(context.Context, string) (net.Conn, error) {
-			return val.(*yamux.Session).Open()
+			sess := val.(*yamux.Session)
+			if _, err := sess.Ping(); err != nil {
+				sess.Close()
+				c.conns.Delete(key)
+				return nil, err
+			}
+			return sess.Open()
 		}))
 		conn, err := grpc.DialContext(context.Background(), key.(string), opts...)
 		fn(key.(string), conn, errors.Wrapf(err, "pgrpc dial (%s)", key))
