@@ -6,14 +6,15 @@ package dcmgr;
 
 // DC is the communication definition of daemon and dc-facade
 service DC {
-    rpc CreateApp (common.proto.AppDeployment) returns (common.proto.Empty) {}
-    rpc UpdateApp (common.proto.AppDeployment) returns (common.proto.Empty) {}
-    rpc DeleteApp (common.proto.AppDeployment) returns (common.proto.Empty) {}
-    rpc CreateNamespace (common.proto.Namespace) returns (common.proto.Empty) {}
-    rpc UpdateNamespace (common.proto.Namespace) returns (common.proto.Empty) {}
-    rpc DeleteNamespace (common.proto.Namespace) returns (common.proto.Empty) {}
-    rpc InitDC (common.proto.DataCenter) returns (common.proto.Empty) {}
-    rpc Status (common.proto.Empty) returns (common.proto.DataCenterStatus) {}
+    rpc CreateApp (common.proto.AppDeployment) returns (common.proto.AppResponce) {}
+    rpc UpdateApp (common.proto.AppDeployment) returns (common.proto.AppResponce) {}
+    rpc DeleteApp (common.proto.AppDeployment) returns (common.proto.AppResponce) {}
+    rpc CreateNamespace (common.proto.Namespace) returns (common.proto.AppResponce) {}
+    rpc UpdateNamespace (common.proto.Namespace) returns (common.proto.AppResponce) {}
+    rpc DeleteNamespace (common.proto.Namespace) returns (common.proto.AppResponce) {}
+    rpc Status (common.proto.AppID) returns (common.proto.AppRunStatus) {}
+    rpc InitDC (common.proto.DataCenter) returns (common.proto.AppResponce) {}
+    rpc Overview (common.proto.Empty) returns (common.proto.DataCenterStatus) {}
 }
 
 //

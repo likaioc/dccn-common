@@ -16,6 +16,7 @@ enum DCStatus {
 message Empty {}
 
 
+
 // App Deployment structure
 message AppDeployment {
     string  id = 1;
@@ -24,6 +25,9 @@ message AppDeployment {
     AppAttributes   attributes = 4;
     string  uid = 5;
     ChartDetail chart_detail = 6;
+}
+message AppID {
+    string  id = 1;
 }
 
 message AppAttributes {
@@ -93,7 +97,7 @@ message Namespace {
 	string cluster_id = 3; //id of cluster
     string cluster_name = 4; //name of cluster
 	uint64 creation_date = 5;
-    uint64 cpu_limit = 6;  // number of mcpu 
+    uint64 cpu_limit = 6;  // number of mcpu
     uint64 mem_limit = 7; // number of Mi mem usage
     uint64 storage_limit = 8; // number of Gi storage
 }
@@ -135,15 +139,27 @@ enum DCOperation {
 }
 
 message AppReport {
-    AppDeployment app_deployment = 1; 
+    AppDeployment app_deployment = 1;
     string report = 2; //json string for Metrics structure which defined in constants
     AppStatus app_status = 3;
     AppEvent app_event = 4;
-    string detail = 5; //string for app resource detail 
+    string detail = 5; //string for app resource detail
 }
 
 message NamespaceReport {
-    Namespace namespace = 1; 
+    Namespace namespace = 1;
     NamespaceStatus ns_status = 3;
     NamespaceEvent ns_event = 4;
+}
+
+message AppResponce {
+    AppEvent        app_result  = 1;
+    NamespaceEvent  ns_result   = 2;
+    string          error       = 3;
+    string          message     = 4;
+}
+message AppRunStatus {
+    NamespaceStatus ns_status = 1;
+    AppStatus app_status = 2;
+    string          message     = 3;
 }
