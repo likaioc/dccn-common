@@ -97,9 +97,10 @@ message Namespace {
 	string cluster_id = 3; //id of cluster
     string cluster_name = 4; //name of cluster
 	uint64 creation_date = 5;
-    uint64 cpu_limit = 6;  // number of mcpu
-    uint64 mem_limit = 7; // number of Mi mem usage
-    uint64 storage_limit = 8; // number of Gi storage
+    uint64 last_modified_date = 6;
+    uint64 cpu_limit = 7;  // number of mcpu
+    uint64 mem_limit = 8; // number of Mi mem usage
+    uint64 storage_limit = 9; // number of Gi storage
 }
 
 
