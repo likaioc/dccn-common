@@ -190,6 +190,8 @@ func Each(fn func(key string, conn *grpc.ClientConn, err error), opts ...grpc.Di
 	DefaultClient.Each(fn, opts...)
 }
 func (c *Client) Each(fn func(key string, conn *grpc.ClientConn, err error), opts ...grpc.DialOption) {
+	wg := sync.WaitGroup{}
+	defer wg.Wait()
 	c.conns.Range(func(key, val interface{}) bool {
 
 		if len(opts) == 0 {
@@ -205,7 +207,12 @@ func (c *Client) Each(fn func(key string, conn *grpc.ClientConn, err error), opt
 			return sess.Open()
 		}))
 		conn, err := grpc.DialContext(context.Background(), key.(string), opts...)
-		fn(key.(string), conn, errors.Wrapf(err, "pgrpc dial (%s)", key))
+
+		wg.Add(1)
+		go func() {
+			fn(key.(string), conn, errors.Wrapf(err, "pgrpc dial (%s)", key))
+			wg.Done()
+		}()
 
 		return true
 	})
