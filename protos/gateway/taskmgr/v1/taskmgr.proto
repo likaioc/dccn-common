@@ -156,7 +156,7 @@ message AppID {
 
 message UpdateAppRequest{
     string name = 1;
-    string type = 2;
+    string app_id = 2;
     uint64 creation_date = 3;
     uint64 last_modified_date = 4;
     string uid = 5;
