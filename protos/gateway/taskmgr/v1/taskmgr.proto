@@ -156,7 +156,7 @@ message AppID {
 
 message UpdateAppRequest{
     string name = 1;
-    string type = 2;
+    string app_id = 2;
     uint64 creation_date = 3;
     uint64 last_modified_date = 4;
     string uid = 5;
@@ -173,7 +173,6 @@ message UpdateAppRequest{
     uint64 ns_cpu_limit = 16;
     uint64 ns_mem_limit = 17;
     uint64 ns_storage_limit = 18;
-    common.proto.AppStatus status = 19;
 }
 
 message AppOverviewResponse{

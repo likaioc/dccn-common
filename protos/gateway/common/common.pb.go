@@ -5,8 +5,9 @@ package common_proto
 
 import (
 	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
 	math "math"
+
+	proto "github.com/golang/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -993,18 +994,13 @@ func (m *Namespace) GetStatus() NamespaceStatus {
 	return NamespaceStatus_NS_NOT_EXIST
 }
 
-// Used by appmgr
 type App struct {
-	Id   string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Types that are valid to be assigned to NamespaceData:
 	//	*App_NamespaceId
 	//	*App_Namespace
 	NamespaceData        isApp_NamespaceData `protobuf_oneof:"namespace_data"`
-	Status               AppStatus           `protobuf:"varint,5,opt,name=status,proto3,enum=common.proto.AppStatus" json:"status,omitempty"`
-	Attributes           *AppAttributes      `protobuf:"bytes,6,opt,name=attributes,proto3" json:"attributes,omitempty"`
-	Uid                  string              `protobuf:"bytes,7,opt,name=uid,proto3" json:"uid,omitempty"`
-	ChartDetail          *ChartDetail        `protobuf:"bytes,8,opt,name=chart_detail,json=chartDetail,proto3" json:"chart_detail,omitempty"`
+	ChartDetail          *ChartDetail        `protobuf:"bytes,4,opt,name=chart_detail,json=chartDetail,proto3" json:"chart_detail,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
 	XXX_unrecognized     []byte              `json:"-"`
 	XXX_sizecache        int32               `json:"-"`
@@ -1035,13 +1031,6 @@ func (m *App) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_App proto.InternalMessageInfo
 
-func (m *App) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
 func (m *App) GetName() string {
 	if m != nil {
 		return m.Name
@@ -1054,11 +1043,11 @@ type isApp_NamespaceData interface {
 }
 
 type App_NamespaceId struct {
-	NamespaceId string `protobuf:"bytes,3,opt,name=namespace_id,json=namespaceId,proto3,oneof"`
+	NamespaceId string `protobuf:"bytes,2,opt,name=namespace_id,json=namespaceId,proto3,oneof"`
 }
 
 type App_Namespace struct {
-	Namespace *Namespace `protobuf:"bytes,4,opt,name=namespace,proto3,oneof"`
+	Namespace *Namespace `protobuf:"bytes,3,opt,name=namespace,proto3,oneof"`
 }
 
 func (*App_NamespaceId) isApp_NamespaceData() {}
@@ -1084,27 +1073,6 @@ func (m *App) GetNamespace() *Namespace {
 		return x.Namespace
 	}
 	return nil
-}
-
-func (m *App) GetStatus() AppStatus {
-	if m != nil {
-		return m.Status
-	}
-	return AppStatus_APP_NOT_EXIST
-}
-
-func (m *App) GetAttributes() *AppAttributes {
-	if m != nil {
-		return m.Attributes
-	}
-	return nil
-}
-
-func (m *App) GetUid() string {
-	if m != nil {
-		return m.Uid
-	}
-	return ""
 }
 
 func (m *App) GetChartDetail() *ChartDetail {

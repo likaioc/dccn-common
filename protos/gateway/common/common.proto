@@ -144,20 +144,14 @@ message Namespace {
 }
 
 
-// Used by appmgr
 message App {
-    string id = 1;
-    string name = 2; // name of the app
+    string name = 1; // name of the app
     oneof namespace_data {
-        string namespace_id = 3; // namespace id
-        Namespace namespace = 4; // request for create new namespace
+        string namespace_id = 2; // namespace id
+        Namespace namespace = 3; // request for create new namespace
     }
-    AppStatus status = 5;
-    AppAttributes attributes = 6;
-    string uid = 7;
-    ChartDetail chart_detail = 8;
+    ChartDetail chart_detail = 4;
 }
-
 
 // Used by dc-mgr to dc-facade rabbitmq
 message DCStream {

@@ -300,6 +300,13 @@ paths:
             []
       summary: Sends an update app request
       operationId: updateapp
+      requestBody:
+        description: Request for update user attribute
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAppRequest'
       responses:
         "200":
           description: ""
@@ -307,72 +314,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: name
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: type
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: image
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: schedule
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: replica
-          in: query
-          required: true
-          schema:
-            type: integer
-        - name: data_center_name
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: cpu
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: memory
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: disk
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: chart_name
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: chart_ver
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: chart_repo
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: app_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
   /app/cancel:
@@ -382,6 +323,13 @@ paths:
             []
       summary: Sends a cancel app request
       operationId: cancelapp
+      requestBody:
+        description: Request for change the status to cancel
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppIDRequest'
       responses:
         "200":
           description: ""
@@ -389,12 +337,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: app_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
   /app/purge:
@@ -404,6 +346,13 @@ paths:
             []
       summary: Sends a purge app request
       operationId: purgeapp
+      requestBody:
+        description: Request for change the status to cancel and will show on list
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppIDRequest'
       responses:
         "200":
           description: ""
@@ -411,12 +360,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: app_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
   /app/list:
@@ -426,6 +369,13 @@ paths:
             []
       summary: Sends a list apps request
       operationId: applist
+      requestBody:
+        description: Request for list app
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppIDRequest'
       responses:
         "200":
           description: ""
@@ -433,12 +383,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AppListResponse"
-      parameters:
-        - name: app_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
   /app/overview:
@@ -480,6 +424,13 @@ paths:
             []
       summary: Sends a create namespace request
       operationId: createnamespace
+      requestBody:
+        description: Request for create namespace
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNamespaceRequest'
       responses:
         "200":
           description: ""
@@ -487,27 +438,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: name
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: type
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: image
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: schedule
-          in: query
-          required: false
-          schema:
-            type: string
+
       tags:
         - Appmgr
   /namespace/list:
@@ -517,6 +448,13 @@ paths:
             []
       summary: Sends a list namespaces request
       operationId: namespacelist
+      requestBody:
+        description: Request for namespace list
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NamespaceListRequest'
       responses:
         "200":
           description: ""
@@ -539,6 +477,13 @@ paths:
             []
       summary: Sends an update namespace request
       operationId: updatenamespace
+      requestBody:
+        description: Request for create namespace
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNamespaceRequest'
       responses:
         "200":
           description: ""
@@ -546,72 +491,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: name
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: type
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: image
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: schedule
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: replica
-          in: query
-          required: true
-          schema:
-            type: integer
-        - name: data_center_name
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: cpu
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: memory
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: disk
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: chart_name
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: chart_ver
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: chart_repo
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: app_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
   /namespace/delete:
@@ -621,6 +500,13 @@ paths:
             []
       summary: Sends a delete namespace request
       operationId: deletenamespace
+      requestBody:
+        description: Request for delete namespace
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NamespaceListRequest'
       responses:
         "200":
           description: ""
@@ -628,12 +514,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: namespace_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
   /chart/create:
@@ -1134,6 +1014,11 @@ components:
           type: integer
         ns_storage_limit:
           type: integer
+    AppIDRequest:
+      type: object
+      properties:
+        app_id:
+          type: string
     DcNetworkInfoResponse:
       type: object
       properties:
@@ -1180,6 +1065,22 @@ components:
             $ref: "#/components/schemas/datacenter"
       title: DcList Information
       description: The response message containing the DcList information
+    CreateNamespaceRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        cpu_limit:
+          type: integer
+        mem_limit:
+          type: integer
+        storage_limit:
+          type: integer
+    NamespaceListRequest:
+      type: object
+      properties:
+        namespace_id:
+          type: string
     NamespaceListResponse:
       type: object
       properties:
