@@ -144,17 +144,17 @@ func (c *Client) Alias(key, alias string, force bool) error {
 	}
 
 	if force {
-		c.conns.Store(alias, val)
 		c.index.Store(key, alias)
+		c.index.Store(alias, alias)
+		c.conns.Store(alias, val)
 	} else if _, ok = c.conns.LoadOrStore(alias, val); !ok {
 		c.index.Store(key, alias)
+		c.index.Store(alias, alias)
 	} else {
 		return errors.New("alias name has been occupied")
 	}
 
 	go func() {
-		c.index.Store(alias, alias)
-
 		<-val.(*yamux.Session).CloseChan()
 		c.conns.Delete(alias)
 
