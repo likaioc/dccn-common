@@ -94,10 +94,10 @@ func NewClient(port string, conf *yamux.Config, hook Hook, defaultOpts ...grpc.D
 			}
 
 			if conn, ok := conns.LoadOrStore(host, sess); ok {
+				index.Store(host, host)
 				conns.Store(host, sess)
-				go func() {
-					index.Store(host, host)
 
+				go func() {
 					<-sess.CloseChan()
 					conns.Delete(host)
 
@@ -144,17 +144,17 @@ func (c *Client) Alias(key, alias string, force bool) error {
 	}
 
 	if force {
-		c.conns.Store(alias, val)
 		c.index.Store(key, alias)
+		c.index.Store(alias, alias)
+		c.conns.Store(alias, val)
 	} else if _, ok = c.conns.LoadOrStore(alias, val); !ok {
 		c.index.Store(key, alias)
+		c.index.Store(alias, alias)
 	} else {
 		return errors.New("alias name has been occupied")
 	}
 
 	go func() {
-		c.index.Store(alias, alias)
-
 		<-val.(*yamux.Session).CloseChan()
 		c.conns.Delete(alias)
 
@@ -193,6 +193,9 @@ func (c *Client) Each(fn func(key string, conn *grpc.ClientConn, err error), opt
 	wg := sync.WaitGroup{}
 	defer wg.Wait()
 	c.conns.Range(func(key, val interface{}) bool {
+		if v, ok := c.index.Load(key); !ok || v.(string) != key.(string) {
+			return true
+		}
 
 		if len(opts) == 0 {
 			opts = c.opts
