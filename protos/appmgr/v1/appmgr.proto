@@ -141,7 +141,7 @@ message NamespaceListRequest {
 }
 
 message NamespaceListResponse {
-    repeated common.proto.Namespace namespaces = 1;
+    repeated common.proto.NamespaceReport namespace_reports = 1;
 }
 
 message UpdateNamespaceRequest {

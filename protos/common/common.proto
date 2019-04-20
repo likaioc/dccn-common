@@ -149,8 +149,8 @@ message AppReport {
 
 message NamespaceReport {
     Namespace namespace = 1;
-    NamespaceStatus ns_status = 3;
-    NamespaceEvent ns_event = 4;
+    NamespaceStatus ns_status = 2;
+    NamespaceEvent ns_event = 3;
 }
 
 message AppResponce {

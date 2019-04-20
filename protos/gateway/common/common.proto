@@ -143,6 +143,11 @@ message Namespace {
     NamespaceStatus status = 10;
 }
 
+message NamespaceReport{
+    Namespace namespace = 1;
+    NamespaceStatus ns_status = 2;
+    NamespaceEvent ns_event = 3;
+}
 
 message App {
     string name = 1; // name of the app
