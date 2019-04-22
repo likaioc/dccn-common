@@ -523,6 +523,13 @@ paths:
             []
       summary: Sends a create chart request
       operationId: createchart
+      requestBody:
+        description: Request for delete namespace
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChartReqeust'
       responses:
         "200":
           description: ""
@@ -530,27 +537,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: name
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: type
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: image
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: schedule
-          in: query
-          required: false
-          schema:
-            type: string
       tags:
         - Appmgr
   /chart/list:
@@ -560,6 +546,13 @@ paths:
             []
       summary: Sends a list charts request
       operationId: chartlist
+      requestBody:
+        description: Request for list chart
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChartListRequest'
       responses:
         "200":
           description: ""
@@ -567,94 +560,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChartListResponse"
-      parameters:
-        - name: namespace_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
-  /chart/update:
+  /chart/detail:
     post:
       security:
         - Bearer:
             []
-      summary: Sends an update namespace request
-      operationId: updatechart
+      summary: Sends a request for spectific chart detail
+      operationId: chartdetail
+      requestBody:
+        description: Request for list chart
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChartDetailRequest'
       responses:
         "200":
           description: ""
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: name
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: type
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: image
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: schedule
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: replica
-          in: query
-          required: true
-          schema:
-            type: integer
-        - name: data_center_name
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: cpu
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: memory
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: disk
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: chart_name
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: chart_ver
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: chart_repo
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: app_id
-          in: query
-          required: true
-          schema:
-            type: string
+                $ref: "#/components/schemas/ChartDetailResponse"
       tags:
         - Appmgr
   /chart/delete:
@@ -664,6 +592,13 @@ paths:
             []
       summary: Sends a delete chart request
       operationId: deletechart
+      requestBody:
+        description: Request for delete chart
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DownloadChartRequest'
       responses:
         "200":
           description: ""
@@ -671,12 +606,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: namespace_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
   /chart/download:
@@ -686,19 +615,20 @@ paths:
             []
       summary: Sends a delete chart request
       operationId: downloadchart
+      requestBody:
+        description: Request for download chart
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DownloadChartRequest'
       responses:
         "200":
           description: ""
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: namespace_id
-          in: query
-          required: true
-          schema:
-            type: string
+                $ref: '#/components/schemas/DownloadChartResponse'
       tags:
         - Appmgr
   /chart/save:
@@ -708,6 +638,13 @@ paths:
             []
       summary: Sends a delete chart request
       operationId: savechart
+      requestBody:
+        description: Request for save chart
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveChartRequest'
       responses:
         "200":
           description: ""
@@ -746,7 +683,17 @@ components:
         latest_app_version:
           type: string
       description: This component serve as chart.
-      
+    chartdetail:
+      type: object
+      properties:
+        name:
+          type: string
+        repo:
+          type: string
+        version:
+          type: string
+        app_version:
+          type: string
     user:
       type: object
       properties:
@@ -1090,6 +1037,18 @@ components:
             $ref: "#/components/schemas/namespace"
       title: Namespace Information
       description: The response message containing the Namespaces information
+    CreateChartReqeust:
+      type: object
+      properties:
+        chart_repo:
+          type: string
+        chart_ver:
+          type: string
+        chart_name:
+          type: string
+        chart_file:
+          type: string
+          format: byte
     ChartListResponse:
       type: object
       properties:
@@ -1099,6 +1058,62 @@ components:
             $ref: "#/components/schemas/chart"
       title: DcList Information
       description: The response message containing the DcList information
+    ChartDetailRequest:
+      type: object
+      properties:
+        chart:
+          $ref: "#/components/schemas/chart"
+        show_version:
+          type: string
+    ChartDetailResponse:
+      type: object
+      properties:
+        chartdetails:
+          $ref: "#/components/schemas/chartdetail"
+        show_readme:
+          type: string
+        show_values:
+          type: string
+    SaveChartRequest:
+      type: object
+      properties:
+        chart_repo:
+          type: string
+        chart_ver:
+          type: string
+        chart_name:
+          type: string
+        save_repo:
+          type: string
+        save_ver:
+          type: string
+        save_name:
+          type: string
+        values_file:
+          type: string
+          format: byte
+    ChartListRequest:
+      type: object
+      properties:
+        chart_repo:
+          type: string
+        filter:
+          type: string
+    DownloadChartRequest:
+      type: object
+      properties:
+        chart_repo:
+          type: string
+        chart_ver:
+          type: string
+        chart_name:
+          type: string
+    DownloadChartResponse:
+      type: object
+      properties:
+        chart_file:
+          type: string
+          format: byte
     AppListResponse:
       type: object
       properties:
