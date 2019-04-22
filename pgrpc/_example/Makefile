@@ -18,5 +18,5 @@ ifeq ("${IP}","")
 endif
 
 	./pgrpc_client &
-	docker ${FLAG} run -it -e IP=$(IP) test-pgrpc
+	docker ${FLAG} run -it -e IP=$(IP) --rm test-pgrpc
 	pkill -9 pgrpc_client
