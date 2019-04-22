@@ -20,7 +20,7 @@ func main() {
 }
 
 func server(ip string) {
-	conn, err := pgrpc.NewServer(ip+":8899", nil)
+	conn, err := pgrpc.NewServer(ip+":8899", nil, nil)
 	if err != nil {
 		log.Fatalln("FAIL:", err)
 	}
@@ -30,7 +30,11 @@ func server(ip string) {
 	server := grpc.NewServer()
 	api.RegisterPingServer(server, &Server{})
 	api.RegisterStreamPingServer(server, &StreamServer{})
-	if err := server.Serve(conn.Session()); err != nil {
+	ln, err := conn.Session()
+	if err != nil {
+		log.Fatalln("FAIL:", err)
+	}
+	if err := server.Serve(ln); err != nil {
 		log.Fatalln("FAIL:", err)
 	}
 }

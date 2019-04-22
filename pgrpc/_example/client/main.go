@@ -33,7 +33,7 @@ func main() {
 }
 
 func dial(port string) {
-	if err := pgrpc.InitClient(":8899", nil); err != nil {
+	if err := pgrpc.InitClient(":8899", nil, nil); err != nil {
 		log.Fatalln(err)
 	}
 
@@ -41,25 +41,25 @@ func dial(port string) {
 }
 
 func loopServers() (keys []string) {
-	pgrpc.Each(func(key string, conn *grpc.ClientConn, err error) bool {
+	pgrpc.Each(func(key string, conn *grpc.ClientConn, err error) {
 		if err != nil {
 			log.Println(err)
-			return true
+			return
 		}
+		defer conn.Close()
 
 		out, err := api.NewPingClient(conn).SayHello(context.Background(),
 			&api.PingMessage{Greeting: key})
 		if err != nil {
 			log.Fatalln("FAIL:", conn.Target(), err)
-			return true
+			return
 		}
 
 		log.Println("SUCC:", conn.Target(), *out)
 		keys = append(keys, key)
-		return true
 	})
 
-	return
+	return keys
 }
 
 func dialServer(key string) {
@@ -67,6 +67,8 @@ func dialServer(key string) {
 	if err != nil {
 		log.Fatalln("FAIL:", err)
 	}
+	defer conn.Close()
+
 	msg, err := api.NewPingClient(conn).SayHello(context.Background(),
 		&api.PingMessage{Greeting: "Dial"})
 	if err != nil {
@@ -81,6 +83,8 @@ func streamMode(key string) {
 	if err != nil {
 		log.Fatalln("FAIL:", err)
 	}
+	defer conn.Close()
+
 	stream, err := api.NewStreamPingClient(conn).HelloStream(context.Background())
 	if err != nil {
 		log.Fatalln("FAIL:", err)

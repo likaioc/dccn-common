@@ -30,3 +30,5 @@ frontend/**/dist
 frontend/**/package-lock.json
 
 **/vendor/
+pgrpc/_example/pgrpc_client
+pgrpc/_example/pgrpc_server
