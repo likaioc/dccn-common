@@ -20,8 +20,8 @@ type Hook interface {
 	OnClose(key string, conn *Session)
 }
 
-type emptyHook struct{}
+type EmptyHook struct{}
 
-func (*emptyHook) OnAccept(key string, conn net.Conn) error { return nil }
-func (*emptyHook) OnBuild(key string, conn *Session) error  { return nil }
-func (*emptyHook) OnClose(key string, conn *Session)        {}
+func (*EmptyHook) OnAccept(key string, conn net.Conn) error { return nil }
+func (*EmptyHook) OnBuild(key string, conn *Session) error  { return nil }
+func (*EmptyHook) OnClose(key string, conn *Session)        {}

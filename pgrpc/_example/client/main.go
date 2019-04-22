@@ -25,15 +25,24 @@ func main() {
 			dialServer(key)
 		}
 		once.Do(func() {
-			if len(keys) >= 1 {
-				streamMode(keys[0])
-			}
+			// disable stream test
+			// 	if len(keys) >= 1 {
+			// 		streamMode(keys[0])
+			// 	}
 		})
 	}
 }
 
+type hook struct {
+	pgrpc.EmptyHook
+}
+
+func (*hook) OnClose(key string, conn *pgrpc.Session) {
+	log.Println(key, "is closed")
+}
+
 func dial(port string) {
-	if err := pgrpc.InitClient(":8899", nil, nil); err != nil {
+	if err := pgrpc.InitClient(":8899", nil, new(hook)); err != nil {
 		log.Fatalln(err)
 	}
 
@@ -51,9 +60,11 @@ func loopServers() (keys []string) {
 		out, err := api.NewPingClient(conn).SayHello(context.Background(),
 			&api.PingMessage{Greeting: key})
 		if err != nil {
-			log.Fatalln("FAIL:", conn.Target(), err)
+			log.Println("FAIL:", conn.Target(), err)
 			return
 		}
+
+		pgrpc.Alias(key, "mock_name", true)
 
 		log.Println("SUCC:", conn.Target(), *out)
 		keys = append(keys, key)
@@ -65,14 +76,14 @@ func loopServers() (keys []string) {
 func dialServer(key string) {
 	conn, err := pgrpc.Dial(key)
 	if err != nil {
-		log.Fatalln("FAIL:", err)
+		log.Println("FAIL:", err)
 	}
 	defer conn.Close()
 
 	msg, err := api.NewPingClient(conn).SayHello(context.Background(),
 		&api.PingMessage{Greeting: "Dial"})
 	if err != nil {
-		log.Fatalln("FAIL:", err)
+		log.Println("FAIL:", err)
 	}
 
 	log.Println("SUCC:", *msg)
@@ -81,19 +92,19 @@ func dialServer(key string) {
 func streamMode(key string) {
 	conn, err := pgrpc.Dial(key)
 	if err != nil {
-		log.Fatalln("FAIL:", err)
+		log.Println("FAIL:", err)
 	}
 	defer conn.Close()
 
 	stream, err := api.NewStreamPingClient(conn).HelloStream(context.Background())
 	if err != nil {
-		log.Fatalln("FAIL:", err)
+		log.Println("FAIL:", err)
 	}
 
 	go func() {
 		for range time.Tick(2 * time.Second) {
 			if err := stream.Send(&api.PingMessage{Greeting: "client side send"}); err != nil {
-				log.Fatalln(err)
+				log.Println(err)
 			}
 			log.Println("Send", "client side send")
 		}
@@ -101,7 +112,7 @@ func streamMode(key string) {
 
 	for {
 		if msg, err := stream.Recv(); err != nil {
-			log.Fatalln(err)
+			log.Println(err)
 		} else {
 			log.Println("Recv", msg.Greeting)
 		}

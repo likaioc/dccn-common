@@ -20,3 +20,13 @@ endif
 	./pgrpc_client &
 	docker ${FLAG} run -it -e IP=$(IP) --rm test-pgrpc
 	pkill -9 pgrpc_client
+
+run_client: client
+	./pgrpc_client
+
+run_server: server
+ifeq ("${IP}","")
+	$(error IP is not set)
+endif
+
+	docker ${FLAG} run -it -e IP=$(IP) --rm test-pgrpc

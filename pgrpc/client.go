@@ -31,7 +31,7 @@ func NewClient(port string, conf *yamux.Config, hook Hook, opts ...grpc.DialOpti
 		conf = yamux.DefaultConfig()
 	}
 	if hook == nil {
-		hook = new(emptyHook)
+		hook = new(EmptyHook)
 	}
 	if len(opts) == 0 {
 		opts = []grpc.DialOption{
@@ -128,6 +128,7 @@ func NewClient(port string, conf *yamux.Config, hook Hook, opts ...grpc.DialOpti
 		port:   port,
 		config: conf,
 		conns:  conns,
+		hook:   hook,
 	}, nil
 }
 
@@ -140,11 +141,12 @@ func (c *Client) Alias(key, alias string, force bool) error {
 		return errors.New("alias key not found")
 	}
 
-	if force {
+	if _, ok = c.conns.LoadOrStore(alias, val); !ok {
+		val.(*Session).Name = alias // concurrent unsafe
+	} else if force {
 		c.conns.Store(alias, val)
 		val.(*Session).Name = alias // concurrent unsafe
-	} else if _, ok = c.conns.LoadOrStore(alias, val); !ok {
-		val.(*Session).Name = alias // concurrent unsafe
+		return nil                  // avoid rerun hook
 	} else {
 		return errors.New("alias name has been occupied")
 	}
