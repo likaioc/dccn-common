@@ -5,6 +5,7 @@ import (
 	"net"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/hashicorp/yamux"
 	"github.com/pkg/errors"
@@ -186,28 +187,30 @@ func Each(fn func(key string, conn *grpc.ClientConn, err error), opts ...grpc.Di
 func (c *Client) Each(fn func(key string, conn *grpc.ClientConn, err error), opts ...grpc.DialOption) {
 	wg := sync.WaitGroup{}
 	defer wg.Wait()
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+
 	c.conns.Range(func(key, val interface{}) bool {
 		if v, ok := c.conns.Load(key); !ok || v.(*Session).Name != key.(string) {
 			return true
 		}
 
-		if len(opts) == 0 {
-			opts = val.(*Session).Opts
-		}
-		opts = append(opts, grpc.WithContextDialer(func(context.Context, string) (net.Conn, error) {
-			sess := val.(*Session)
-			if _, err := sess.Ping(); err != nil {
-				return nil, err
-			}
-			return sess.Open()
-		}))
-
-		conn, err := grpc.DialContext(context.Background(), key.(string), opts...)
-
 		wg.Add(1)
 		go func() {
+			defer wg.Done()
+
+			if len(opts) == 0 {
+				opts = val.(*Session).Opts
+			}
+			opts = append(opts, grpc.WithContextDialer(func(context.Context, string) (net.Conn, error) {
+				sess := val.(*Session)
+				if _, err := sess.Ping(); err != nil {
+					return nil, err
+				}
+				return sess.Open()
+			}))
+
+			conn, err := grpc.DialContext(ctx, key.(string), opts...)
 			fn(key.(string), conn, errors.Wrapf(err, "pgrpc dial (%s)", key))
-			wg.Done()
 		}()
 
 		return true
