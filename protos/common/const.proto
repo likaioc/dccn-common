@@ -9,7 +9,7 @@ enum AppStatus {
     APP_RUNNING = 3;
     APP_UPDATING = 4;
     APP_UPDATE_FAILED = 5;
-    APP_CANCELLING = 6;
+    APP_CANCELING = 6;
     APP_CANCELED = 7;
 }
 // Hub application event
@@ -34,7 +34,7 @@ enum NamespaceStatus {
     NS_RUNNING = 3;
     NS_UPDATING = 4;
     NS_UPDATE_FAILED = 5;
-    NS_CANCELLING = 6;
+    NS_CANCELING = 6;
     NS_CANCELED = 7;
 }
 // Hub namespace event

@@ -19,7 +19,7 @@ service AppMgr {
     rpc ChartDetail (ChartDetailRequest) returns (ChartDetailResponse) {}
     rpc DownloadChart (DownloadChartRequest) returns (DownloadChartResponse) {}
     rpc DeleteChart (DeleteChartRequest) returns (common.proto.Empty) {}
-    rpc CreateNamespace (CreateNamespaceRequest) returns (common.proto.Empty) {}
+    rpc CreateNamespace (CreateNamespaceRequest) returns (CreateNamespaceResponse) {}
     rpc NamespaceList (NamespaceListRequest) returns (NamespaceListResponse) {}
     rpc UpdateNamespace (UpdateNamespaceRequest) returns (common.proto.Empty) {}
     rpc DeleteNamespace (DeleteNamespaceRequest) returns (common.proto.Empty) {}
@@ -132,12 +132,16 @@ message CreateNamespaceRequest {
     common.proto.Namespace namespace = 1;
 }
 
+message CreateNamespaceResponse {
+    string id = 1;
+}
+
 message NamespaceListRequest {
     string filter = 1;
 }
 
 message NamespaceListResponse {
-    repeated common.proto.Namespace namespaces = 1;
+    repeated common.proto.NamespaceReport namespace_reports = 1;
 }
 
 message UpdateNamespaceRequest {

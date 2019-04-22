@@ -59,18 +59,22 @@ func (s *Server) Session() (net.Listener, error) {
 		}
 	}
 
+	sess := &Session{
+		Session: session,
+		Name:    s.addr,
+	}
 	if s.hook != nil {
-		if err := s.hook.OnBuild(s.addr, session); err != nil {
+		if err := s.hook.OnBuild(s.addr, sess); err != nil {
 			return nil, errors.Wrap(err, "on build hook")
 		}
 	}
 
 	go func() {
-		<-session.CloseChan()
+		<-sess.CloseChan()
 		if s.hook != nil {
-			s.hook.OnClose(s.addr, session)
+			s.hook.OnClose(s.addr, sess)
 		}
 	}()
 
-	return session, nil
+	return sess, nil
 }

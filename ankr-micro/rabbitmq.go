@@ -30,16 +30,27 @@ func getRabbitMQHost() string {
 	return host
 }
 
+
 // Send function send message to RabbitMQ queue
 func Send(topic string, e interface{}) {
 
 	conn, err := amqp.Dial(getRabbitMQHost())
 	failOnError(err, "Failed to connect to RabbitMQ")
+
+	if conn == nil {
+		return
+	}
+
 	defer conn.Close()
+
 
 	ch, err := conn.Channel()
 	failOnError(err, "Failed to open a channel")
+	if ch == nil {
+		return
+	}
 	defer ch.Close()
+
 
 	err = ch.ExchangeDeclare(
 		defaultExchange, // name

@@ -82,7 +82,7 @@ service AppMgr {
             body: "*"
     };
     }  
-    rpc CreateNamespace (CreateNamespaceRequest) returns (common.proto.Empty) {
+    rpc CreateNamespace (CreateNamespaceRequest) returns (CreateNamespaceResponse) {
         option (google.api.http) = {
             post: "/namespace/create"
             body: "*"
@@ -237,12 +237,16 @@ message CreateNamespaceRequest {
     uint64 storage_limit = 8;
 }
 
+message CreateNamespaceResponse {
+    string id = 1;
+}
+
 message NamespaceListRequest {
     string filter = 1;
 }
 
 message NamespaceListResponse {
-    repeated common.proto.Namespace namespace = 1;
+    repeated common.proto.NamespaceReport namespace_reports = 1;
 }
 
 message UpdateNamespaceRequest {

@@ -9,7 +9,7 @@ enum AppStatus {
     APP_LAUNCHING = 2;
     APP_RUNNING = 3;
     APP_UPDATING = 4;
-    APP_CANCELLING = 5;
+    APP_CANCELING = 5;
 }
 // Hub application event
 enum AppEvent {
@@ -32,7 +32,7 @@ enum NamespaceStatus {
     NS_LAUNCHING = 2;
     NS_RUNNING = 3;
     NS_UPDATING = 4;
-    NS_CANCELLING = 5;
+    NS_CANCELING = 5;
 }
 // Hub namespace event
 enum NamespaceEvent {
@@ -136,12 +136,18 @@ message Namespace {
 	string cluster_id = 3; //id of cluster
     string cluster_name = 4; //name of cluster
 	uint64 creation_date = 5;
-    uint64 cpu_limit = 6;  // number of mcpu 
-    uint64 mem_limit = 7; // number of Mi mem usage
-    uint64 storage_limit = 8; // number of Gi storage
-    NamespaceStatus status = 9;
+    uint64 last_modified_date = 6;
+    uint64 cpu_limit = 7;  // number of mcpu 
+    uint64 mem_limit = 8; // number of Mi mem usage
+    uint64 storage_limit = 9; // number of Gi storage
+    NamespaceStatus status = 10;
 }
 
+message NamespaceReport{
+    Namespace namespace = 1;
+    NamespaceStatus ns_status = 2;
+    NamespaceEvent ns_event = 3;
+}
 
 message App {
     string name = 1; // name of the app
