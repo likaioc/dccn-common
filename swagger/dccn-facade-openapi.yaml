@@ -316,6 +316,27 @@ paths:
                 $ref: "#/components/schemas/EmptyResponse"
       tags:
         - Appmgr
+  /app/detail:
+    post:
+      security:
+        - Bearer:
+            []
+      summary: Sends a cancel app request
+      operationId: appdetail
+      requestBody:
+        description: Request for change the status to cancel
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppIDRequest'
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppDetailResponse"
   /app/cancel:
     post:
       security:
@@ -771,6 +792,25 @@ components:
          type: string
         chart_repo:
          type: string
+    app_report:
+      type: object
+      properties:
+        app_deployment: 
+          $ref: "#/components/schemas/app"
+        report:
+          type: string
+        app_status:
+          type: string
+          enum:
+          - APP_FAILED
+          - APP_DISPATCHING
+          - APP_LAUNCHING
+          - APP_RUNNING
+          - APP_UPDATING
+          - APP_UPDATE_FAILED
+          - APP_CANCELING
+          - APP_CANCELED
+
     namespace:
       type: object
       properties:
@@ -1139,3 +1179,5 @@ components:
           type: string
       title: Create App Response
       description: The response message containing the returned appid
+    AppDetailResponse:
+      $ref: "#/components/schemas/app_report"
