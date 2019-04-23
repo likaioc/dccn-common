@@ -278,7 +278,7 @@ paths:
       summary: Sends a create app request
       operationId: createapp
       requestBody:
-        description: Request for update user attribute
+        description: Request for create user
         required: true
         content:
           application/json:
@@ -347,7 +347,7 @@ paths:
       summary: Sends a purge app request
       operationId: purgeapp
       requestBody:
-        description: Request for change the status to cancel and will show on list
+        description: Request for change the status to cancel and will not show on list
         required: true
         content:
           application/json:
@@ -478,7 +478,7 @@ paths:
       summary: Sends an update namespace request
       operationId: updatenamespace
       requestBody:
-        description: Request for create namespace
+        description: Request for update namespace
         required: true
         content:
           application/json:
@@ -524,7 +524,7 @@ paths:
       summary: Sends a create chart request
       operationId: createchart
       requestBody:
-        description: Request for delete namespace
+        description: Request for create namespace
         required: true
         content:
           application/json:
@@ -570,7 +570,7 @@ paths:
       summary: Sends a request for spectific chart detail
       operationId: chartdetail
       requestBody:
-        description: Request for list chart
+        description: Request for chart detail
         required: true
         content:
           application/json:
@@ -613,7 +613,7 @@ paths:
       security:
         - Bearer:
             []
-      summary: Sends a delete chart request
+      summary: Sends a download chart request
       operationId: downloadchart
       requestBody:
         description: Request for download chart
@@ -636,7 +636,7 @@ paths:
       security:
         - Bearer:
             []
-      summary: Sends a delete chart request
+      summary: Sends a save chart request
       operationId: savechart
       requestBody:
         description: Request for save chart
@@ -652,12 +652,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EmptyResponse"
-      parameters:
-        - name: namespace_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
 components:
