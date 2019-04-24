@@ -5,7 +5,7 @@ info:
 servers:
   - url: http://a14da5fc250ea11e9830d06bbae7419f-1468944597.us-west-1.elb.amazonaws.com
   - url: http://gateway-dev.dccn.ankr.network
-  = url: http://gateway-stage.dccn.ankr.network
+  - url: http://gateway-stage.dccn.ankr.network
 paths:
   /signup:
     post:
