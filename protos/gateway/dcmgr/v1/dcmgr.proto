@@ -1,0 +1,44 @@
+syntax = "proto3";
+import "google/api/annotations.proto";
+import "common/common.proto";
+
+package gwexdcmgr;
+
+// The k8s service definition.
+service DCStreamer {
+    rpc ServerStream(stream common.proto.DCStream) returns (stream common.proto.DCStream) {} // k8s app stream
+}
+
+// The dclist service definition.
+service DCAPI {
+      rpc DataCenterList (common.proto.Empty) returns (DataCenterListResponse) {
+        option (google.api.http).get = "/dc/list";
+      }
+      rpc DataCenterLeaderBoard (common.proto.Empty) returns (DataCenterLeaderBoardResponse) {
+        option (google.api.http).get = "/dc/leaderboard";
+      }
+      rpc NetworkInfo(common.proto.Empty) returns (NetworkInfoResponse){
+        option (google.api.http).get = "/dc/networkinfo";
+      }
+}
+
+message DataCenterListResponse {
+  repeated common.proto.DataCenterStatus dcList= 1; // repeated groups of DataCenterInfo list
+}
+
+message NetworkInfoResponse {
+  int32 user_count = 1;
+  int32 host_count = 2;
+  int32 environment_count = 3;
+  int32 container_count = 4;
+  int32 traffic = 5;   //0 unavailable 1 light 2 median 3. heavy 
+}
+
+message DataCenterLeaderBoardResponse {
+  repeated DataCenterLeaderBoardDetail list = 1;
+}
+
+message DataCenterLeaderBoardDetail {
+  string name = 1;
+  double number = 2;
+}

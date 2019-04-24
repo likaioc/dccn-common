@@ -1,35 +1,9 @@
 syntax = "proto3";
-
 package common.proto;
 
-// Task Events operation code
-enum DCOperation {
-    TASK_CREATE = 0;
-    TASK_CANCEL = 1;
-    TASK_UPDATE = 2;
-    HEARTBEAT = 3;
-}
+// FIXME: delete useless definitions
+import "const.proto";
 
-// Hub task status
-enum TaskStatus {
-    STARTING = 0;
-    START_SUCCESS = 1;
-    START_FAILED = 2;
-    RUNNING = 3;
-    UPDATING = 4;
-    UPDATE_SUCCESS = 5;
-    UPDATE_FAILED = 6;
-    CANCELLING = 7;
-    CANCELLED = 8;
-    CANCEL_FAILED = 9;
-    DONE = 10;
-}
-
-enum TaskType {
-    DEPLOYMENT = 0;
-    JOB = 1;
-    CRONJOB = 2;
-}
 
 // Data center status
 enum DCStatus {
@@ -37,59 +11,43 @@ enum DCStatus {
     UNAVAILABLE = 1;
 }
 
+
 // Emtpy Message
 message Empty {}
 
-// Task Data structure
-message Task  {
-    string id = 1;
-    string name = 2;// name of the task/image to run
-    TaskType type = 3; //  0 deployment 1 job 2 cronjob
-    oneof type_data {
-        TaskTypeDeployment type_deployment = 4;
-        TaskTypeJob type_job = 5;
-        TaskTypeCronJob type_cron_job = 6;
-    }
-    string data_center_name = 7;
-    TaskStatus status = 8;
-    TaskAttributes attributes = 9;
-    Environment environment = 10;
+
+
+// App Deployment structure
+message AppDeployment {
+    string  id = 1;
+    string  name = 2; // name of the app
+    Namespace   namespace = 3; // request for create new namespace
+    AppAttributes   attributes = 4;
+    string  uid = 5;
+    ChartDetail chart_detail = 6;
+}
+message AppID {
+    string  id = 1;
 }
 
-message TaskTypeDeployment {
-    string image = 1; // template
+message AppAttributes {
+    bool hidden = 1;
+    uint64 creation_date = 2; //app creation date
+    uint64 last_modified_date = 3; //app creation date
 }
 
-message TaskTypeJob {
-    string image = 1; // template
-}
-
-message TaskTypeCronJob {
-    string image = 1; // template
-    string schedule = 2;
-}
-
-message TaskAttributes {
-    int32 replica = 1; // how many replica of environment
-    bool hidden = 2;
-    uint64 creation_date = 3; //task creation date
-    uint64 last_modified_date = 4; //task creation date
-}
-
-message Environment {
-    int32 cpu = 1;
-    int32 memory = 2;
-    int32 disk = 3;
-}
-
-message GeoLocation {
-    string lat = 1; // latitude
-    string lng = 2; // longitude
-    string country = 3; // US 
-}
 
 // Data Center structure
 message DataCenter {
+    string  id = 1;  //data center id
+    string  name = 2; // data center name
+    bool    force_update = 3;
+    DataCenterAttributes    dc_attributes = 4;
+}
+
+
+// Data Center structure  this only used by deamon reply
+message DataCenterStatus {
     string id = 1;  //data center id
     string name = 2; // data center name
     GeoLocation geo_location = 3;
@@ -98,10 +56,16 @@ message DataCenter {
     DCHeartbeatReport dc_heartbeat_report = 6;
 }
 
+message GeoLocation {
+    string lat = 1; // latitude
+    string lng = 2; // longitude
+    string country = 3; // US
+}
+
 message DataCenterAttributes {
     string wallet_address = 1;  //datacenter wallet address
-    uint64 creation_date = 2; //task creation date
-    uint64 last_modified_date = 3; //task creation date
+    uint64 creation_date = 2; //app creation date
+    uint64 last_modified_date = 3; //app creation date
 }
 
 message DCHeartbeatReport {
@@ -110,18 +74,93 @@ message DCHeartbeatReport {
     uint64 report_time = 3;
 }
 
-message TaskReport {
-    Task task = 1; //json string for Metrics structure which defined in constants
-    string report = 2;
+
+message Chart {
+	string name = 1; //chart name
+	string repo = 2; //chart repo, e.g. app_store or user_catalog
+	string description = 3;
+	string icon_url = 4; // Chart icon image url
+    string latest_version = 5;
+    string latest_app_version = 6;
+}
+message ChartDetail {
+    string name = 1;
+    string repo = 2;
+    string version = 3; //chart version 
+	string app_version = 4; //application version 
 }
 
-// data center communicate with dc manager
+
+message Namespace {
+    string id = 1; //short hash of uid+name+cluster_id
+	string name = 2;
+	string cluster_id = 3; //id of cluster
+    string cluster_name = 4; //name of cluster
+	uint64 creation_date = 5;
+    uint64 last_modified_date = 6;
+    uint64 cpu_limit = 7;  // number of mcpu
+    uint64 mem_limit = 8; // number of Mi mem usage
+    uint64 storage_limit = 9; // number of Gi storage
+}
+
+
+// Used by appmgr
+message App {
+    string name = 2; // name of the app
+    oneof namespace_data {
+        string namespace_id = 3; // namespace id
+        Namespace namespace = 4; // request for create new namespace
+    }
+    ChartDetail chart_detail = 8;
+}
+
+
+// Used by dc-mgr to dc-facade rabbitmq
 message DCStream {
-    DCOperation op_type = 1; // HeartBeat or task operation
+    DCOperation op_type = 1; // HeartBeat or app operation
 
     oneof op_payload {
-        Task task = 2; // Deploy task action
-        TaskReport task_report = 3;
-        DataCenter data_center = 4; // HearBeat Info with DataCenter message
+        AppDeployment app_deployment = 2; // Deploy app action
+        AppReport app_report = 3;
+        DataCenterStatus data_center = 4; // HearBeat Info with DataCenter message
+        Namespace namespace = 5; // Deploy namespace action
+        NamespaceReport ns_report = 6;
     }
+}
+// Task Events operation code
+enum DCOperation {
+    APP_CREATE = 0;
+    APP_CANCEL = 1;
+    APP_UPDATE = 2;
+    APP_DETAIL = 3;
+    HEARTBEAT = 4;
+    NS_CREATE = 5;
+    NS_CANCEL = 6;
+    NS_UPDATE = 7;
+}
+
+message AppReport {
+    AppDeployment app_deployment = 1;
+    string report = 2; //json string for Metrics structure which defined in constants
+    AppStatus app_status = 3;
+    AppEvent app_event = 4;
+    string detail = 5; //string for app resource detail
+}
+
+message NamespaceReport {
+    Namespace namespace = 1;
+    NamespaceStatus ns_status = 2;
+    NamespaceEvent ns_event = 3;
+}
+
+message AppResponce {
+    AppEvent        app_result  = 1;
+    NamespaceEvent  ns_result   = 2;
+    string          error       = 3;
+    string          message     = 4;
+}
+message AppRunStatus {
+    NamespaceStatus ns_status = 1;
+    AppStatus app_status = 2;
+    string          message     = 3;
 }

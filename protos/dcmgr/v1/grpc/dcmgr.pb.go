@@ -3,14 +3,15 @@
 
 package dcmgr
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import common "github.com/Ankr-network/dccn-common/protos/common"
-
 import (
-	context "golang.org/x/net/context"
+	context "context"
+	fmt "fmt"
+	common "github.com/Ankr-network/dccn-common/protos/common"
+	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -22,29 +23,30 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type DataCenterListResponse struct {
-	DcList               []*common.DataCenter `protobuf:"bytes,1,rep,name=dcList,proto3" json:"dcList,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
+	DcList               []*common.DataCenterStatus `protobuf:"bytes,1,rep,name=dcList,proto3" json:"dcList,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                   `json:"-"`
+	XXX_unrecognized     []byte                     `json:"-"`
+	XXX_sizecache        int32                      `json:"-"`
 }
 
 func (m *DataCenterListResponse) Reset()         { *m = DataCenterListResponse{} }
 func (m *DataCenterListResponse) String() string { return proto.CompactTextString(m) }
 func (*DataCenterListResponse) ProtoMessage()    {}
 func (*DataCenterListResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_9f59be7c3f039e92, []int{0}
+	return fileDescriptor_37a452e4549c3bbc, []int{0}
 }
+
 func (m *DataCenterListResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterListResponse.Unmarshal(m, b)
 }
 func (m *DataCenterListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DataCenterListResponse.Marshal(b, m, deterministic)
 }
-func (dst *DataCenterListResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterListResponse.Merge(dst, src)
+func (m *DataCenterListResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterListResponse.Merge(m, src)
 }
 func (m *DataCenterListResponse) XXX_Size() int {
 	return xxx_messageInfo_DataCenterListResponse.Size(m)
@@ -55,7 +57,7 @@ func (m *DataCenterListResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DataCenterListResponse proto.InternalMessageInfo
 
-func (m *DataCenterListResponse) GetDcList() []*common.DataCenter {
+func (m *DataCenterListResponse) GetDcList() []*common.DataCenterStatus {
 	if m != nil {
 		return m.DcList
 	}
@@ -77,16 +79,17 @@ func (m *NetworkInfoResponse) Reset()         { *m = NetworkInfoResponse{} }
 func (m *NetworkInfoResponse) String() string { return proto.CompactTextString(m) }
 func (*NetworkInfoResponse) ProtoMessage()    {}
 func (*NetworkInfoResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_9f59be7c3f039e92, []int{1}
+	return fileDescriptor_37a452e4549c3bbc, []int{1}
 }
+
 func (m *NetworkInfoResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_NetworkInfoResponse.Unmarshal(m, b)
 }
 func (m *NetworkInfoResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_NetworkInfoResponse.Marshal(b, m, deterministic)
 }
-func (dst *NetworkInfoResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_NetworkInfoResponse.Merge(dst, src)
+func (m *NetworkInfoResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NetworkInfoResponse.Merge(m, src)
 }
 func (m *NetworkInfoResponse) XXX_Size() int {
 	return xxx_messageInfo_NetworkInfoResponse.Size(m)
@@ -143,16 +146,17 @@ func (m *DataCenterLeaderBoardResponse) Reset()         { *m = DataCenterLeaderB
 func (m *DataCenterLeaderBoardResponse) String() string { return proto.CompactTextString(m) }
 func (*DataCenterLeaderBoardResponse) ProtoMessage()    {}
 func (*DataCenterLeaderBoardResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_9f59be7c3f039e92, []int{2}
+	return fileDescriptor_37a452e4549c3bbc, []int{2}
 }
+
 func (m *DataCenterLeaderBoardResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterLeaderBoardResponse.Unmarshal(m, b)
 }
 func (m *DataCenterLeaderBoardResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DataCenterLeaderBoardResponse.Marshal(b, m, deterministic)
 }
-func (dst *DataCenterLeaderBoardResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterLeaderBoardResponse.Merge(dst, src)
+func (m *DataCenterLeaderBoardResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterLeaderBoardResponse.Merge(m, src)
 }
 func (m *DataCenterLeaderBoardResponse) XXX_Size() int {
 	return xxx_messageInfo_DataCenterLeaderBoardResponse.Size(m)
@@ -182,16 +186,17 @@ func (m *DataCenterLeaderBoardDetail) Reset()         { *m = DataCenterLeaderBoa
 func (m *DataCenterLeaderBoardDetail) String() string { return proto.CompactTextString(m) }
 func (*DataCenterLeaderBoardDetail) ProtoMessage()    {}
 func (*DataCenterLeaderBoardDetail) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dcmgr_9f59be7c3f039e92, []int{3}
+	return fileDescriptor_37a452e4549c3bbc, []int{3}
 }
+
 func (m *DataCenterLeaderBoardDetail) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DataCenterLeaderBoardDetail.Unmarshal(m, b)
 }
 func (m *DataCenterLeaderBoardDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DataCenterLeaderBoardDetail.Marshal(b, m, deterministic)
 }
-func (dst *DataCenterLeaderBoardDetail) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterLeaderBoardDetail.Merge(dst, src)
+func (m *DataCenterLeaderBoardDetail) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterLeaderBoardDetail.Merge(m, src)
 }
 func (m *DataCenterLeaderBoardDetail) XXX_Size() int {
 	return xxx_messageInfo_DataCenterLeaderBoardDetail.Size(m)
@@ -223,6 +228,44 @@ func init() {
 	proto.RegisterType((*DataCenterLeaderBoardDetail)(nil), "dcmgr.DataCenterLeaderBoardDetail")
 }
 
+func init() { proto.RegisterFile("dcmgr/v1/grpc/dcmgr.proto", fileDescriptor_37a452e4549c3bbc) }
+
+var fileDescriptor_37a452e4549c3bbc = []byte{
+	// 498 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x94, 0xc1, 0x6e, 0xd3, 0x40,
+	0x10, 0x86, 0xed, 0x36, 0x31, 0x64, 0x2a, 0xb5, 0xb0, 0x11, 0x25, 0x75, 0x15, 0x84, 0x56, 0x48,
+	0x54, 0x42, 0x4a, 0x44, 0x90, 0xb8, 0x70, 0x80, 0x60, 0x17, 0x64, 0x09, 0x95, 0xca, 0x80, 0x38,
+	0xa2, 0xad, 0x3d, 0x29, 0x16, 0xf1, 0xee, 0x6a, 0xbd, 0x4e, 0xd5, 0xe7, 0xe3, 0x61, 0x78, 0x02,
+	0xee, 0xc8, 0xbb, 0x69, 0xea, 0x10, 0x37, 0x3d, 0x34, 0xa7, 0x64, 0xe6, 0xff, 0xe7, 0x5b, 0xcd,
+	0x58, 0x33, 0x70, 0x90, 0x26, 0xf9, 0xb9, 0x1a, 0xce, 0x5e, 0x0e, 0xcf, 0x95, 0x4c, 0x86, 0x26,
+	0x1a, 0x48, 0x25, 0xb4, 0x20, 0x6d, 0x13, 0xf8, 0xdd, 0x44, 0xe4, 0xb9, 0xe0, 0x43, 0xfb, 0x63,
+	0x35, 0x7a, 0x0a, 0xfb, 0x21, 0xd3, 0x2c, 0x40, 0xae, 0x51, 0x7d, 0xca, 0x0a, 0x1d, 0x63, 0x21,
+	0x05, 0x2f, 0x90, 0xbc, 0x06, 0x2f, 0x4d, 0xaa, 0x4c, 0xcf, 0x7d, 0xba, 0x7d, 0xb4, 0x33, 0x7a,
+	0x32, 0xa8, 0x17, 0x0e, 0xae, 0xab, 0xbe, 0x68, 0xa6, 0xcb, 0x22, 0x9e, 0xbb, 0xe9, 0x6f, 0x17,
+	0xba, 0x27, 0xa8, 0x2f, 0x84, 0xfa, 0x15, 0xf1, 0x89, 0x58, 0xf0, 0xfa, 0x00, 0x65, 0x81, 0xea,
+	0x47, 0x22, 0x4a, 0x5e, 0x31, 0xdd, 0xa3, 0x76, 0xdc, 0xa9, 0x32, 0x41, 0x95, 0xa8, 0xe4, 0x9f,
+	0xa2, 0xd0, 0x73, 0x79, 0xcb, 0xca, 0x55, 0xc6, 0xca, 0x2f, 0xe0, 0x21, 0xf2, 0x59, 0xa6, 0x04,
+	0xcf, 0x91, 0x5f, 0xb9, 0xb6, 0x8d, 0xeb, 0x41, 0x4d, 0xb0, 0xe6, 0xe7, 0xb0, 0x97, 0x08, 0xae,
+	0x59, 0xc6, 0x17, 0xef, 0xb5, 0x8c, 0x75, 0x77, 0x91, 0xb6, 0xc6, 0x1e, 0xdc, 0xd3, 0x8a, 0x4d,
+	0x26, 0x59, 0xd2, 0x6b, 0x1b, 0xc3, 0x55, 0x48, 0xbf, 0x43, 0xbf, 0x36, 0x17, 0x64, 0x29, 0xaa,
+	0xf7, 0x82, 0xa9, 0xb4, 0x36, 0x9e, 0xd6, 0xf4, 0x7a, 0x38, 0x74, 0x60, 0x07, 0xde, 0x58, 0x13,
+	0xa2, 0x66, 0xd9, 0x34, 0x36, 0x7e, 0x1a, 0xc1, 0xe1, 0x1a, 0x13, 0x21, 0xd0, 0xe2, 0x2c, 0x47,
+	0x33, 0x9f, 0x4e, 0x6c, 0xfe, 0x93, 0x7d, 0xf0, 0x78, 0x99, 0x9f, 0xa1, 0x32, 0x63, 0x71, 0xe3,
+	0x79, 0x34, 0xfa, 0xdb, 0x82, 0xad, 0x30, 0x20, 0xc7, 0xd0, 0x09, 0x14, 0x32, 0x8d, 0x63, 0x29,
+	0xc9, 0xe1, 0xf2, 0x57, 0x1a, 0x4b, 0x19, 0xa2, 0x9c, 0x8a, 0xcb, 0x6a, 0x38, 0xfe, 0xc1, 0x8a,
+	0x68, 0xdb, 0x49, 0x90, 0x3a, 0x15, 0xe6, 0x9b, 0x4c, 0x37, 0x81, 0x09, 0x71, 0x8a, 0x77, 0xc5,
+	0x7c, 0x84, 0x3d, 0xdb, 0xd4, 0x09, 0xcb, 0xb1, 0x90, 0x2c, 0x41, 0xf2, 0x78, 0xd9, 0xbf, 0x10,
+	0x6e, 0x05, 0xd9, 0xb6, 0x36, 0x00, 0xb2, 0x8d, 0xdd, 0x15, 0xf4, 0x06, 0x3c, 0xbb, 0x32, 0xa4,
+	0xbb, 0x62, 0x8b, 0x42, 0xdf, 0x5f, 0xad, 0x2d, 0xb9, 0x2d, 0xa0, 0x0e, 0x79, 0x0b, 0x5e, 0xc4,
+	0x33, 0x1d, 0x06, 0xa4, 0x77, 0xd3, 0x3e, 0xae, 0x7f, 0x7d, 0x0c, 0xf7, 0x3f, 0xcf, 0x50, 0xcd,
+	0x32, 0xbc, 0xf8, 0xff, 0xfd, 0xe3, 0x5c, 0xea, 0x4b, 0xff, 0x96, 0x3d, 0xa7, 0xce, 0xe8, 0x8f,
+	0x0b, 0xed, 0x30, 0x18, 0x9f, 0x46, 0xe4, 0x03, 0xec, 0x2e, 0x5f, 0x8f, 0x66, 0x64, 0x7f, 0x75,
+	0x3b, 0x6a, 0x97, 0x86, 0x3a, 0xe4, 0x2b, 0x3c, 0x6a, 0x5c, 0x8a, 0x66, 0xdc, 0xb3, 0x75, 0xcb,
+	0x56, 0xa3, 0xbe, 0x83, 0x9d, 0xda, 0x21, 0x6a, 0x66, 0xf9, 0x73, 0x56, 0xc3, 0xc5, 0xa2, 0xce,
+	0x99, 0x67, 0xac, 0xaf, 0xfe, 0x05, 0x00, 0x00, 0xff, 0xff, 0x77, 0x99, 0xef, 0xe9, 0x5d, 0x05,
+	0x00, 0x00,
+}
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
 var _ grpc.ClientConn
@@ -231,99 +274,363 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// DCStreamerClient is the client API for DCStreamer service.
+// DCClient is the client API for DC service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type DCStreamerClient interface {
-	ServerStream(ctx context.Context, opts ...grpc.CallOption) (DCStreamer_ServerStreamClient, error)
+type DCClient interface {
+	CreateApp(ctx context.Context, in *common.AppDeployment, opts ...grpc.CallOption) (*common.AppResponce, error)
+	UpdateApp(ctx context.Context, in *common.AppDeployment, opts ...grpc.CallOption) (*common.AppResponce, error)
+	DeleteApp(ctx context.Context, in *common.AppDeployment, opts ...grpc.CallOption) (*common.AppResponce, error)
+	CreateNamespace(ctx context.Context, in *common.Namespace, opts ...grpc.CallOption) (*common.AppResponce, error)
+	UpdateNamespace(ctx context.Context, in *common.Namespace, opts ...grpc.CallOption) (*common.AppResponce, error)
+	DeleteNamespace(ctx context.Context, in *common.Namespace, opts ...grpc.CallOption) (*common.AppResponce, error)
+	Status(ctx context.Context, in *common.AppID, opts ...grpc.CallOption) (*common.AppRunStatus, error)
+	InitDC(ctx context.Context, in *common.DataCenter, opts ...grpc.CallOption) (*common.AppResponce, error)
+	Overview(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*common.DataCenterStatus, error)
 }
 
-type dCStreamerClient struct {
+type dCClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewDCStreamerClient(cc *grpc.ClientConn) DCStreamerClient {
-	return &dCStreamerClient{cc}
+func NewDCClient(cc *grpc.ClientConn) DCClient {
+	return &dCClient{cc}
 }
 
-func (c *dCStreamerClient) ServerStream(ctx context.Context, opts ...grpc.CallOption) (DCStreamer_ServerStreamClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_DCStreamer_serviceDesc.Streams[0], "/dcmgr.DCStreamer/ServerStream", opts...)
+func (c *dCClient) CreateApp(ctx context.Context, in *common.AppDeployment, opts ...grpc.CallOption) (*common.AppResponce, error) {
+	out := new(common.AppResponce)
+	err := c.cc.Invoke(ctx, "/dcmgr.DC/CreateApp", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &dCStreamerServerStreamClient{stream}
-	return x, nil
+	return out, nil
 }
 
-type DCStreamer_ServerStreamClient interface {
-	Send(*common.DCStream) error
-	Recv() (*common.DCStream, error)
-	grpc.ClientStream
-}
-
-type dCStreamerServerStreamClient struct {
-	grpc.ClientStream
-}
-
-func (x *dCStreamerServerStreamClient) Send(m *common.DCStream) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *dCStreamerServerStreamClient) Recv() (*common.DCStream, error) {
-	m := new(common.DCStream)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
+func (c *dCClient) UpdateApp(ctx context.Context, in *common.AppDeployment, opts ...grpc.CallOption) (*common.AppResponce, error) {
+	out := new(common.AppResponce)
+	err := c.cc.Invoke(ctx, "/dcmgr.DC/UpdateApp", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	return m, nil
+	return out, nil
 }
 
-// DCStreamerServer is the server API for DCStreamer service.
-type DCStreamerServer interface {
-	ServerStream(DCStreamer_ServerStreamServer) error
-}
-
-func RegisterDCStreamerServer(s *grpc.Server, srv DCStreamerServer) {
-	s.RegisterService(&_DCStreamer_serviceDesc, srv)
-}
-
-func _DCStreamer_ServerStream_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(DCStreamerServer).ServerStream(&dCStreamerServerStreamServer{stream})
-}
-
-type DCStreamer_ServerStreamServer interface {
-	Send(*common.DCStream) error
-	Recv() (*common.DCStream, error)
-	grpc.ServerStream
-}
-
-type dCStreamerServerStreamServer struct {
-	grpc.ServerStream
-}
-
-func (x *dCStreamerServerStreamServer) Send(m *common.DCStream) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *dCStreamerServerStreamServer) Recv() (*common.DCStream, error) {
-	m := new(common.DCStream)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
+func (c *dCClient) DeleteApp(ctx context.Context, in *common.AppDeployment, opts ...grpc.CallOption) (*common.AppResponce, error) {
+	out := new(common.AppResponce)
+	err := c.cc.Invoke(ctx, "/dcmgr.DC/DeleteApp", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	return m, nil
+	return out, nil
 }
 
-var _DCStreamer_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "dcmgr.DCStreamer",
-	HandlerType: (*DCStreamerServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams: []grpc.StreamDesc{
+func (c *dCClient) CreateNamespace(ctx context.Context, in *common.Namespace, opts ...grpc.CallOption) (*common.AppResponce, error) {
+	out := new(common.AppResponce)
+	err := c.cc.Invoke(ctx, "/dcmgr.DC/CreateNamespace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dCClient) UpdateNamespace(ctx context.Context, in *common.Namespace, opts ...grpc.CallOption) (*common.AppResponce, error) {
+	out := new(common.AppResponce)
+	err := c.cc.Invoke(ctx, "/dcmgr.DC/UpdateNamespace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dCClient) DeleteNamespace(ctx context.Context, in *common.Namespace, opts ...grpc.CallOption) (*common.AppResponce, error) {
+	out := new(common.AppResponce)
+	err := c.cc.Invoke(ctx, "/dcmgr.DC/DeleteNamespace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dCClient) Status(ctx context.Context, in *common.AppID, opts ...grpc.CallOption) (*common.AppRunStatus, error) {
+	out := new(common.AppRunStatus)
+	err := c.cc.Invoke(ctx, "/dcmgr.DC/Status", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dCClient) InitDC(ctx context.Context, in *common.DataCenter, opts ...grpc.CallOption) (*common.AppResponce, error) {
+	out := new(common.AppResponce)
+	err := c.cc.Invoke(ctx, "/dcmgr.DC/InitDC", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dCClient) Overview(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*common.DataCenterStatus, error) {
+	out := new(common.DataCenterStatus)
+	err := c.cc.Invoke(ctx, "/dcmgr.DC/Overview", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DCServer is the server API for DC service.
+type DCServer interface {
+	CreateApp(context.Context, *common.AppDeployment) (*common.AppResponce, error)
+	UpdateApp(context.Context, *common.AppDeployment) (*common.AppResponce, error)
+	DeleteApp(context.Context, *common.AppDeployment) (*common.AppResponce, error)
+	CreateNamespace(context.Context, *common.Namespace) (*common.AppResponce, error)
+	UpdateNamespace(context.Context, *common.Namespace) (*common.AppResponce, error)
+	DeleteNamespace(context.Context, *common.Namespace) (*common.AppResponce, error)
+	Status(context.Context, *common.AppID) (*common.AppRunStatus, error)
+	InitDC(context.Context, *common.DataCenter) (*common.AppResponce, error)
+	Overview(context.Context, *common.Empty) (*common.DataCenterStatus, error)
+}
+
+// UnimplementedDCServer can be embedded to have forward compatible implementations.
+type UnimplementedDCServer struct {
+}
+
+func (*UnimplementedDCServer) CreateApp(ctx context.Context, req *common.AppDeployment) (*common.AppResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateApp not implemented")
+}
+func (*UnimplementedDCServer) UpdateApp(ctx context.Context, req *common.AppDeployment) (*common.AppResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateApp not implemented")
+}
+func (*UnimplementedDCServer) DeleteApp(ctx context.Context, req *common.AppDeployment) (*common.AppResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteApp not implemented")
+}
+func (*UnimplementedDCServer) CreateNamespace(ctx context.Context, req *common.Namespace) (*common.AppResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateNamespace not implemented")
+}
+func (*UnimplementedDCServer) UpdateNamespace(ctx context.Context, req *common.Namespace) (*common.AppResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNamespace not implemented")
+}
+func (*UnimplementedDCServer) DeleteNamespace(ctx context.Context, req *common.Namespace) (*common.AppResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteNamespace not implemented")
+}
+func (*UnimplementedDCServer) Status(ctx context.Context, req *common.AppID) (*common.AppRunStatus, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Status not implemented")
+}
+func (*UnimplementedDCServer) InitDC(ctx context.Context, req *common.DataCenter) (*common.AppResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InitDC not implemented")
+}
+func (*UnimplementedDCServer) Overview(ctx context.Context, req *common.Empty) (*common.DataCenterStatus, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Overview not implemented")
+}
+
+func RegisterDCServer(s *grpc.Server, srv DCServer) {
+	s.RegisterService(&_DC_serviceDesc, srv)
+}
+
+func _DC_CreateApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.AppDeployment)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCServer).CreateApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DC/CreateApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCServer).CreateApp(ctx, req.(*common.AppDeployment))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DC_UpdateApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.AppDeployment)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCServer).UpdateApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DC/UpdateApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCServer).UpdateApp(ctx, req.(*common.AppDeployment))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DC_DeleteApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.AppDeployment)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCServer).DeleteApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DC/DeleteApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCServer).DeleteApp(ctx, req.(*common.AppDeployment))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DC_CreateNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.Namespace)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCServer).CreateNamespace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DC/CreateNamespace",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCServer).CreateNamespace(ctx, req.(*common.Namespace))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DC_UpdateNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.Namespace)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCServer).UpdateNamespace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DC/UpdateNamespace",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCServer).UpdateNamespace(ctx, req.(*common.Namespace))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DC_DeleteNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.Namespace)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCServer).DeleteNamespace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DC/DeleteNamespace",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCServer).DeleteNamespace(ctx, req.(*common.Namespace))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DC_Status_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.AppID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCServer).Status(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DC/Status",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCServer).Status(ctx, req.(*common.AppID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DC_InitDC_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.DataCenter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCServer).InitDC(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DC/InitDC",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCServer).InitDC(ctx, req.(*common.DataCenter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DC_Overview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCServer).Overview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DC/Overview",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCServer).Overview(ctx, req.(*common.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _DC_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "dcmgr.DC",
+	HandlerType: (*DCServer)(nil),
+	Methods: []grpc.MethodDesc{
 		{
-			StreamName:    "ServerStream",
-			Handler:       _DCStreamer_ServerStream_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
+			MethodName: "CreateApp",
+			Handler:    _DC_CreateApp_Handler,
+		},
+		{
+			MethodName: "UpdateApp",
+			Handler:    _DC_UpdateApp_Handler,
+		},
+		{
+			MethodName: "DeleteApp",
+			Handler:    _DC_DeleteApp_Handler,
+		},
+		{
+			MethodName: "CreateNamespace",
+			Handler:    _DC_CreateNamespace_Handler,
+		},
+		{
+			MethodName: "UpdateNamespace",
+			Handler:    _DC_UpdateNamespace_Handler,
+		},
+		{
+			MethodName: "DeleteNamespace",
+			Handler:    _DC_DeleteNamespace_Handler,
+		},
+		{
+			MethodName: "Status",
+			Handler:    _DC_Status_Handler,
+		},
+		{
+			MethodName: "InitDC",
+			Handler:    _DC_InitDC_Handler,
+		},
+		{
+			MethodName: "Overview",
+			Handler:    _DC_Overview_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "dcmgr/v1/grpc/dcmgr.proto",
 }
 
@@ -376,6 +683,20 @@ type DCAPIServer interface {
 	DataCenterList(context.Context, *common.Empty) (*DataCenterListResponse, error)
 	DataCenterLeaderBoard(context.Context, *common.Empty) (*DataCenterLeaderBoardResponse, error)
 	NetworkInfo(context.Context, *common.Empty) (*NetworkInfoResponse, error)
+}
+
+// UnimplementedDCAPIServer can be embedded to have forward compatible implementations.
+type UnimplementedDCAPIServer struct {
+}
+
+func (*UnimplementedDCAPIServer) DataCenterList(ctx context.Context, req *common.Empty) (*DataCenterListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DataCenterList not implemented")
+}
+func (*UnimplementedDCAPIServer) DataCenterLeaderBoard(ctx context.Context, req *common.Empty) (*DataCenterLeaderBoardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DataCenterLeaderBoard not implemented")
+}
+func (*UnimplementedDCAPIServer) NetworkInfo(ctx context.Context, req *common.Empty) (*NetworkInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NetworkInfo not implemented")
 }
 
 func RegisterDCAPIServer(s *grpc.Server, srv DCAPIServer) {
@@ -455,35 +776,4 @@ var _DCAPI_serviceDesc = grpc.ServiceDesc{
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "dcmgr/v1/grpc/dcmgr.proto",
-}
-
-func init() { proto.RegisterFile("dcmgr/v1/grpc/dcmgr.proto", fileDescriptor_dcmgr_9f59be7c3f039e92) }
-
-var fileDescriptor_dcmgr_9f59be7c3f039e92 = []byte{
-	// 393 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x92, 0xd1, 0xca, 0xd3, 0x40,
-	0x10, 0x85, 0x1b, 0xff, 0xa6, 0xd2, 0xa9, 0x54, 0xdd, 0x62, 0x89, 0x91, 0x82, 0x2c, 0x82, 0x05,
-	0x21, 0xa9, 0x15, 0xbc, 0x56, 0x13, 0x85, 0x8a, 0x88, 0xa4, 0x82, 0x97, 0xb2, 0x4d, 0xa6, 0x35,
-	0xd8, 0xdd, 0x0d, 0x9b, 0x6d, 0xc5, 0xe7, 0xf3, 0x61, 0x7c, 0x0d, 0xc9, 0x6e, 0x9a, 0xa6, 0x1a,
-	0x7b, 0x95, 0xcc, 0x99, 0x6f, 0x4e, 0x98, 0x93, 0x81, 0x87, 0x59, 0xca, 0x77, 0x2a, 0x3c, 0x3e,
-	0x0f, 0x77, 0xaa, 0x48, 0x43, 0x53, 0x05, 0x85, 0x92, 0x5a, 0x12, 0xd7, 0x14, 0xfe, 0x24, 0x95,
-	0x9c, 0x4b, 0x11, 0xda, 0x87, 0xed, 0xd1, 0xf7, 0x30, 0x8d, 0x99, 0x66, 0x11, 0x0a, 0x8d, 0xea,
-	0x43, 0x5e, 0xea, 0x04, 0xcb, 0x42, 0x8a, 0x12, 0xc9, 0x02, 0x06, 0x59, 0x5a, 0x29, 0x9e, 0xf3,
-	0xf8, 0x66, 0x3e, 0x5a, 0x7a, 0x41, 0x7b, 0x30, 0x38, 0x4f, 0x25, 0x35, 0x47, 0x7f, 0x39, 0x30,
-	0xf9, 0x88, 0xfa, 0x87, 0x54, 0xdf, 0x57, 0x62, 0x2b, 0x1b, 0xa7, 0x19, 0xc0, 0xa1, 0x44, 0xf5,
-	0x35, 0x95, 0x07, 0x51, 0xb9, 0x39, 0x73, 0x37, 0x19, 0x56, 0x4a, 0x54, 0x09, 0x55, 0xfb, 0x9b,
-	0x2c, 0x75, 0xdd, 0xbe, 0x65, 0xdb, 0x95, 0x62, 0xdb, 0xcf, 0xe0, 0x3e, 0x8a, 0x63, 0xae, 0xa4,
-	0xe0, 0x28, 0x4e, 0xd4, 0x8d, 0xa1, 0xee, 0xb5, 0x1a, 0x16, 0x7e, 0x0a, 0x77, 0x53, 0x29, 0x34,
-	0xcb, 0x45, 0xf3, 0xbd, 0xbe, 0x41, 0xc7, 0x8d, 0x6c, 0x41, 0x0f, 0x6e, 0x6b, 0xc5, 0xb6, 0xdb,
-	0x3c, 0xf5, 0x5c, 0x03, 0x9c, 0x4a, 0xfa, 0x05, 0x66, 0xad, 0x44, 0x90, 0x65, 0xa8, 0xde, 0x48,
-	0xa6, 0xb2, 0x66, 0x9d, 0x97, 0xd0, 0xdf, 0x9f, 0x63, 0xa1, 0x81, 0x8d, 0xba, 0x73, 0x26, 0x46,
-	0xcd, 0xf2, 0x7d, 0x62, 0x78, 0xba, 0x82, 0x47, 0x57, 0x20, 0x42, 0xa0, 0x2f, 0x18, 0x47, 0x93,
-	0xcf, 0x30, 0x31, 0xef, 0x64, 0x0a, 0x03, 0x71, 0xe0, 0x1b, 0x54, 0x26, 0x16, 0x27, 0xa9, 0xab,
-	0x65, 0x02, 0x10, 0x47, 0x6b, 0xad, 0x90, 0x71, 0x54, 0x24, 0x86, 0x3b, 0x6b, 0x54, 0x47, 0x54,
-	0x56, 0x21, 0xd3, 0xbf, 0xfe, 0x54, 0x4d, 0xfa, 0xff, 0xd1, 0x69, 0x6f, 0xee, 0x2c, 0x9c, 0xe5,
-	0x6f, 0x07, 0xdc, 0x38, 0x7a, 0xfd, 0x69, 0x45, 0xde, 0xc1, 0xf8, 0xf2, 0x26, 0xc8, 0xe4, 0x72,
-	0xf2, 0x2d, 0x2f, 0xf4, 0x4f, 0x7f, 0xf6, 0xef, 0xe6, 0xad, 0xfb, 0xa1, 0x3d, 0xf2, 0x19, 0x1e,
-	0x74, 0x2e, 0xdc, 0x6d, 0xf7, 0xe4, 0x5a, 0x90, 0x2d, 0xd7, 0x57, 0x30, 0x6a, 0x1d, 0x59, 0xb7,
-	0x97, 0x5f, 0x7b, 0x75, 0x5c, 0x23, 0xed, 0x6d, 0x06, 0x06, 0x7d, 0xf1, 0x27, 0x00, 0x00, 0xff,
-	0xff, 0xee, 0xa2, 0x30, 0xc0, 0x33, 0x03, 0x00, 0x00,
 }

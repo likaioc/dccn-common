@@ -1,0 +1,189 @@
+syntax = "proto3";
+import "google/api/annotations.proto";
+import "common/common.proto";
+
+package gwusermgr;
+
+// TODO: supports filter
+service UserMgr {
+    // Register Create a new user
+    rpc Register(RegisterRequest) returns (RegisterResponse) {
+        option (google.api.http) = {
+            post: "/signup"
+            body: "*"
+    };
+    }
+    // Login login
+    rpc Login(LoginRequest) returns (LoginResponse) {
+        option (google.api.http) = {
+            post: "/login"
+            body: "*"
+    };
+    }
+    // Logout need verify permission , disable RefreshToken , access_token still work for 2 hours.
+    rpc Logout(RefreshToken) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/logout"
+            body: "*"
+    };
+    }
+    // RefreshToken reset token last access token
+    rpc RefreshSession(RefreshToken) returns (AuthenticationResult) {
+        option (google.api.http) = {
+            post: "/refresh"
+            body: "*"
+    };
+    }
+
+    rpc ConfirmRegistration(ConfirmRegistrationRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/confirm_registration"
+            body: "*"
+    };
+    }
+
+    rpc ForgotPassword(ForgotPasswordRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/forgot_password"
+            body: "*"
+    };
+    }
+
+    rpc ConfirmPassword(ConfirmPasswordRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/confirm_password"
+            body: "*"
+    };
+    }
+
+    rpc ChangePassword(ChangePasswordRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/change_password"
+            body: "*"
+    };
+    }
+
+    rpc UpdateAttributes(UpdateAttributesRequest) returns (User) {
+        option (google.api.http) = {
+            post: "/update_attribute"
+            body: "*"
+    };
+    }
+
+    rpc ChangeEmail(ChangeEmailRequest) returns (common.proto.Empty) {
+        option (google.api.http) = {
+            post: "/change_email"
+            body: "*"
+    };
+    }
+
+    rpc VerifyAccessToken(common.proto.Empty) returns (common.proto.Empty){
+    }
+
+    rpc ConfirmEmail(ConfirmEmailRequest) returns (common.proto.Empty){
+        option (google.api.http) = {
+            post: "/forgot_password"
+            body: "*"
+    };
+    }
+}
+
+message RegisterResponse{
+    string message = 1;
+}
+
+message User {
+    // uuid
+    string id = 1;
+    // email user's email, unique.
+    string email = 2;
+    UserStatus status = 3;
+    UserAttributes attributes = 4;
+}
+
+enum UserStatus {
+    CONFIRMING = 0; // default while new user
+    CONFIRMED = 1;
+    DEACTIVATED = 2;
+}
+
+message UserAttribute {
+    string key = 1;
+    oneof value {
+        int64 int_value = 2;
+        double double_value = 3;
+        string string_value = 4;
+        bool bool_value = 5;
+        // null null_value = 6;
+    }
+}
+
+message UserAttributes {
+    // name of a user
+    string name = 1;
+    // public key of tendermint wallet
+    string pub_key = 2;
+    uint64 creation_date = 3; //app creation date
+    uint64 last_modified_date = 4; //app creation date
+    repeated UserAttribute extra_fields = 5; // extra field
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+  string name = 3;
+}
+
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    AuthenticationResult authentication_result = 1;
+    User user = 2;
+}
+
+message AuthenticationResult {
+    uint64 expiration = 1;
+    uint64 issued_at = 2;
+    string access_token = 3;
+    string refresh_token = 4;
+}
+
+message RefreshToken {
+    string refresh_token = 1;
+}
+
+message ConfirmRegistrationRequest {
+    string email = 1;
+    string confirmation_code = 2;
+}
+
+message ForgotPasswordRequest {
+    string email = 1;
+}
+
+message ConfirmPasswordRequest {
+    string email = 1;
+    string confirmation_code = 2;
+    string new_password = 3;
+}
+
+message ChangePasswordRequest {
+    string old_password = 1;
+    string new_password = 2;
+}
+
+message ChangeEmailRequest {
+    string new_email = 1;
+}
+
+message UpdateAttributesRequest {
+    repeated UserAttribute user_attributes = 1;
+}
+
+message ConfirmEmailRequest {
+  string ConfirmationCode = 1;
+  string NewEmail = 2;
+}

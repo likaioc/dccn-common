@@ -4,11 +4,20 @@ import "common/common.proto";
 
 package dcmgr;
 
-// The k8s service definition.
-service DCStreamer {
-    rpc ServerStream(stream common.proto.DCStream) returns (stream common.proto.DCStream) {} // k8s task stream
+// DC is the communication definition of daemon and dc-facade
+service DC {
+    rpc CreateApp (common.proto.AppDeployment) returns (common.proto.AppResponce) {}
+    rpc UpdateApp (common.proto.AppDeployment) returns (common.proto.AppResponce) {}
+    rpc DeleteApp (common.proto.AppDeployment) returns (common.proto.AppResponce) {}
+    rpc CreateNamespace (common.proto.Namespace) returns (common.proto.AppResponce) {}
+    rpc UpdateNamespace (common.proto.Namespace) returns (common.proto.AppResponce) {}
+    rpc DeleteNamespace (common.proto.Namespace) returns (common.proto.AppResponce) {}
+    rpc Status (common.proto.AppID) returns (common.proto.AppRunStatus) {}
+    rpc InitDC (common.proto.DataCenter) returns (common.proto.AppResponce) {}
+    rpc Overview (common.proto.Empty) returns (common.proto.DataCenterStatus) {}
 }
 
+//
 // The dclist service definition.
 service DCAPI {
       rpc DataCenterList (common.proto.Empty) returns (DataCenterListResponse) {}
@@ -17,7 +26,7 @@ service DCAPI {
 }
 
 message DataCenterListResponse {
-  repeated common.proto.DataCenter dcList= 1; // repeated groups of DataCenterInfo list
+  repeated common.proto.DataCenterStatus dcList= 1; // repeated groups of DataCenterInfo list
 }
 
 message NetworkInfoResponse {
@@ -25,7 +34,7 @@ message NetworkInfoResponse {
   int32 host_count = 2;
   int32 environment_count = 3;
   int32 container_count = 4;
-  int32 traffic = 5;   //0 unavailable 1 light 2 median 3. heavy 
+  int32 traffic = 5;   //0 unavailable 1 light 2 median 3. heavy
 }
 
 message DataCenterLeaderBoardResponse {

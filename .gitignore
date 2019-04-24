@@ -1,11 +1,34 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dlv debug binary
+*.debug
+
 .DS_Store
 ._*
+
 *.swp
 *.swo
 .vscode
 .idea
 
+protos/google/
+
 /vendor
 **/node_modules
 frontend/**/dist
 frontend/**/package-lock.json
+
+**/vendor/
+pgrpc/_example/pgrpc_client
+pgrpc/_example/pgrpc_server

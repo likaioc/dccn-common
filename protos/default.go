@@ -2,8 +2,8 @@ package ankr_default
 
 // RabbitQ name
 const (
-	MQDeployTask          = "topic.deploy.task"
-	MQFeedbackTask        = "topic.feedback.task"
+	MQDeployApp          = "topic.deploy.app"
+	MQFeedbackApp        = "topic.feedback.app"
 	MQMail                = "topic.mail.handler"
 	AccessTokenValidTime  = 3600 * 2    // second   2 hours
 	RefreshTokenValidTime = 86400 * 7 // second   7 days
@@ -20,7 +20,7 @@ const HeartBeatInterval = 60 // Default interval for heartbeat
 
 // Registry server name
 const (
-	TaskMgrRegistryServerName = "go.micro.srv.v1.task"
+	AppMgrRegistryServerName = "go.micro.srv.v1.app"
 	UserMgrRegistryServerName = "go.micro.srv.v1.user"
 	EmailRegistryServerName   = "go.micro.srv.v1.email"
 	DcMgrRegistryServerName   = "go.micro.srv.v1.data.center"
