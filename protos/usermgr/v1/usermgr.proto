@@ -41,9 +41,28 @@ service UserMgr {
     }
 
     rpc ConfirmEmail(ConfirmEmailRequest) returns (common.proto.Empty){
+    }
+    rpc CreateercAddress (GenerateAddressRequest) returns (GenerateAddressResponse){
+    }
+    rpc GetERCDeposit (common.proto.Empty) returns (GetERCDepositResponse){
 
     }
 }
+
+message GenerateAddressRequest {
+    string type = 1;
+    string propose = 2;
+}
+
+message GenerateAddressResponse {
+    string typeaddress = 1;
+    string purposeaddress = 2;
+}
+
+message GetERCDepositResponse {
+    repeated common.proto.Deposit deposits = 1;
+}
+
 
 message User {
     // uuid
