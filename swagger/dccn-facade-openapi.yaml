@@ -223,6 +223,52 @@ paths:
                 $ref: "#/components/schemas/UserResponse"
       tags:
         - Usermgr
+  /create_address:
+    post:
+      security:
+        - Bearer:
+            []
+      summary: Sends a create address request
+      operationId: createaddress
+      requestBody:
+        description: Request for update user attribute
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAddressRequest'
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmptyResponse"
+      tags:
+        - Usermgr
+  /deposit/erc:
+    post:
+      security:
+        - Bearer:
+            []
+      summary: Sends a create address request
+      operationId: depositerc
+      requestBody:
+        description: Request for update user attribute
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmptyResponse'
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmptyResponse"
+      tags:
+        - Usermgr
   /dc/list:
     get:
       security:
@@ -338,6 +384,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AppDetailResponse"
+      tags:
+        - Appmgr
   /app/cancel:
     post:
       security:
@@ -858,6 +906,13 @@ components:
       properties:
         {}
       description: The request message containing Empty.
+    CreateAddressRequest:
+      type: object
+      properties:
+        type:
+          type: string
+        propose:
+          type: string
     UserResponse:
       type: object
       properties:
