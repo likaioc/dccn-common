@@ -34,7 +34,7 @@ func main() {
 }
 
 type hook struct {
-	pgrpc.EmptyHook
+	pgrpc.ProxyProtoHook
 }
 
 func (*hook) OnClose(key string, conn *pgrpc.Session) {

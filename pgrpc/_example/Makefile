@@ -1,7 +1,8 @@
 IP:=
 FLAG:=
+MAKEFLAGS += --jobs=2
 
-default: server client run
+default: run_client run_server
 
 .PHONY: server
 server:
@@ -11,15 +12,6 @@ server:
 .PHONY: client
 client:
 	go build -o pgrpc_client $${PWD}/client
-
-run:
-ifeq ("${IP}","")
-	$(error IP is not set)
-endif
-
-	./pgrpc_client &
-	docker ${FLAG} run -it -e IP=$(IP) --rm test-pgrpc
-	pkill -9 pgrpc_client
 
 run_client: client
 	./pgrpc_client

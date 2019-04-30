@@ -15,13 +15,13 @@ type Session struct {
 }
 
 type Hook interface {
-	OnAccept(key string, conn net.Conn) error
-	OnBuild(key string, conn *Session) error
+	OnAccept(key *string, conn *net.Conn) error
+	OnBuild(key *string, conn *Session) error
 	OnClose(key string, conn *Session)
 }
 
 type EmptyHook struct{}
 
-func (*EmptyHook) OnAccept(key string, conn net.Conn) error { return nil }
-func (*EmptyHook) OnBuild(key string, conn *Session) error  { return nil }
-func (*EmptyHook) OnClose(key string, conn *Session)        {}
+func (*EmptyHook) OnAccept(key *string, conn *net.Conn) error { return nil }
+func (*EmptyHook) OnBuild(key *string, conn *Session) error   { return nil }
+func (*EmptyHook) OnClose(key string, conn *Session)          {}

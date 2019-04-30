@@ -75,7 +75,8 @@ func NewClient(port string, conf *yamux.Config, hook Hook, opts ...grpc.DialOpti
 			}
 
 			if hook != nil {
-				if err := hook.OnAccept(host, conn); err != nil {
+				if err := hook.OnAccept(&host, &conn); err != nil {
+					conn.Close()
 					if conf.Logger != nil {
 						conf.Logger.Println("on accept hook:", err)
 					}
@@ -96,7 +97,7 @@ func NewClient(port string, conf *yamux.Config, hook Hook, opts ...grpc.DialOpti
 				Name:    host,
 				Opts:    opts,
 			}
-			if err := hook.OnBuild(host, sess); err != nil {
+			if err := hook.OnBuild(&host, sess); err != nil {
 				if conf.Logger != nil {
 					conf.Logger.Println("on build hook:", err)
 				}
@@ -185,9 +186,10 @@ func Each(fn func(key string, conn *grpc.ClientConn, err error), opts ...grpc.Di
 	DefaultClient.Each(fn, opts...)
 }
 func (c *Client) Each(fn func(key string, conn *grpc.ClientConn, err error), opts ...grpc.DialOption) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 	wg := sync.WaitGroup{}
 	defer wg.Wait()
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 
 	c.conns.Range(func(key, val interface{}) bool {
 		if v, ok := c.conns.Load(key); !ok || v.(*Session).Name != key.(string) {
