@@ -175,9 +175,11 @@ enum TransanctionState {
 message Deposit {
     string time = 1;
     string fromAccountAddress = 2;
-    string toAccountAddress = 3;
-    string txHash = 4;
-    string amount = 5;
-    string confirmedBlockHeight = 6;
-    TransanctionState txState = 7;
+    string fromAccountAddressType = 3;
+    string toAccountAddress = 4;
+    string toAccountAddressType = 5;
+    string txHash = 6;
+    string amount = 7;
+    string confirmedBlockHeight = 8;
+    TransanctionState txState = 9;
 }
