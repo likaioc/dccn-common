@@ -12,7 +12,7 @@ import (
 	"time"
 	_"fmt"
 	"bytes"
-	"github.com/hashicorp/vault/helper/certutil"
+	"math/big"
 
 	"crypto/tls"
 )
@@ -21,7 +21,7 @@ import (
 // input: name
 // output: cert, priv_key
 func GenerateCA(name string) (cert string, priv_key string, err error) {
-	sn, err := certutil.GenerateSerialNumber()
+	sn, err := generateSerialNumber()
 	if err != nil {
 		return "", "", err
 	}
@@ -79,7 +79,7 @@ func GenerateServerCert(name, certCAPem, keyCAPem string) (scert string, priv_ke
 		return "", "", err
 	}
 
-	sn, err := certutil.GenerateSerialNumber()
+	sn, err := generateSerialNumber()
 	if err != nil {
 		return "", "", err
 	}
@@ -137,7 +137,7 @@ func GenerateClientCert(name, certCAPem, keyCAPem string) (scert string, priv_ke
 		return "", "", err
 	}
 
-	sn, err := certutil.GenerateSerialNumber()
+	sn, err := generateSerialNumber()
 	if err != nil {
 		return "", "", err
 	}
@@ -178,3 +178,13 @@ func GenerateClientCert(name, certCAPem, keyCAPem string) (scert string, priv_ke
 
 	return certOut.String(), keyOut.String(), nil
 }
+
+// GenerateSerialNumber generates a serial number suitable for a certificate
+func generateSerialNumber() (*big.Int, error) {
+        serial, err := rand.Int(rand.Reader, (&big.Int{}).Exp(big.NewInt(2), big.NewInt(159), nil))
+        if err != nil {
+                return nil, err
+        }
+        return serial, nil
+}
+
