@@ -98,7 +98,17 @@ service UserMgr {
             body: "*"
     };
     }
+    rpc SearchDeposit (SearchDepositRequest) returns (GetERCDepositResponse){
+        option (google.api.http) = {
+            post: "/deposit/search"
+            body: "*"
+    };
+    }
 
+}
+message SearchDepositRequest {
+    int64 start = 1;
+    int64 end = 2;
 }
 
 message GenerateAddressRequest {
