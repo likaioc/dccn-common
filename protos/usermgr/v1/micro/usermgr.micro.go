@@ -53,6 +53,7 @@ type UserMgrService interface {
 	ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, opts ...client.CallOption) (*common.Empty, error)
 	CreateercAddress(ctx context.Context, in *GenerateAddressRequest, opts ...client.CallOption) (*GenerateAddressResponse, error)
 	GetERCDeposit(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*GetERCDepositResponse, error)
+	SearchDeposit(ctx context.Context, in *SearchDepositRequest, opts ...client.CallOption) (*GetERCDepositResponse, error)
 }
 
 type userMgrService struct {
@@ -213,6 +214,16 @@ func (c *userMgrService) GetERCDeposit(ctx context.Context, in *common.Empty, op
 	return out, nil
 }
 
+func (c *userMgrService) SearchDeposit(ctx context.Context, in *SearchDepositRequest, opts ...client.CallOption) (*GetERCDepositResponse, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.SearchDeposit", in)
+	out := new(GetERCDepositResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserMgr service
 
 type UserMgrHandler interface {
@@ -234,6 +245,7 @@ type UserMgrHandler interface {
 	ConfirmEmail(context.Context, *ConfirmEmailRequest, *common.Empty) error
 	CreateercAddress(context.Context, *GenerateAddressRequest, *GenerateAddressResponse) error
 	GetERCDeposit(context.Context, *common.Empty, *GetERCDepositResponse) error
+	SearchDeposit(context.Context, *SearchDepositRequest, *GetERCDepositResponse) error
 }
 
 func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server.HandlerOption) error {
@@ -252,6 +264,7 @@ func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server
 		ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, out *common.Empty) error
 		CreateercAddress(ctx context.Context, in *GenerateAddressRequest, out *GenerateAddressResponse) error
 		GetERCDeposit(ctx context.Context, in *common.Empty, out *GetERCDepositResponse) error
+		SearchDeposit(ctx context.Context, in *SearchDepositRequest, out *GetERCDepositResponse) error
 	}
 	type UserMgr struct {
 		userMgr
@@ -318,4 +331,8 @@ func (h *userMgrHandler) CreateercAddress(ctx context.Context, in *GenerateAddre
 
 func (h *userMgrHandler) GetERCDeposit(ctx context.Context, in *common.Empty, out *GetERCDepositResponse) error {
 	return h.UserMgrHandler.GetERCDeposit(ctx, in, out)
+}
+
+func (h *userMgrHandler) SearchDeposit(ctx context.Context, in *SearchDepositRequest, out *GetERCDepositResponse) error {
+	return h.UserMgrHandler.SearchDeposit(ctx, in, out)
 }

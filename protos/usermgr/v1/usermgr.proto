@@ -47,6 +47,13 @@ service UserMgr {
     rpc GetERCDeposit (common.proto.Empty) returns (GetERCDepositResponse){
 
     }
+    rpc SearchDeposit (SearchDepositRequest) returns (GetERCDepositResponse){
+    }
+}
+
+message SearchDepositRequest {
+    int64 start = 1;
+    int64 end = 2;
 }
 
 message GenerateAddressRequest {
