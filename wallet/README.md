@@ -14,6 +14,7 @@
 - wallet.GetBalance() 
 - wallet.SendCoins() 
 - wallet.Sign()
+- wallet.GetPublicKeyByPrivateKey()
 - wallet.GetAddressByPublicKey()
 - wallet.GetStake()
 - wallet.GetHistorySend()
