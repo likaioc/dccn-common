@@ -49,6 +49,8 @@ service UserMgr {
     }
     rpc SearchDeposit (SearchDepositRequest) returns (GetERCDepositResponse){
     }
+    rpc UserDetail (common.proto.Empty) returns (User){
+    }
 }
 
 message SearchDepositRequest {
