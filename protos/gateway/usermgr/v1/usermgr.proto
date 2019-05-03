@@ -104,6 +104,9 @@ service UserMgr {
             body: "*"
     };
     }
+    rpc UserDetail (common.proto.Empty) returns (User){
+        option (google.api.http).get = "/user/detail";
+    }
 
 }
 message SearchDepositRequest {
