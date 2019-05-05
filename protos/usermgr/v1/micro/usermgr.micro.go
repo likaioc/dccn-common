@@ -51,9 +51,9 @@ type UserMgrService interface {
 	ChangeEmail(ctx context.Context, in *ChangeEmailRequest, opts ...client.CallOption) (*common.Empty, error)
 	VerifyAccessToken(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*common.Empty, error)
 	ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, opts ...client.CallOption) (*common.Empty, error)
-	CreateercAddress(ctx context.Context, in *GenerateAddressRequest, opts ...client.CallOption) (*GenerateAddressResponse, error)
-	GetERCDeposit(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*GetERCDepositResponse, error)
-	SearchDeposit(ctx context.Context, in *SearchDepositRequest, opts ...client.CallOption) (*GetERCDepositResponse, error)
+	CreateAddress(ctx context.Context, in *GenerateAddressRequest, opts ...client.CallOption) (*GenerateAddressResponse, error)
+	DepositHistory(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*DepositHistoryResponse, error)
+	SearchDeposit(ctx context.Context, in *SearchDepositRequest, opts ...client.CallOption) (*DepositHistoryResponse, error)
 	UserDetail(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*User, error)
 }
 
@@ -195,8 +195,8 @@ func (c *userMgrService) ConfirmEmail(ctx context.Context, in *ConfirmEmailReque
 	return out, nil
 }
 
-func (c *userMgrService) CreateercAddress(ctx context.Context, in *GenerateAddressRequest, opts ...client.CallOption) (*GenerateAddressResponse, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.CreateercAddress", in)
+func (c *userMgrService) CreateAddress(ctx context.Context, in *GenerateAddressRequest, opts ...client.CallOption) (*GenerateAddressResponse, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.CreateAddress", in)
 	out := new(GenerateAddressResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -205,9 +205,9 @@ func (c *userMgrService) CreateercAddress(ctx context.Context, in *GenerateAddre
 	return out, nil
 }
 
-func (c *userMgrService) GetERCDeposit(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*GetERCDepositResponse, error) {
-	req := c.c.NewRequest(c.name, "UserMgr.GetERCDeposit", in)
-	out := new(GetERCDepositResponse)
+func (c *userMgrService) DepositHistory(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*DepositHistoryResponse, error) {
+	req := c.c.NewRequest(c.name, "UserMgr.DepositHistory", in)
+	out := new(DepositHistoryResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -215,9 +215,9 @@ func (c *userMgrService) GetERCDeposit(ctx context.Context, in *common.Empty, op
 	return out, nil
 }
 
-func (c *userMgrService) SearchDeposit(ctx context.Context, in *SearchDepositRequest, opts ...client.CallOption) (*GetERCDepositResponse, error) {
+func (c *userMgrService) SearchDeposit(ctx context.Context, in *SearchDepositRequest, opts ...client.CallOption) (*DepositHistoryResponse, error) {
 	req := c.c.NewRequest(c.name, "UserMgr.SearchDeposit", in)
-	out := new(GetERCDepositResponse)
+	out := new(DepositHistoryResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -254,9 +254,9 @@ type UserMgrHandler interface {
 	ChangeEmail(context.Context, *ChangeEmailRequest, *common.Empty) error
 	VerifyAccessToken(context.Context, *common.Empty, *common.Empty) error
 	ConfirmEmail(context.Context, *ConfirmEmailRequest, *common.Empty) error
-	CreateercAddress(context.Context, *GenerateAddressRequest, *GenerateAddressResponse) error
-	GetERCDeposit(context.Context, *common.Empty, *GetERCDepositResponse) error
-	SearchDeposit(context.Context, *SearchDepositRequest, *GetERCDepositResponse) error
+	CreateAddress(context.Context, *GenerateAddressRequest, *GenerateAddressResponse) error
+	DepositHistory(context.Context, *common.Empty, *DepositHistoryResponse) error
+	SearchDeposit(context.Context, *SearchDepositRequest, *DepositHistoryResponse) error
 	UserDetail(context.Context, *common.Empty, *User) error
 }
 
@@ -274,9 +274,9 @@ func RegisterUserMgrHandler(s server.Server, hdlr UserMgrHandler, opts ...server
 		ChangeEmail(ctx context.Context, in *ChangeEmailRequest, out *common.Empty) error
 		VerifyAccessToken(ctx context.Context, in *common.Empty, out *common.Empty) error
 		ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, out *common.Empty) error
-		CreateercAddress(ctx context.Context, in *GenerateAddressRequest, out *GenerateAddressResponse) error
-		GetERCDeposit(ctx context.Context, in *common.Empty, out *GetERCDepositResponse) error
-		SearchDeposit(ctx context.Context, in *SearchDepositRequest, out *GetERCDepositResponse) error
+		CreateAddress(ctx context.Context, in *GenerateAddressRequest, out *GenerateAddressResponse) error
+		DepositHistory(ctx context.Context, in *common.Empty, out *DepositHistoryResponse) error
+		SearchDeposit(ctx context.Context, in *SearchDepositRequest, out *DepositHistoryResponse) error
 		UserDetail(ctx context.Context, in *common.Empty, out *User) error
 	}
 	type UserMgr struct {
@@ -338,15 +338,15 @@ func (h *userMgrHandler) ConfirmEmail(ctx context.Context, in *ConfirmEmailReque
 	return h.UserMgrHandler.ConfirmEmail(ctx, in, out)
 }
 
-func (h *userMgrHandler) CreateercAddress(ctx context.Context, in *GenerateAddressRequest, out *GenerateAddressResponse) error {
-	return h.UserMgrHandler.CreateercAddress(ctx, in, out)
+func (h *userMgrHandler) CreateAddress(ctx context.Context, in *GenerateAddressRequest, out *GenerateAddressResponse) error {
+	return h.UserMgrHandler.CreateAddress(ctx, in, out)
 }
 
-func (h *userMgrHandler) GetERCDeposit(ctx context.Context, in *common.Empty, out *GetERCDepositResponse) error {
-	return h.UserMgrHandler.GetERCDeposit(ctx, in, out)
+func (h *userMgrHandler) DepositHistory(ctx context.Context, in *common.Empty, out *DepositHistoryResponse) error {
+	return h.UserMgrHandler.DepositHistory(ctx, in, out)
 }
 
-func (h *userMgrHandler) SearchDeposit(ctx context.Context, in *SearchDepositRequest, out *GetERCDepositResponse) error {
+func (h *userMgrHandler) SearchDeposit(ctx context.Context, in *SearchDepositRequest, out *DepositHistoryResponse) error {
 	return h.UserMgrHandler.SearchDeposit(ctx, in, out)
 }
 

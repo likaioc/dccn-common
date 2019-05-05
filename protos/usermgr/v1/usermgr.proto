@@ -42,12 +42,12 @@ service UserMgr {
 
     rpc ConfirmEmail(ConfirmEmailRequest) returns (common.proto.Empty){
     }
-    rpc CreateercAddress (GenerateAddressRequest) returns (GenerateAddressResponse){
+    rpc CreateAddress (GenerateAddressRequest) returns (GenerateAddressResponse){
     }
-    rpc GetERCDeposit (common.proto.Empty) returns (GetERCDepositResponse){
+    rpc DepositHistory (common.proto.Empty) returns (DepositHistoryResponse){
 
     }
-    rpc SearchDeposit (SearchDepositRequest) returns (GetERCDepositResponse){
+    rpc SearchDeposit (SearchDepositRequest) returns (DepositHistoryResponse){
     }
     rpc UserDetail (common.proto.Empty) returns (User){
     }
@@ -60,7 +60,7 @@ message SearchDepositRequest {
 
 message GenerateAddressRequest {
     string type = 1;
-    string propose = 2;
+    string purpose = 2;
 }
 
 message GenerateAddressResponse {
@@ -68,7 +68,7 @@ message GenerateAddressResponse {
     string purposeaddress = 2;
 }
 
-message GetERCDepositResponse {
+message DepositHistoryResponse {
     repeated common.proto.Deposit deposits = 1;
 }
 

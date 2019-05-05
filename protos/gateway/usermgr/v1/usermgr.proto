@@ -86,23 +86,17 @@ service UserMgr {
             body: "*"
     };
     }
-    rpc CreateercAddress (GenerateAddressRequest) returns (GenerateAddressResponse){
+    rpc CreateAddress (GenerateAddressRequest) returns (GenerateAddressResponse){
         option (google.api.http) = {
             post: "/create_address"
             body: "*"
     };
     }
-    rpc GetERCDeposit (common.proto.Empty) returns (GetERCDepositResponse){
-        option (google.api.http) = {
-            post: "/deposit/erc"
-            body: "*"
-    };
+    rpc DepositHistory (common.proto.Empty) returns (DepositHistoryResponse){
+        option (google.api.http).get = "/deposit/history";
     }
-    rpc SearchDeposit (SearchDepositRequest) returns (GetERCDepositResponse){
-        option (google.api.http) = {
-            post: "/deposit/search"
-            body: "*"
-    };
+    rpc SearchDeposit (SearchDepositRequest) returns (DepositHistoryResponse){
+        option (google.api.http).get = "/deposit/search";
     }
     rpc UserDetail (common.proto.Empty) returns (User){
         option (google.api.http).get = "/user/detail";
@@ -116,14 +110,14 @@ message SearchDepositRequest {
 
 message GenerateAddressRequest {
     string type = 1;
-    string propose = 2;
+    string purpose = 2;
 }
 
 message GenerateAddressResponse {
     string typeaddress = 1;
     string purposeaddress = 2;
 }
-message GetERCDepositResponse {
+message DepositHistoryResponse {
     repeated common.proto.Deposit deposits = 1;
 }
 
