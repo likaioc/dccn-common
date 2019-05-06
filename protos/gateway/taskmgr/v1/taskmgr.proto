@@ -16,10 +16,7 @@ service AppMgr {
       option (google.api.http).get = "/app/list";
     }
     rpc AppDetail (AppID) returns (AppDetailResponse) {
-        option (google.api.http) = {
-            post: "/app/detail"
-            body: "*"
-    };
+        option (google.api.http).get = "/app/detail";
     }
     rpc CancelApp (AppID) returns (common.proto.Empty) {
         option (google.api.http) = {
@@ -28,10 +25,7 @@ service AppMgr {
     };
     }
     rpc PurgeApp (AppID) returns (common.proto.Empty) {
-        option (google.api.http) = {
-            post: "/app/purge"
-            body: "*"
-    };
+        option (google.api.http).delete = "/app/purge";
     }
     rpc UpdateApp (UpdateAppRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
@@ -41,10 +35,7 @@ service AppMgr {
     }
     rpc AppOverview (common.proto.Empty) returns (AppOverviewResponse) {}
     rpc AppLeaderBoard (common.proto.Empty) returns (AppLeaderBoardResponse) {
-        option (google.api.http) = {
-            post: "/app/leaderboard"
-            body: "*"
-    };
+        option (google.api.http).get = "/app/leaderboard";
     }
     rpc CreateChart (CreateChartRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
@@ -53,22 +44,13 @@ service AppMgr {
     };
     }
     rpc ChartList (ChartListRequest) returns (ChartListResponse) {
-        option (google.api.http) = {
-            post: "/chart/list"
-            body: "*"
-    };
+        option (google.api.http).get = "/chart/list";
     }
     rpc ChartDetail (ChartDetailRequest) returns (ChartDetailResponse) {
-        option (google.api.http) = {
-            post: "/chart/detail"
-            body: "*"
-    };
+        option (google.api.http).get = "/chart/detail";
     }
     rpc DeleteChart (DeleteChartRequest) returns (common.proto.Empty) {
-        option (google.api.http) = {
-            post: "/chart/delete"
-            body: "*"
-    };
+        option (google.api.http).delete = "/chart/delete";
     }
     rpc SaveChart (SaveChartRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
@@ -77,10 +59,7 @@ service AppMgr {
     };
     }
     rpc DownloadChart (DownloadChartRequest) returns (DownloadChartResponse) {
-        option (google.api.http) = {
-            post: "/chart/download"
-            body: "*"
-    };
+        option (google.api.http).get = "/chart/download";
     }  
     rpc CreateNamespace (CreateNamespaceRequest) returns (CreateNamespaceResponse) {
         option (google.api.http) = {
@@ -89,10 +68,7 @@ service AppMgr {
     };
     }
     rpc NamespaceList (NamespaceListRequest) returns (NamespaceListResponse) {
-        option (google.api.http) = {
-            post: "/namespace/list"
-            body: "*"
-    };
+        option (google.api.http).get = "/namespace/list";
     }
     rpc UpdateNamespace (UpdateNamespaceRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
@@ -101,10 +77,7 @@ service AppMgr {
     };
     }
     rpc DeleteNamespace (DeleteNamespaceRequest) returns (common.proto.Empty) {
-        option (google.api.http) = {
-            post: "/namespace/delete"
-            body: "*"
-    };
+        option (google.api.http).delete = "/namespace/delete";
     }
 }
 
