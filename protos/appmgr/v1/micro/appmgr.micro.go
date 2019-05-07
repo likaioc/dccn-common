@@ -10,17 +10,15 @@ It is generated from these files:
 It has these top-level messages:
 	CreateAppRequest
 	CreateAppResponse
-	AppListRequest
 	AppListResponse
 	AppDetailResponse
-	AppFilter
 	AppID
 	UpdateAppRequest
 	AppOverviewResponse
 	AppLeaderBoardResponse
 	AppLeaderBoardDetail
-	CreateChartRequest
-	SaveChartRequest
+	UploadChartRequest
+	SaveAsChartRequest
 	ChartListRequest
 	ChartListResponse
 	ChartDetailRequest
@@ -30,7 +28,6 @@ It has these top-level messages:
 	DeleteChartRequest
 	CreateNamespaceRequest
 	CreateNamespaceResponse
-	NamespaceListRequest
 	NamespaceListResponse
 	UpdateNamespaceRequest
 	DeleteNamespaceRequest
@@ -70,21 +67,21 @@ var _ server.Option
 type AppMgrService interface {
 	// Sends request to start a app and list app
 	CreateApp(ctx context.Context, in *CreateAppRequest, opts ...client.CallOption) (*CreateAppResponse, error)
-	AppList(ctx context.Context, in *AppListRequest, opts ...client.CallOption) (*AppListResponse, error)
+	AppList(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*AppListResponse, error)
 	AppDetail(ctx context.Context, in *AppID, opts ...client.CallOption) (*AppDetailResponse, error)
 	CancelApp(ctx context.Context, in *AppID, opts ...client.CallOption) (*common_proto1.Empty, error)
 	PurgeApp(ctx context.Context, in *AppID, opts ...client.CallOption) (*common_proto1.Empty, error)
 	UpdateApp(ctx context.Context, in *UpdateAppRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
 	AppOverview(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*AppOverviewResponse, error)
 	AppLeaderBoard(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*AppLeaderBoardResponse, error)
-	CreateChart(ctx context.Context, in *CreateChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
-	SaveChart(ctx context.Context, in *SaveChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
+	UploadChart(ctx context.Context, in *UploadChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
+	SaveAsChart(ctx context.Context, in *SaveAsChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
 	ChartList(ctx context.Context, in *ChartListRequest, opts ...client.CallOption) (*ChartListResponse, error)
 	ChartDetail(ctx context.Context, in *ChartDetailRequest, opts ...client.CallOption) (*ChartDetailResponse, error)
 	DownloadChart(ctx context.Context, in *DownloadChartRequest, opts ...client.CallOption) (*DownloadChartResponse, error)
 	DeleteChart(ctx context.Context, in *DeleteChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
 	CreateNamespace(ctx context.Context, in *CreateNamespaceRequest, opts ...client.CallOption) (*CreateNamespaceResponse, error)
-	NamespaceList(ctx context.Context, in *NamespaceListRequest, opts ...client.CallOption) (*NamespaceListResponse, error)
+	NamespaceList(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*NamespaceListResponse, error)
 	UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
 	DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
 }
@@ -117,7 +114,7 @@ func (c *appMgrService) CreateApp(ctx context.Context, in *CreateAppRequest, opt
 	return out, nil
 }
 
-func (c *appMgrService) AppList(ctx context.Context, in *AppListRequest, opts ...client.CallOption) (*AppListResponse, error) {
+func (c *appMgrService) AppList(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*AppListResponse, error) {
 	req := c.c.NewRequest(c.name, "AppMgr.AppList", in)
 	out := new(AppListResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -187,8 +184,8 @@ func (c *appMgrService) AppLeaderBoard(ctx context.Context, in *common_proto1.Em
 	return out, nil
 }
 
-func (c *appMgrService) CreateChart(ctx context.Context, in *CreateChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error) {
-	req := c.c.NewRequest(c.name, "AppMgr.CreateChart", in)
+func (c *appMgrService) UploadChart(ctx context.Context, in *UploadChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error) {
+	req := c.c.NewRequest(c.name, "AppMgr.UploadChart", in)
 	out := new(common_proto1.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -197,8 +194,8 @@ func (c *appMgrService) CreateChart(ctx context.Context, in *CreateChartRequest,
 	return out, nil
 }
 
-func (c *appMgrService) SaveChart(ctx context.Context, in *SaveChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error) {
-	req := c.c.NewRequest(c.name, "AppMgr.SaveChart", in)
+func (c *appMgrService) SaveAsChart(ctx context.Context, in *SaveAsChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error) {
+	req := c.c.NewRequest(c.name, "AppMgr.SaveAsChart", in)
 	out := new(common_proto1.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -257,7 +254,7 @@ func (c *appMgrService) CreateNamespace(ctx context.Context, in *CreateNamespace
 	return out, nil
 }
 
-func (c *appMgrService) NamespaceList(ctx context.Context, in *NamespaceListRequest, opts ...client.CallOption) (*NamespaceListResponse, error) {
+func (c *appMgrService) NamespaceList(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*NamespaceListResponse, error) {
 	req := c.c.NewRequest(c.name, "AppMgr.NamespaceList", in)
 	out := new(NamespaceListResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -292,21 +289,21 @@ func (c *appMgrService) DeleteNamespace(ctx context.Context, in *DeleteNamespace
 type AppMgrHandler interface {
 	// Sends request to start a app and list app
 	CreateApp(context.Context, *CreateAppRequest, *CreateAppResponse) error
-	AppList(context.Context, *AppListRequest, *AppListResponse) error
+	AppList(context.Context, *common_proto1.Empty, *AppListResponse) error
 	AppDetail(context.Context, *AppID, *AppDetailResponse) error
 	CancelApp(context.Context, *AppID, *common_proto1.Empty) error
 	PurgeApp(context.Context, *AppID, *common_proto1.Empty) error
 	UpdateApp(context.Context, *UpdateAppRequest, *common_proto1.Empty) error
 	AppOverview(context.Context, *common_proto1.Empty, *AppOverviewResponse) error
 	AppLeaderBoard(context.Context, *common_proto1.Empty, *AppLeaderBoardResponse) error
-	CreateChart(context.Context, *CreateChartRequest, *common_proto1.Empty) error
-	SaveChart(context.Context, *SaveChartRequest, *common_proto1.Empty) error
+	UploadChart(context.Context, *UploadChartRequest, *common_proto1.Empty) error
+	SaveAsChart(context.Context, *SaveAsChartRequest, *common_proto1.Empty) error
 	ChartList(context.Context, *ChartListRequest, *ChartListResponse) error
 	ChartDetail(context.Context, *ChartDetailRequest, *ChartDetailResponse) error
 	DownloadChart(context.Context, *DownloadChartRequest, *DownloadChartResponse) error
 	DeleteChart(context.Context, *DeleteChartRequest, *common_proto1.Empty) error
 	CreateNamespace(context.Context, *CreateNamespaceRequest, *CreateNamespaceResponse) error
-	NamespaceList(context.Context, *NamespaceListRequest, *NamespaceListResponse) error
+	NamespaceList(context.Context, *common_proto1.Empty, *NamespaceListResponse) error
 	UpdateNamespace(context.Context, *UpdateNamespaceRequest, *common_proto1.Empty) error
 	DeleteNamespace(context.Context, *DeleteNamespaceRequest, *common_proto1.Empty) error
 }
@@ -314,21 +311,21 @@ type AppMgrHandler interface {
 func RegisterAppMgrHandler(s server.Server, hdlr AppMgrHandler, opts ...server.HandlerOption) error {
 	type appMgr interface {
 		CreateApp(ctx context.Context, in *CreateAppRequest, out *CreateAppResponse) error
-		AppList(ctx context.Context, in *AppListRequest, out *AppListResponse) error
+		AppList(ctx context.Context, in *common_proto1.Empty, out *AppListResponse) error
 		AppDetail(ctx context.Context, in *AppID, out *AppDetailResponse) error
 		CancelApp(ctx context.Context, in *AppID, out *common_proto1.Empty) error
 		PurgeApp(ctx context.Context, in *AppID, out *common_proto1.Empty) error
 		UpdateApp(ctx context.Context, in *UpdateAppRequest, out *common_proto1.Empty) error
 		AppOverview(ctx context.Context, in *common_proto1.Empty, out *AppOverviewResponse) error
 		AppLeaderBoard(ctx context.Context, in *common_proto1.Empty, out *AppLeaderBoardResponse) error
-		CreateChart(ctx context.Context, in *CreateChartRequest, out *common_proto1.Empty) error
-		SaveChart(ctx context.Context, in *SaveChartRequest, out *common_proto1.Empty) error
+		UploadChart(ctx context.Context, in *UploadChartRequest, out *common_proto1.Empty) error
+		SaveAsChart(ctx context.Context, in *SaveAsChartRequest, out *common_proto1.Empty) error
 		ChartList(ctx context.Context, in *ChartListRequest, out *ChartListResponse) error
 		ChartDetail(ctx context.Context, in *ChartDetailRequest, out *ChartDetailResponse) error
 		DownloadChart(ctx context.Context, in *DownloadChartRequest, out *DownloadChartResponse) error
 		DeleteChart(ctx context.Context, in *DeleteChartRequest, out *common_proto1.Empty) error
 		CreateNamespace(ctx context.Context, in *CreateNamespaceRequest, out *CreateNamespaceResponse) error
-		NamespaceList(ctx context.Context, in *NamespaceListRequest, out *NamespaceListResponse) error
+		NamespaceList(ctx context.Context, in *common_proto1.Empty, out *NamespaceListResponse) error
 		UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, out *common_proto1.Empty) error
 		DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, out *common_proto1.Empty) error
 	}
@@ -347,7 +344,7 @@ func (h *appMgrHandler) CreateApp(ctx context.Context, in *CreateAppRequest, out
 	return h.AppMgrHandler.CreateApp(ctx, in, out)
 }
 
-func (h *appMgrHandler) AppList(ctx context.Context, in *AppListRequest, out *AppListResponse) error {
+func (h *appMgrHandler) AppList(ctx context.Context, in *common_proto1.Empty, out *AppListResponse) error {
 	return h.AppMgrHandler.AppList(ctx, in, out)
 }
 
@@ -375,12 +372,12 @@ func (h *appMgrHandler) AppLeaderBoard(ctx context.Context, in *common_proto1.Em
 	return h.AppMgrHandler.AppLeaderBoard(ctx, in, out)
 }
 
-func (h *appMgrHandler) CreateChart(ctx context.Context, in *CreateChartRequest, out *common_proto1.Empty) error {
-	return h.AppMgrHandler.CreateChart(ctx, in, out)
+func (h *appMgrHandler) UploadChart(ctx context.Context, in *UploadChartRequest, out *common_proto1.Empty) error {
+	return h.AppMgrHandler.UploadChart(ctx, in, out)
 }
 
-func (h *appMgrHandler) SaveChart(ctx context.Context, in *SaveChartRequest, out *common_proto1.Empty) error {
-	return h.AppMgrHandler.SaveChart(ctx, in, out)
+func (h *appMgrHandler) SaveAsChart(ctx context.Context, in *SaveAsChartRequest, out *common_proto1.Empty) error {
+	return h.AppMgrHandler.SaveAsChart(ctx, in, out)
 }
 
 func (h *appMgrHandler) ChartList(ctx context.Context, in *ChartListRequest, out *ChartListResponse) error {
@@ -403,7 +400,7 @@ func (h *appMgrHandler) CreateNamespace(ctx context.Context, in *CreateNamespace
 	return h.AppMgrHandler.CreateNamespace(ctx, in, out)
 }
 
-func (h *appMgrHandler) NamespaceList(ctx context.Context, in *NamespaceListRequest, out *NamespaceListResponse) error {
+func (h *appMgrHandler) NamespaceList(ctx context.Context, in *common_proto1.Empty, out *NamespaceListResponse) error {
 	return h.AppMgrHandler.NamespaceList(ctx, in, out)
 }
 

@@ -39,9 +39,9 @@ service AppMgr {
     rpc AppLeaderBoard (common.proto.Empty) returns (AppLeaderBoardResponse) {
         option (google.api.http).get = "/app/leaderboard";
     }
-    rpc CreateChart (CreateChartRequest) returns (common.proto.Empty) {
+    rpc UploadChart (UploadChartRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/chart/create"
+            post: "/chart/upload"
             body: "*"
     };
     }
@@ -144,7 +144,7 @@ message AppLeaderBoardDetail{
 }
 
 
-message CreateChartRequest {
+message UploadChartRequest {
     string chart_repo = 1;
     string chart_ver = 2;
     string chart_name = 3;
