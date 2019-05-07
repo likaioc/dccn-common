@@ -127,8 +127,14 @@ message ChartDetail {
     string repo = 2;
     string version = 3; //chart version 
 	string app_version = 4; //application version 
+    string icon_url = 5; // Chart icon image url
 }
 
+
+message VersionDetail{
+    string version = 1; //chart version 
+	string app_version = 2; //application version 
+}
 
 message Namespace {
     string id = 1; //short hash of uid+name+cluster_id

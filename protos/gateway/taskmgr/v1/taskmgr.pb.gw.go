@@ -46,17 +46,9 @@ func request_AppMgr_CreateApp_0(ctx context.Context, marshaler runtime.Marshaler
 
 }
 
-var (
-	filter_AppMgr_AppList_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_AppMgr_AppList_0(ctx context.Context, marshaler runtime.Marshaler, client AppMgrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AppListRequest
+	var protoReq common_proto.Empty
 	var metadata runtime.ServerMetadata
-
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_AppMgr_AppList_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
 
 	msg, err := client.AppList(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -127,6 +119,15 @@ func request_AppMgr_UpdateApp_0(ctx context.Context, marshaler runtime.Marshaler
 	}
 
 	msg, err := client.UpdateApp(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func request_AppMgr_AppOverview_0(ctx context.Context, marshaler runtime.Marshaler, client AppMgrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq common_proto.Empty
+	var metadata runtime.ServerMetadata
+
+	msg, err := client.AppOverview(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
@@ -208,8 +209,8 @@ func request_AppMgr_DeleteChart_0(ctx context.Context, marshaler runtime.Marshal
 
 }
 
-func request_AppMgr_SaveChart_0(ctx context.Context, marshaler runtime.Marshaler, client AppMgrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq SaveChartRequest
+func request_AppMgr_SaveAsChart_0(ctx context.Context, marshaler runtime.Marshaler, client AppMgrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq SaveAsChartRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -220,7 +221,7 @@ func request_AppMgr_SaveChart_0(ctx context.Context, marshaler runtime.Marshaler
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.SaveChart(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.SaveAsChart(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
@@ -259,17 +260,9 @@ func request_AppMgr_CreateNamespace_0(ctx context.Context, marshaler runtime.Mar
 
 }
 
-var (
-	filter_AppMgr_NamespaceList_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_AppMgr_NamespaceList_0(ctx context.Context, marshaler runtime.Marshaler, client AppMgrClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq NamespaceListRequest
+	var protoReq common_proto.Empty
 	var metadata runtime.ServerMetadata
-
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_AppMgr_NamespaceList_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
 
 	msg, err := client.NamespaceList(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -468,6 +461,26 @@ func RegisterAppMgrHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 
 	})
 
+	mux.Handle("GET", pattern_AppMgr_AppOverview_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateContext(ctx, mux, req)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_AppMgr_AppOverview_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_AppMgr_AppOverview_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	mux.Handle("GET", pattern_AppMgr_AppLeaderBoard_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -568,7 +581,7 @@ func RegisterAppMgrHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 
 	})
 
-	mux.Handle("POST", pattern_AppMgr_SaveChart_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_AppMgr_SaveAsChart_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -577,14 +590,14 @@ func RegisterAppMgrHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_AppMgr_SaveChart_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_AppMgr_SaveAsChart_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AppMgr_SaveChart_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_AppMgr_SaveAsChart_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -704,6 +717,8 @@ var (
 
 	pattern_AppMgr_UpdateApp_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"app", "update"}, ""))
 
+	pattern_AppMgr_AppOverview_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"app", "overview"}, ""))
+
 	pattern_AppMgr_AppLeaderBoard_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"app", "leaderboard"}, ""))
 
 	pattern_AppMgr_CreateChart_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"chart", "create"}, ""))
@@ -714,7 +729,7 @@ var (
 
 	pattern_AppMgr_DeleteChart_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"chart", "delete"}, ""))
 
-	pattern_AppMgr_SaveChart_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"chart", "save"}, ""))
+	pattern_AppMgr_SaveAsChart_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"chart", "saveas"}, ""))
 
 	pattern_AppMgr_DownloadChart_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"chart", "download"}, ""))
 
@@ -740,6 +755,8 @@ var (
 
 	forward_AppMgr_UpdateApp_0 = runtime.ForwardResponseMessage
 
+	forward_AppMgr_AppOverview_0 = runtime.ForwardResponseMessage
+
 	forward_AppMgr_AppLeaderBoard_0 = runtime.ForwardResponseMessage
 
 	forward_AppMgr_CreateChart_0 = runtime.ForwardResponseMessage
@@ -750,7 +767,7 @@ var (
 
 	forward_AppMgr_DeleteChart_0 = runtime.ForwardResponseMessage
 
-	forward_AppMgr_SaveChart_0 = runtime.ForwardResponseMessage
+	forward_AppMgr_SaveAsChart_0 = runtime.ForwardResponseMessage
 
 	forward_AppMgr_DownloadChart_0 = runtime.ForwardResponseMessage
 

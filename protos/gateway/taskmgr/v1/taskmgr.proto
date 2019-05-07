@@ -12,7 +12,7 @@ service AppMgr {
             body: "*"
     };
     }
-    rpc AppList (AppListRequest) returns (AppListResponse) {
+    rpc AppList (common.proto.Empty) returns (AppListResponse) {
       option (google.api.http).get = "/app/list";
     }
     rpc AppDetail (AppID) returns (AppDetailResponse) {
@@ -33,7 +33,9 @@ service AppMgr {
             body: "*"
     };
     }
-    rpc AppOverview (common.proto.Empty) returns (AppOverviewResponse) {}
+    rpc AppOverview (common.proto.Empty) returns (AppOverviewResponse) {
+        option (google.api.http).get = "/app/overview";
+    }
     rpc AppLeaderBoard (common.proto.Empty) returns (AppLeaderBoardResponse) {
         option (google.api.http).get = "/app/leaderboard";
     }
@@ -52,9 +54,9 @@ service AppMgr {
     rpc DeleteChart (DeleteChartRequest) returns (common.proto.Empty) {
         option (google.api.http).delete = "/chart/delete";
     }
-    rpc SaveChart (SaveChartRequest) returns (common.proto.Empty) {
+    rpc SaveAsChart (SaveAsChartRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/chart/save"
+            put: "/chart/saveas"
             body: "*"
     };
     }
@@ -67,7 +69,7 @@ service AppMgr {
             body: "*"
     };
     }
-    rpc NamespaceList (NamespaceListRequest) returns (NamespaceListResponse) {
+    rpc NamespaceList (common.proto.Empty) returns (NamespaceListResponse) {
         option (google.api.http).get = "/namespace/list";
     }
     rpc UpdateNamespace (UpdateNamespaceRequest) returns (common.proto.Empty) {
@@ -85,30 +87,22 @@ service AppMgr {
 message CreateAppRequest {
     string name = 1;
     string type = 2;
-    uint64 creation_date = 3;
-    uint64 last_modified_date = 4;
-    string uid = 5;
-    string chartname = 6;
-    string chartrepo = 7;
-    string chartversion = 8;
-    string chartappversion = 9;
-    string namespace_id = 10;
-    string ns_id = 11; 
-	string ns_name = 12;
-	string ns_cluster_id = 13; //id of cluster
-    string ns_cluster_name = 14; //name of cluster
-	uint64 ns_creation_date = 15;
-    uint64 ns_cpu_limit = 16;
-    uint64 ns_mem_limit = 17;
-    uint64 ns_storage_limit = 18;
+    string chartname = 3;
+    string chartrepo = 4;
+    string chartversion = 5;
+    string chartappversion = 6;
+    string namespace_id = 7;
+    string ns_id = 8; 
+	string ns_name = 9;
+	string ns_cluster_id = 10; //id of cluster
+    string ns_cluster_name = 11; //name of cluster
+	uint64 ns_cpu_limit = 12;
+    uint64 ns_mem_limit = 13;
+    uint64 ns_storage_limit = 14;
 }
 
 message CreateAppResponse {
     string app_id = 1;
-}
-
-message AppListRequest {
-    AppFilter app_filter = 1;
 }
 
 message AppListResponse {
@@ -119,10 +113,6 @@ message AppDetailResponse {
     common.proto.AppReport app_report = 1;
 }
 
-message AppFilter {
-    string app_id = 1;
-}
-
 message AppID {
     string app_id = 1;
 }
@@ -130,22 +120,10 @@ message AppID {
 message UpdateAppRequest{
     string name = 1;
     string app_id = 2;
-    uint64 creation_date = 3;
-    uint64 last_modified_date = 4;
-    string uid = 5;
-    string chartname = 6;
-    string chartrepo = 7;
-    string chartversion = 8;
-    string chartappversion = 9;
-    string namespace_id = 10;
-    string ns_id = 11; 
-	string ns_name = 12;
-	string ns_cluster_id = 13; //id of cluster
-    string ns_cluster_name = 14; //name of cluster
-	uint64 ns_creation_date = 15;
-    uint64 ns_cpu_limit = 16;
-    uint64 ns_mem_limit = 17;
-    uint64 ns_storage_limit = 18;
+    string chartname = 3;
+    string chartrepo = 4;
+    string chartversion = 5;
+    string chartappversion = 6;
 }
 
 message AppOverviewResponse{
@@ -175,7 +153,6 @@ message CreateChartRequest {
 
 message ChartListRequest {
     string chart_repo = 1;
-    string filter = 2;
 }
 
 message ChartListResponse {
@@ -188,9 +165,11 @@ message ChartDetailRequest {
 }
 
 message ChartDetailResponse {
-    repeated common.proto.ChartDetail chartdetails = 1; //for multiple version
-    string show_readme = 2; // readme.md for current version 
-	string show_values = 3; // value.yaml for current version 
+    string name = 1;
+    string repo = 2;
+    repeated common.proto.VersionDetail versiondetails = 3; //for multiple version
+    string readme_md = 4; // readme.md for current version 
+	string values_yaml = 5; // value.yaml for current version 
 }
 
 message DeleteChartRequest {
@@ -212,10 +191,6 @@ message CreateNamespaceRequest {
 
 message CreateNamespaceResponse {
     string id = 1;
-}
-
-message NamespaceListRequest {
-    string filter = 1;
 }
 
 message NamespaceListResponse {
@@ -242,11 +217,11 @@ message DownloadChartResponse {
     bytes chart_file = 1;
 }
 
-message SaveChartRequest {
+message SaveAsChartRequest {
     string chart_repo = 1;
     string chart_ver = 2;
     string chart_name = 3;
-    string save_ver = 4;
-    string save_name = 5;
-    bytes values_file = 6;
+    string saveas_ver = 4;
+    string saveas_name = 5;
+    bytes values_yaml = 6;
 }
