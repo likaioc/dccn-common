@@ -15,6 +15,8 @@ It has these top-level messages:
 	AppID
 	UpdateAppRequest
 	AppOverviewResponse
+	AppCountRequest
+	AppCountResponse
 	AppLeaderBoardResponse
 	AppLeaderBoardDetail
 	UploadChartRequest
@@ -84,6 +86,7 @@ type AppMgrService interface {
 	NamespaceList(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*NamespaceListResponse, error)
 	UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
 	DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
+	AppCount(ctx context.Context, in *AppCountRequest, opts ...client.CallOption) (*AppCountResponse, error)
 }
 
 type appMgrService struct {
@@ -284,6 +287,16 @@ func (c *appMgrService) DeleteNamespace(ctx context.Context, in *DeleteNamespace
 	return out, nil
 }
 
+func (c *appMgrService) AppCount(ctx context.Context, in *AppCountRequest, opts ...client.CallOption) (*AppCountResponse, error) {
+	req := c.c.NewRequest(c.name, "AppMgr.AppCount", in)
+	out := new(AppCountResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AppMgr service
 
 type AppMgrHandler interface {
@@ -306,6 +319,7 @@ type AppMgrHandler interface {
 	NamespaceList(context.Context, *common_proto1.Empty, *NamespaceListResponse) error
 	UpdateNamespace(context.Context, *UpdateNamespaceRequest, *common_proto1.Empty) error
 	DeleteNamespace(context.Context, *DeleteNamespaceRequest, *common_proto1.Empty) error
+	AppCount(context.Context, *AppCountRequest, *AppCountResponse) error
 }
 
 func RegisterAppMgrHandler(s server.Server, hdlr AppMgrHandler, opts ...server.HandlerOption) error {
@@ -328,6 +342,7 @@ func RegisterAppMgrHandler(s server.Server, hdlr AppMgrHandler, opts ...server.H
 		NamespaceList(ctx context.Context, in *common_proto1.Empty, out *NamespaceListResponse) error
 		UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, out *common_proto1.Empty) error
 		DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, out *common_proto1.Empty) error
+		AppCount(ctx context.Context, in *AppCountRequest, out *AppCountResponse) error
 	}
 	type AppMgr struct {
 		appMgr
@@ -410,4 +425,8 @@ func (h *appMgrHandler) UpdateNamespace(ctx context.Context, in *UpdateNamespace
 
 func (h *appMgrHandler) DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, out *common_proto1.Empty) error {
 	return h.AppMgrHandler.DeleteNamespace(ctx, in, out)
+}
+
+func (h *appMgrHandler) AppCount(ctx context.Context, in *AppCountRequest, out *AppCountResponse) error {
+	return h.AppMgrHandler.AppCount(ctx, in, out)
 }

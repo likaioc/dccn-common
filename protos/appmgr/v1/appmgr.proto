@@ -23,6 +23,7 @@ service AppMgr {
     rpc NamespaceList (common.proto.Empty) returns (NamespaceListResponse) {}
     rpc UpdateNamespace (UpdateNamespaceRequest) returns (common.proto.Empty) {}
     rpc DeleteNamespace (DeleteNamespaceRequest) returns (common.proto.Empty) {}
+    rpc AppCount (AppCountRequest) returns (AppCountResponse){}
 }
 
 // The dccn client request message containing the user's token
@@ -56,6 +57,15 @@ message AppOverviewResponse{
   int32 region_count = 3;
   int32 total_app_count = 4;
   int32 health_app_count = 5;
+}
+
+message AppCountRequest{
+  string user_id = 1;
+  string cluster_id = 2;
+}
+
+message AppCountResponse{
+  uint64 app_count = 1;
 }
 
 message AppLeaderBoardResponse{
