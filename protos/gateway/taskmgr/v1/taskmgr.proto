@@ -33,6 +33,9 @@ service AppMgr {
             body: "*"
     };
     }
+    rpc AppCount (AppCountRequest) returns (AppCountResponse){
+        option (google.api.http).get = "/app/count";
+    }
     rpc AppOverview (common.proto.Empty) returns (AppOverviewResponse) {
         option (google.api.http).get = "/app/overview";
     }
@@ -124,6 +127,15 @@ message UpdateAppRequest{
     string chartrepo = 4;
     string chartversion = 5;
     string chartappversion = 6;
+}
+
+message AppCountRequest{
+  string user_id = 1;
+  string cluster_id = 2;
+}
+
+message AppCountResponse{
+  uint64 app_count = 1;
 }
 
 message AppOverviewResponse{
