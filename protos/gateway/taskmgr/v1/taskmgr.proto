@@ -25,7 +25,9 @@ service AppMgr {
     };
     }
     rpc PurgeApp (AppID) returns (common.proto.Empty) {
-        option (google.api.http).delete = "/app/purge";
+        option (google.api.http) = {
+             delete:"/app/purge/{app_id}"
+        };
     }
     rpc UpdateApp (UpdateAppRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
@@ -50,9 +52,12 @@ service AppMgr {
     }
     rpc ChartList (ChartListRequest) returns (ChartListResponse) {
         option (google.api.http).get = "/chart/list";
+        
     }
     rpc ChartDetail (ChartDetailRequest) returns (ChartDetailResponse) {
-        option (google.api.http).get = "/chart/detail";
+         option (google.api.http) = {
+            get:"/chart/detail/{repo}/{name}/{show_version}"
+        };
     }
     rpc DeleteChart (DeleteChartRequest) returns (common.proto.Empty) {
         option (google.api.http).delete = "/chart/delete";
@@ -172,8 +177,9 @@ message ChartListResponse {
 }
 
 message ChartDetailRequest {
-    common.proto.Chart chart = 1;
-    string show_version = 2;
+    string repo = 1;
+    string name = 2;
+    string show_version = 3;
 }
 
 message ChartDetailResponse {
