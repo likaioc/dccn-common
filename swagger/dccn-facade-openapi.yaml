@@ -285,22 +285,7 @@ paths:
                 $ref: "#/components/schemas/DcListResponse"
       tags:
         - Dcmgr
-  /dc/leaderboard:
-    get:
-      security:
-        - Bearer:
-            []
-      summary: Sends a list leaderboard request
-      operationId: datacenterleaderboard
-      responses:
-        "200":
-          description: ""
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DcLeaderboardResponse"
-      tags:
-        - Dcmgr
+
   /dc/networkinfo:
     get:
       security:
@@ -621,14 +606,17 @@ paths:
       parameters:
         - in: path
           name: repo
+          required: true
           schema:
             type: string
         - in: path
           name: name
+          required: true
           schema:
             type: string    
         - in: path
           name: show_version
+          required: true
           schema:
             type: string  
         - in: query
@@ -1016,12 +1004,6 @@ components:
           type: string
         type:
           type: string
-        creation_date:
-          type: integer
-        last_modified_date:
-          type: integer
-        uid:
-          type: string
         chartname:
           type: string
         chartrepo:
@@ -1038,8 +1020,6 @@ components:
           type: string
         ns_cluster_name:
           type: string
-        ns_creation_date:
-          type: integer
         ns_cpu_limit:
           type: integer
         ns_mem_limit:
