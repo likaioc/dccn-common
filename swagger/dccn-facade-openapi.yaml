@@ -364,19 +364,17 @@ paths:
       tags:
         - Appmgr
   /app/detail:
-    post:
+    get:
       security:
         - Bearer:
             []
       summary: Sends a cancel app request
       operationId: appdetail
-      requestBody:
-        description: Request for change the status to cancel
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AppIDRequest'
+      parameters:
+        - in: query
+          name: app_id
+          schema:
+            type: string
       responses:
         "200":
           description: ""
@@ -410,19 +408,17 @@ paths:
       tags:
         - Appmgr
   /app/purge:
-    post:
+    delete:
       security:
         - Bearer:
             []
       summary: Sends a purge app request
       operationId: purgeapp
-      requestBody:
-        description: Request for change the status to cancel and will not show on list
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AppIDRequest'
+      parameters:
+        - in: query
+          name: app_id
+          schema:
+            type: string
       responses:
         "200":
           description: ""
@@ -433,19 +429,13 @@ paths:
       tags:
         - Appmgr
   /app/list:
-    post:
+    get:
       security:
         - Bearer:
             []
       summary: Sends a list apps request
       operationId: applist
-      requestBody:
-        description: Request for list app
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AppIDRequest'
+
       responses:
         "200":
           description: ""
@@ -512,19 +502,12 @@ paths:
       tags:
         - Appmgr
   /namespace/list:
-    post:
+    get:
       security:
         - Bearer:
             []
       summary: Sends a list namespaces request
       operationId: namespacelist
-      requestBody:
-        description: Request for namespace list
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NamespaceListRequest'
       responses:
         "200":
           description: ""
@@ -564,19 +547,17 @@ paths:
       tags:
         - Appmgr
   /namespace/delete:
-    post:
+    delete:
       security:
         - Bearer:
             []
       summary: Sends a delete namespace request
       operationId: deletenamespace
-      requestBody:
-        description: Request for delete namespace
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NamespaceListRequest'
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
       responses:
         "200":
           description: ""
@@ -586,13 +567,13 @@ paths:
                 $ref: "#/components/schemas/EmptyResponse"
       tags:
         - Appmgr
-  /chart/create:
+  /chart/upload:
     post:
       security:
         - Bearer:
             []
       summary: Sends a create chart request
-      operationId: createchart
+      operationId: uploadchart
       requestBody:
         description: Request for create namespace
         required: true
@@ -616,13 +597,11 @@ paths:
             []
       summary: Sends a list charts request
       operationId: chartlist
-      requestBody:
-        description: Request for list chart
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChartListRequest'
+      parameters:
+        - in: query
+          name: chart_repo
+          schema:
+            type: string
       responses:
         "200":
           description: ""
@@ -632,20 +611,30 @@ paths:
                 $ref: "#/components/schemas/ChartListResponse"
       tags:
         - Appmgr
-  /chart/detail:
-    post:
+  /chart/detail/{repo}/{name}/{show_version}:
+    get:
       security:
         - Bearer:
             []
       summary: Sends a request for spectific chart detail
       operationId: chartdetail
-      requestBody:
-        description: Request for chart detail
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChartDetailRequest'
+      parameters:
+        - in: path
+          name: repo
+          schema:
+            type: string
+        - in: path
+          name: name
+          schema:
+            type: string    
+        - in: path
+          name: show_version
+          schema:
+            type: string  
+        - in: query
+          name: name
+          schema:
+            type: string
       responses:
         "200":
           description: ""
@@ -679,19 +668,25 @@ paths:
       tags:
         - Appmgr
   /chart/download:
-    post:
+    get:
       security:
         - Bearer:
             []
       summary: Sends a download chart request
       operationId: downloadchart
-      requestBody:
-        description: Request for download chart
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DownloadChartRequest'
+      parameters:
+        - in: query
+          name: chart_repo
+          schema:
+            type: string
+        - in: query
+          name: chart_ver
+          schema:
+            type: string
+        - in: query
+          name: chart_name
+          schema:
+            type: string
       responses:
         "200":
           description: ""
@@ -702,7 +697,7 @@ paths:
       tags:
         - Appmgr
   /chart/save:
-    post:
+    put:
       security:
         - Bearer:
             []
