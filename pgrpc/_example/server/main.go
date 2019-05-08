@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net"
 	"os"
 	"time"
 
@@ -20,8 +21,17 @@ func main() {
 	server(ip)
 }
 
+type hook struct {
+	pgrpc.EmptyHook
+}
+
+func (*hook) OnAccept(key *string, conn *net.Conn) error {
+	(*conn).Write([]byte("PROXY TCP4 192.168.1.2 192.168.1.2 65535 65535\r\n"))
+	return nil
+}
+
 func server(ip string) {
-	conn, err := pgrpc.NewServer(ip+":8899", nil, nil)
+	conn, err := pgrpc.NewServer(ip+":8899", &hook{}, nil)
 	if err != nil {
 		log.Fatalln("FAIL:", err)
 	}

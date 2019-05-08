@@ -21,7 +21,8 @@ func NewServer(addr string, hook Hook, conf *yamux.Config) (*Server, error) {
 	}
 
 	if hook != nil {
-		if err := hook.OnAccept(addr, conn); err != nil {
+		if err := hook.OnAccept(&addr, &conn); err != nil {
+			conn.Close()
 			return nil, errors.Wrap(err, "on accept hook")
 		}
 	}
@@ -64,7 +65,7 @@ func (s *Server) Session() (net.Listener, error) {
 		Name:    s.addr,
 	}
 	if s.hook != nil {
-		if err := s.hook.OnBuild(s.addr, sess); err != nil {
+		if err := s.hook.OnBuild(&s.addr, sess); err != nil {
 			return nil, errors.Wrap(err, "on build hook")
 		}
 	}
