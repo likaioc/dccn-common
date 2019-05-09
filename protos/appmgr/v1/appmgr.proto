@@ -64,7 +64,7 @@ message AppOverviewResponse{
 }
 
 message AppCountRequest{
-  string user_id = 1;
+  string uid = 1;
   string cluster_id = 2;
 }
 
