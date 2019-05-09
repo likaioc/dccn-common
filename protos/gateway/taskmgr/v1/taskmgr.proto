@@ -25,9 +25,7 @@ service AppMgr {
     };
     }
     rpc PurgeApp (AppID) returns (common.proto.Empty) {
-        option (google.api.http) = {
-             delete:"/app/purge/{app_id}"
-        };
+        option (google.api.http).delete = "/app/purge";
     }
     rpc UpdateApp (UpdateAppRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
@@ -41,9 +39,6 @@ service AppMgr {
     rpc AppOverview (common.proto.Empty) returns (AppOverviewResponse) {
         option (google.api.http).get = "/app/overview";
     }
-    rpc AppLeaderBoard (common.proto.Empty) returns (AppLeaderBoardResponse) {
-        option (google.api.http).get = "/app/leaderboard";
-    }
     rpc UploadChart (UploadChartRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
             post: "/chart/upload"
@@ -52,12 +47,9 @@ service AppMgr {
     }
     rpc ChartList (ChartListRequest) returns (ChartListResponse) {
         option (google.api.http).get = "/chart/list";
-        
     }
     rpc ChartDetail (ChartDetailRequest) returns (ChartDetailResponse) {
-         option (google.api.http) = {
-            get:"/chart/detail/{repo}/{name}/{show_version}"
-        };
+        option (google.api.http).get = "/chart/detail";
     }
     rpc DeleteChart (DeleteChartRequest) returns (common.proto.Empty) {
         option (google.api.http).delete = "/chart/delete";
@@ -92,21 +84,22 @@ service AppMgr {
 }
 
 // The dccn client request message containing the user's token
+message Chart {
+    string chart_name = 1;
+    string chart_repo = 2;
+    string chart_ver = 3;
+}
+message Namespace {
+    string ns_name = 1;
+	uint64 ns_cpu_limit = 2;
+    uint64 ns_mem_limit = 3;
+    uint64 ns_storage_limit = 4;
+}
 message CreateAppRequest {
-    string name = 1;
-    string type = 2;
-    string chartname = 3;
-    string chartrepo = 4;
-    string chartversion = 5;
-    string chartappversion = 6;
-    string namespace_id = 7;
-    string ns_id = 8; 
-	string ns_name = 9;
-	string ns_cluster_id = 10; //id of cluster
-    string ns_cluster_name = 11; //name of cluster
-	uint64 ns_cpu_limit = 12;
-    uint64 ns_mem_limit = 13;
-    uint64 ns_storage_limit = 14;
+    string app_name = 1;
+    Chart chart = 2;
+    string ns_id = 3;
+	Namespace namespace = 4;
 }
 
 message CreateAppResponse {
@@ -126,12 +119,11 @@ message AppID {
 }
 
 message UpdateAppRequest{
-    string name = 1;
+    string app_name = 1;
     string app_id = 2;
-    string chartname = 3;
-    string chartrepo = 4;
-    string chartversion = 5;
-    string chartappversion = 6;
+    string chart_name = 3;
+    string chart_repo = 4;
+    string chart_ver = 5;
 }
 
 message AppCountRequest{
@@ -144,22 +136,17 @@ message AppCountResponse{
 }
 
 message AppOverviewResponse{
-  int32 cluster_count = 1;
-  int32 environment_count = 2;
-  int32 region_count = 3;
-  int32 total_app_count = 4;
-  int32 health_app_count = 5;
+  uint64 cluster_count = 1;
+  uint64 namespace_count = 2;
+  uint64 network_count = 3;
+  uint64 total_app_count = 4;
+  uint64 cpu_total = 5;
+  uint64 cpu_usage = 6;
+  uint64 mem_total = 7;
+  uint64 mem_usage = 8;
+  uint64 storage_total = 9;
+  uint64 storage_usage = 10;
 }
-
-message AppLeaderBoardResponse{
-  repeated AppLeaderBoardDetail list = 1;
-}
-
-message AppLeaderBoardDetail{
-  string name = 1;
-  double number = 2;
-}
-
 
 message UploadChartRequest {
     string chart_repo = 1;
@@ -177,15 +164,15 @@ message ChartListResponse {
 }
 
 message ChartDetailRequest {
-    string repo = 1;
-    string name = 2;
-    string show_version = 3;
+    string chart_name = 1;
+    string chart_repo = 2;
+    string chart_ver = 3;
 }
 
 message ChartDetailResponse {
-    string name = 1;
-    string repo = 2;
-    repeated common.proto.VersionDetail versiondetails = 3; //for multiple version
+    string chart_name = 1;
+    string chart_repo = 2;
+    repeated common.proto.ChartVersionDetail chart_version_details = 3; //for multiple version
     string readme_md = 4; // readme.md for current version 
 	string values_yaml = 5; // value.yaml for current version 
 }
@@ -197,32 +184,28 @@ message DeleteChartRequest {
 }
 
 message CreateNamespaceRequest {
-    string id = 1; //short hash of uid+name+cluster_id
-	string name = 2;
-	string cluster_id = 3; //id of cluster
-    string cluster_name = 4; //name of cluster
-	uint64 creation_date = 5;
-    uint64 cpu_limit = 6;
-    uint64 mem_limit = 7;
-    uint64 storage_limit = 8;
+	string ns_name = 2;
+    uint64 ns_cpu_limit = 6;
+    uint64 ns_mem_limit = 7;
+    uint64 ns_storage_limit = 8;
 }
 
 message CreateNamespaceResponse {
-    string id = 1;
+    string ns_id = 1;
 }
 
 message NamespaceListResponse {
-    repeated common.proto.NamespaceReport namespace_reports = 1;
+    repeated common.proto.NamespaceReport ns_reports = 1;
 }
 
 message UpdateNamespaceRequest {
-    uint64 cpu_limit = 1;
-    uint64 mem_limit = 2;
-    uint64 storage_limit = 3;
+    uint64 ns_cpu_limit = 1;
+    uint64 ns_mem_limit = 2;
+    uint64 ns_storage_limit = 3;
 }
 
 message DeleteNamespaceRequest {
-    string id = 1;
+    string ns_id = 1;
 }
 
 message DownloadChartRequest {
