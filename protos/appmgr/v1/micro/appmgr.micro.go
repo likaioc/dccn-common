@@ -17,8 +17,6 @@ It has these top-level messages:
 	AppOverviewResponse
 	AppCountRequest
 	AppCountResponse
-	AppLeaderBoardResponse
-	AppLeaderBoardDetail
 	UploadChartRequest
 	SaveAsChartRequest
 	ChartListRequest
@@ -75,7 +73,6 @@ type AppMgrService interface {
 	PurgeApp(ctx context.Context, in *AppID, opts ...client.CallOption) (*common_proto1.Empty, error)
 	UpdateApp(ctx context.Context, in *UpdateAppRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
 	AppOverview(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*AppOverviewResponse, error)
-	AppLeaderBoard(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*AppLeaderBoardResponse, error)
 	UploadChart(ctx context.Context, in *UploadChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
 	SaveAsChart(ctx context.Context, in *SaveAsChartRequest, opts ...client.CallOption) (*common_proto1.Empty, error)
 	ChartList(ctx context.Context, in *ChartListRequest, opts ...client.CallOption) (*ChartListResponse, error)
@@ -170,16 +167,6 @@ func (c *appMgrService) UpdateApp(ctx context.Context, in *UpdateAppRequest, opt
 func (c *appMgrService) AppOverview(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*AppOverviewResponse, error) {
 	req := c.c.NewRequest(c.name, "AppMgr.AppOverview", in)
 	out := new(AppOverviewResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *appMgrService) AppLeaderBoard(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*AppLeaderBoardResponse, error) {
-	req := c.c.NewRequest(c.name, "AppMgr.AppLeaderBoard", in)
-	out := new(AppLeaderBoardResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -308,7 +295,6 @@ type AppMgrHandler interface {
 	PurgeApp(context.Context, *AppID, *common_proto1.Empty) error
 	UpdateApp(context.Context, *UpdateAppRequest, *common_proto1.Empty) error
 	AppOverview(context.Context, *common_proto1.Empty, *AppOverviewResponse) error
-	AppLeaderBoard(context.Context, *common_proto1.Empty, *AppLeaderBoardResponse) error
 	UploadChart(context.Context, *UploadChartRequest, *common_proto1.Empty) error
 	SaveAsChart(context.Context, *SaveAsChartRequest, *common_proto1.Empty) error
 	ChartList(context.Context, *ChartListRequest, *ChartListResponse) error
@@ -331,7 +317,6 @@ func RegisterAppMgrHandler(s server.Server, hdlr AppMgrHandler, opts ...server.H
 		PurgeApp(ctx context.Context, in *AppID, out *common_proto1.Empty) error
 		UpdateApp(ctx context.Context, in *UpdateAppRequest, out *common_proto1.Empty) error
 		AppOverview(ctx context.Context, in *common_proto1.Empty, out *AppOverviewResponse) error
-		AppLeaderBoard(ctx context.Context, in *common_proto1.Empty, out *AppLeaderBoardResponse) error
 		UploadChart(ctx context.Context, in *UploadChartRequest, out *common_proto1.Empty) error
 		SaveAsChart(ctx context.Context, in *SaveAsChartRequest, out *common_proto1.Empty) error
 		ChartList(ctx context.Context, in *ChartListRequest, out *ChartListResponse) error
@@ -381,10 +366,6 @@ func (h *appMgrHandler) UpdateApp(ctx context.Context, in *UpdateAppRequest, out
 
 func (h *appMgrHandler) AppOverview(ctx context.Context, in *common_proto1.Empty, out *AppOverviewResponse) error {
 	return h.AppMgrHandler.AppOverview(ctx, in, out)
-}
-
-func (h *appMgrHandler) AppLeaderBoard(ctx context.Context, in *common_proto1.Empty, out *AppLeaderBoardResponse) error {
-	return h.AppMgrHandler.AppLeaderBoard(ctx, in, out)
 }
 
 func (h *appMgrHandler) UploadChart(ctx context.Context, in *UploadChartRequest, out *common_proto1.Empty) error {

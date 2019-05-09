@@ -8,12 +8,13 @@ It is generated from these files:
 	dcmgr/v1/micro/dcmgr.proto
 
 It has these top-level messages:
-	DataCenterListResponse
+	MyDataCenterRequest
 	RegisterDataCenterRequest
 	RegisterDataCenterResponse
+	DataCenterListResponse
 	NetworkInfoResponse
-	DataCenterLeaderBoardResponse
-	DataCenterLeaderBoardDetail
+	DCOverviewRequest
+	DCOverviewResponse
 */
 package dcmgr
 
@@ -32,7 +33,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = common_proto1.Empty{}
+var _ = common_proto1.DataCenterStatus{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -55,8 +56,7 @@ type DCService interface {
 	UpdateNamespace(ctx context.Context, in *common_proto1.Namespace, opts ...client.CallOption) (*common_proto1.AppResponce, error)
 	DeleteNamespace(ctx context.Context, in *common_proto1.Namespace, opts ...client.CallOption) (*common_proto1.AppResponce, error)
 	Status(ctx context.Context, in *common_proto1.AppID, opts ...client.CallOption) (*common_proto1.AppRunStatus, error)
-	InitDC(ctx context.Context, in *common_proto1.DataCenter, opts ...client.CallOption) (*common_proto1.AppResponce, error)
-	Overview(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*common_proto1.DataCenterStatus, error)
+	Overview(ctx context.Context, in *DCOverviewRequest, opts ...client.CallOption) (*DCOverviewResponse, error)
 }
 
 type dCService struct {
@@ -147,19 +147,9 @@ func (c *dCService) Status(ctx context.Context, in *common_proto1.AppID, opts ..
 	return out, nil
 }
 
-func (c *dCService) InitDC(ctx context.Context, in *common_proto1.DataCenter, opts ...client.CallOption) (*common_proto1.AppResponce, error) {
-	req := c.c.NewRequest(c.name, "DC.InitDC", in)
-	out := new(common_proto1.AppResponce)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *dCService) Overview(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*common_proto1.DataCenterStatus, error) {
+func (c *dCService) Overview(ctx context.Context, in *DCOverviewRequest, opts ...client.CallOption) (*DCOverviewResponse, error) {
 	req := c.c.NewRequest(c.name, "DC.Overview", in)
-	out := new(common_proto1.DataCenterStatus)
+	out := new(DCOverviewResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -177,8 +167,7 @@ type DCHandler interface {
 	UpdateNamespace(context.Context, *common_proto1.Namespace, *common_proto1.AppResponce) error
 	DeleteNamespace(context.Context, *common_proto1.Namespace, *common_proto1.AppResponce) error
 	Status(context.Context, *common_proto1.AppID, *common_proto1.AppRunStatus) error
-	InitDC(context.Context, *common_proto1.DataCenter, *common_proto1.AppResponce) error
-	Overview(context.Context, *common_proto1.Empty, *common_proto1.DataCenterStatus) error
+	Overview(context.Context, *DCOverviewRequest, *DCOverviewResponse) error
 }
 
 func RegisterDCHandler(s server.Server, hdlr DCHandler, opts ...server.HandlerOption) error {
@@ -190,8 +179,7 @@ func RegisterDCHandler(s server.Server, hdlr DCHandler, opts ...server.HandlerOp
 		UpdateNamespace(ctx context.Context, in *common_proto1.Namespace, out *common_proto1.AppResponce) error
 		DeleteNamespace(ctx context.Context, in *common_proto1.Namespace, out *common_proto1.AppResponce) error
 		Status(ctx context.Context, in *common_proto1.AppID, out *common_proto1.AppRunStatus) error
-		InitDC(ctx context.Context, in *common_proto1.DataCenter, out *common_proto1.AppResponce) error
-		Overview(ctx context.Context, in *common_proto1.Empty, out *common_proto1.DataCenterStatus) error
+		Overview(ctx context.Context, in *DCOverviewRequest, out *DCOverviewResponse) error
 	}
 	type DC struct {
 		dC
@@ -232,11 +220,7 @@ func (h *dCHandler) Status(ctx context.Context, in *common_proto1.AppID, out *co
 	return h.DCHandler.Status(ctx, in, out)
 }
 
-func (h *dCHandler) InitDC(ctx context.Context, in *common_proto1.DataCenter, out *common_proto1.AppResponce) error {
-	return h.DCHandler.InitDC(ctx, in, out)
-}
-
-func (h *dCHandler) Overview(ctx context.Context, in *common_proto1.Empty, out *common_proto1.DataCenterStatus) error {
+func (h *dCHandler) Overview(ctx context.Context, in *DCOverviewRequest, out *DCOverviewResponse) error {
 	return h.DCHandler.Overview(ctx, in, out)
 }
 
@@ -244,9 +228,10 @@ func (h *dCHandler) Overview(ctx context.Context, in *common_proto1.Empty, out *
 
 type DCAPIService interface {
 	DataCenterList(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*DataCenterListResponse, error)
-	DataCenterLeaderBoard(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*DataCenterLeaderBoardResponse, error)
 	NetworkInfo(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*NetworkInfoResponse, error)
-	RegisterDataCenter(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*NetworkInfoResponse, error)
+	RegisterDataCenter(ctx context.Context, in *RegisterDataCenterRequest, opts ...client.CallOption) (*RegisterDataCenterResponse, error)
+	ResetDataCenter(ctx context.Context, in *RegisterDataCenterRequest, opts ...client.CallOption) (*RegisterDataCenterResponse, error)
+	MyDataCenter(ctx context.Context, in *MyDataCenterRequest, opts ...client.CallOption) (*common_proto1.DataCenterStatus, error)
 }
 
 type dCAPIService struct {
@@ -277,16 +262,6 @@ func (c *dCAPIService) DataCenterList(ctx context.Context, in *common_proto1.Emp
 	return out, nil
 }
 
-func (c *dCAPIService) DataCenterLeaderBoard(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*DataCenterLeaderBoardResponse, error) {
-	req := c.c.NewRequest(c.name, "DCAPI.DataCenterLeaderBoard", in)
-	out := new(DataCenterLeaderBoardResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *dCAPIService) NetworkInfo(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*NetworkInfoResponse, error) {
 	req := c.c.NewRequest(c.name, "DCAPI.NetworkInfo", in)
 	out := new(NetworkInfoResponse)
@@ -297,9 +272,29 @@ func (c *dCAPIService) NetworkInfo(ctx context.Context, in *common_proto1.Empty,
 	return out, nil
 }
 
-func (c *dCAPIService) RegisterDataCenter(ctx context.Context, in *common_proto1.Empty, opts ...client.CallOption) (*NetworkInfoResponse, error) {
+func (c *dCAPIService) RegisterDataCenter(ctx context.Context, in *RegisterDataCenterRequest, opts ...client.CallOption) (*RegisterDataCenterResponse, error) {
 	req := c.c.NewRequest(c.name, "DCAPI.RegisterDataCenter", in)
-	out := new(NetworkInfoResponse)
+	out := new(RegisterDataCenterResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dCAPIService) ResetDataCenter(ctx context.Context, in *RegisterDataCenterRequest, opts ...client.CallOption) (*RegisterDataCenterResponse, error) {
+	req := c.c.NewRequest(c.name, "DCAPI.ResetDataCenter", in)
+	out := new(RegisterDataCenterResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dCAPIService) MyDataCenter(ctx context.Context, in *MyDataCenterRequest, opts ...client.CallOption) (*common_proto1.DataCenterStatus, error) {
+	req := c.c.NewRequest(c.name, "DCAPI.MyDataCenter", in)
+	out := new(common_proto1.DataCenterStatus)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -311,17 +306,19 @@ func (c *dCAPIService) RegisterDataCenter(ctx context.Context, in *common_proto1
 
 type DCAPIHandler interface {
 	DataCenterList(context.Context, *common_proto1.Empty, *DataCenterListResponse) error
-	DataCenterLeaderBoard(context.Context, *common_proto1.Empty, *DataCenterLeaderBoardResponse) error
 	NetworkInfo(context.Context, *common_proto1.Empty, *NetworkInfoResponse) error
-	RegisterDataCenter(context.Context, *common_proto1.Empty, *NetworkInfoResponse) error
+	RegisterDataCenter(context.Context, *RegisterDataCenterRequest, *RegisterDataCenterResponse) error
+	ResetDataCenter(context.Context, *RegisterDataCenterRequest, *RegisterDataCenterResponse) error
+	MyDataCenter(context.Context, *MyDataCenterRequest, *common_proto1.DataCenterStatus) error
 }
 
 func RegisterDCAPIHandler(s server.Server, hdlr DCAPIHandler, opts ...server.HandlerOption) error {
 	type dCAPI interface {
 		DataCenterList(ctx context.Context, in *common_proto1.Empty, out *DataCenterListResponse) error
-		DataCenterLeaderBoard(ctx context.Context, in *common_proto1.Empty, out *DataCenterLeaderBoardResponse) error
 		NetworkInfo(ctx context.Context, in *common_proto1.Empty, out *NetworkInfoResponse) error
-		RegisterDataCenter(ctx context.Context, in *common_proto1.Empty, out *NetworkInfoResponse) error
+		RegisterDataCenter(ctx context.Context, in *RegisterDataCenterRequest, out *RegisterDataCenterResponse) error
+		ResetDataCenter(ctx context.Context, in *RegisterDataCenterRequest, out *RegisterDataCenterResponse) error
+		MyDataCenter(ctx context.Context, in *MyDataCenterRequest, out *common_proto1.DataCenterStatus) error
 	}
 	type DCAPI struct {
 		dCAPI
@@ -338,14 +335,18 @@ func (h *dCAPIHandler) DataCenterList(ctx context.Context, in *common_proto1.Emp
 	return h.DCAPIHandler.DataCenterList(ctx, in, out)
 }
 
-func (h *dCAPIHandler) DataCenterLeaderBoard(ctx context.Context, in *common_proto1.Empty, out *DataCenterLeaderBoardResponse) error {
-	return h.DCAPIHandler.DataCenterLeaderBoard(ctx, in, out)
-}
-
 func (h *dCAPIHandler) NetworkInfo(ctx context.Context, in *common_proto1.Empty, out *NetworkInfoResponse) error {
 	return h.DCAPIHandler.NetworkInfo(ctx, in, out)
 }
 
-func (h *dCAPIHandler) RegisterDataCenter(ctx context.Context, in *common_proto1.Empty, out *NetworkInfoResponse) error {
+func (h *dCAPIHandler) RegisterDataCenter(ctx context.Context, in *RegisterDataCenterRequest, out *RegisterDataCenterResponse) error {
 	return h.DCAPIHandler.RegisterDataCenter(ctx, in, out)
+}
+
+func (h *dCAPIHandler) ResetDataCenter(ctx context.Context, in *RegisterDataCenterRequest, out *RegisterDataCenterResponse) error {
+	return h.DCAPIHandler.ResetDataCenter(ctx, in, out)
+}
+
+func (h *dCAPIHandler) MyDataCenter(ctx context.Context, in *MyDataCenterRequest, out *common_proto1.DataCenterStatus) error {
+	return h.DCAPIHandler.MyDataCenter(ctx, in, out)
 }

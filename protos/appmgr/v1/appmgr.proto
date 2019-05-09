@@ -12,7 +12,6 @@ service AppMgr {
     rpc PurgeApp (AppID) returns (common.proto.Empty) {}
     rpc UpdateApp (UpdateAppRequest) returns (common.proto.Empty) {}
     rpc AppOverview (common.proto.Empty) returns (AppOverviewResponse) {}
-    rpc AppLeaderBoard (common.proto.Empty) returns (AppLeaderBoardResponse) {}
     rpc UploadChart (UploadChartRequest) returns (common.proto.Empty) {}
     rpc SaveAsChart (SaveAsChartRequest) returns (common.proto.Empty) {}
     rpc ChartList (ChartListRequest) returns (ChartListResponse) {}
@@ -52,11 +51,16 @@ message UpdateAppRequest{
 }
 
 message AppOverviewResponse{
-  int32 cluster_count = 1;
-  int32 environment_count = 2;
-  int32 region_count = 3;
-  int32 total_app_count = 4;
-  int32 health_app_count = 5;
+  uint64 cluster_count = 1;
+  uint64 namespace_count = 2;
+  uint64 network_count = 3;
+  uint64 total_app_count = 4;
+  uint64 cpu_total = 5;
+  uint64 cpu_usage = 6;
+  uint64 mem_total = 7;
+  uint64 mem_usage = 8;
+  uint64 storage_total = 9;
+  uint64 storage_usage = 10;
 }
 
 message AppCountRequest{
@@ -66,15 +70,6 @@ message AppCountRequest{
 
 message AppCountResponse{
   uint64 app_count = 1;
-}
-
-message AppLeaderBoardResponse{
-  repeated AppLeaderBoardDetail list = 1;
-}
-
-message AppLeaderBoardDetail{
-  string name = 1;
-  double number = 2;
 }
 
 message UploadChartRequest {
@@ -108,9 +103,9 @@ message ChartDetailRequest {
 }
 
 message ChartDetailResponse {
-    string name = 1;
-    string repo = 2;
-    repeated common.proto.VersionDetail versiondetails = 3; //for multiple version
+    string chart_name = 1;
+    string chart_repo = 2;
+    repeated common.proto.ChartVersionDetail chart_version_details = 3; //for multiple version
     string readme_md = 4; // readme.md for current version 
 	string values_yaml = 5; // value.yaml for current version 
 }
@@ -136,7 +131,7 @@ message CreateNamespaceRequest {
 }
 
 message CreateNamespaceResponse {
-    string id = 1;
+    string ns_id = 1;
 }
 
 message NamespaceListResponse {
@@ -148,5 +143,5 @@ message UpdateNamespaceRequest {
 }
 
 message DeleteNamespaceRequest {
-    string id = 1;
+    string ns_id = 1;
 }

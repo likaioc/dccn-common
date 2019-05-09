@@ -61,8 +61,8 @@ message Empty {}
 
 // App Deployment structure
 message AppDeployment {
-    string  id = 1;
-    string  name = 2; // name of the app
+    string  app_id = 1;
+    string  app_name = 2; // name of the app
     Namespace   namespace = 3; // request for create new namespace
     AppAttributes   attributes = 4;
     string  uid = 5;
@@ -78,8 +78,8 @@ message AppAttributes {
 
 // Data Center structure
 message DataCenter {
-    string  id = 1;  //data center id
-    string  name = 2; // data center name
+    string  dc_id = 1;  //data center id
+    string  dc_name = 2; // data center name
     bool    force_update = 3;
     DataCenterAttributes    dc_attributes = 4;
 }
@@ -87,8 +87,8 @@ message DataCenter {
 
 // Data Center structure  this only used by deamon reply
 message DataCenterStatus {
-    string id = 1;  //data center id
-    string name = 2; // data center name
+    string dc_id = 1;  //data center id
+    string dc_name = 2; // data center name
     GeoLocation geo_location = 3;
     DCStatus status = 4; // data center status // 1. online 2. offline
     DataCenterAttributes dc_attributes = 5;
@@ -115,38 +115,38 @@ message DCHeartbeatReport {
 
 
 message Chart {
-	string name = 1; //chart name
-	string repo = 2; //chart repo, e.g. app_store or user_catalog
-	string description = 3;
-	string icon_url = 4; // Chart icon image url
-    string latest_version = 5;
-    string latest_app_version = 6;
+	string chart_name = 1; //chart name
+	string chart_repo = 2; //chart repo, e.g. app_store or user_catalog
+	string chart_description = 3;
+	string chart_icon_url = 4; // Chart icon image url
+    string chart_latest_ver = 5;
+    string chart_latest_app_ver = 6;
 }
 message ChartDetail {
-    string name = 1;
-    string repo = 2;
-    string version = 3; //chart version 
-	string app_version = 4; //application version 
-    string icon_url = 5; // Chart icon image url
+    string chart_name = 1;
+    string chart_repo = 2;
+    string chart_ver = 3; //chart version 
+	string chart_app_ver = 4; //application version 
+    string chart_icon_url = 5; // Chart icon image url
 }
 
 
-message VersionDetail{
-    string version = 1; //chart version 
-	string app_version = 2; //application version 
+message ChartVersionDetail{
+    string chart_ver = 1; //chart version 
+	string chart_app_ver = 2; //application version 
 }
 
 message Namespace {
-    string id = 1; //short hash of uid+name+cluster_id
-	string name = 2;
+    string ns_id = 1; //short hash of uid+name+cluster_id
+	string ns_name = 2;
 	string cluster_id = 3; //id of cluster
     string cluster_name = 4; //name of cluster
 	uint64 creation_date = 5;
     uint64 last_modified_date = 6;
-    uint64 cpu_limit = 7;  // number of mcpu 
-    uint64 mem_limit = 8; // number of Mi mem usage
-    uint64 storage_limit = 9; // number of Gi storage
-    NamespaceStatus status = 10;
+    uint64 ns_cpu_limit = 7;  // number of mcpu 
+    uint64 ns_mem_limit = 8; // number of Mi mem usage
+    uint64 ns_storage_limit = 9; // number of Gi storage
+    NamespaceStatus ns_status = 10;
 }
 
 message NamespaceReport{
@@ -158,7 +158,7 @@ message NamespaceReport{
 message App {
     string name = 1; // name of the app
     oneof namespace_data {
-        string namespace_id = 2; // namespace id
+        string ns_id = 2; // namespace id
         Namespace namespace = 3; // request for create new namespace
     }
     ChartDetail chart_detail = 4;

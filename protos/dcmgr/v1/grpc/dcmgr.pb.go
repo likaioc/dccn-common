@@ -25,47 +25,48 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type DataCenterListResponse struct {
-	DcList               []*common.DataCenterStatus `protobuf:"bytes,1,rep,name=dcList,proto3" json:"dcList,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                   `json:"-"`
-	XXX_unrecognized     []byte                     `json:"-"`
-	XXX_sizecache        int32                      `json:"-"`
+type MyDataCenterRequest struct {
+	UserId               string   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DataCenterListResponse) Reset()         { *m = DataCenterListResponse{} }
-func (m *DataCenterListResponse) String() string { return proto.CompactTextString(m) }
-func (*DataCenterListResponse) ProtoMessage()    {}
-func (*DataCenterListResponse) Descriptor() ([]byte, []int) {
+func (m *MyDataCenterRequest) Reset()         { *m = MyDataCenterRequest{} }
+func (m *MyDataCenterRequest) String() string { return proto.CompactTextString(m) }
+func (*MyDataCenterRequest) ProtoMessage()    {}
+func (*MyDataCenterRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_37a452e4549c3bbc, []int{0}
 }
 
-func (m *DataCenterListResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DataCenterListResponse.Unmarshal(m, b)
+func (m *MyDataCenterRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MyDataCenterRequest.Unmarshal(m, b)
 }
-func (m *DataCenterListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DataCenterListResponse.Marshal(b, m, deterministic)
+func (m *MyDataCenterRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MyDataCenterRequest.Marshal(b, m, deterministic)
 }
-func (m *DataCenterListResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterListResponse.Merge(m, src)
+func (m *MyDataCenterRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MyDataCenterRequest.Merge(m, src)
 }
-func (m *DataCenterListResponse) XXX_Size() int {
-	return xxx_messageInfo_DataCenterListResponse.Size(m)
+func (m *MyDataCenterRequest) XXX_Size() int {
+	return xxx_messageInfo_MyDataCenterRequest.Size(m)
 }
-func (m *DataCenterListResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_DataCenterListResponse.DiscardUnknown(m)
+func (m *MyDataCenterRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_MyDataCenterRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DataCenterListResponse proto.InternalMessageInfo
+var xxx_messageInfo_MyDataCenterRequest proto.InternalMessageInfo
 
-func (m *DataCenterListResponse) GetDcList() []*common.DataCenterStatus {
+func (m *MyDataCenterRequest) GetUserId() string {
 	if m != nil {
-		return m.DcList
+		return m.UserId
 	}
-	return nil
+	return ""
 }
 
 type RegisterDataCenterRequest struct {
-	Uid                  string   `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	UserId               string   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ClusterName          string   `protobuf:"bytes,2,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -96,9 +97,16 @@ func (m *RegisterDataCenterRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RegisterDataCenterRequest proto.InternalMessageInfo
 
-func (m *RegisterDataCenterRequest) GetUid() string {
+func (m *RegisterDataCenterRequest) GetUserId() string {
 	if m != nil {
-		return m.Uid
+		return m.UserId
+	}
+	return ""
+}
+
+func (m *RegisterDataCenterRequest) GetClusterName() string {
+	if m != nil {
+		return m.ClusterName
 	}
 	return ""
 }
@@ -158,10 +166,49 @@ func (m *RegisterDataCenterResponse) GetCaCert() string {
 	return ""
 }
 
+type DataCenterListResponse struct {
+	DcList               []*common.DataCenterStatus `protobuf:"bytes,1,rep,name=dcList,proto3" json:"dcList,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                   `json:"-"`
+	XXX_unrecognized     []byte                     `json:"-"`
+	XXX_sizecache        int32                      `json:"-"`
+}
+
+func (m *DataCenterListResponse) Reset()         { *m = DataCenterListResponse{} }
+func (m *DataCenterListResponse) String() string { return proto.CompactTextString(m) }
+func (*DataCenterListResponse) ProtoMessage()    {}
+func (*DataCenterListResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_37a452e4549c3bbc, []int{3}
+}
+
+func (m *DataCenterListResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DataCenterListResponse.Unmarshal(m, b)
+}
+func (m *DataCenterListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DataCenterListResponse.Marshal(b, m, deterministic)
+}
+func (m *DataCenterListResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DataCenterListResponse.Merge(m, src)
+}
+func (m *DataCenterListResponse) XXX_Size() int {
+	return xxx_messageInfo_DataCenterListResponse.Size(m)
+}
+func (m *DataCenterListResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DataCenterListResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DataCenterListResponse proto.InternalMessageInfo
+
+func (m *DataCenterListResponse) GetDcList() []*common.DataCenterStatus {
+	if m != nil {
+		return m.DcList
+	}
+	return nil
+}
+
 type NetworkInfoResponse struct {
 	UserCount            int32    `protobuf:"varint,1,opt,name=user_count,json=userCount,proto3" json:"user_count,omitempty"`
 	HostCount            int32    `protobuf:"varint,2,opt,name=host_count,json=hostCount,proto3" json:"host_count,omitempty"`
-	EnvironmentCount     int32    `protobuf:"varint,3,opt,name=environment_count,json=environmentCount,proto3" json:"environment_count,omitempty"`
+	NsCount              int32    `protobuf:"varint,3,opt,name=ns_count,json=nsCount,proto3" json:"ns_count,omitempty"`
 	ContainerCount       int32    `protobuf:"varint,4,opt,name=container_count,json=containerCount,proto3" json:"container_count,omitempty"`
 	Traffic              int32    `protobuf:"varint,5,opt,name=traffic,proto3" json:"traffic,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -173,7 +220,7 @@ func (m *NetworkInfoResponse) Reset()         { *m = NetworkInfoResponse{} }
 func (m *NetworkInfoResponse) String() string { return proto.CompactTextString(m) }
 func (*NetworkInfoResponse) ProtoMessage()    {}
 func (*NetworkInfoResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_37a452e4549c3bbc, []int{3}
+	return fileDescriptor_37a452e4549c3bbc, []int{4}
 }
 
 func (m *NetworkInfoResponse) XXX_Unmarshal(b []byte) error {
@@ -208,9 +255,9 @@ func (m *NetworkInfoResponse) GetHostCount() int32 {
 	return 0
 }
 
-func (m *NetworkInfoResponse) GetEnvironmentCount() int32 {
+func (m *NetworkInfoResponse) GetNsCount() int32 {
 	if m != nil {
-		return m.EnvironmentCount
+		return m.NsCount
 	}
 	return 0
 }
@@ -229,142 +276,162 @@ func (m *NetworkInfoResponse) GetTraffic() int32 {
 	return 0
 }
 
-type DataCenterLeaderBoardResponse struct {
-	List                 []*DataCenterLeaderBoardDetail `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                       `json:"-"`
-	XXX_unrecognized     []byte                         `json:"-"`
-	XXX_sizecache        int32                          `json:"-"`
-}
-
-func (m *DataCenterLeaderBoardResponse) Reset()         { *m = DataCenterLeaderBoardResponse{} }
-func (m *DataCenterLeaderBoardResponse) String() string { return proto.CompactTextString(m) }
-func (*DataCenterLeaderBoardResponse) ProtoMessage()    {}
-func (*DataCenterLeaderBoardResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_37a452e4549c3bbc, []int{4}
-}
-
-func (m *DataCenterLeaderBoardResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DataCenterLeaderBoardResponse.Unmarshal(m, b)
-}
-func (m *DataCenterLeaderBoardResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DataCenterLeaderBoardResponse.Marshal(b, m, deterministic)
-}
-func (m *DataCenterLeaderBoardResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterLeaderBoardResponse.Merge(m, src)
-}
-func (m *DataCenterLeaderBoardResponse) XXX_Size() int {
-	return xxx_messageInfo_DataCenterLeaderBoardResponse.Size(m)
-}
-func (m *DataCenterLeaderBoardResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_DataCenterLeaderBoardResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DataCenterLeaderBoardResponse proto.InternalMessageInfo
-
-func (m *DataCenterLeaderBoardResponse) GetList() []*DataCenterLeaderBoardDetail {
-	if m != nil {
-		return m.List
-	}
-	return nil
-}
-
-type DataCenterLeaderBoardDetail struct {
-	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Number               float64  `protobuf:"fixed64,2,opt,name=number,proto3" json:"number,omitempty"`
+type DCOverviewRequest struct {
+	Timestamp            string   `protobuf:"bytes,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DataCenterLeaderBoardDetail) Reset()         { *m = DataCenterLeaderBoardDetail{} }
-func (m *DataCenterLeaderBoardDetail) String() string { return proto.CompactTextString(m) }
-func (*DataCenterLeaderBoardDetail) ProtoMessage()    {}
-func (*DataCenterLeaderBoardDetail) Descriptor() ([]byte, []int) {
+func (m *DCOverviewRequest) Reset()         { *m = DCOverviewRequest{} }
+func (m *DCOverviewRequest) String() string { return proto.CompactTextString(m) }
+func (*DCOverviewRequest) ProtoMessage()    {}
+func (*DCOverviewRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_37a452e4549c3bbc, []int{5}
 }
 
-func (m *DataCenterLeaderBoardDetail) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DataCenterLeaderBoardDetail.Unmarshal(m, b)
+func (m *DCOverviewRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DCOverviewRequest.Unmarshal(m, b)
 }
-func (m *DataCenterLeaderBoardDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DataCenterLeaderBoardDetail.Marshal(b, m, deterministic)
+func (m *DCOverviewRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DCOverviewRequest.Marshal(b, m, deterministic)
 }
-func (m *DataCenterLeaderBoardDetail) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DataCenterLeaderBoardDetail.Merge(m, src)
+func (m *DCOverviewRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DCOverviewRequest.Merge(m, src)
 }
-func (m *DataCenterLeaderBoardDetail) XXX_Size() int {
-	return xxx_messageInfo_DataCenterLeaderBoardDetail.Size(m)
+func (m *DCOverviewRequest) XXX_Size() int {
+	return xxx_messageInfo_DCOverviewRequest.Size(m)
 }
-func (m *DataCenterLeaderBoardDetail) XXX_DiscardUnknown() {
-	xxx_messageInfo_DataCenterLeaderBoardDetail.DiscardUnknown(m)
+func (m *DCOverviewRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DCOverviewRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DataCenterLeaderBoardDetail proto.InternalMessageInfo
+var xxx_messageInfo_DCOverviewRequest proto.InternalMessageInfo
 
-func (m *DataCenterLeaderBoardDetail) GetName() string {
+func (m *DCOverviewRequest) GetTimestamp() string {
 	if m != nil {
-		return m.Name
+		return m.Timestamp
 	}
 	return ""
 }
 
-func (m *DataCenterLeaderBoardDetail) GetNumber() float64 {
+type DCOverviewResponse struct {
+	ClusterId            string                   `protobuf:"bytes,1,opt,name=cluster_id,json=clusterId,proto3" json:"cluster_id,omitempty"`
+	Status               *common.DataCenterStatus `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	Timestamp            string                   `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Signature            string                   `protobuf:"bytes,4,opt,name=signature,proto3" json:"signature,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                 `json:"-"`
+	XXX_unrecognized     []byte                   `json:"-"`
+	XXX_sizecache        int32                    `json:"-"`
+}
+
+func (m *DCOverviewResponse) Reset()         { *m = DCOverviewResponse{} }
+func (m *DCOverviewResponse) String() string { return proto.CompactTextString(m) }
+func (*DCOverviewResponse) ProtoMessage()    {}
+func (*DCOverviewResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_37a452e4549c3bbc, []int{6}
+}
+
+func (m *DCOverviewResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DCOverviewResponse.Unmarshal(m, b)
+}
+func (m *DCOverviewResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DCOverviewResponse.Marshal(b, m, deterministic)
+}
+func (m *DCOverviewResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DCOverviewResponse.Merge(m, src)
+}
+func (m *DCOverviewResponse) XXX_Size() int {
+	return xxx_messageInfo_DCOverviewResponse.Size(m)
+}
+func (m *DCOverviewResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DCOverviewResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DCOverviewResponse proto.InternalMessageInfo
+
+func (m *DCOverviewResponse) GetClusterId() string {
 	if m != nil {
-		return m.Number
+		return m.ClusterId
 	}
-	return 0
+	return ""
+}
+
+func (m *DCOverviewResponse) GetStatus() *common.DataCenterStatus {
+	if m != nil {
+		return m.Status
+	}
+	return nil
+}
+
+func (m *DCOverviewResponse) GetTimestamp() string {
+	if m != nil {
+		return m.Timestamp
+	}
+	return ""
+}
+
+func (m *DCOverviewResponse) GetSignature() string {
+	if m != nil {
+		return m.Signature
+	}
+	return ""
 }
 
 func init() {
-	proto.RegisterType((*DataCenterListResponse)(nil), "dcmgr.DataCenterListResponse")
+	proto.RegisterType((*MyDataCenterRequest)(nil), "dcmgr.MyDataCenterRequest")
 	proto.RegisterType((*RegisterDataCenterRequest)(nil), "dcmgr.RegisterDataCenterRequest")
 	proto.RegisterType((*RegisterDataCenterResponse)(nil), "dcmgr.RegisterDataCenterResponse")
+	proto.RegisterType((*DataCenterListResponse)(nil), "dcmgr.DataCenterListResponse")
 	proto.RegisterType((*NetworkInfoResponse)(nil), "dcmgr.NetworkInfoResponse")
-	proto.RegisterType((*DataCenterLeaderBoardResponse)(nil), "dcmgr.DataCenterLeaderBoardResponse")
-	proto.RegisterType((*DataCenterLeaderBoardDetail)(nil), "dcmgr.DataCenterLeaderBoardDetail")
+	proto.RegisterType((*DCOverviewRequest)(nil), "dcmgr.DCOverviewRequest")
+	proto.RegisterType((*DCOverviewResponse)(nil), "dcmgr.DCOverviewResponse")
 }
 
 func init() { proto.RegisterFile("dcmgr/v1/grpc/dcmgr.proto", fileDescriptor_37a452e4549c3bbc) }
 
 var fileDescriptor_37a452e4549c3bbc = []byte{
-	// 589 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xdd, 0x6e, 0xd3, 0x4c,
-	0x10, 0xcd, 0xaf, 0xfb, 0x65, 0xaa, 0xaf, 0x2d, 0x5b, 0xd1, 0xba, 0xae, 0x8a, 0x2a, 0x0b, 0x41,
-	0x25, 0x44, 0x22, 0x8a, 0xc4, 0x0d, 0x17, 0x10, 0xec, 0x82, 0x22, 0x50, 0xa9, 0x0c, 0x88, 0xcb,
-	0x6a, 0xbb, 0x9e, 0x04, 0xab, 0xf1, 0xae, 0x59, 0xaf, 0x53, 0x45, 0xe2, 0xa1, 0x78, 0x07, 0x9e,
-	0x89, 0x7b, 0xe4, 0x5d, 0x93, 0x38, 0xc4, 0xa4, 0x12, 0xed, 0x95, 0x3d, 0x73, 0xce, 0x9c, 0xd9,
-	0xd9, 0xd9, 0x19, 0xd8, 0x0b, 0x59, 0x3c, 0x92, 0xbd, 0xc9, 0x93, 0xde, 0x48, 0x26, 0xac, 0xa7,
-	0xad, 0x6e, 0x22, 0x85, 0x12, 0xa4, 0xad, 0x0d, 0x67, 0x9b, 0x89, 0x38, 0x16, 0xbc, 0x67, 0x3e,
-	0x06, 0x73, 0xcf, 0x60, 0xc7, 0xa7, 0x8a, 0x7a, 0xc8, 0x15, 0xca, 0x77, 0x51, 0xaa, 0x02, 0x4c,
-	0x13, 0xc1, 0x53, 0x24, 0xcf, 0xc0, 0x0a, 0x59, 0xee, 0xb1, 0xeb, 0x87, 0xcd, 0xa3, 0xf5, 0xe3,
-	0x7b, 0xdd, 0x72, 0x60, 0x77, 0x1e, 0xf5, 0x41, 0x51, 0x95, 0xa5, 0x41, 0xc1, 0x76, 0x1f, 0xc3,
-	0x5e, 0x80, 0xa3, 0x28, 0x55, 0x28, 0xe7, 0x9c, 0x00, 0xbf, 0x66, 0x98, 0x2a, 0xb2, 0x05, 0xcd,
-	0x2c, 0x0a, 0xed, 0xfa, 0x61, 0xfd, 0xa8, 0x13, 0xe4, 0xbf, 0xee, 0x37, 0x70, 0xaa, 0xe8, 0xc5,
-	0x21, 0x0e, 0x00, 0xd8, 0x38, 0x42, 0xae, 0xce, 0x2f, 0x71, 0x5a, 0x84, 0x75, 0x8c, 0xe7, 0x2d,
-	0x4e, 0xc9, 0x03, 0xd8, 0x2c, 0x60, 0x96, 0xca, 0x73, 0x86, 0x52, 0xd9, 0x0d, 0xcd, 0xf9, 0xdf,
-	0xb8, 0xbd, 0x54, 0x7a, 0x28, 0x15, 0xd9, 0x85, 0x35, 0x46, 0x0d, 0xde, 0xd4, 0xb8, 0xc5, 0x68,
-	0x0e, 0xb8, 0x3f, 0xea, 0xb0, 0x7d, 0x8a, 0xea, 0x4a, 0xc8, 0xcb, 0x01, 0x1f, 0x8a, 0x72, 0xde,
-	0x2c, 0x45, 0x79, 0xce, 0x44, 0xc6, 0x95, 0xce, 0xdb, 0x0e, 0x3a, 0xb9, 0xc7, 0xcb, 0x1d, 0x39,
-	0xfc, 0x45, 0xa4, 0xaa, 0x80, 0x1b, 0x06, 0xce, 0x3d, 0x06, 0x7e, 0x04, 0x77, 0x90, 0x4f, 0x22,
-	0x29, 0x78, 0xac, 0xcf, 0xa6, 0x59, 0x4d, 0xcd, 0xda, 0x2a, 0x01, 0x86, 0xfc, 0x10, 0x36, 0x99,
-	0xe0, 0x8a, 0x46, 0x7c, 0x96, 0xaf, 0xa5, 0xa9, 0x1b, 0x33, 0xb7, 0x21, 0xda, 0xb0, 0xa6, 0x24,
-	0x1d, 0x0e, 0x23, 0x66, 0xb7, 0x35, 0xe1, 0xb7, 0xe9, 0x7e, 0x86, 0x83, 0x52, 0x13, 0x91, 0x86,
-	0x28, 0x5f, 0x09, 0x2a, 0xc3, 0x52, 0x2f, 0x5b, 0xe3, 0x79, 0x27, 0xdd, 0xae, 0x79, 0x1d, 0x95,
-	0x31, 0x3e, 0x2a, 0x1a, 0x8d, 0x03, 0xcd, 0x77, 0x07, 0xb0, 0xbf, 0x82, 0x44, 0x08, 0xb4, 0x38,
-	0x8d, 0xb1, 0xe8, 0x8b, 0xfe, 0x27, 0x3b, 0x60, 0xf1, 0x2c, 0xbe, 0x40, 0xa9, 0xaf, 0xa5, 0x1e,
-	0x14, 0xd6, 0xf1, 0xcf, 0x16, 0x34, 0x7c, 0x8f, 0x9c, 0x40, 0xc7, 0x93, 0x48, 0x15, 0xf6, 0x93,
-	0x84, 0xec, 0x2f, 0x3e, 0xa9, 0x7e, 0x92, 0xf8, 0x98, 0x8c, 0xc5, 0x34, 0xbf, 0x1c, 0x67, 0x6f,
-	0x09, 0x34, 0xe5, 0x30, 0x74, 0x6b, 0xb9, 0xcc, 0xa7, 0x24, 0xbc, 0x0d, 0x19, 0x1f, 0xc7, 0x78,
-	0x53, 0x99, 0x37, 0xb0, 0x69, 0x8a, 0x3a, 0xa5, 0x31, 0xa6, 0x09, 0x65, 0x48, 0x76, 0x17, 0xf9,
-	0x33, 0xe0, 0x5a, 0x21, 0x53, 0xd6, 0x2d, 0x08, 0x99, 0xc2, 0x6e, 0x2a, 0xf4, 0x1c, 0x2c, 0x33,
-	0xdf, 0x64, 0x7b, 0x89, 0x36, 0xf0, 0x1d, 0x67, 0x39, 0x36, 0xe3, 0x26, 0xc0, 0xad, 0x91, 0x17,
-	0x60, 0x0d, 0x78, 0xa4, 0x7c, 0x8f, 0xd8, 0x7f, 0x5b, 0x1e, 0xab, 0xb3, 0xf7, 0xe1, 0xbf, 0xf7,
-	0x13, 0x94, 0x93, 0x08, 0xaf, 0xfe, 0xcc, 0x7f, 0x12, 0x27, 0x6a, 0xea, 0x5c, 0xb3, 0x94, 0xdc,
-	0xda, 0xf1, 0xf7, 0x06, 0xb4, 0x7d, 0xaf, 0x7f, 0x36, 0x20, 0xaf, 0x61, 0x63, 0x71, 0xd5, 0x55,
-	0x4b, 0x1e, 0x2c, 0x4f, 0x47, 0x69, 0x2d, 0xba, 0x35, 0xf2, 0x11, 0xee, 0x56, 0x0e, 0x45, 0xb5,
-	0xdc, 0xfd, 0x55, 0xc3, 0x56, 0x52, 0x7d, 0x09, 0xeb, 0xa5, 0x45, 0x54, 0xad, 0xe5, 0x14, 0x5a,
-	0x15, 0x1b, 0x4b, 0xf7, 0x9c, 0x2c, 0x6f, 0xd2, 0x7f, 0x10, 0xba, 0xb0, 0x34, 0xf5, 0xe9, 0xaf,
-	0x00, 0x00, 0x00, 0xff, 0xff, 0x55, 0xa3, 0x5e, 0x77, 0x53, 0x06, 0x00, 0x00,
+	// 636 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0x41, 0x6f, 0xd3, 0x4c,
+	0x10, 0x4d, 0x9a, 0x26, 0xad, 0xa7, 0xfd, 0x1a, 0x7d, 0x1b, 0x89, 0x26, 0x86, 0xa2, 0x76, 0x0f,
+	0xd0, 0x53, 0xa2, 0x16, 0x89, 0x0b, 0x17, 0x22, 0xbb, 0xa0, 0x88, 0x52, 0x2a, 0x23, 0x04, 0x12,
+	0x87, 0x68, 0xd9, 0x4c, 0x83, 0xd5, 0x78, 0x6d, 0x76, 0xd7, 0xad, 0x22, 0xf1, 0x3b, 0xf8, 0x0b,
+	0x9c, 0x91, 0xf8, 0x81, 0xc8, 0xbb, 0x8e, 0x9b, 0x34, 0x86, 0x56, 0x6a, 0x4f, 0xd1, 0xbe, 0x37,
+	0xf3, 0x76, 0xde, 0xec, 0x64, 0x0c, 0x9d, 0x11, 0x8f, 0xc6, 0xb2, 0x77, 0x71, 0xd0, 0x1b, 0xcb,
+	0x84, 0xf7, 0xcc, 0xa9, 0x9b, 0xc8, 0x58, 0xc7, 0xa4, 0x6e, 0x0e, 0x6e, 0x8b, 0xc7, 0x51, 0x14,
+	0x8b, 0x9e, 0xfd, 0xb1, 0x1c, 0xed, 0x42, 0xeb, 0xed, 0xd4, 0x67, 0x9a, 0x79, 0x28, 0x34, 0xca,
+	0x00, 0xbf, 0xa5, 0xa8, 0x34, 0xd9, 0x86, 0xb5, 0x54, 0xa1, 0x1c, 0x86, 0xa3, 0x76, 0x75, 0xb7,
+	0xba, 0xef, 0x04, 0x8d, 0xec, 0x38, 0x18, 0xd1, 0x8f, 0xd0, 0x09, 0x70, 0x1c, 0x2a, 0x8d, 0xf2,
+	0xf6, 0x59, 0x64, 0x0f, 0x36, 0xf9, 0x24, 0xcd, 0x92, 0x86, 0x82, 0x45, 0xd8, 0x5e, 0x31, 0xec,
+	0x46, 0x8e, 0x9d, 0xb0, 0x08, 0xe9, 0x77, 0x70, 0xcb, 0x84, 0x55, 0x12, 0x0b, 0x85, 0x64, 0x07,
+	0x80, 0x4f, 0x42, 0x14, 0x7a, 0x78, 0x8e, 0xd3, 0x5c, 0xdc, 0xb1, 0xc8, 0x1b, 0x9c, 0x92, 0x27,
+	0xd0, 0xcc, 0x69, 0xae, 0xe4, 0x90, 0xa3, 0xd4, 0xf9, 0x15, 0xff, 0x59, 0xd8, 0x53, 0xd2, 0x43,
+	0x69, 0x0a, 0xe4, 0xcc, 0xf2, 0x35, 0x5b, 0x20, 0x67, 0x19, 0x41, 0x4f, 0xe1, 0xc1, 0xd5, 0xad,
+	0xc7, 0xa1, 0xd2, 0xc5, 0xcd, 0xcf, 0xa1, 0x31, 0xe2, 0x19, 0xd2, 0xae, 0xee, 0xd6, 0xf6, 0x37,
+	0x0e, 0x1f, 0x77, 0xe7, 0xfb, 0xd7, 0xbd, 0xca, 0x7a, 0xaf, 0x99, 0x4e, 0x55, 0x90, 0x47, 0xd3,
+	0x5f, 0x55, 0x68, 0x9d, 0xa0, 0xbe, 0x8c, 0xe5, 0xf9, 0x40, 0x9c, 0xc5, 0xf3, 0x4e, 0x4c, 0x8f,
+	0x78, 0x9c, 0x0a, 0x6d, 0x9c, 0xd4, 0x03, 0x27, 0x43, 0xbc, 0x0c, 0xc8, 0xe8, 0xaf, 0xb1, 0xd2,
+	0x39, 0xbd, 0x62, 0xe9, 0x0c, 0xb1, 0x74, 0x07, 0xd6, 0x85, 0xca, 0xc9, 0x9a, 0x21, 0xd7, 0x84,
+	0xb2, 0xd4, 0x53, 0x68, 0xf2, 0x58, 0x68, 0x16, 0x8a, 0x42, 0x7d, 0xd5, 0x44, 0x6c, 0x15, 0xb0,
+	0x0d, 0x6c, 0xc3, 0x9a, 0x96, 0xec, 0xec, 0x2c, 0xe4, 0xed, 0xba, 0x95, 0xc8, 0x8f, 0xf4, 0x00,
+	0xfe, 0xf7, 0xbd, 0x77, 0x17, 0x28, 0x2f, 0x42, 0xbc, 0x9c, 0x3d, 0xea, 0x23, 0x70, 0x74, 0x18,
+	0xa1, 0xd2, 0x2c, 0x4a, 0x66, 0x9d, 0x2f, 0x00, 0xfa, 0xb3, 0x0a, 0x64, 0x3e, 0x67, 0xfe, 0xbd,
+	0xec, 0x83, 0x17, 0xc3, 0xe0, 0xe4, 0xc8, 0x60, 0x94, 0x35, 0x55, 0x99, 0x76, 0x19, 0x87, 0xb7,
+	0x68, 0xaa, 0x8d, 0x5e, 0xac, 0xa5, 0x76, 0xad, 0x96, 0x8c, 0x55, 0xe1, 0x58, 0x30, 0x9d, 0x4a,
+	0x34, 0xde, 0x9d, 0xe0, 0x0a, 0x38, 0xfc, 0xbd, 0x0a, 0x2b, 0xbe, 0x47, 0x8e, 0xc0, 0xf1, 0x24,
+	0x32, 0x8d, 0xfd, 0x24, 0x21, 0x0f, 0x17, 0xef, 0xed, 0x27, 0x89, 0x8f, 0xc9, 0x24, 0x9e, 0x46,
+	0x28, 0xb4, 0xdb, 0x59, 0x22, 0xad, 0x3d, 0x8e, 0xb4, 0x92, 0xc9, 0x7c, 0x48, 0x46, 0xf7, 0x21,
+	0xe3, 0xe3, 0x04, 0xef, 0x2a, 0xf3, 0x1a, 0x9a, 0xd6, 0x54, 0xf6, 0x57, 0x52, 0x09, 0xe3, 0x48,
+	0xb6, 0x17, 0xe3, 0x0b, 0xe2, 0x46, 0x21, 0x6b, 0xeb, 0x1e, 0x84, 0xac, 0xb1, 0xbb, 0x0a, 0xbd,
+	0x80, 0x86, 0x1d, 0x02, 0xd2, 0x5a, 0x0a, 0x1b, 0xf8, 0xae, 0xbb, 0x9c, 0x9b, 0x0a, 0x9b, 0x40,
+	0x2b, 0xa4, 0x0f, 0xeb, 0xb3, 0xd1, 0x24, 0xed, 0xae, 0xdd, 0x89, 0x4b, 0x13, 0xee, 0x76, 0x4a,
+	0x18, 0x3b, 0xc7, 0xb4, 0x72, 0xf8, 0xa3, 0x06, 0x75, 0xdf, 0xeb, 0x9f, 0x0e, 0xc8, 0x2b, 0xd8,
+	0x5a, 0xdc, 0x11, 0xd7, 0x2b, 0x3a, 0x8a, 0x12, 0x3d, 0x75, 0x77, 0x66, 0x6a, 0xa5, 0xfb, 0x84,
+	0x56, 0xc8, 0x4b, 0xd8, 0x98, 0x5b, 0x0c, 0xe5, 0x22, 0x6e, 0x2e, 0x52, 0xb2, 0x41, 0x68, 0x85,
+	0x7c, 0x06, 0xb2, 0xbc, 0x2b, 0xc9, 0x6e, 0x9e, 0xf3, 0xd7, 0xfd, 0xec, 0xee, 0xfd, 0x23, 0xa2,
+	0x10, 0xff, 0x04, 0xcd, 0x00, 0x15, 0xea, 0xfb, 0x57, 0x3e, 0x86, 0xcd, 0xf9, 0x6f, 0x0d, 0x99,
+	0x99, 0x2c, 0xf9, 0x00, 0xb9, 0x37, 0x6c, 0x04, 0x5a, 0xf9, 0xd2, 0x30, 0xcc, 0xb3, 0x3f, 0x01,
+	0x00, 0x00, 0xff, 0xff, 0x22, 0x0b, 0xad, 0x42, 0xf9, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -386,8 +453,7 @@ type DCClient interface {
 	UpdateNamespace(ctx context.Context, in *common.Namespace, opts ...grpc.CallOption) (*common.AppResponce, error)
 	DeleteNamespace(ctx context.Context, in *common.Namespace, opts ...grpc.CallOption) (*common.AppResponce, error)
 	Status(ctx context.Context, in *common.AppID, opts ...grpc.CallOption) (*common.AppRunStatus, error)
-	InitDC(ctx context.Context, in *common.DataCenter, opts ...grpc.CallOption) (*common.AppResponce, error)
-	Overview(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*common.DataCenterStatus, error)
+	Overview(ctx context.Context, in *DCOverviewRequest, opts ...grpc.CallOption) (*DCOverviewResponse, error)
 }
 
 type dCClient struct {
@@ -461,17 +527,8 @@ func (c *dCClient) Status(ctx context.Context, in *common.AppID, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *dCClient) InitDC(ctx context.Context, in *common.DataCenter, opts ...grpc.CallOption) (*common.AppResponce, error) {
-	out := new(common.AppResponce)
-	err := c.cc.Invoke(ctx, "/dcmgr.DC/InitDC", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *dCClient) Overview(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*common.DataCenterStatus, error) {
-	out := new(common.DataCenterStatus)
+func (c *dCClient) Overview(ctx context.Context, in *DCOverviewRequest, opts ...grpc.CallOption) (*DCOverviewResponse, error) {
+	out := new(DCOverviewResponse)
 	err := c.cc.Invoke(ctx, "/dcmgr.DC/Overview", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -488,8 +545,7 @@ type DCServer interface {
 	UpdateNamespace(context.Context, *common.Namespace) (*common.AppResponce, error)
 	DeleteNamespace(context.Context, *common.Namespace) (*common.AppResponce, error)
 	Status(context.Context, *common.AppID) (*common.AppRunStatus, error)
-	InitDC(context.Context, *common.DataCenter) (*common.AppResponce, error)
-	Overview(context.Context, *common.Empty) (*common.DataCenterStatus, error)
+	Overview(context.Context, *DCOverviewRequest) (*DCOverviewResponse, error)
 }
 
 // UnimplementedDCServer can be embedded to have forward compatible implementations.
@@ -517,10 +573,7 @@ func (*UnimplementedDCServer) DeleteNamespace(ctx context.Context, req *common.N
 func (*UnimplementedDCServer) Status(ctx context.Context, req *common.AppID) (*common.AppRunStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Status not implemented")
 }
-func (*UnimplementedDCServer) InitDC(ctx context.Context, req *common.DataCenter) (*common.AppResponce, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method InitDC not implemented")
-}
-func (*UnimplementedDCServer) Overview(ctx context.Context, req *common.Empty) (*common.DataCenterStatus, error) {
+func (*UnimplementedDCServer) Overview(ctx context.Context, req *DCOverviewRequest) (*DCOverviewResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Overview not implemented")
 }
 
@@ -654,26 +707,8 @@ func _DC_Status_Handler(srv interface{}, ctx context.Context, dec func(interface
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DC_InitDC_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(common.DataCenter)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DCServer).InitDC(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/dcmgr.DC/InitDC",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DCServer).InitDC(ctx, req.(*common.DataCenter))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _DC_Overview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(common.Empty)
+	in := new(DCOverviewRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -685,7 +720,7 @@ func _DC_Overview_Handler(srv interface{}, ctx context.Context, dec func(interfa
 		FullMethod: "/dcmgr.DC/Overview",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DCServer).Overview(ctx, req.(*common.Empty))
+		return srv.(DCServer).Overview(ctx, req.(*DCOverviewRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -723,10 +758,6 @@ var _DC_serviceDesc = grpc.ServiceDesc{
 			Handler:    _DC_Status_Handler,
 		},
 		{
-			MethodName: "InitDC",
-			Handler:    _DC_InitDC_Handler,
-		},
-		{
 			MethodName: "Overview",
 			Handler:    _DC_Overview_Handler,
 		},
@@ -740,9 +771,10 @@ var _DC_serviceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DCAPIClient interface {
 	DataCenterList(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*DataCenterListResponse, error)
-	DataCenterLeaderBoard(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*DataCenterLeaderBoardResponse, error)
 	NetworkInfo(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*NetworkInfoResponse, error)
-	RegisterDataCenter(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*NetworkInfoResponse, error)
+	RegisterDataCenter(ctx context.Context, in *RegisterDataCenterRequest, opts ...grpc.CallOption) (*RegisterDataCenterResponse, error)
+	ResetDataCenter(ctx context.Context, in *RegisterDataCenterRequest, opts ...grpc.CallOption) (*RegisterDataCenterResponse, error)
+	MyDataCenter(ctx context.Context, in *MyDataCenterRequest, opts ...grpc.CallOption) (*common.DataCenterStatus, error)
 }
 
 type dCAPIClient struct {
@@ -762,15 +794,6 @@ func (c *dCAPIClient) DataCenterList(ctx context.Context, in *common.Empty, opts
 	return out, nil
 }
 
-func (c *dCAPIClient) DataCenterLeaderBoard(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*DataCenterLeaderBoardResponse, error) {
-	out := new(DataCenterLeaderBoardResponse)
-	err := c.cc.Invoke(ctx, "/dcmgr.DCAPI/DataCenterLeaderBoard", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *dCAPIClient) NetworkInfo(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*NetworkInfoResponse, error) {
 	out := new(NetworkInfoResponse)
 	err := c.cc.Invoke(ctx, "/dcmgr.DCAPI/NetworkInfo", in, out, opts...)
@@ -780,9 +803,27 @@ func (c *dCAPIClient) NetworkInfo(ctx context.Context, in *common.Empty, opts ..
 	return out, nil
 }
 
-func (c *dCAPIClient) RegisterDataCenter(ctx context.Context, in *common.Empty, opts ...grpc.CallOption) (*NetworkInfoResponse, error) {
-	out := new(NetworkInfoResponse)
+func (c *dCAPIClient) RegisterDataCenter(ctx context.Context, in *RegisterDataCenterRequest, opts ...grpc.CallOption) (*RegisterDataCenterResponse, error) {
+	out := new(RegisterDataCenterResponse)
 	err := c.cc.Invoke(ctx, "/dcmgr.DCAPI/RegisterDataCenter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dCAPIClient) ResetDataCenter(ctx context.Context, in *RegisterDataCenterRequest, opts ...grpc.CallOption) (*RegisterDataCenterResponse, error) {
+	out := new(RegisterDataCenterResponse)
+	err := c.cc.Invoke(ctx, "/dcmgr.DCAPI/ResetDataCenter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dCAPIClient) MyDataCenter(ctx context.Context, in *MyDataCenterRequest, opts ...grpc.CallOption) (*common.DataCenterStatus, error) {
+	out := new(common.DataCenterStatus)
+	err := c.cc.Invoke(ctx, "/dcmgr.DCAPI/MyDataCenter", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -792,9 +833,10 @@ func (c *dCAPIClient) RegisterDataCenter(ctx context.Context, in *common.Empty, 
 // DCAPIServer is the server API for DCAPI service.
 type DCAPIServer interface {
 	DataCenterList(context.Context, *common.Empty) (*DataCenterListResponse, error)
-	DataCenterLeaderBoard(context.Context, *common.Empty) (*DataCenterLeaderBoardResponse, error)
 	NetworkInfo(context.Context, *common.Empty) (*NetworkInfoResponse, error)
-	RegisterDataCenter(context.Context, *common.Empty) (*NetworkInfoResponse, error)
+	RegisterDataCenter(context.Context, *RegisterDataCenterRequest) (*RegisterDataCenterResponse, error)
+	ResetDataCenter(context.Context, *RegisterDataCenterRequest) (*RegisterDataCenterResponse, error)
+	MyDataCenter(context.Context, *MyDataCenterRequest) (*common.DataCenterStatus, error)
 }
 
 // UnimplementedDCAPIServer can be embedded to have forward compatible implementations.
@@ -804,14 +846,17 @@ type UnimplementedDCAPIServer struct {
 func (*UnimplementedDCAPIServer) DataCenterList(ctx context.Context, req *common.Empty) (*DataCenterListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DataCenterList not implemented")
 }
-func (*UnimplementedDCAPIServer) DataCenterLeaderBoard(ctx context.Context, req *common.Empty) (*DataCenterLeaderBoardResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DataCenterLeaderBoard not implemented")
-}
 func (*UnimplementedDCAPIServer) NetworkInfo(ctx context.Context, req *common.Empty) (*NetworkInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NetworkInfo not implemented")
 }
-func (*UnimplementedDCAPIServer) RegisterDataCenter(ctx context.Context, req *common.Empty) (*NetworkInfoResponse, error) {
+func (*UnimplementedDCAPIServer) RegisterDataCenter(ctx context.Context, req *RegisterDataCenterRequest) (*RegisterDataCenterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterDataCenter not implemented")
+}
+func (*UnimplementedDCAPIServer) ResetDataCenter(ctx context.Context, req *RegisterDataCenterRequest) (*RegisterDataCenterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResetDataCenter not implemented")
+}
+func (*UnimplementedDCAPIServer) MyDataCenter(ctx context.Context, req *MyDataCenterRequest) (*common.DataCenterStatus, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MyDataCenter not implemented")
 }
 
 func RegisterDCAPIServer(s *grpc.Server, srv DCAPIServer) {
@@ -836,24 +881,6 @@ func _DCAPI_DataCenterList_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DCAPI_DataCenterLeaderBoard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(common.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DCAPIServer).DataCenterLeaderBoard(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/dcmgr.DCAPI/DataCenterLeaderBoard",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DCAPIServer).DataCenterLeaderBoard(ctx, req.(*common.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _DCAPI_NetworkInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(common.Empty)
 	if err := dec(in); err != nil {
@@ -873,7 +900,7 @@ func _DCAPI_NetworkInfo_Handler(srv interface{}, ctx context.Context, dec func(i
 }
 
 func _DCAPI_RegisterDataCenter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(common.Empty)
+	in := new(RegisterDataCenterRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -885,7 +912,43 @@ func _DCAPI_RegisterDataCenter_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/dcmgr.DCAPI/RegisterDataCenter",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DCAPIServer).RegisterDataCenter(ctx, req.(*common.Empty))
+		return srv.(DCAPIServer).RegisterDataCenter(ctx, req.(*RegisterDataCenterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DCAPI_ResetDataCenter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterDataCenterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCAPIServer).ResetDataCenter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DCAPI/ResetDataCenter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCAPIServer).ResetDataCenter(ctx, req.(*RegisterDataCenterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DCAPI_MyDataCenter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MyDataCenterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DCAPIServer).MyDataCenter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dcmgr.DCAPI/MyDataCenter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DCAPIServer).MyDataCenter(ctx, req.(*MyDataCenterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -899,16 +962,20 @@ var _DCAPI_serviceDesc = grpc.ServiceDesc{
 			Handler:    _DCAPI_DataCenterList_Handler,
 		},
 		{
-			MethodName: "DataCenterLeaderBoard",
-			Handler:    _DCAPI_DataCenterLeaderBoard_Handler,
-		},
-		{
 			MethodName: "NetworkInfo",
 			Handler:    _DCAPI_NetworkInfo_Handler,
 		},
 		{
 			MethodName: "RegisterDataCenter",
 			Handler:    _DCAPI_RegisterDataCenter_Handler,
+		},
+		{
+			MethodName: "ResetDataCenter",
+			Handler:    _DCAPI_ResetDataCenter_Handler,
+		},
+		{
+			MethodName: "MyDataCenter",
+			Handler:    _DCAPI_MyDataCenter_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
