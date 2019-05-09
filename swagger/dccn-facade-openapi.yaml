@@ -325,20 +325,26 @@ paths:
                 $ref: "#/components/schemas/CreateAppResponse"
       tags:
         - Appmgr
-  /app/update:
+  /app/update/{app_id}:
     post:
       security:
         - Bearer:
             []
       summary: Sends an update app request
       operationId: updateapp
+      parameters:
+        - in: path
+          name: app_id
+          required: true
+          schema:
+            type: string
       requestBody:
         description: Request for update user attribute
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateAppRequest'
+              $ref: '#/components/schemas/UpdateAppRequest'
       responses:
         "200":
           description: ""
@@ -348,7 +354,7 @@ paths:
                 $ref: "#/components/schemas/EmptyResponse"
       tags:
         - Appmgr
-  /app/detail:
+  /app/detail/{app_id}:
     get:
       security:
         - Bearer:
@@ -356,10 +362,12 @@ paths:
       summary: Sends a cancel app request
       operationId: appdetail
       parameters:
-        - in: query
+        - in: path
           name: app_id
+          required: true
           schema:
             type: string
+            
       responses:
         "200":
           description: ""
@@ -369,20 +377,19 @@ paths:
                 $ref: "#/components/schemas/AppDetailResponse"
       tags:
         - Appmgr
-  /app/cancel:
+  /app/cancel/{app_id}:
     post:
       security:
         - Bearer:
             []
       summary: Sends a cancel app request
       operationId: cancelapp
-      requestBody:
-        description: Request for change the status to cancel
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AppIDRequest'
+      parameters:
+        - in: path
+          name: app_id
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: ""
@@ -392,18 +399,19 @@ paths:
                 $ref: "#/components/schemas/EmptyResponse"
       tags:
         - Appmgr
-  /app/purge:
+  /app/purge/{app_id}:
     delete:
       security:
         - Bearer:
             []
       summary: Sends a purge app request
-      operationId: purgeapp
       parameters:
-        - in: query
+        - in: path
           name: app_id
+          required: true
           schema:
             type: string
+      operationId: purgeapp
       responses:
         "200":
           description: ""
@@ -446,22 +454,7 @@ paths:
                 $ref: "#/components/schemas/AppOverviewResponse"
       tags:
         - Appmgr
-  /app/leaderboard:
-    get:
-      security:
-        - Bearer:
-            []
-      summary: Sends a app leaderboard request
-      operationId: appleaderboard
-      responses:
-        "200":
-          description: ""
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AppLeaderboardResponse"
-      tags:
-        - Appmgr
+  
   /namespace/create:
     post:
       security:
@@ -500,12 +493,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/NamespaceListResponse"
-      parameters:
-        - name: namespace_id
-          in: query
-          required: true
-          schema:
-            type: string
       tags:
         - Appmgr
   /namespace/update:
@@ -531,7 +518,7 @@ paths:
                 $ref: "#/components/schemas/EmptyResponse"
       tags:
         - Appmgr
-  /namespace/delete:
+  /namespace/delete/{ns_id}:
     delete:
       security:
         - Bearer:
@@ -539,8 +526,9 @@ paths:
       summary: Sends a delete namespace request
       operationId: deletenamespace
       parameters:
-        - in: query
-          name: id
+        - in: path
+          name: ns_id
+          required: true
           schema:
             type: string
       responses:
@@ -552,7 +540,7 @@ paths:
                 $ref: "#/components/schemas/EmptyResponse"
       tags:
         - Appmgr
-  /chart/upload:
+  /chart/upload/{chart_repo}/{chart_name}/{chart_ver}:
     post:
       security:
         - Bearer:
@@ -566,6 +554,22 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateChartReqeust'
+      parameters:
+        - in: path
+          name: chart_repo
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: chart_name
+          required: true
+          schema:
+            type: string    
+        - in: path
+          name: chart_ver
+          required: true
+          schema:
+            type: string 
       responses:
         "200":
           description: ""
@@ -576,7 +580,7 @@ paths:
       tags:
         - Appmgr
   /chart/list:
-    post:
+    get:
       security:
         - Bearer:
             []
@@ -596,7 +600,7 @@ paths:
                 $ref: "#/components/schemas/ChartListResponse"
       tags:
         - Appmgr
-  /chart/detail/{repo}/{name}/{show_version}:
+  /chart/detail/{chart_repo}/{chart_name}/{chart_ver}:
     get:
       security:
         - Bearer:
@@ -605,24 +609,20 @@ paths:
       operationId: chartdetail
       parameters:
         - in: path
-          name: repo
+          name: chart_repo
           required: true
           schema:
             type: string
         - in: path
-          name: name
+          name: chart_name
           required: true
           schema:
             type: string    
         - in: path
-          name: show_version
+          name: chart_ver
           required: true
           schema:
             type: string  
-        - in: query
-          name: name
-          schema:
-            type: string
       responses:
         "200":
           description: ""
@@ -632,20 +632,29 @@ paths:
                 $ref: "#/components/schemas/ChartDetailResponse"
       tags:
         - Appmgr
-  /chart/delete:
-    post:
+  /chart/delete/{chart_repo}/{chart_name}/{chart_ver}:
+    delete:
       security:
         - Bearer:
             []
       summary: Sends a delete chart request
       operationId: deletechart
-      requestBody:
-        description: Request for delete chart
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DownloadChartRequest'
+      parameters:
+        - in: path
+          name: chart_repo
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: chart_name
+          required: true
+          schema:
+            type: string    
+        - in: path
+          name: chart_ver
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: ""
@@ -655,7 +664,7 @@ paths:
                 $ref: "#/components/schemas/EmptyResponse"
       tags:
         - Appmgr
-  /chart/download:
+  /chart/download/{chart_repo}/{chart_name}/{chart_ver}:
     get:
       security:
         - Bearer:
@@ -663,16 +672,19 @@ paths:
       summary: Sends a download chart request
       operationId: downloadchart
       parameters:
-        - in: query
+        - in: path
           name: chart_repo
+          required: true
           schema:
             type: string
-        - in: query
-          name: chart_ver
-          schema:
-            type: string
-        - in: query
+        - in: path
           name: chart_name
+          required: true
+          schema:
+            type: string    
+        - in: path
+          name: chart_ver
+          required: true
           schema:
             type: string
       responses:
@@ -684,7 +696,7 @@ paths:
                 $ref: '#/components/schemas/DownloadChartResponse'
       tags:
         - Appmgr
-  /chart/save:
+  /chart/saveas:
     put:
       security:
         - Bearer:
@@ -846,20 +858,20 @@ components:
     namespace:
       type: object
       properties:
-        id:
+        ns_id:
           type: string
-        name:
+        ns_name:
           type: string
         geo_location:
           type: string
-        status:
+        ns_status:
           type: string
-    datacenter:
+    datacenterstatus:
       type: object
       properties:
-        id:
+        dc_id:
           type: string
-        name:
+        dc_name:
           type: string
         geo_location:
           type: string
@@ -997,28 +1009,30 @@ components:
           type: string
         new_password:
           type: string
-    CreateAppRequest:
+    CreateAppChart:
       type: object
       properties:
-        name:
+        chart_name:
           type: string
-        type:
+        chart_repo:
           type: string
-        chartname:
+        chart_ver:
           type: string
-        chartrepo:
+    UpdateAppRequest:
+      type: object
+      properties:
+        app_name:
           type: string
-        chartversion:
+        chart_name:
           type: string
-        namespace_id:
+        chart_repo:
           type: string
-        ns_id:
+        chart_ver:
           type: string
+    CreateAppNamespace:
+      type: object
+      properties:
         ns_name:
-          type: string
-        ns_cluster_id:
-          type: string
-        ns_cluster_name:
           type: string
         ns_cpu_limit:
           type: integer
@@ -1026,6 +1040,17 @@ components:
           type: integer
         ns_storage_limit:
           type: integer
+    CreateAppRequest:
+      type: object
+      properties:
+        app_name:
+          type: string
+        chart:
+          $ref: "#/components/schemas/CreateAppChart"
+        namespace:
+          $ref: "#/components/schemas/CreateAppNamespace"
+        ns_id:
+          type: string
     AppIDRequest:
       type: object
       properties:
@@ -1038,7 +1063,7 @@ components:
           type: integer
         host_count:
           type: integer
-        environment_count:
+        ns_count:
           type: integer
         container_count:
           type: integer
@@ -1074,25 +1099,20 @@ components:
         dclist:
           type: array
           items:
-            $ref: "#/components/schemas/datacenter"
+            $ref: "#/components/schemas/datacenterstatus"
       title: DcList Information
       description: The response message containing the DcList information
     CreateNamespaceRequest:
       type: object
       properties:
-        name:
+        ns_name:
           type: string
-        cpu_limit:
+        ns_cpu_limit:
           type: integer
-        mem_limit:
+        ns_mem_limit:
           type: integer
-        storage_limit:
+        ns_storage_limit:
           type: integer
-    NamespaceListRequest:
-      type: object
-      properties:
-        namespace_id:
-          type: string
     NamespaceListResponse:
       type: object
       properties:
@@ -1105,12 +1125,6 @@ components:
     CreateChartReqeust:
       type: object
       properties:
-        chart_repo:
-          type: string
-        chart_ver:
-          type: string
-        chart_name:
-          type: string
         chart_file:
           type: string
           format: byte
@@ -1139,7 +1153,7 @@ components:
           type: string
         show_values:
           type: string
-    SaveChartRequest:
+    Source: 
       type: object
       properties:
         chart_repo:
@@ -1148,12 +1162,20 @@ components:
           type: string
         chart_name:
           type: string
-        save_repo:
+    Destination:
+      type: object
+      properties:
+        saveas_ver:
           type: string
-        save_ver:
+        saveas_name:
           type: string
-        save_name:
-          type: string
+    SaveChartRequest:
+      type: object
+      properties:
+        source:
+          $ref: "#/components/schemas/Source"
+        destination:
+          $ref: "#/components/schemas/Destination"
         values_file:
           type: string
           format: byte

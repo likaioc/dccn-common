@@ -33,7 +33,7 @@ service AppMgr {
     }
     rpc UpdateApp (UpdateAppRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/app/update"
+            post: "/app/update/{app_id}"
             body: "*"
     };
     }
@@ -45,7 +45,7 @@ service AppMgr {
     }
     rpc UploadChart (UploadChartRequest) returns (common.proto.Empty) {
         option (google.api.http) = {
-            post: "/chart/upload"
+            post: "/chart/upload/{chart_repo}/{chart_name}/{chart_ver}"
             body: "*"
     };
     }
@@ -85,7 +85,9 @@ service AppMgr {
     };
     }
     rpc DeleteNamespace (DeleteNamespaceRequest) returns (common.proto.Empty) {
-        option (google.api.http).delete = "/namespace/delete";
+        option (google.api.http) = {
+            delete: "/namespace/delete/{ns_id}"
+    };
     }
 }
 
@@ -97,9 +99,9 @@ message Chart {
 }
 message Namespace {
     string ns_name = 1;
-	uint64 ns_cpu_limit = 2;
-    uint64 ns_mem_limit = 3;
-    uint64 ns_storage_limit = 4;
+	uint32 ns_cpu_limit = 2;
+    uint32 ns_mem_limit = 3;
+    uint32 ns_storage_limit = 4;
 }
 message CreateAppRequest {
     string app_name = 1;
@@ -127,8 +129,6 @@ message AppID {
 message UpdateAppRequest{
     string app_name = 1;
     string app_id = 2;
-    string chart_name = 3;
-    string chart_repo = 4;
     string chart_ver = 5;
 }
 
@@ -138,20 +138,20 @@ message AppCountRequest{
 }
 
 message AppCountResponse{
-  uint64 app_count = 1;
+  uint32 app_count = 1;
 }
 
 message AppOverviewResponse{
-  uint64 cluster_count = 1;
-  uint64 namespace_count = 2;
-  uint64 network_count = 3;
-  uint64 total_app_count = 4;
-  uint64 cpu_total = 5;
-  uint64 cpu_usage = 6;
-  uint64 mem_total = 7;
-  uint64 mem_usage = 8;
-  uint64 storage_total = 9;
-  uint64 storage_usage = 10;
+  uint32 cluster_count = 1;
+  uint32 namespace_count = 2;
+  uint32 network_count = 3;
+  uint32 total_app_count = 4;
+  float cpu_total = 5;
+  float cpu_usage = 6;
+  float mem_total = 7;
+  float mem_usage = 8;
+  float storage_total = 9;
+  float storage_usage = 10;
 }
 
 message UploadChartRequest {
@@ -191,9 +191,9 @@ message DeleteChartRequest {
 
 message CreateNamespaceRequest {
 	string ns_name = 2;
-    uint64 ns_cpu_limit = 6;
-    uint64 ns_mem_limit = 7;
-    uint64 ns_storage_limit = 8;
+    uint32 ns_cpu_limit = 6;
+    uint32 ns_mem_limit = 7;
+    uint32 ns_storage_limit = 8;
 }
 
 message CreateNamespaceResponse {
@@ -205,9 +205,9 @@ message NamespaceListResponse {
 }
 
 message UpdateNamespaceRequest {
-    uint64 ns_cpu_limit = 1;
-    uint64 ns_mem_limit = 2;
-    uint64 ns_storage_limit = 3;
+    uint32 ns_cpu_limit = 1;
+    uint32 ns_mem_limit = 2;
+    uint32 ns_storage_limit = 3;
 }
 
 message DeleteNamespaceRequest {
@@ -224,11 +224,19 @@ message DownloadChartResponse {
     bytes chart_file = 1;
 }
 
-message SaveAsChartRequest {
+message Source {
     string chart_repo = 1;
     string chart_ver = 2;
     string chart_name = 3;
-    string saveas_ver = 4;
-    string saveas_name = 5;
-    bytes values_yaml = 6;
+}
+
+message Destination {
+    string saveas_ver = 1;
+    string saveas_name = 2;
+}
+
+message SaveAsChartRequest {
+    Source source = 1;
+    Destination destination = 2;
+    bytes values_yaml = 3;
 }
