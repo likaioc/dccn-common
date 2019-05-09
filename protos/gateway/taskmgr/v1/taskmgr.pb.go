@@ -829,14 +829,14 @@ func (m *ChartDetailRequest) GetChartVer() string {
 }
 
 type ChartDetailResponse struct {
-	ChartName            string                  `protobuf:"bytes,1,opt,name=chart_name,json=chartName,proto3" json:"chart_name,omitempty"`
-	ChartRepo            string                  `protobuf:"bytes,2,opt,name=chart_repo,json=chartRepo,proto3" json:"chart_repo,omitempty"`
-	ChartVersionDetails  []*common.VersionDetail `protobuf:"bytes,3,rep,name=chart_version_details,json=chartVersionDetails,proto3" json:"chart_version_details,omitempty"`
-	ReadmeMd             string                  `protobuf:"bytes,4,opt,name=readme_md,json=readmeMd,proto3" json:"readme_md,omitempty"`
-	ValuesYaml           string                  `protobuf:"bytes,5,opt,name=values_yaml,json=valuesYaml,proto3" json:"values_yaml,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                `json:"-"`
-	XXX_unrecognized     []byte                  `json:"-"`
-	XXX_sizecache        int32                   `json:"-"`
+	ChartName            string                       `protobuf:"bytes,1,opt,name=chart_name,json=chartName,proto3" json:"chart_name,omitempty"`
+	ChartRepo            string                       `protobuf:"bytes,2,opt,name=chart_repo,json=chartRepo,proto3" json:"chart_repo,omitempty"`
+	ChartVersionDetails  []*common.ChartVersionDetail `protobuf:"bytes,3,rep,name=chart_version_details,json=chartVersionDetails,proto3" json:"chart_version_details,omitempty"`
+	ReadmeMd             string                       `protobuf:"bytes,4,opt,name=readme_md,json=readmeMd,proto3" json:"readme_md,omitempty"`
+	ValuesYaml           string                       `protobuf:"bytes,5,opt,name=values_yaml,json=valuesYaml,proto3" json:"values_yaml,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                     `json:"-"`
+	XXX_unrecognized     []byte                       `json:"-"`
+	XXX_sizecache        int32                        `json:"-"`
 }
 
 func (m *ChartDetailResponse) Reset()         { *m = ChartDetailResponse{} }
@@ -878,7 +878,7 @@ func (m *ChartDetailResponse) GetChartRepo() string {
 	return ""
 }
 
-func (m *ChartDetailResponse) GetChartVersionDetails() []*common.VersionDetail {
+func (m *ChartDetailResponse) GetChartVersionDetails() []*common.ChartVersionDetail {
 	if m != nil {
 		return m.ChartVersionDetails
 	}
