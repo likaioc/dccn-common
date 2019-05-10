@@ -1,6 +1,6 @@
 syntax = "proto3";
 package common.proto;
-
+import "google/protobuf/timestamp.proto";
 // FIXME: delete useless definitions
 // Hub application status
 enum AppStatus {
@@ -71,8 +71,8 @@ message AppDeployment {
 
 message AppAttributes {
     bool hidden = 1;
-    uint64 creation_date = 2; //app creation date
-    uint64 last_modified_date = 3; //app creation date
+    google.protobuf.Timestamp creation_date = 2; //app creation date
+    google.protobuf.Timestamp last_modified_date = 3; //app creation date
 }
 
 
@@ -141,11 +141,11 @@ message Namespace {
 	string ns_name = 2;
 	string cluster_id = 3; //id of cluster
     string cluster_name = 4; //name of cluster
-	uint64 creation_date = 5;
-    uint64 last_modified_date = 6;
-    uint64 ns_cpu_limit = 7;  // number of mcpu 
-    uint64 ns_mem_limit = 8; // number of Mi mem usage
-    uint64 ns_storage_limit = 9; // number of Gi storage
+	google.protobuf.Timestamp creation_date = 5;
+    google.protobuf.Timestamp last_modified_date = 6;
+    uint32 ns_cpu_limit = 7;  // number of mcpu 
+    uint32 ns_mem_limit = 8; // number of Mi mem usage
+    uint32 ns_storage_limit = 9; // number of Gi storage
     NamespaceStatus ns_status = 10;
 }
 
@@ -200,7 +200,7 @@ enum TransanctionState {
 }
 
 message Deposit {
-    int64 time = 1;
+    google.protobuf.Timestamp time = 1;
     string fromAccountAddress = 2;
     string fromAccountAddressType = 3;
     string toAccountAddress = 4;
