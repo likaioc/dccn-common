@@ -51,6 +51,7 @@ service UserMgr {
     }
     rpc UserDetail (common.proto.Empty) returns (User){
     }
+    rpc Fetch (FetchAccountsRequest) returns (FetchAccountsResponse) {}
 }
 
 message SearchDepositRequest {
@@ -166,4 +167,21 @@ message UpdateAttributesRequest {
 message ConfirmEmailRequest {
   string ConfirmationCode = 1;
   string NewEmail = 2;
+}
+
+
+
+enum FetchAccountsType {
+    FetchAccountsUnknown = 0;
+    FetchAccountsEthereum = 1;
+    FetchAccountsDCCNTendermint = 2;
+    FetchAccountsBinance = 3;
+}
+
+message FetchAccountsRequest {
+   FetchAccountsType accountType = 1;
+}
+
+message FetchAccountsResponse {
+   repeated string Address = 1;
 }
