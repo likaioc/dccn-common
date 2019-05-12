@@ -8,7 +8,7 @@ import (
 const (
 	address     = "127.0.0.1:50051"
 
-	CLIENT_CERT = `
+	RSA_CLIENT_CERT = `
 -----BEGIN CERTIFICATE-----
 MIIDtDCCApygAwIBAgIUG540wQi1hD527yBbZ2cmkkcenSQwDQYJKoZIhvcNAQEL
 BQAwdDELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQswCQYDVQQHEwJTRjEUMBIG
@@ -32,7 +32,7 @@ Cb2gyfOaCNAcdXjjPdXaCpVS3RLCbpJqUs8ql+INcPlFADIxiRBQyGD6lnpJriyW
 EMKN93FGr18hcOSalODb+sowAvZuSlU5o8NBTs/XZfLGbo9ijubL4Q==
 -----END CERTIFICATE-----`
 
-	CLIENT_KEY = `
+	RSA_CLIENT_KEY = `
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAtwc/T0hsNTzxwMBUBSchS3lpd2QoAFmJBv4cdwywz6do1nIY
 EGUyr1Y0fzNfKYh8NzgbwSMHDxvHd2sAupuiNDH1bsWTeLvQA8hmExUMgMGy9vR/
@@ -60,13 +60,37 @@ iFDgAQKBgAka+ODDgcfMR/MCl4DSY/H2eoK5kOdvZKDU+8ab4LYJSW65mKGiN0ug
 HayzfVysp5bmmFeTIGNyg2uDewwnPgeENUAd4tdUhIu/KY5n9ExZC+yUDffHx5Iu
 SX4U+l+9HgaHBown5qHbtbY/VzwzqxOfpdaXbRIpxjffvN5sT7VY
 -----END RSA PRIVATE KEY-----`
+
+	ECDSA_CLIENT_CERT = `
+-----BEGIN CERTIFICATE-----
+MIICJzCCAc6gAwIBAgIUQNK8zuB47TrjMK/9apa4+ODmGP8wCgYIKoZIzj0EAwIw
+dDELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQswCQYDVQQHEwJTRjEUMBIGA1UE
+CRMLTUlTU0lPTiBTVC4xDjAMBgNVBBETBTk0MTA1MQ4wDAYDVQQKEwVIVUJDQTEV
+MBMGA1UEAxMMbXlodWItY2EuY29tMB4XDTE5MDUxMjAxNDY1NVoXDTI5MDUxMjAx
+NDY1NVowfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQswCQYDVQQHEwJTRjEU
+MBIGA1UECRMLTUlTU0lPTiBTVC4xDjAMBgNVBBETBTk0MTA1MRMwEQYDVQQKEwpE
+YXRhQ2VudGVyMRkwFwYDVQQDExBteWRhdGFjZW50ZXIuY29tMFkwEwYHKoZIzj0C
+AQYIKoZIzj0DAQcDQgAEM49mdr428vS5+uHc0wjJBqyQ5n8d0QLra97C40uaEw94
+l6RWjMOGbQfHGg6YbZzQ6Zc0qIxf7xu+RX//sTmqCaM1MDMwDgYDVR0PAQH/BAQD
+AgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwCgYIKoZIzj0E
+AwIDRwAwRAIgUxRoNWAjjyvTmnzU8c8s02g0wZURKGo76kh9LNVXcp4CIBAvaZ5u
+Y88YwWeiSVJNBDC6MIcgPLAM4YuLvNjP6M6W
+-----END CERTIFICATE-----`
+
+	ECDSA_CLIENT_KEY = `
+-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIAHFNZ8+2UnV72fsnUciUAoHYiBKY+FO7IZoT2TPMUUaoAoGCCqGSM49
+AwEHoUQDQgAEM49mdr428vS5+uHc0wjJBqyQ5n8d0QLra97C40uaEw94l6RWjMOG
+bQfHGg6YbZzQ6Zc0qIxf7xu+RX//sTmqCQ==
+-----END EC PRIVATE KEY-----`
+
 )
 
 
 func TestRsaSign(t *testing.T) {
         t.Log("Testing RsaSign")
 
-        _, err := signmanager.RsaSign(CLIENT_KEY, "123456789")
+        _, err := signmanager.RsaSign(RSA_CLIENT_KEY, "123456789")
         if err != nil {
                 t.Error(err)
         }
@@ -75,12 +99,35 @@ func TestRsaSign(t *testing.T) {
 func TestRsaVerify(t *testing.T) {
         t.Log("Testing RsaVerify")
 
-	result_str, err := signmanager.RsaSign(CLIENT_KEY, "123456789")
+	result_str, err := signmanager.RsaSign(RSA_CLIENT_KEY, "123456789")
+	if err != nil {
+		t.Error(err)
+	}
+
+	bResult := signmanager.RsaVerify(RSA_CLIENT_CERT, "123456789", result_str)
+	if !bResult {
+		t.Error(err)
+	}
+}
+
+func TestEcdsaSign(t *testing.T) {
+        t.Log("Testing EcdsaSign")
+
+        _, _, err := signmanager.EcdsaSign(ECDSA_CLIENT_KEY, "123456789")
+        if err != nil {
+                t.Error(err)
+        }
+}
+
+func TestEcdsaVerify(t *testing.T) {
+        t.Log("Testing EcdsaVerify")
+
+        r, s, err := signmanager.EcdsaSign(ECDSA_CLIENT_KEY, "123456789")
         if err != nil {
                 t.Error(err)
         }
 
-        bResult := signmanager.RsaVerify(CLIENT_CERT, "123456789", result_str)
+        bResult := signmanager.EcdsaVerify(ECDSA_CLIENT_CERT, "123456789", r, s)
         if !bResult {
                 t.Error(err)
         }
