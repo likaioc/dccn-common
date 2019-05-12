@@ -69,6 +69,27 @@ func GenerateKeys() (priv_key_base64, pub_key_base64, address string) {
 }
 
 /*
+  Get public key by privkey
+  With this function, if a user has priv_key, pubkey can be derived.
+*/
+func GetPublicKeyByPrivateKey(priv_key string) (string, error) {
+	privKeyObject, err := deserilizePrivKey(priv_key)
+	if err != nil {
+		return "", err
+	}
+
+	mystr := fmt.Sprintf("%s", privKeyObject.PubKey())
+	mystr = mystr[len(PubkeyStart) : len(PubkeyStart)+PrivKeyEd25519Size]
+	src := []byte(mystr)
+	dst := make([]byte, hex.DecodedLen(len(src)))
+	hex.Decode(dst, src)
+
+	pubB64 := base64.StdEncoding.EncodeToString([]byte(dst))
+
+	return pubB64, nil
+}
+
+/*
   Get address by public key.
   With this function, if a user has public_key, address is not very necessary to save in database.
 */
