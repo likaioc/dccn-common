@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package account;
+
+enum FetchAccountsType {
+    FetchAccountsUnknown = 0;
+    FetchAccountsEthereum = 1;
+  	FetchAccountsDCCNTendermint = 2;
+  	FetchAccountsBinance = 3;
+}
+
+message FetchAccountsReq {
+    FetchAccountsType accountType = 1;
+}
+
+message FetchAccountsResp {
+    repeated string Address = 1;
+}
+
+service FetchAccounts {
+    rpc Fetch(FetchAccountsReq) returns (FetchAccountsResp) {}
+}
