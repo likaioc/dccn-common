@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 import "common/common.proto";
-
+import "google/protobuf/timestamp.proto";
 package usermgr;
 
 // TODO: supports filter
@@ -55,8 +55,8 @@ service UserMgr {
 }
 
 message SearchDepositRequest {
-    int64 start = 1;
-    int64 end = 2;
+    google.protobuf.Timestamp start = 1;
+    google.protobuf.Timestamp end = 2;
 }
 
 message GenerateAddressRequest {
@@ -174,8 +174,8 @@ message ConfirmEmailRequest {
 enum FetchAccountsType {
     FetchAccountsUnknown = 0;
     FetchAccountsEthereum = 1;
-    FetchAccountsDCCNTendermint = 2;
-    FetchAccountsBinance = 3;
+  	FetchAccountsDCCNTendermint = 2;
+  	FetchAccountsBinance = 3;
 }
 
 message FetchAccountsRequest {

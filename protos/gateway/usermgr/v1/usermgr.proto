@@ -1,7 +1,7 @@
 syntax = "proto3";
 import "google/api/annotations.proto";
 import "common/common.proto";
-
+import "google/protobuf/timestamp.proto";
 package gwusermgr;
 
 // TODO: supports filter
@@ -102,10 +102,11 @@ service UserMgr {
         option (google.api.http).get = "/user/detail";
     }
 
+
 }
 message SearchDepositRequest {
-    int64 start = 1;
-    int64 end = 2;
+    google.protobuf.Timestamp start = 1;
+    google.protobuf.Timestamp end = 2;
 }
 
 message GenerateAddressRequest {
