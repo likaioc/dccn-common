@@ -541,7 +541,7 @@ func SetMetering(ip, port, priv_key_pem, dc, ns, value string) error {
 
 	//fmt.Printf("%s=%s:%s:%s:%s:%s:%s\n", string("set_mtr"), dc, ns, value, sigX, sigY, randstring)
 	btr, err := cl.BroadcastTxCommit(types.Tx(
-		fmt.Sprintf("%s=%s:%s:%s:%s:%s:%s", string("set_mtr"), dc, ns, value, sigX, sigY, randstring)))
+		fmt.Sprintf("%s=%s:%s:%s:%s:%s:%s", string("set_mtr"), dc, ns, sigX, sigY, randstring, value)))
 
 	if err != nil {
 		return err
