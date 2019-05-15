@@ -3,10 +3,10 @@ syntax = "proto3";
 package notify;
 
 enum TransanctionState {
-    TransactioUnknown = 0;
+    TransactionUnknown = 0;
     TransactionUnConfirmed = 1;
-  	TransactionPending = 2;
-  	TransactionConfirmed = 3;
+    TransactionPending = 2;
+    TransactionConfirmed = 3;
 }
 
 message TransactionStateChangeEvent {
